@@ -87,35 +87,42 @@ Levels 0, 1, and 2 only. Approximately 30 lessons.
 
 ## Application Layout
 
+The app uses an immersive lesson model with two main views:
+
+### Home Screen
+- Lesson picker dashboard with level sections
+- Each level shows title, emoji, progress bar, and lesson cards
+- Lessons show status: completed (checkmark), current (dot), locked (lock icon)
+- Staggered entrance animations
+
+### Lesson View (Immersive)
+- No navigation chrome — full-screen experience
+- Thin progress bar at top with close (X) button
+- Section content fills the middle (scrollable)
+- Primary CTA button fixed at bottom of viewport
+- Slide transitions between sections
+
 ```
-+-----------------------------------------------------------+
-| Terminal Trainer              Level 1  ======----  60%    |
-+----------+------------------------+---------------------+
-|          |                        |                     |
-| Sidebar  |    Main Content        |   Visual Explorer   |
-|          |                        |                     |
-| Level    |  Lesson title          |  File tree that     |
-| overview |  Instruction text      |  mirrors terminal   |
-| and      |                        |  state in real      |
-| lesson   |  +------------------+  |  time               |
-| list     |  | Terminal         |  |                     |
-|          |  | ~/project $ _   |  |                     |
-|          |  |                  |  |                     |
-|          |  +------------------+  |                     |
-|          |                        |                     |
-|          |  Feedback/success msg  |                     |
-|          |  [Hint] [Next]         |                     |
-|          |                        |                     |
-+----------+------------------------+---------------------+
-| Command reference bar: pwd=location  ls=list  cd=move   |
-+-----------------------------------------------------------+
++------------------------------------------+
+| [X]  =========------  4/6               |  <- LessonProgressBar
++------------------------------------------+
+|                                          |
+|  Question or instruction text            |
+|                                          |
+|  [Interactive content area]              |  <- LessonStep children
+|  (quiz options, terminal, file tree,     |
+|   fill-in-blank input, etc.)             |
+|                                          |
++------------------------------------------+
+|  [ Continue ]                            |  <- LessonStep CTA
++------------------------------------------+
 ```
 
 ### Responsive Design
 
-- **Desktop (>1024px)**: Full 3-column layout as shown above
-- **Tablet (768-1024px)**: 2 columns — sidebar collapses to hamburger menu, visual explorer moves below terminal
-- **Mobile (<768px)**: Single column — lesson content + terminal stacked, sidebar is overlay menu. Visual explorer is a collapsible panel above terminal
+- **Mobile-first**: single column, touch-optimized (44px min targets)
+- **Desktop**: same layout, centered with max-width constraint (max-w-lg)
+- Safe area padding for notched devices
 
 ## Core Components
 
@@ -262,22 +269,28 @@ Validation modes:
 
 ## Design Language
 
-### Color Palette
+### Color Palette (Claude-inspired warm neutrals)
 
-- **Background**: Dark but not black. `#1a1b2e` (dark navy) — less intimidating than pure black
-- **Terminal background**: `#0d1117` (GitHub dark)
-- **Text**: `#e6edf3` (off-white, easier on eyes than pure white)
-- **Accent / success**: `#58a6ff` (calm blue)
-- **Success highlight**: `#3fb950` (green)
-- **Warning**: `#d29922` (amber)
-- **Error**: `#f85149` (soft red)
-- **Sidebar**: `#161b22` (slightly lighter than terminal)
+- **Background**: Warm cream `#F5F0E8` (home screen)
+- **Lesson surface**: White `#FFFFFF` (immersive lessons)
+- **Cards**: White `#FFFFFF` on cream background
+- **Terminal background**: Warm dark `#2D2B28`
+- **Terminal titlebar**: `#38352F`
+- **Text primary**: `#1A1714` (warm near-black)
+- **Text secondary**: `#5D5750` (warm gray)
+- **Text muted**: `#9C958C` (light warm gray)
+- **Accent**: Terracotta `#C4652A` (buttons, progress bars, active states)
+- **Success**: Forest green `#2E7D5B`
+- **Error**: Warm red `#C44B4B`
+- **Warning**: Dark gold `#B8860B`
+- **Borders**: Warm `#DDD7CD`
+- **Shadows**: Subtle, warm-tinted, no colored glows
 
 ### Typography
 
-- **UI text**: Inter or system font stack
-- **Terminal text**: JetBrains Mono or Fira Code
-- **Lesson content**: 16px minimum for readability
+- **UI text**: Instrument Sans
+- **Terminal/code text**: JetBrains Mono
+- **Lesson content**: 15-17px for readability
 
 ### Tone of Voice
 

@@ -1,73 +1,99 @@
-# React + TypeScript + Vite
+# Terminal Trainer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive web app that teaches non-technical people how to use the terminal — from absolute zero to working knowledge.
 
-Currently, two official plugins are available:
+**Live:** https://itayshmool.github.io/from-dev-basics-to-claude-code/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What It Does
 
-## React Compiler
+Terminal Trainer takes beginners through a structured curriculum of interactive lessons. Each lesson uses a mix of narrative explanations, quizzes, fill-in-the-blank exercises, click-to-match games, file tree exploration, path building, terminal previews with animated typing, and program step-through simulators.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Curriculum
 
-## Expanding the ESLint configuration
+| Level | Title | Status |
+|-------|-------|--------|
+| 0 | Computers Are Not Magic | Implemented (6 lessons) |
+| 1 | Your First 30 Minutes in the Terminal | Spec ready |
+| 2 | Reading and Writing Files | Spec ready |
+| 3 | Your Code Has a History | Spec ready |
+| 4 | How Software Actually Works | Spec ready |
+| 5 | Building With Real Tools | Spec ready |
+| 6 | Claude Code — Your AI Pair Programmer | Spec ready |
+| 7 | Junior Developer Patterns | Spec ready |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Framework:** React 18 + TypeScript
+- **Build:** Vite
+- **Styling:** Tailwind CSS v4 with CSS custom properties
+- **Font:** Instrument Sans (body) + JetBrains Mono (code)
+- **Progress:** localStorage
+- **Hosting:** GitHub Pages (auto-deploy via GitHub Actions)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Design
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Claude-inspired warm neutral palette:
+- Cream background (`#F5F0E8`), white lesson surface
+- Terracotta accent (`#C4652A`)
+- Warm dark terminals (`#2D2B28`)
+- Subtle shadows, no glows, `rounded-xl` corners
+
+The UX follows an immersive lesson model:
+- Full-screen lessons with no navigation chrome
+- Bottom-fixed CTA buttons
+- Thin progress bar with close button
+- Slide transitions between sections
+- Celebration overlay on correct answers
+
+## Project Structure
+
+```
+src/
+  App.tsx                          # Root — toggles HomeScreen / LessonView
+  index.css                        # Theme tokens + animations
+  components/
+    home/
+      HomeScreen.tsx               # Lesson picker dashboard
+    lesson/
+      LessonView.tsx               # Lesson orchestrator
+      LessonStep.tsx               # Shared layout: scrollable content + fixed CTA
+      LessonProgressBar.tsx        # Thin progress bar + close button
+      LessonComplete.tsx           # End-of-lesson screen
+      MilestoneScreen.tsx          # End-of-level celebration
+      CelebrationOverlay.tsx       # "Correct!" overlay
+      SectionRenderer.tsx          # Routes sections to interactive components
+    interactive/
+      NarrativeBlock.tsx           # Story/explanation sections
+      Quiz.tsx                     # Multiple choice
+      FillInBlank.tsx              # Type the answer
+      ClickMatch.tsx               # Match pairs
+      InteractiveFileTree.tsx      # Explorable file tree
+      PathBuilder.tsx              # Navigate to build a path
+      TerminalPreview.tsx          # Animated terminal demo
+      ProgramSimulator.tsx         # Step-through code execution
+  core/lesson/
+    types.ts                       # Section type definitions
+    engine.ts                      # Lesson state machine
+  data/
+    levels.ts                      # Level + lesson content
+  hooks/
+    useLessonEngine.ts             # React hook for engine
+    useProgress.ts                 # Progress persistence
+  lib/
+    constants.ts                   # Level metadata
+specs/
+  APP_SPEC.md                      # Full application spec
+  LEVEL_0_SPEC.md - LEVEL_7_SPEC.md  # Per-level curriculum specs
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev       # Start dev server
+npm run build     # TypeScript check + production build
 ```
+
+## Deployment
+
+Push to `main` triggers GitHub Actions which builds and deploys to GitHub Pages.
