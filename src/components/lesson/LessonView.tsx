@@ -19,13 +19,12 @@ export function LessonView({ lessonId, onNavigate }: LessonViewProps) {
 
   if (!lesson || !engine || !level) {
     return (
-      <div className="flex items-center justify-center h-full text-text-muted">
+      <div className="flex items-center justify-center h-full text-text-muted text-sm">
         Lesson not found.
       </div>
     );
   }
 
-  // Capture non-null refs for use in closures
   const eng = engine;
   const les = lesson;
 
@@ -34,7 +33,6 @@ export function LessonView({ lessonId, onNavigate }: LessonViewProps) {
   const sectionIndex = eng.getCurrentSectionIndex();
   const totalSections = les.sections.length;
 
-  // Check if this is the last lesson in the level and it's complete — show milestone
   const isLastLesson = level.lessons[level.lessons.length - 1].id === lessonId;
   const showMilestone = isComplete && isLastLesson && les.milestone;
 
@@ -70,31 +68,31 @@ export function LessonView({ lessonId, onNavigate }: LessonViewProps) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-8">
+    <div className="max-w-2xl mx-auto px-4 py-5 md:px-6 md:py-8 pb-4">
       {/* Lesson header */}
-      <div className="mb-8 animate-fade-in-up">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-lavender bg-lavender-light px-2.5 py-1 rounded-full">
+      <div className="mb-5 md:mb-7 animate-fade-in-up">
+        <div className="flex items-center gap-1.5 mb-1.5">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-lavender bg-lavender-light px-2 py-0.5 rounded-full">
             Level {les.level}
           </span>
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-teal bg-teal-light px-2.5 py-1 rounded-full">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-teal bg-teal-light px-2 py-0.5 rounded-full">
             Lesson {les.order}
           </span>
         </div>
-        <h2 className="text-2xl font-extrabold text-text-primary leading-tight">{les.title}</h2>
-        <p className="text-sm text-text-secondary mt-1">{les.subtitle}</p>
+        <h2 className="text-lg md:text-xl font-bold text-text-primary leading-snug">{les.title}</h2>
+        <p className="text-sm text-text-secondary mt-0.5">{les.subtitle}</p>
 
         {/* Section progress */}
-        <div className="flex items-center gap-1.5 mt-5">
+        <div className="flex items-center gap-1 mt-4">
           {Array.from({ length: totalSections }, (_, i) => (
             <div
               key={i}
-              className={`h-2 flex-1 rounded-full transition-all ${
+              className={`h-1.5 flex-1 rounded-full transition-all ${
                 i < sectionIndex ? 'bg-mint' : i === sectionIndex ? 'bg-lavender animate-glow-pulse' : 'bg-border'
               }`}
             />
           ))}
-          <span className="text-xs font-bold text-text-muted ml-2">
+          <span className="text-[10px] font-bold text-text-muted ml-1.5 tabular-nums">
             {sectionIndex + 1}/{totalSections}
           </span>
         </div>

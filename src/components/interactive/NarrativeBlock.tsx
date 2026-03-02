@@ -9,10 +9,10 @@ function renderInlineMarkdown(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i} className="font-bold text-text-primary">{part.slice(2, -2)}</strong>;
+      return <strong key={i} className="font-semibold text-text-primary">{part.slice(2, -2)}</strong>;
     }
     if (part.startsWith('`') && part.endsWith('`')) {
-      return <code key={i} className="px-1.5 py-0.5 bg-lavender-light text-lavender rounded-md font-mono text-[0.85em] font-bold">{part.slice(1, -1)}</code>;
+      return <code key={i} className="px-1 py-0.5 bg-lavender-light text-lavender rounded font-mono text-[0.85em] font-medium">{part.slice(1, -1)}</code>;
     }
     return <span key={i}>{part}</span>;
   });
@@ -20,17 +20,17 @@ function renderInlineMarkdown(text: string) {
 
 export function NarrativeBlock({ section, onContinue }: NarrativeBlockProps) {
   return (
-    <div className="space-y-5 animate-fade-in-up">
-      <p className="text-base leading-relaxed text-text-primary font-medium">
+    <div className="space-y-4 animate-fade-in-up">
+      <p className="text-[15px] leading-relaxed text-text-primary">
         {renderInlineMarkdown(section.content)}
       </p>
 
       {section.analogy && (
-        <div className="relative bg-sky-light rounded-2xl px-5 py-4 border border-sky/20">
-          <div className="flex items-start gap-3">
-            <span className="text-2xl leading-none flex-shrink-0 mt-0.5">&#128161;</span>
+        <div className="bg-sky-light rounded-xl px-4 py-3.5 border border-sky/15">
+          <div className="flex items-start gap-2.5">
+            <span className="text-lg leading-none flex-shrink-0 mt-0.5">&#128161;</span>
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-sky mb-1">Think of it this way</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-sky mb-0.5">Think of it this way</p>
               <p className="text-sm text-text-secondary leading-relaxed">
                 {renderInlineMarkdown(section.analogy)}
               </p>
@@ -40,12 +40,12 @@ export function NarrativeBlock({ section, onContinue }: NarrativeBlockProps) {
       )}
 
       {section.keyPoints && section.keyPoints.length > 0 && (
-        <div className="bg-bg-card rounded-2xl p-5 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-          <p className="text-xs font-bold uppercase tracking-wider text-lavender mb-3">Key Points</p>
-          <ul className="space-y-2.5">
+        <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-lavender mb-2.5">Key Points</p>
+          <ul className="space-y-2">
             {section.keyPoints.map((point, i) => (
-              <li key={i} className="flex items-start gap-3 text-sm text-text-secondary animate-slide-in" style={{ animationDelay: `${i * 80}ms` }}>
-                <span className="w-6 h-6 rounded-lg bg-lavender-light text-lavender text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+              <li key={i} className="flex items-start gap-2.5 text-sm text-text-secondary animate-slide-in" style={{ animationDelay: `${i * 60}ms` }}>
+                <span className="w-5 h-5 rounded-md bg-lavender-light text-lavender text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
                   {i + 1}
                 </span>
                 <span className="leading-relaxed">{renderInlineMarkdown(point)}</span>
@@ -56,11 +56,11 @@ export function NarrativeBlock({ section, onContinue }: NarrativeBlockProps) {
       )}
 
       {section.tip && (
-        <div className="bg-sunshine-light rounded-2xl px-5 py-4 border border-sunshine/20">
-          <div className="flex items-start gap-3">
-            <span className="text-xl leading-none flex-shrink-0">&#128173;</span>
+        <div className="bg-sunshine-light rounded-xl px-4 py-3.5 border border-sunshine/15">
+          <div className="flex items-start gap-2.5">
+            <span className="text-base leading-none flex-shrink-0">&#128173;</span>
             <p className="text-sm text-text-secondary leading-relaxed">
-              <span className="font-bold text-text-primary">Tip: </span>
+              <span className="font-semibold text-text-primary">Tip: </span>
               {renderInlineMarkdown(section.tip)}
             </p>
           </div>
@@ -69,7 +69,7 @@ export function NarrativeBlock({ section, onContinue }: NarrativeBlockProps) {
 
       <button
         onClick={onContinue}
-        className="mt-2 px-7 py-2.5 bg-lavender text-white rounded-xl text-sm font-bold hover:brightness-110 transition-all active:scale-[0.97]"
+        className="w-full md:w-auto px-6 py-3 bg-lavender text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
         style={{ boxShadow: 'var(--shadow-button)' }}
       >
         Continue &rarr;

@@ -29,24 +29,22 @@ function PathTreeNode({ name, value, path, depth, onNavigate, activePath }: Path
       <button
         onClick={() => onNavigate(path, isFile)}
         className={`
-          flex items-center gap-2 w-full text-left py-1.5 px-2 rounded-lg text-sm transition-all
-          ${isTarget ? 'bg-lavender-light ring-2 ring-lavender/30' : isOnPath ? 'bg-lavender-light/50' : 'hover:bg-bg-card'}
+          flex items-center gap-2 w-full text-left py-1.5 px-2 rounded-lg text-sm transition-all active:scale-[0.98]
+          ${isTarget ? 'bg-lavender-light ring-1 ring-lavender/20' : isOnPath ? 'bg-lavender-light/40' : 'hover:bg-bg-secondary'}
         `}
-        style={{ paddingLeft: `${depth * 20 + 8}px` }}
+        style={{ paddingLeft: `${depth * 16 + 8}px` }}
       >
         {isFile ? (
-          <span className="text-base flex-shrink-0">&#128196;</span>
+          <span className="text-sm flex-shrink-0">&#128196;</span>
         ) : (
-          <span className="text-base flex-shrink-0">
-            {isOnPath ? '&#128194;' : '&#128193;'}
-          </span>
+          <span className="text-sm flex-shrink-0">{isOnPath ? '&#128194;' : '&#128193;'}</span>
         )}
-        <span className={`${isTarget ? 'text-lavender font-bold' : isFile ? 'text-text-secondary' : 'text-text-primary font-bold'}`}>
+        <span className={isTarget ? 'text-lavender font-semibold' : isFile ? 'text-text-secondary' : 'text-text-primary font-medium'}>
           {name}
         </span>
       </button>
       {!isFile && isOnPath && (
-        <div className="animate-fade-in-up" style={{ animationDuration: '200ms' }}>
+        <div className="animate-fade-in-up" style={{ animationDuration: '150ms' }}>
           {Object.entries(value as FileSystemSpec).map(([childName, childValue]) => (
             <PathTreeNode
               key={childName}
@@ -75,31 +73,29 @@ export function PathBuilder({ section, onComplete }: PathBuilderProps) {
   const segments = currentPath.split('/').filter(Boolean);
 
   return (
-    <div className="space-y-4 animate-fade-in-up">
-      <div className="bg-bg-card rounded-2xl p-5 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <p className="text-xs font-bold uppercase tracking-wider text-sky mb-1">Build the path</p>
+    <div className="space-y-3 animate-fade-in-up">
+      <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-sky mb-1">Build the path</p>
         <p className="text-sm text-text-secondary">{section.instruction}</p>
       </div>
 
-      {/* Path display bar */}
-      <div className="bg-[#2D2B55] rounded-2xl border border-[#3D3B65] px-5 py-3.5 font-mono text-sm min-h-[48px] flex items-center">
+      {/* Path display */}
+      <div className="bg-bg-terminal rounded-xl px-4 py-3 font-mono text-sm min-h-[44px] flex items-center overflow-x-auto">
         {currentPath ? (
-          <span className="text-[#FAD000] font-bold">
-            /
-            {segments.map((seg, i) => (
-              <span key={i} className="animate-fade-in-up" style={{ animationDuration: '200ms' }}>
-                {seg}
-                {i < segments.length - 1 && <span className="text-[#A599E9]">/</span>}
+          <span className="text-[#F6C542] font-medium whitespace-nowrap">
+            /{segments.map((seg, i) => (
+              <span key={i}>
+                {seg}{i < segments.length - 1 && <span className="text-[#A599E9]">/</span>}
               </span>
             ))}
           </span>
         ) : (
-          <span className="text-[#A599E9]">Click through folders to build the path...</span>
+          <span className="text-[#A599E9] text-xs">Click through folders to build the path...</span>
         )}
       </div>
 
       {/* Tree */}
-      <div className="bg-bg-card rounded-2xl border border-border p-4 max-h-64 overflow-y-auto" style={{ boxShadow: 'var(--shadow-card)' }}>
+      <div className="bg-bg-card rounded-xl border border-border p-3 max-h-56 overflow-y-auto" style={{ boxShadow: 'var(--shadow-card)' }}>
         {Object.entries(section.tree).map(([name, value]) => (
           <PathTreeNode
             key={name}
@@ -115,17 +111,14 @@ export function PathBuilder({ section, onComplete }: PathBuilderProps) {
 
       {isComplete && (
         <div className="space-y-3 animate-pop-in">
-          <div className="bg-mint-light border border-mint/20 rounded-2xl px-5 py-4 text-sm">
-            <div className="flex items-center gap-3">
-              <span className="text-xl">&#127881;</span>
-              <span className="font-bold text-text-primary">
-                You built the correct path: <code className="px-1.5 py-0.5 bg-bg-card rounded-md font-mono font-bold text-lavender">{section.targetPath}</code>
-              </span>
-            </div>
+          <div className="bg-mint-light border border-mint/15 rounded-xl px-4 py-3.5 text-sm">
+            <p className="font-medium text-text-primary">
+              Correct! <code className="px-1 py-0.5 bg-bg-card rounded font-mono text-lavender">{section.targetPath}</code>
+            </p>
           </div>
           <button
             onClick={onComplete}
-            className="px-7 py-2.5 bg-lavender text-white rounded-xl text-sm font-bold hover:brightness-110 transition-all active:scale-[0.97]"
+            className="w-full md:w-auto px-6 py-3 bg-lavender text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
             style={{ boxShadow: 'var(--shadow-button)' }}
           >
             Continue &rarr;
