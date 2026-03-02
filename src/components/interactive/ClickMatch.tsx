@@ -1,5 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import type { MatchSection } from '../../core/lesson/types';
+import { LessonStep } from '../lesson/LessonStep';
+import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
 
 interface ClickMatchProps {
   section: MatchSection;
@@ -12,6 +14,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
   const [matched, setMatched] = useState<Array<{ left: string; right: string }>>([]);
   const [wrongPair, setWrongPair] = useState<{ left: string; right: string } | null>(null);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   const shuffledRight = useMemo(
     () => [...section.pairs.map((p) => p.right)].sort(() => Math.random() - 0.5),
@@ -42,15 +45,23 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
     if (matchedRights.has(right) || !selectedLeft) return;
     const isCorrect = section.pairs.some((p) => p.left === selectedLeft && p.right === right);
     if (isCorrect) {
-      setMatched([...matched, { left: selectedLeft, right }]);
+      const newMatched = [...matched, { left: selectedLeft, right }];
+      setMatched(newMatched);
       setSelectedLeft(null);
       setWrongPair(null);
+      if (newMatched.length === section.pairs.length) {
+        setShowCelebration(true);
+      }
     } else {
       setWrongPair({ left: selectedLeft, right });
       setTimeout(() => setWrongPair(null), 600);
       setSelectedLeft(null);
     }
   }
+
+  const handleCelebrationDone = useCallback(() => {
+    setShowCelebration(false);
+  }, []);
 
   const colorMap: Record<string, string> = {
     purple: 'bg-purple-soft border-purple/30 text-purple',
@@ -60,80 +71,79 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
     green: 'bg-green-soft border-green/30 text-green',
   };
 
+  const cta = allMatched
+    ? { label: 'Continue', onClick: onComplete }
+    : undefined;
+
   return (
-    <div className="space-y-3 animate-fade-in-up">
-      <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-purple mb-1">Match the pairs</p>
-        <p className="text-sm text-text-secondary">{section.instruction}</p>
-      </div>
+    <>
+      {showCelebration && <CelebrationOverlay onDone={handleCelebrationDone} />}
+      <LessonStep cta={cta}>
+        <div className="space-y-5">
+          <h3 className="text-xl font-bold text-text-primary leading-snug">
+            {section.instruction}
+          </h3>
 
-      <div className="grid grid-cols-2 gap-2 md:gap-3">
-        <div className="space-y-1.5">
-          {section.pairs.map(({ left }) => {
-            const isMatched = matchedLefts.has(left);
-            const isSelected = selectedLeft === left;
-            const isWrong = wrongPair?.left === left;
-            const color = isMatched ? getMatchColor(left) : '';
+          <div className="grid grid-cols-2 gap-2.5">
+            <div className="space-y-2">
+              {section.pairs.map(({ left }) => {
+                const isMatched = matchedLefts.has(left);
+                const isSelected = selectedLeft === left;
+                const isWrong = wrongPair?.left === left;
+                const color = isMatched ? getMatchColor(left) : '';
 
-            return (
-              <button
-                key={left}
-                onClick={() => handleLeftClick(left)}
-                disabled={isMatched}
-                className={`
-                  w-full text-left px-3 py-2.5 rounded-xl border text-sm font-medium transition-all leading-snug active:scale-[0.98]
-                  ${isMatched ? colorMap[color] : ''}
-                  ${isSelected ? 'border-purple bg-purple-soft text-purple ring-2 ring-purple/15' : ''}
-                  ${isWrong ? 'border-red bg-red-soft text-red animate-shake' : ''}
-                  ${!isMatched && !isSelected && !isWrong ? 'border-border bg-bg-card text-text-primary' : ''}
-                `}
-              >
-                {left}
-              </button>
-            );
-          })}
-        </div>
+                return (
+                  <button
+                    key={left}
+                    onClick={() => handleLeftClick(left)}
+                    disabled={isMatched}
+                    className={`
+                      w-full text-left px-3.5 py-3 rounded-2xl border-2 text-[15px] font-medium transition-all leading-snug active:scale-[0.98]
+                      ${isMatched ? colorMap[color] : ''}
+                      ${isSelected ? 'border-purple bg-purple-soft text-purple' : ''}
+                      ${isWrong ? 'border-red bg-red-soft text-red animate-shake' : ''}
+                      ${!isMatched && !isSelected && !isWrong ? 'border-border bg-bg-card text-text-primary' : ''}
+                    `}
+                  >
+                    {left}
+                  </button>
+                );
+              })}
+            </div>
 
-        <div className="space-y-1.5">
-          {shuffledRight.map((right) => {
-            const isMatched = matchedRights.has(right);
-            const isWrong = wrongPair?.right === right;
-            const color = isMatched ? getMatchColorByRight(right) : '';
+            <div className="space-y-2">
+              {shuffledRight.map((right) => {
+                const isMatched = matchedRights.has(right);
+                const isWrong = wrongPair?.right === right;
+                const color = isMatched ? getMatchColorByRight(right) : '';
 
-            return (
-              <button
-                key={right}
-                onClick={() => handleRightClick(right)}
-                disabled={isMatched || !selectedLeft}
-                className={`
-                  w-full text-left px-3 py-2.5 rounded-xl border text-sm font-medium transition-all leading-snug active:scale-[0.98]
-                  ${isMatched ? colorMap[color] : ''}
-                  ${isWrong ? 'border-red bg-red-soft text-red animate-shake' : ''}
-                  ${!isMatched && !isWrong && selectedLeft ? 'border-border bg-bg-card text-text-primary' : ''}
-                  ${!isMatched && !isWrong && !selectedLeft ? 'border-border bg-bg-card text-text-muted' : ''}
-                `}
-              >
-                {right}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {allMatched && (
-        <div className="space-y-3 animate-pop-in">
-          <div className="bg-green-soft border border-green/15 rounded-xl px-4 py-3.5 text-sm">
-            <p className="font-medium text-text-primary">All matched correctly!</p>
+                return (
+                  <button
+                    key={right}
+                    onClick={() => handleRightClick(right)}
+                    disabled={isMatched || !selectedLeft}
+                    className={`
+                      w-full text-left px-3.5 py-3 rounded-2xl border-2 text-[15px] font-medium transition-all leading-snug active:scale-[0.98]
+                      ${isMatched ? colorMap[color] : ''}
+                      ${isWrong ? 'border-red bg-red-soft text-red animate-shake' : ''}
+                      ${!isMatched && !isWrong && selectedLeft ? 'border-border bg-bg-card text-text-primary' : ''}
+                      ${!isMatched && !isWrong && !selectedLeft ? 'border-transparent bg-bg-card text-text-muted' : ''}
+                    `}
+                  >
+                    {right}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <button
-            onClick={onComplete}
-            className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
-            style={{ boxShadow: 'var(--shadow-button)' }}
-          >
-            Continue &rarr;
-          </button>
+
+          {allMatched && (
+            <div className="bg-green-soft rounded-2xl px-4 py-4 text-[15px] animate-pop-in">
+              <p className="font-medium text-text-primary">All matched correctly!</p>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </LessonStep>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { FileSystemSpec } from '../../core/lesson/types';
+import { LessonStep } from '../lesson/LessonStep';
 
 interface InteractiveFileTreeProps {
   section: {
@@ -39,8 +40,8 @@ function TreeNode({ name, value, path, depth, onFileClick, onDirClick }: TreeNod
     <div>
       <button
         onClick={handleClick}
-        className="flex items-center gap-2 w-full text-left py-1.5 px-2 hover:bg-bg-elevated rounded-lg text-sm transition-all active:scale-[0.98]"
-        style={{ paddingLeft: `${depth * 16 + 8}px` }}
+        className="flex items-center gap-2 w-full text-left py-2 px-2.5 hover:bg-bg-elevated rounded-xl text-[15px] transition-all active:scale-[0.98]"
+        style={{ paddingLeft: `${depth * 16 + 10}px` }}
       >
         {isFile ? (
           <span className="text-sm flex-shrink-0">&#128196;</span>
@@ -53,7 +54,7 @@ function TreeNode({ name, value, path, depth, onFileClick, onDirClick }: TreeNod
           {name}
         </span>
         {!isFile && (
-          <span className="text-[9px] font-bold px-1 py-0.5 rounded bg-bg-elevated text-text-muted ml-auto">
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-bg-elevated text-text-muted ml-auto">
             {childCount}
           </span>
         )}
@@ -81,41 +82,34 @@ export function InteractiveFileTree({ section, onComplete }: InteractiveFileTree
   const [selectedFile, setSelectedFile] = useState<{ path: string; content: string } | null>(null);
 
   return (
-    <div className="space-y-3 animate-fade-in-up">
-      <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-teal mb-1">Explore the file tree</p>
-        <p className="text-sm text-text-secondary">{section.instruction}</p>
-      </div>
+    <LessonStep cta={{ label: 'Continue', onClick: onComplete }}>
+      <div className="space-y-4">
+        <h3 className="text-xl font-bold text-text-primary leading-snug">
+          {section.instruction}
+        </h3>
 
-      <div className="flex flex-col md:flex-row gap-3">
-        <div className="flex-1 bg-bg-card rounded-xl border border-border p-3 max-h-64 overflow-y-auto" style={{ boxShadow: 'var(--shadow-card)' }}>
-          {Object.entries(section.tree).map(([name, value]) => (
-            <TreeNode
-              key={name}
-              name={name}
-              value={value}
-              path={`/${name}`}
-              depth={0}
-              onFileClick={(path, content) => setSelectedFile({ path, content })}
-            />
-          ))}
-        </div>
-
-        {selectedFile && (
-          <div className="flex-1 bg-bg-terminal rounded-xl p-3 max-h-52 md:max-h-64 overflow-y-auto animate-fade-in-up">
-            <p className="text-[10px] text-text-muted font-mono font-medium mb-1.5 text-purple">{selectedFile.path}</p>
-            <pre className="text-sm text-text-primary font-mono whitespace-pre-wrap leading-relaxed">{selectedFile.content}</pre>
+        <div className="flex flex-col gap-3">
+          <div className="bg-bg-card rounded-2xl border border-border p-2 max-h-64 overflow-y-auto">
+            {Object.entries(section.tree).map(([name, value]) => (
+              <TreeNode
+                key={name}
+                name={name}
+                value={value}
+                path={`/${name}`}
+                depth={0}
+                onFileClick={(path, content) => setSelectedFile({ path, content })}
+              />
+            ))}
           </div>
-        )}
-      </div>
 
-      <button
-        onClick={onComplete}
-        className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
-        style={{ boxShadow: 'var(--shadow-button)' }}
-      >
-        Continue &rarr;
-      </button>
-    </div>
+          {selectedFile && (
+            <div className="bg-bg-terminal rounded-2xl p-4 max-h-52 overflow-y-auto animate-fade-in-up">
+              <p className="text-[11px] text-purple font-mono font-medium mb-2">{selectedFile.path}</p>
+              <pre className="text-sm text-[#F0F0F5] font-mono whitespace-pre-wrap leading-relaxed">{selectedFile.content}</pre>
+            </div>
+          )}
+        </div>
+      </div>
+    </LessonStep>
   );
 }

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import type { FileSystemSpec } from '../../core/lesson/types';
+import { LessonStep } from '../lesson/LessonStep';
+import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
 
 interface PathBuilderProps {
   section: {
@@ -29,10 +31,10 @@ function PathTreeNode({ name, value, path, depth, onNavigate, activePath }: Path
       <button
         onClick={() => onNavigate(path, isFile)}
         className={`
-          flex items-center gap-2 w-full text-left py-1.5 px-2 rounded-lg text-sm transition-all active:scale-[0.98]
+          flex items-center gap-2 w-full text-left py-2 px-2.5 rounded-xl text-[15px] transition-all active:scale-[0.98]
           ${isTarget ? 'bg-purple-soft ring-1 ring-purple/20' : isOnPath ? 'bg-purple-soft/40' : 'hover:bg-bg-elevated'}
         `}
-        style={{ paddingLeft: `${depth * 16 + 8}px` }}
+        style={{ paddingLeft: `${depth * 16 + 10}px` }}
       >
         {isFile ? (
           <span className="text-sm flex-shrink-0">&#128196;</span>
@@ -64,67 +66,70 @@ function PathTreeNode({ name, value, path, depth, onNavigate, activePath }: Path
 
 export function PathBuilder({ section, onComplete }: PathBuilderProps) {
   const [currentPath, setCurrentPath] = useState('');
+  const [showCelebration, setShowCelebration] = useState(false);
   const isComplete = currentPath === section.targetPath;
 
-  function handleNavigate(path: string, _isFile: boolean) {
+  function handleNavigate(path: string) {
     setCurrentPath(path);
+    if (path === section.targetPath && !showCelebration) {
+      setShowCelebration(true);
+    }
   }
 
   const segments = currentPath.split('/').filter(Boolean);
 
+  const cta = isComplete
+    ? { label: 'Continue', onClick: onComplete }
+    : undefined;
+
   return (
-    <div className="space-y-3 animate-fade-in-up">
-      <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-blue mb-1">Build the path</p>
-        <p className="text-sm text-text-secondary">{section.instruction}</p>
-      </div>
+    <>
+      {showCelebration && <CelebrationOverlay onDone={() => setShowCelebration(false)} />}
+      <LessonStep cta={cta}>
+        <div className="space-y-4">
+          <h3 className="text-xl font-bold text-text-primary leading-snug">
+            {section.instruction}
+          </h3>
 
-      {/* Path display */}
-      <div className="bg-bg-terminal rounded-xl px-4 py-3 font-mono text-sm min-h-[44px] flex items-center overflow-x-auto">
-        {currentPath ? (
-          <span className="text-yellow font-medium whitespace-nowrap">
-            /{segments.map((seg, i) => (
-              <span key={i}>
-                {seg}{i < segments.length - 1 && <span className="text-text-muted">/</span>}
+          {/* Path display */}
+          <div className="bg-bg-terminal rounded-2xl px-4 py-3.5 font-mono text-[15px] min-h-[48px] flex items-center overflow-x-auto">
+            {currentPath ? (
+              <span className="text-yellow font-medium whitespace-nowrap">
+                /{segments.map((seg, i) => (
+                  <span key={i}>
+                    {seg}{i < segments.length - 1 && <span className="text-[#6B6B85]">/</span>}
+                  </span>
+                ))}
               </span>
-            ))}
-          </span>
-        ) : (
-          <span className="text-text-muted text-xs">Click through folders to build the path...</span>
-        )}
-      </div>
-
-      {/* Tree */}
-      <div className="bg-bg-card rounded-xl border border-border p-3 max-h-56 overflow-y-auto" style={{ boxShadow: 'var(--shadow-card)' }}>
-        {Object.entries(section.tree).map(([name, value]) => (
-          <PathTreeNode
-            key={name}
-            name={name}
-            value={value}
-            path={`/${name}`}
-            depth={0}
-            onNavigate={handleNavigate}
-            activePath={currentPath}
-          />
-        ))}
-      </div>
-
-      {isComplete && (
-        <div className="space-y-3 animate-pop-in">
-          <div className="bg-green-soft border border-green/15 rounded-xl px-4 py-3.5 text-sm">
-            <p className="font-medium text-text-primary">
-              Correct! <code className="px-1 py-0.5 bg-bg-card rounded font-mono text-purple">{section.targetPath}</code>
-            </p>
+            ) : (
+              <span className="text-[#6B6B85] text-sm">Click through folders to build the path...</span>
+            )}
           </div>
-          <button
-            onClick={onComplete}
-            className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
-            style={{ boxShadow: 'var(--shadow-button)' }}
-          >
-            Continue &rarr;
-          </button>
+
+          {/* Tree */}
+          <div className="bg-bg-card rounded-2xl border border-border p-2 max-h-56 overflow-y-auto">
+            {Object.entries(section.tree).map(([name, value]) => (
+              <PathTreeNode
+                key={name}
+                name={name}
+                value={value}
+                path={`/${name}`}
+                depth={0}
+                onNavigate={handleNavigate}
+                activePath={currentPath}
+              />
+            ))}
+          </div>
+
+          {isComplete && (
+            <div className="bg-green-soft rounded-2xl px-4 py-4 text-[15px] animate-pop-in">
+              <p className="font-medium text-text-primary">
+                Correct! <code className="px-1.5 py-0.5 bg-bg-card rounded-md font-mono text-purple">{section.targetPath}</code>
+              </p>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </LessonStep>
+    </>
   );
 }

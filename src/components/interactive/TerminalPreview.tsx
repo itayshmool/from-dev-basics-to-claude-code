@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import type { TerminalPreviewSection } from '../../core/lesson/types';
+import { LessonStep } from '../lesson/LessonStep';
 
 interface TerminalPreviewProps {
   section: TerminalPreviewSection;
@@ -52,84 +53,79 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
 
   const completedLines = section.lines.slice(0, visibleLines);
 
+  const cta = allDone
+    ? { label: 'Continue', onClick: onComplete }
+    : undefined;
+
   return (
-    <div className="space-y-3 animate-fade-in-up">
-      <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-teal mb-1">Terminal Preview</p>
-        <p className="text-sm text-text-secondary">{section.instruction}</p>
-      </div>
+    <LessonStep cta={cta}>
+      <div className="space-y-4">
+        <p className="text-[17px] text-text-secondary leading-relaxed">
+          {section.instruction}
+        </p>
 
-      {/* Terminal */}
-      <div className="rounded-xl overflow-hidden border border-border" style={{ boxShadow: 'var(--shadow-md)' }}>
-        <div className="bg-bg-elevated px-3 py-2 flex items-center gap-1.5">
-          <div className="flex gap-1">
-            <div className="w-2.5 h-2.5 rounded-full bg-red" />
-            <div className="w-2.5 h-2.5 rounded-full bg-yellow" />
-            <div className="w-2.5 h-2.5 rounded-full bg-green" />
+        {/* Terminal */}
+        <div className="rounded-2xl overflow-hidden border border-[#353650]" style={{ boxShadow: '0 4px 14px rgba(0,0,0,0.3)' }}>
+          <div className="bg-[#222338] px-3.5 py-2.5 flex items-center gap-1.5">
+            <div className="flex gap-1.5">
+              <div className="w-3 h-3 rounded-full bg-red" />
+              <div className="w-3 h-3 rounded-full bg-yellow" />
+              <div className="w-3 h-3 rounded-full bg-green" />
+            </div>
+            <span className="text-[#6B6B85] text-[11px] font-mono ml-2">terminal</span>
           </div>
-          <span className="text-text-muted text-[10px] font-mono ml-1.5">terminal</span>
+
+          <div
+            ref={containerRef}
+            className="bg-bg-terminal p-4 font-mono text-[13px] min-h-[160px] max-h-[260px] overflow-y-auto overflow-x-auto"
+          >
+            {completedLines.map((line, i) => (
+              <div key={i} className="leading-relaxed">
+                {line.type === 'command' ? (
+                  <div className="whitespace-nowrap">
+                    <span className="text-green font-medium">$ </span>
+                    <span className="text-[#F0F0F5]">{line.text}</span>
+                  </div>
+                ) : (
+                  <div className="text-[#9D9DB5] pl-3 whitespace-pre-wrap">{line.text}</div>
+                )}
+              </div>
+            ))}
+
+            {!allDone && currentLine?.type === 'command' && (
+              <div className="leading-relaxed whitespace-nowrap">
+                <span className="text-green font-medium">$ </span>
+                <span className="text-[#F0F0F5]">{currentText}</span>
+                {isTyping && <span className="animate-pulse text-yellow font-bold">|</span>}
+              </div>
+            )}
+            {!allDone && currentLine?.type === 'output' && visibleLines > 0 && (
+              <div className="text-[#9D9DB5] pl-3 leading-relaxed">{currentText}</div>
+            )}
+          </div>
         </div>
 
-        <div
-          ref={containerRef}
-          className="bg-bg-terminal p-3 font-mono text-[13px] min-h-[160px] max-h-[260px] overflow-y-auto overflow-x-auto"
-        >
-          {completedLines.map((line, i) => (
-            <div key={i} className="leading-relaxed">
-              {line.type === 'command' ? (
-                <div className="whitespace-nowrap">
-                  <span className="text-green font-medium">$ </span>
-                  <span className="text-text-primary">{line.text}</span>
-                </div>
-              ) : (
-                <div className="text-text-muted pl-3 whitespace-pre-wrap">{line.text}</div>
-              )}
-            </div>
-          ))}
-
-          {!allDone && currentLine?.type === 'command' && (
-            <div className="leading-relaxed whitespace-nowrap">
-              <span className="text-green font-medium">$ </span>
-              <span className="text-text-primary">{currentText}</span>
-              {isTyping && <span className="animate-pulse text-yellow font-bold">|</span>}
-            </div>
-          )}
-          {!allDone && currentLine?.type === 'output' && visibleLines > 0 && (
-            <div className="text-text-muted pl-3 leading-relaxed">{currentText}</div>
-          )}
-        </div>
-      </div>
-
-      {/* Annotations */}
-      {completedLines.filter((l) => l.annotation).length > 0 && (
-        <div className="space-y-2">
-          {completedLines.filter((l) => l.annotation).map((line, i) => (
-            <div key={i} className="bg-blue-soft border border-blue/15 rounded-xl px-3.5 py-3 animate-fade-in-up">
-              <div className="flex items-start gap-2.5">
-                <span className="text-sm flex-shrink-0 mt-0.5">&#128172;</span>
-                <div className="min-w-0">
-                  {line.type === 'command' && (
-                    <code className="text-[11px] font-mono font-medium text-purple bg-purple-soft px-1 py-0.5 rounded inline-block mb-1">
-                      $ {line.text}
-                    </code>
-                  )}
-                  <p className="text-sm text-text-secondary leading-relaxed">{line.annotation}</p>
+        {/* Annotations */}
+        {completedLines.filter((l) => l.annotation).length > 0 && (
+          <div className="space-y-2">
+            {completedLines.filter((l) => l.annotation).map((line, i) => (
+              <div key={i} className="bg-blue-soft rounded-2xl px-4 py-3.5 animate-fade-in-up">
+                <div className="flex items-start gap-2.5">
+                  <span className="text-sm flex-shrink-0 mt-0.5">&#128172;</span>
+                  <div className="min-w-0">
+                    {line.type === 'command' && (
+                      <code className="text-[11px] font-mono font-medium text-purple bg-purple-soft px-1.5 py-0.5 rounded-md inline-block mb-1">
+                        $ {line.text}
+                      </code>
+                    )}
+                    <p className="text-[15px] text-text-secondary leading-relaxed">{line.annotation}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {allDone && (
-        <button
-          onClick={onComplete}
-          className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
-          style={{ boxShadow: 'var(--shadow-button)' }}
-        >
-          Continue &rarr;
-        </button>
-      )}
-    </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </LessonStep>
   );
 }

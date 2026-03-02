@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import type { FillInBlankSection } from '../../core/lesson/types';
+import { LessonStep } from '../lesson/LessonStep';
+import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
 
 interface FillInBlankProps {
   section: FillInBlankSection;
@@ -11,6 +13,7 @@ export function FillInBlank({ section, onComplete }: FillInBlankProps) {
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [attempts, setAttempts] = useState(0);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   function checkAnswer() {
     const normalize = (s: string) => section.caseSensitive ? s.trim() : s.trim().toLowerCase();
@@ -22,6 +25,9 @@ export function FillInBlank({ section, onComplete }: FillInBlankProps) {
     setIsCorrect(result);
     setSubmitted(true);
     setAttempts((a) => a + 1);
+    if (result) {
+      setShowCelebration(true);
+    }
   }
 
   function handleTryAgain() {
@@ -29,73 +35,58 @@ export function FillInBlank({ section, onComplete }: FillInBlankProps) {
     setSubmitted(false);
   }
 
+  const handleCelebrationDone = useCallback(() => {
+    setShowCelebration(false);
+  }, []);
+
+  const canContinue = submitted && (isCorrect || attempts >= 2);
+
+  const cta = canContinue
+    ? { label: 'Continue', onClick: onComplete }
+    : !submitted
+      ? { label: 'Check', onClick: checkAnswer, disabled: !value.trim() }
+      : undefined;
+
+  const secondaryCta = submitted && !isCorrect && attempts < 2
+    ? { label: 'Try Again', onClick: handleTryAgain }
+    : undefined;
+
   return (
-    <div className="space-y-3 animate-fade-in-up">
-      <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-purple mb-1">Fill in the blank</p>
-        <p className="text-[15px] font-semibold text-text-primary leading-snug">
-          {section.prompt}
-        </p>
-      </div>
+    <>
+      {showCelebration && <CelebrationOverlay onDone={handleCelebrationDone} />}
+      <LessonStep cta={cta} secondaryCta={secondaryCta}>
+        <div className="space-y-5">
+          <h3 className="text-xl font-bold text-text-primary leading-snug">
+            {section.prompt}
+          </h3>
 
-      <div className="flex flex-col sm:flex-row gap-2">
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && !submitted && value.trim() && checkAnswer()}
-          disabled={submitted && (isCorrect || attempts >= 2)}
-          className="flex-1 px-4 py-3 bg-bg-card border border-border rounded-xl text-text-primary font-mono text-sm font-medium focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition-all placeholder:text-text-muted placeholder:font-normal"
-          placeholder="Type your answer..."
-          autoFocus
-        />
-        {!submitted && (
-          <button
-            onClick={checkAnswer}
-            disabled={!value.trim()}
-            className="px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
-            style={value.trim() ? { boxShadow: 'var(--shadow-button)' } : undefined}
-          >
-            Check
-          </button>
-        )}
-      </div>
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && !submitted && value.trim() && checkAnswer()}
+            disabled={canContinue}
+            className="w-full px-4 py-3.5 bg-bg-card border-2 border-border rounded-2xl text-text-primary font-mono text-[15px] font-medium focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition-all placeholder:text-text-muted placeholder:font-sans placeholder:font-normal"
+            placeholder="Type your answer..."
+            autoFocus
+          />
 
-      {submitted && (
-        <div className={`rounded-xl px-4 py-3.5 text-sm animate-pop-in ${
-          isCorrect ? 'bg-green-soft border border-green/15' : 'bg-red-soft border border-red/15'
-        }`}>
-          <p className="text-text-primary">
-            {isCorrect
-              ? 'Correct!'
-              : attempts >= 2
-                ? <>The answer is: <code className="px-1 py-0.5 bg-bg-card rounded font-mono font-medium text-purple">{section.answer}</code></>
-                : 'Not quite \u2014 try again!'
-            }
-          </p>
+          {submitted && (
+            <div className={`rounded-2xl px-4 py-4 text-[15px] animate-pop-in ${
+              isCorrect ? 'bg-green-soft' : 'bg-red-soft'
+            }`}>
+              <p className="text-text-primary">
+                {isCorrect
+                  ? 'Correct!'
+                  : attempts >= 2
+                    ? <>The answer is: <code className="px-1.5 py-0.5 bg-bg-card rounded-md font-mono font-medium text-purple">{section.answer}</code></>
+                    : 'Not quite \u2014 try again!'
+                }
+              </p>
+            </div>
+          )}
         </div>
-      )}
-
-      <div className="flex gap-2">
-        {submitted && !isCorrect && attempts < 2 && (
-          <button
-            onClick={handleTryAgain}
-            className="w-full md:w-auto px-6 py-3 bg-bg-card text-text-primary border border-border rounded-xl text-sm font-semibold active:scale-[0.98] transition-all"
-          >
-            Try Again
-          </button>
-        )}
-
-        {submitted && (isCorrect || attempts >= 2) && (
-          <button
-            onClick={onComplete}
-            className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
-            style={{ boxShadow: 'var(--shadow-button)' }}
-          >
-            Continue &rarr;
-          </button>
-        )}
-      </div>
-    </div>
+      </LessonStep>
+    </>
   );
 }
