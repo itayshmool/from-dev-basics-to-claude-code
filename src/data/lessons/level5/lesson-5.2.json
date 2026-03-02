@@ -1,0 +1,83 @@
+{
+  "id": "5.2",
+  "level": 5,
+  "order": 2,
+  "title": "Your First JavaScript",
+  "subtitle": "Talk to Node.js interactively",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Node.js has an **interactive mode** called the REPL (Read-Eval-Print Loop). You type a line of JavaScript, Node reads it, evaluates it, prints the result, and waits for more.\n\nIt's like having a conversation with JavaScript. You say something, it responds. This is perfect for experimenting and learning — no files needed, no setup, just you and the language.",
+      "analogy": "The REPL is like a calculator on steroids. A calculator does math. The REPL does math, text manipulation, logic, and anything else JavaScript can do.",
+      "keyPoints": [
+        "REPL stands for Read-Eval-Print Loop",
+        "It's perfect for quick experiments",
+        "Type .exit or press Ctrl+C twice to leave"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Start the Node.js REPL by typing `node` with no arguments. You should see a `>` prompt appear — that means Node is waiting for your JavaScript.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "node",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "Welcome to Node.js. Type \".help\" for more information.\n>",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "Nothing happens or it hangs",
+          "solution": "That's actually normal! The blank > prompt means Node is ready. Try typing 2 + 2 and press Enter."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now try some JavaScript expressions. Type each one and press Enter to see the result:\n\n- `2 + 2` — basic math\n- `\"Hello\".toUpperCase()` — text manipulation\n- `Math.random()` — generate a random number between 0 and 1\n\nEach time you press Enter, Node evaluates your code and shows the result instantly.",
+      "codeBlocks": [
+        {
+          "language": "javascript",
+          "code": "2 + 2",
+          "copyable": true
+        },
+        {
+          "language": "javascript",
+          "code": "\"Hello\".toUpperCase()",
+          "copyable": true
+        },
+        {
+          "language": "javascript",
+          "code": "Math.random()",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "continue"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now try `console.log()` — this is how JavaScript prints output. Then exit the REPL by pressing Ctrl+C twice (or type `.exit`).",
+      "codeBlocks": [
+        {
+          "language": "javascript",
+          "code": "console.log(\"I am writing JavaScript\")",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "I am writing JavaScript",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "I see 'undefined' after the output",
+          "solution": "That's normal! console.log() prints your text, then returns undefined. The REPL shows both — your output and the return value."
+        }
+      ]
+    }
+  ],
+  "completionMessage": "You just wrote real JavaScript! The REPL is great for quick experiments, but real programs live in files. Let's do that next.",
+  "milestone": null,
+  "nextLesson": "5.3"
+}

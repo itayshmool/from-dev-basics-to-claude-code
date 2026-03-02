@@ -1,0 +1,52 @@
+{
+  "id": "7.8",
+  "level": 7,
+  "order": 8,
+  "title": "Basic Security Awareness",
+  "subtitle": "Five non-negotiable rules every developer must follow",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You don't need to be a cybersecurity expert. But you absolutely need to avoid the mistakes that cause **most** security breaches.\n\nThe truth is that the majority of security incidents aren't caused by sophisticated hackers. They're caused by developers who forgot the basics: a password left in source code, user input that wasn't validated, an HTTP endpoint that should have been HTTPS.\n\nThese five rules will keep you out of trouble. They're not optional \u2014 they're the bare minimum for writing code that other people will trust."
+    },
+    {
+      "type": "narrative",
+      "content": "Memorize these five rules. They cover the vast majority of security mistakes that junior developers make.",
+      "keyPoints": [
+        "Never commit secrets: API keys, passwords, tokens \u2192 .env + .gitignore",
+        "Never trust user input: sanitize everything from forms or URLs before using it",
+        "Use HTTPS always: never HTTP for anything real \u2014 data in transit must be encrypted",
+        "Keep dependencies updated: run npm audit regularly to find known vulnerabilities",
+        "Don't log sensitive data: never console.log(password) or log tokens in production"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Spot the security problems in this code. There are three serious mistakes \u2014 see if you can find them all before reading the explanation.",
+      "blocks": [
+        {
+          "language": "javascript",
+          "label": "Spot the bugs!",
+          "code": "const API_KEY = 'sk-abc123secret';\n\napp.get('/login', (req, res) => {\n  const password = req.query.password;\n  console.log('Login attempt with password:', password);\n  // Check password directly in URL\n  if (password === 'admin123') {\n    res.send('Welcome!');\n  }\n});"
+        }
+      ],
+      "explanation": "Three problems: (1) API key hardcoded in source code \u2014 should be in .env, (2) Password logged to console \u2014 never log credentials, they end up in log files that others can read, (3) Password sent in URL query string and compared to a hardcoded value \u2014 URLs are logged by servers and browsers, and hardcoded passwords are trivially discoverable. Use proper authentication instead."
+    },
+    {
+      "type": "quiz",
+      "question": "Which of these should NEVER be committed to git?",
+      "options": [
+        "package.json",
+        ".env file with API keys",
+        "index.html",
+        "README.md"
+      ],
+      "correctIndex": 1,
+      "explanation": "Your .env file contains secrets like API keys, database passwords, and tokens. These must never be committed to git. Add .env to your .gitignore file. The other files \u2014 package.json, index.html, and README.md \u2014 are safe and should be committed."
+    }
+  ],
+  "completionMessage": "You now know the five non-negotiable security rules. Never commit secrets, never trust user input, use HTTPS, keep dependencies updated, and don't log sensitive data. These aren't advanced techniques \u2014 they're the baseline that separates responsible developers from careless ones.",
+  "milestone": null,
+  "nextLesson": "7.9"
+}

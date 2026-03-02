@@ -1,0 +1,70 @@
+{
+  "id": "4.4",
+  "level": 4,
+  "order": 4,
+  "title": "Client vs Server",
+  "subtitle": "The two sides of every web interaction",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Every time you use a website or app, there are two sides to the conversation:\n\n- The **client** — your browser or app, running on your device. It displays things on screen and responds to your clicks and taps.\n- The **server** — a computer somewhere else that stores data, processes requests, and sends back results.\n\nThey work together: the client handles what you see, the server handles what happens behind the scenes.",
+      "analogy": "Think of a restaurant. You (the **client**) sit at a table, read the menu, and place an order. The **kitchen** (the server) receives your order, prepares the food, and sends it back. You never go into the kitchen, and the kitchen never sits at your table. Each side has its own job.",
+      "keyPoints": [
+        "**Client** = your device (browser, phone app). Handles display and interaction.",
+        "**Server** = a remote computer. Handles data storage, logic, and processing.",
+        "The client sends requests (\"I want this page\"), the server sends responses (\"Here are the files\")",
+        "Some code runs on the client (JavaScript in your browser), some runs on the server (processing your login)"
+      ]
+    },
+    {
+      "type": "dragSort",
+      "instruction": "For each action, decide: does this happen on the Client (your browser) or the Server (the remote computer)?",
+      "categories": [
+        {
+          "name": "Client",
+          "description": "Happens in your browser on your device"
+        },
+        {
+          "name": "Server",
+          "description": "Happens on a remote computer"
+        }
+      ],
+      "items": [
+        { "text": "Displays the webpage", "correctCategory": "Client" },
+        { "text": "Stores user passwords", "correctCategory": "Server" },
+        { "text": "Runs JavaScript for a dropdown menu", "correctCategory": "Client" },
+        { "text": "Processes a login form", "correctCategory": "Server" },
+        { "text": "Saves a blog post to the database", "correctCategory": "Server" },
+        { "text": "Shows a scroll animation", "correctCategory": "Client" }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "In the restaurant analogy, what is the \"server\" equivalent?",
+      "options": [
+        "The menu",
+        "The table where you sit",
+        "The kitchen that prepares your food",
+        "The other customers"
+      ],
+      "correctIndex": 2,
+      "explanation": "The kitchen (server) receives orders, does the work behind the scenes, and sends back the result. You (the client) never see the kitchen directly — you just interact with what it produces."
+    },
+    {
+      "type": "quiz",
+      "question": "Where does JavaScript run when it makes a button change color on a website?",
+      "options": [
+        "On the server",
+        "On the client (your browser)",
+        "In the database",
+        "On the DNS server"
+      ],
+      "correctIndex": 1,
+      "explanation": "Visual interactions like button animations, dropdown menus, and color changes all happen on the client side — right in your browser. The server doesn't need to be involved for things you can see and interact with directly."
+    }
+  ],
+  "completionMessage": "You now understand the client-server model — the foundation of how the web works. Your browser is the client, and it talks to servers to get what it needs. Next, we'll look at HOW they talk to each other.",
+  "milestone": null,
+  "nextLesson": "4.5"
+}

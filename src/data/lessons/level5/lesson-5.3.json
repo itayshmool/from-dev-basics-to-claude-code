@@ -1,0 +1,64 @@
+{
+  "id": "5.3",
+  "level": 5,
+  "order": 3,
+  "title": "Running a JavaScript File",
+  "subtitle": "Write code in a file and execute it",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "The REPL is great for experiments, but real programs live in **files**. A JavaScript file is just a text file with a `.js` extension. You write your code in the file, then tell Node to run it.\n\nThis is how every real application works — from a tiny script to a massive web app. Code lives in files. You run the files.",
+      "tip": "You can create JavaScript files with any text editor, or even from the terminal using echo."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Create a JavaScript file called `hello.js` using the terminal. This command writes one line of JavaScript into a new file.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "echo 'console.log(\"Hello from a file!\")' > hello.js",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "Permission denied",
+          "solution": "You might be in a protected directory. Try cd ~ first to go to your home directory, then run the command again."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now run your file with Node. This tells Node to read `hello.js` and execute every line of JavaScript inside it.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "node hello.js",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "Hello from a file!",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "Error: Cannot find module or SyntaxError",
+          "solution": "Make sure you're in the same directory where you created hello.js. Use ls to check if the file is there."
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "You just completed the **write-run-test** cycle — the fundamental loop of all software development:\n\n1. **Write** code in a file\n2. **Run** the file\n3. **See** the result\n4. **Repeat**\n\nEvery developer, from a beginner to a senior engineer at Google, does this same loop thousands of times. The code gets more complex, but the cycle never changes.",
+      "keyPoints": [
+        "JavaScript files use the .js extension",
+        "Run them with: node filename.js",
+        "The write-run-test cycle is the heartbeat of development"
+      ]
+    }
+  ],
+  "completionMessage": "You wrote a program in a file and executed it. That's real programming! But writing everything from scratch is slow. What if you could use code other people already wrote? That's where npm comes in.",
+  "milestone": null,
+  "nextLesson": "5.4"
+}

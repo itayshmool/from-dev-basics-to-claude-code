@@ -8,6 +8,12 @@ import { PathBuilder } from '../interactive/PathBuilder';
 import { TerminalPreview } from '../interactive/TerminalPreview';
 import { ProgramSimulator } from '../interactive/ProgramSimulator';
 import { TerminalStep } from '../interactive/TerminalStep';
+import { CodeExample } from '../interactive/CodeExample';
+import { DragSort } from '../interactive/DragSort';
+import { StepThrough } from '../interactive/StepThrough';
+import { GuideStep } from '../interactive/GuideStep';
+import { PromptTemplate } from '../interactive/PromptTemplate';
+import { Checklist } from '../interactive/Checklist';
 
 interface SectionRendererProps {
   section: LessonSection;
@@ -35,6 +41,18 @@ export function SectionRenderer({ section, onComplete, commands }: SectionRender
       return <ProgramSimulator section={section} onComplete={onComplete} />;
     case 'terminalStep':
       return <TerminalStep section={section} onComplete={onComplete} commands={commands} />;
+    case 'codeExample':
+      return <CodeExample section={section} onComplete={onComplete} />;
+    case 'dragSort':
+      return <DragSort section={section} onComplete={onComplete} />;
+    case 'stepThrough':
+      return <StepThrough section={section} onComplete={onComplete} />;
+    case 'guideStep':
+      return <GuideStep section={section} onComplete={onComplete} />;
+    case 'promptTemplate':
+      return <PromptTemplate section={section} onComplete={onComplete} />;
+    case 'checklist':
+      return <Checklist section={section} onComplete={onComplete} />;
     default:
       return (
         <div className="text-text-muted text-sm">

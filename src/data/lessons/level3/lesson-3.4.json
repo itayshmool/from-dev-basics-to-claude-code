@@ -1,0 +1,64 @@
+{
+  "id": "3.4",
+  "level": 3,
+  "order": 4,
+  "title": "Your First Commit",
+  "subtitle": "Saving a snapshot",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "<html>\n<body>\n<h1>My Website</h1>\n</body>\n</html>",
+          "style.css": "body { margin: 0; }"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["git commit -m"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "You have a project with two files. Let's initialize git and save your first snapshot.",
+      "prompt": "Type `git init` to start tracking this project.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Repository initialized. Now stage your files."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage all files so they're ready to be committed.",
+      "prompt": "Type `git add .` to stage everything.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "Both files are staged. Now for the big moment \u2014 your first commit."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "A **commit** is a saved snapshot of your project. Every commit needs a message describing what you did. The `-m` flag lets you write that message inline.",
+      "prompt": "Type `git commit -m \"Initial commit\"` to save your first snapshot.",
+      "hint": "Type: git commit -m \"Initial commit\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit -m"
+      },
+      "onSuccess": {
+        "message": "Your first commit! Git saved a snapshot of your entire project. The message 'Initial commit' describes what this snapshot contains. You can always come back to this exact state."
+      }
+    }
+  ],
+  "completionMessage": "You made your first commit! The cycle is: make changes, `git add` to stage, `git commit -m` to save. This is the core git workflow you'll use every day.",
+  "milestone": null,
+  "nextLesson": "3.5"
+}

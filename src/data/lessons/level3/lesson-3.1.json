@@ -1,0 +1,45 @@
+{
+  "id": "3.1",
+  "level": 3,
+  "order": 1,
+  "title": "Why Version Control?",
+  "subtitle": "The problem version control solves",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Imagine writing an essay. You make changes, save. Make more changes. Then realize the version from 2 hours ago was better. But it's gone. Now imagine this with code \u2014 hundreds of files, multiple people editing.",
+      "analogy": "Version control is like a save point in a video game. You can always go back.",
+      "keyPoints": [
+        "Every change is recorded",
+        "You can go back to any previous version",
+        "Multiple people can work on the same project",
+        "You'll never lose work again"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What is the main problem version control solves?",
+      "options": [
+        "Making code run faster",
+        "Tracking changes and being able to undo them",
+        "Automatically fixing bugs",
+        "Making files smaller"
+      ],
+      "correctIndex": 1,
+      "explanation": "Version control tracks every change you make to your files. If something goes wrong, you can always go back to a previous version. It doesn't make code faster or fix bugs \u2014 it keeps a history of everything."
+    },
+    {
+      "type": "narrative",
+      "content": "The tool developers use for version control is called **git**. Created by Linus Torvalds (who also created Linux). Nearly every software project in the world uses it.",
+      "keyPoints": [
+        "git tracks changes to files over time",
+        "GitHub is a website that hosts git repositories online",
+        "A repository (repo) is a project tracked by git"
+      ]
+    }
+  ],
+  "completionMessage": "git is the most important tool you'll learn as a developer. Every company, every open-source project, every codebase uses it. Next, you'll run your very first git command.",
+  "milestone": null,
+  "nextLesson": "3.2"
+}

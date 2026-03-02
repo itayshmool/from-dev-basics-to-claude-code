@@ -1,0 +1,92 @@
+{
+  "id": "3.5",
+  "level": 3,
+  "order": 5,
+  "title": "Making Changes",
+  "subtitle": "The edit-add-commit cycle",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "<html>\n<body>\n<h1>My Website</h1>\n</body>\n</html>"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["git init", "git add", "git commit -m"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Let's practice the full git workflow: initialize, commit, make changes, commit again.",
+      "prompt": "Type `git init` to start tracking.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Repository initialized."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage all files.",
+      "prompt": "Type `git add .` to stage everything.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "Files staged. Now save this as your starting point."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Create your first commit \u2014 a snapshot of the project as it is right now.",
+      "prompt": "Type `git commit -m \"Initial commit\"` to save.",
+      "hint": "Type: git commit -m \"Initial commit\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit"
+      },
+      "onSuccess": {
+        "message": "First commit saved. Now let's make a change and commit it too."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now make a change to your file. Add a welcome paragraph to the HTML file.",
+      "prompt": "Type `echo \"<p>Welcome to my site</p>\" >> index.html` to append content.",
+      "hint": "Type: echo \"<p>Welcome to my site</p>\" >> index.html",
+      "validation": {
+        "type": "fileContains",
+        "value": {
+          "path": "/home/user/my-project/index.html",
+          "content": "Welcome"
+        }
+      },
+      "onSuccess": {
+        "message": "You modified the file. The `>>` operator appends text to the end of a file. Let's save this change as a new commit."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now save your change. Stage the modified file and commit it with a descriptive message.",
+      "prompt": "Stage and commit: first `git add .`, then `git commit -m \"Add welcome paragraph\"`.",
+      "hint": "Type: git commit -m \"Add welcome paragraph\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit"
+      },
+      "onSuccess": {
+        "message": "Two commits now! You've built a history. Each commit is a save point you can return to. This is the core cycle: edit, add, commit. Edit, add, commit."
+      }
+    }
+  ],
+  "completionMessage": "You've mastered the edit-add-commit cycle \u2014 the daily rhythm of every developer. Make changes, stage them, commit them. Next: viewing your project's history.",
+  "milestone": null,
+  "nextLesson": "3.6"
+}

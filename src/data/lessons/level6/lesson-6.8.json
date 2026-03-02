@@ -1,0 +1,72 @@
+{
+  "id": "6.8",
+  "level": 6,
+  "order": 8,
+  "title": "Writing Effective Prompts",
+  "subtitle": "Get better results from Claude Code",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "The quality of Claude Code's output depends directly on the quality of your input. A vague prompt gets a vague result. A specific prompt gets exactly what you want.\n\nThis isn't about learning a special language or syntax \u2014 it's about communicating clearly. The same skills that make you good at explaining things to a colleague make you good at prompting Claude Code.\n\nLet's look at the difference between weak prompts and strong ones, and build a framework you can use every time.",
+      "analogy": "Imagine ordering food at a restaurant. 'Give me something good' might get you anything. 'I'd like the grilled salmon, medium-rare, with roasted vegetables and no sauce on the side' gets you exactly what you want. Prompts work the same way."
+    },
+    {
+      "type": "narrative",
+      "content": "Here are real examples of weak prompts vs. strong ones:\n\n**Weak:** \"Make it look nice\"\n**Strong:** \"Use a dark color scheme with blue accents, sans-serif font, max-width 800px centered on the page\"\n\n**Weak:** \"Fix it\"\n**Strong:** \"The delete button isn't working \u2014 clicking it does nothing. I expect it to remove the bookmark from the list and from localStorage\"\n\n**Weak:** \"Add a feature\"\n**Strong:** \"Add a search bar above the bookmark list that filters bookmarks as the user types, matching against both title and URL\"\n\n**Weak:** \"Make it better\"\n**Strong:** \"The page loads slowly because it re-renders all bookmarks on every keystroke. Only update the visible list, not the entire DOM\"\n\nNotice the pattern: strong prompts include **what** you want, **where** it should go, **how** it should behave, and **context** about what already exists.",
+      "keyPoints": [
+        "Vague prompts get vague results \u2014 specificity is everything",
+        "Describe WHAT you want, WHERE it goes, and HOW it should work",
+        "Include context about what already exists or what's broken",
+        "Strong prompts save you iteration time \u2014 you get it right faster"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Which is the better prompt for Claude Code?",
+      "options": [
+        "Add a feature",
+        "Add a search bar that filters the bookmark list as the user types, highlighting matches",
+        "Make it better",
+        "Do something cool"
+      ],
+      "correctIndex": 1,
+      "explanation": "The second option is specific about what to build (a search bar), where it goes (the bookmark list), how it works (filters as the user types), and a bonus detail (highlighting matches). The other options are too vague for Claude to know what you actually want."
+    },
+    {
+      "type": "checklist",
+      "instruction": "Use this prompt writing framework every time you ask Claude Code to do something. Check off each element as you include it in your prompts.",
+      "items": [
+        {
+          "text": "WHAT: I specify what I want built or changed",
+          "hint": "Be specific about features and behavior. 'Add a search bar' not 'add a feature'."
+        },
+        {
+          "text": "WHERE: I mention which files or components",
+          "hint": "e.g., 'In app.js' or 'In the header section of index.html'"
+        },
+        {
+          "text": "HOW: I describe specific behavior or appearance",
+          "hint": "e.g., 'Filter as the user types' not just 'add filtering'"
+        },
+        {
+          "text": "CONTEXT: I explain what already exists or what's broken",
+          "hint": "e.g., 'The current list shows all items. I want to filter by title and URL as the user types in the search bar'"
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "**Congratulations \u2014 you've completed Level 6.**\n\nLet's recap what you can now do with Claude Code:\n\n- **Understand** any codebase by asking Claude to explain it\n- **Create** new files and entire projects from descriptions\n- **Edit** existing code with targeted, surgical changes\n- **Build** complete applications from a single detailed prompt\n- **Communicate** effectively using the WHAT-WHERE-HOW-CONTEXT framework\n\nYou've gone from someone who didn't know what a terminal was to someone who can build real applications with an AI pair programmer. That's not a small thing.\n\nThe tools you've learned across all these levels \u2014 the terminal, file systems, git, JavaScript, npm, web servers, and now Claude Code \u2014 are the exact same tools professional developers use every day. The difference is you have an AI assistant that makes you faster at all of them.",
+      "keyPoints": [
+        "Claude Code understands, creates, edits, and builds",
+        "Better prompts = better results (WHAT, WHERE, HOW, CONTEXT)",
+        "Always review and test Claude's output",
+        "You are the decision-maker \u2014 Claude is the accelerator"
+      ]
+    }
+  ],
+  "completionMessage": "Level 6 complete! You've mastered Claude Code \u2014 from installation to building complete projects with effective prompts. You now have an AI pair programmer that makes everything you've learned faster and more powerful.",
+  "milestone": null,
+  "nextLesson": "6.9"
+}

@@ -1,0 +1,63 @@
+{
+  "id": "4.2",
+  "level": 4,
+  "order": 2,
+  "title": "Programming Languages",
+  "subtitle": "Different tools for different jobs",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Just like there are many human languages (English, Spanish, Japanese), there are many **programming languages**. Each one was designed for a particular kind of work.\n\nSome languages are great for building websites. Others are designed for analyzing data or working with databases. You don't need to learn all of them — most developers specialize in just a few.",
+      "analogy": "Programming languages are like tools in a toolbox. You could use a screwdriver to hammer a nail, but a hammer works much better. Similarly, you *could* build a website with Python, but JavaScript was built specifically for that job.",
+      "keyPoints": [
+        "**HTML** — The structure of web pages (headings, paragraphs, images)",
+        "**CSS** — The styling of web pages (colors, fonts, layout)",
+        "**JavaScript / TypeScript** — Makes web pages interactive (buttons, animations, dynamic content)",
+        "**Python** — Popular for data analysis, AI, and automation",
+        "**SQL** — The language for talking to databases (storing and retrieving data)"
+      ]
+    },
+    {
+      "type": "dragSort",
+      "instruction": "Drag each language into its primary category. Where is each language used most?",
+      "categories": [
+        {
+          "name": "Web",
+          "description": "Building and styling websites"
+        },
+        {
+          "name": "Data",
+          "description": "Analyzing data and building AI"
+        },
+        {
+          "name": "Database",
+          "description": "Storing and retrieving information"
+        }
+      ],
+      "items": [
+        { "text": "HTML", "correctCategory": "Web" },
+        { "text": "CSS", "correctCategory": "Web" },
+        { "text": "JavaScript", "correctCategory": "Web" },
+        { "text": "Python", "correctCategory": "Data" },
+        { "text": "SQL", "correctCategory": "Database" },
+        { "text": "TypeScript", "correctCategory": "Web" }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "You want to make a button change color when someone clicks it on a website. Which language would you use?",
+      "options": ["SQL", "Python", "JavaScript", "HTML"],
+      "correctIndex": 2,
+      "explanation": "JavaScript (and its cousin TypeScript) is the language that makes websites interactive. When you click a button and something happens — a menu opens, a color changes, data loads — that's JavaScript at work."
+    },
+    {
+      "type": "narrative",
+      "content": "Don't feel overwhelmed by the number of languages out there. Professional developers don't know all of them either. Most people start by learning **one language well**, then pick up others as needed.",
+      "tip": "If you're curious about web development, start with HTML, CSS, and JavaScript. If you're curious about data or AI, start with Python. You can always learn more later."
+    }
+  ],
+  "completionMessage": "You now know the major programming languages and what they're used for. Remember: you don't need to learn them all. Next, we'll look at what actually happens when you visit a website.",
+  "milestone": null,
+  "nextLesson": "4.3"
+}

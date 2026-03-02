@@ -1,0 +1,110 @@
+{
+  "id": "5.13",
+  "level": 5,
+  "order": 13,
+  "title": "Serving HTML",
+  "subtitle": "Serve a real web page from your server",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "So far your server has returned plain text and JSON. But when you visit a real website, you see styled pages with headings, images, and layouts — not raw text.\n\nThat's because real web servers serve **HTML files**. HTML is the language browsers understand for displaying rich, formatted content.\n\nInstead of writing HTML inside your JavaScript code (which gets messy fast), we'll put HTML files in a special folder and tell Express to serve them automatically. This is called **serving static files** — files that don't change based on the request, they're just served as-is.",
+      "keyPoints": [
+        "Static files are served directly without any processing",
+        "The public/ folder is a convention for files that should be accessible via the browser",
+        "Express can serve an entire folder of static files with one line of code",
+        "This is how real websites serve CSS, images, and HTML pages"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "First, create a `public` directory inside your project folder. This is where your static files (HTML, CSS, images) will live.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "mkdir public",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "mkdir: public: File exists",
+          "solution": "That's fine! The folder already exists. You can continue to the next step."
+        },
+        {
+          "problem": "I'm not sure I'm in the right directory",
+          "solution": "Run 'pwd' to check your current directory. You should be inside your project folder (the one with app.js and package.json). If not, use 'cd' to navigate there."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Create an `index.html` file inside the `public` folder. You can create this file using a text editor — save it as `public/index.html` in your project directory.\n\nThis will be the homepage of your server.",
+      "codeBlocks": [
+        {
+          "language": "html",
+          "code": "<!DOCTYPE html>\n<html>\n<head>\n  <title>My First Server</title>\n  <style>\n    body { font-family: sans-serif; max-width: 600px; margin: 50px auto; }\n    h1 { color: #333; }\n  </style>\n</head>\n<body>\n  <h1>Welcome to My Server</h1>\n  <p>This page is being served by Node.js and Express.</p>\n  <p>I built this myself.</p>\n</body>\n</html>",
+          "filename": "public/index.html",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "I'm not sure how to create the file",
+          "solution": "Option 1: Use a text editor (VS Code, TextEdit, Notepad) — create a new file, paste the HTML, and save it as index.html inside the public folder. Option 2: Use the terminal — you can use 'nano public/index.html' (Mac/Linux) to open an editor right in the terminal."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now tell Express to serve files from the `public` folder. Open `app.js` and add this line **near the top of your file**, after the `const app = express();` line but **before** any of your `app.get()` routes.\n\nThis one line makes every file in the `public/` folder accessible through your server.",
+      "codeBlocks": [
+        {
+          "language": "javascript",
+          "code": "app.use(express.static('public'));",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "I'm not sure where exactly to put this line",
+          "solution": "Put it right after 'const port = 3000;' and before your first app.get() route. The order matters — Express checks static files first, then routes."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Stop your server (**Ctrl+C**) and restart it, then visit **http://localhost:3000** in your browser.\n\nInstead of the plain text \"Hello, World!\" you should now see a **styled HTML page** with a heading and paragraphs. That's your `index.html` being served!",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "node app.js",
+          "copyable": true
+        },
+        {
+          "language": "text",
+          "code": "http://localhost:3000",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "A styled web page with the heading \"Welcome to My Server\" and two paragraphs",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "I still see the old 'Hello, World!' text",
+          "solution": "Express checks static files first. If public/index.html exists and the static middleware is set up correctly, it should override the app.get('/') route for the root URL. Make sure: 1) The file is named exactly 'index.html' (not 'index.HTML' or 'Index.html'), 2) It's inside the 'public' folder, 3) The express.static line comes BEFORE your routes, 4) You restarted the server."
+        },
+        {
+          "problem": "The page loads but looks like raw HTML code",
+          "solution": "The file might be saved with a .txt extension instead of .html. Make sure it's saved as index.html (not index.html.txt)."
+        }
+      ]
+    }
+  ],
+  "completionMessage": "You're now serving a real HTML web page from your server! Any file you put in the public/ folder — HTML, CSS, images, JavaScript — becomes accessible through your server. This is how real websites work.",
+  "milestone": null,
+  "nextLesson": "5.14"
+}

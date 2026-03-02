@@ -1,0 +1,61 @@
+{
+  "id": "2.4",
+  "level": 2,
+  "order": 4,
+  "title": "Printing Text",
+  "subtitle": "Output text with echo",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "project": {}
+      }
+    }
+  },
+  "initialDir": "/home/user/project",
+  "commandsIntroduced": ["echo"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "`echo` is the terminal's way of printing text. Whatever you type after `echo`, it repeats back to you. Simple, but incredibly useful.",
+      "prompt": "Type `echo \"Hello, world\"` to print a message.",
+      "hint": "Type: echo \"Hello, world\"",
+      "validation": {
+        "type": "exactCommand",
+        "value": "echo \"Hello, world\""
+      },
+      "onSuccess": {
+        "message": "The terminal printed your message right back. `echo` is like the terminal's version of a print statement. Developers use it in scripts to display status messages, and you'll soon use it to write text into files."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Here's something cool: `echo` can read environment variables. `$USER` is a built-in variable that holds your username. The terminal replaces `$USER` with the actual value before printing.",
+      "prompt": "Type `echo \"My name is $USER\"` to see variable expansion in action.",
+      "hint": "Type: echo \"My name is $USER\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "echo"
+      },
+      "onSuccess": {
+        "message": "The terminal replaced `$USER` with your actual username. Variables starting with `$` get expanded — the shell swaps them out before the command runs. This is how scripts adapt to different users and environments."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "You don't always need quotes. Without them, `echo` just prints whatever words follow it. Quotes matter when your text has special characters, but for plain words they're optional.",
+      "prompt": "Type `echo Hello world` without any quotes.",
+      "hint": "Type: echo Hello world",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "echo Hello"
+      },
+      "onSuccess": {
+        "message": "Same result, no quotes needed. The shell treats `Hello` and `world` as separate arguments, but `echo` just prints them all with spaces between. Quotes become important when you have special characters like `$`, `*`, or want to preserve extra spaces."
+      }
+    }
+  ],
+  "completionMessage": "You now know `echo` — the terminal's print command. It seems simple, but it's a building block for everything: writing to files, debugging scripts, and checking variables. Next up, you'll learn to search through files.",
+  "milestone": null,
+  "nextLesson": "2.5"
+}

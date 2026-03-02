@@ -1,0 +1,88 @@
+{
+  "id": "5.11",
+  "level": 5,
+  "order": 11,
+  "title": "Adding Routes",
+  "subtitle": "Make your server respond to different URLs",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Right now, your server only responds to one URL: the root path `/`. If you visit `localhost:3000/about` or `localhost:3000/anything-else`, you'll get an error.\n\nReal websites have many pages — a homepage, an about page, a contact page, product pages, and more. Each page has its own **route** — a URL path that the server knows how to handle.\n\nAdding routes is how you teach your server to respond to different URLs with different content. Each `app.get()` call creates a new route.",
+      "analogy": "Think of routes like a receptionist at an office. When someone asks for the sales department, they get directed to one room. When they ask for support, they go to another. Your server is the receptionist, and routes are the directions.",
+      "keyPoints": [
+        "Each app.get('/path', ...) creates a new route",
+        "The path is what comes after localhost:3000 in the URL",
+        "Different routes can return completely different content",
+        "This is how every website serves different pages"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Open your `app.js` file in a text editor and add these two new routes. Put them **after** your existing `app.get('/')` route but **before** the `app.listen()` call at the bottom.",
+      "codeBlocks": [
+        {
+          "language": "javascript",
+          "code": "app.get('/about', (req, res) => {\n  res.send('This is the about page. I built this server myself!');\n});\n\napp.get('/contact', (req, res) => {\n  res.send('Contact me at: hello@mysite.com');\n});",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "I'm not sure where to put the code",
+          "solution": "Your app.js should have this order: 1) require and setup at the top, 2) all your app.get() routes in the middle, 3) app.listen() at the very bottom. The new routes go between your existing route and app.listen()."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Your server is still running the old code. To see your changes, you need to **stop** the server and **restart** it.\n\nGo to the terminal where your server is running, press **Ctrl+C** to stop it, then start it again.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "node app.js",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "Server running at http://localhost:3000",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "I get a SyntaxError when restarting",
+          "solution": "There's a typo in the code you just added. Common issues: missing closing parenthesis, missing semicolons, or a comma where there shouldn't be one. Check that each app.get() block has matching parentheses and curly braces."
+        },
+        {
+          "problem": "Ctrl+C didn't stop the server",
+          "solution": "Try pressing Ctrl+C again (sometimes you need to press it twice). If that doesn't work, close the terminal window entirely and open a new one."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now test your new routes! Open your browser and visit both of these URLs:\n\n1. **http://localhost:3000/about** — should show your about page text\n2. **http://localhost:3000/contact** — should show your contact page text\n\nAlso try **http://localhost:3000** to make sure your original route still works too.",
+      "codeBlocks": [
+        {
+          "language": "text",
+          "code": "http://localhost:3000/about",
+          "copyable": true
+        },
+        {
+          "language": "text",
+          "code": "http://localhost:3000/contact",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "I see 'Cannot GET /about'",
+          "solution": "The route wasn't added correctly, or the server is still running old code. Stop the server (Ctrl+C), double-check your app.js has the new routes, and restart with node app.js."
+        }
+      ]
+    }
+  ],
+  "completionMessage": "Your server now handles three different URLs! Each app.get() is a route, and you can add as many as you want. This is exactly how real websites work — hundreds of routes, each returning different content.",
+  "milestone": null,
+  "nextLesson": "5.12"
+}

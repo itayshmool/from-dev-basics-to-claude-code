@@ -1,0 +1,49 @@
+{
+  "id": "3.14",
+  "level": 3,
+  "order": 14,
+  "title": "The Professional Workflow",
+  "subtitle": "How developers actually use git",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Now you know all the git commands. Here's how professional developers use them together every day:",
+      "keyPoints": [
+        "1. Pull latest changes: git pull",
+        "2. Create a branch: git checkout -b feature-name",
+        "3. Write code, test it",
+        "4. Stage changes: git add .",
+        "5. Commit: git commit -m \"description\"",
+        "6. Push to GitHub: git push",
+        "7. Create a Pull Request on GitHub",
+        "8. Team reviews, then merges"
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "**Commit messages matter.** Your future self (and teammates) will read these. A good commit message explains WHAT changed and WHY, not just that something changed.",
+      "keyPoints": [
+        "Bad: 'fixed stuff', 'changes', 'asdf'",
+        "Good: 'Fix login button not responding on mobile'",
+        "Good: 'Add search feature to product list'",
+        "Good: 'Update API endpoint for user authentication'"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What's the first thing you should do when starting work on a new feature?",
+      "options": [
+        "Start editing files",
+        "Create a new branch",
+        "Delete the old code",
+        "Push to main"
+      ],
+      "correctIndex": 1,
+      "explanation": "Always branch first \u2014 it keeps main clean. If your experiment doesn't work out, you can delete the branch without any damage to the main codebase."
+    }
+  ],
+  "completionMessage": "You now understand how professional developers work with git every day. The workflow is: pull, branch, code, add, commit, push, review, merge. Next: practice writing good commits.",
+  "milestone": null,
+  "nextLesson": "3.15"
+}

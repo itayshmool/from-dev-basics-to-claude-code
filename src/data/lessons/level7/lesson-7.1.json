@@ -1,0 +1,82 @@
+{
+  "id": "7.1",
+  "level": 7,
+  "order": 1,
+  "title": "Reading Someone Else's Code",
+  "subtitle": "A systematic approach to understanding any codebase",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Here's a secret that surprises most beginners: **professional developers spend more time reading code than writing it**.\n\nWhen you join a team, switch projects, or even return to your own code after a few weeks, you'll need to understand code you didn't write (or don't remember writing). Random scrolling and hoping for understanding doesn't work. You need a system.\n\nThe good news? Reading code is a skill, and like any skill, it gets easier with practice. Let's learn a repeatable protocol you can follow for any codebase.",
+      "analogy": "Reading a new codebase is like exploring a new city. You don't start by wandering random streets. You look at a map first (README), check what's nearby (dependencies), find the main roads (entry point), and then explore the neighborhoods (modules) one at a time."
+    },
+    {
+      "type": "stepThrough",
+      "instruction": "The Code Reading Protocol — follow these steps for any new codebase",
+      "steps": [
+        {
+          "title": "Read the README",
+          "description": "README.md tells you what the project does, how to install it, and how to run it. This is always your first stop. If there's no README, that tells you something too — the project may be poorly documented."
+        },
+        {
+          "title": "Check package.json",
+          "description": "The dependencies tell you what technologies are used. Scripts tell you how to run and test it. Look at \"dependencies\" for the main libraries and \"scripts\" for commands like \"start\", \"test\", and \"build\"."
+        },
+        {
+          "title": "Scan the folder structure",
+          "description": "How is the code organized? Look for src/, public/, routes/, models/ — these hint at the architecture. A flat structure with everything in one folder means a small project. Nested folders with clear names mean a well-organized one."
+        },
+        {
+          "title": "Find the entry point",
+          "description": "Usually index.js, app.js, or main.js — this is where the program starts. In package.json, the \"main\" field or the \"start\" script will point you to it."
+        },
+        {
+          "title": "Follow the imports",
+          "description": "From the entry point, follow the require() or import statements to understand the dependency tree. Each import leads you to another piece of the puzzle. Don't try to understand everything at once — just map the connections."
+        },
+        {
+          "title": "Ask Claude for help",
+          "description": "Use Claude Code: 'Give me an overview of this project' for an instant high-level summary. Claude can read every file and give you a map of the codebase in seconds — something that might take you hours to piece together manually."
+        }
+      ]
+    },
+    {
+      "type": "checklist",
+      "instruction": "Practice the reading protocol on your Level 5 project. Go back to the project you built and apply each step as if you were seeing it for the first time.",
+      "items": [
+        {
+          "text": "I found and read the README (or understood there isn't one)",
+          "hint": "If there's no README, that's a good thing to add!"
+        },
+        {
+          "text": "I checked package.json dependencies",
+          "hint": "What packages does it use? Express? Anything else?"
+        },
+        {
+          "text": "I identified the entry point (app.js)",
+          "hint": "Where does the program start? Check the \"start\" script in package.json."
+        },
+        {
+          "text": "I traced the main code flow",
+          "hint": "What happens when the server starts? Which routes are defined? What do they do?"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "When exploring a new codebase, what should you read FIRST?",
+      "options": [
+        "The largest file in the project",
+        "The README.md file",
+        "Every JavaScript file from top to bottom",
+        "The test files"
+      ],
+      "correctIndex": 1,
+      "explanation": "The README is your starting point. It's written specifically to help newcomers understand the project — what it does, how to set it up, and how to run it. Starting anywhere else means you're missing context that would make everything easier to understand."
+    }
+  ],
+  "completionMessage": "You now have a repeatable system for reading any codebase. README first, then package.json, folder structure, entry point, and follow the imports. Practice this on every new project you encounter.",
+  "milestone": null,
+  "nextLesson": "7.2"
+}

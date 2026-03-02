@@ -1,0 +1,76 @@
+{
+  "id": "4.3",
+  "level": 4,
+  "order": 3,
+  "title": "What Is a Website, Really?",
+  "subtitle": "Behind the scenes of every page you visit",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "stepThrough",
+      "instruction": "Walk through the 7 steps that happen every time you visit a website. Click \"Next\" to follow the journey.",
+      "steps": [
+        {
+          "title": "You type a URL",
+          "description": "You type something like \"www.example.com\" into your browser's address bar and press Enter. This URL is like a street address — it tells the internet where you want to go.",
+          "highlight": "browser"
+        },
+        {
+          "title": "DNS looks up the address",
+          "description": "Your browser asks a DNS (Domain Name System) server to translate \"www.example.com\" into a number like 93.184.216.34. Computers use these numbers (called IP addresses) to find each other, just like GPS uses coordinates instead of street names.",
+          "highlight": "dns"
+        },
+        {
+          "title": "Browser sends a request",
+          "description": "Your browser sends a message across the internet to the server at that IP address, saying: \"Please send me the web page at this URL.\" This message is called an HTTP request.",
+          "highlight": "request"
+        },
+        {
+          "title": "The server receives the request",
+          "description": "A computer (the server) somewhere in the world receives your request. It could be in a data center in Virginia, a warehouse in Dublin, or anywhere else on the planet.",
+          "highlight": "server"
+        },
+        {
+          "title": "The server finds the files",
+          "description": "The server locates the HTML, CSS, JavaScript, and image files needed for that page. Sometimes it also pulls data from a database to build the page on the fly.",
+          "highlight": "files"
+        },
+        {
+          "title": "The server sends a response",
+          "description": "The server packages up all those files and sends them back across the internet to your browser. This is the HTTP response.",
+          "highlight": "response"
+        },
+        {
+          "title": "Your browser renders the page",
+          "description": "Your browser receives the files and assembles them into the page you see: HTML provides the structure, CSS makes it look good, and JavaScript makes it interactive. All of this happens in about 1-3 seconds.",
+          "highlight": "render"
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "Here's the key insight: **a website is just files on someone else's computer**.\n\nWhen you visit a website, you're really just downloading files (HTML, CSS, JavaScript, images) from a computer somewhere in the world, and your browser assembles them into what you see on screen.\n\nThere's no magic. The \"cloud\" is just other people's computers. A website is just files. Your browser is just a file viewer that knows how to display them beautifully.",
+      "keyPoints": [
+        "A website is files (HTML, CSS, JS, images) stored on a server",
+        "Your browser downloads those files and renders them into a page",
+        "The whole process takes about 1-3 seconds",
+        "The \"cloud\" is just computers in large buildings called data centers"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "When you type a URL and press Enter, what is the first thing that happens?",
+      "options": [
+        "The server sends you the web page immediately",
+        "Your browser translates the URL into an IP address using DNS",
+        "JavaScript starts running in your browser",
+        "The website downloads to your hard drive"
+      ],
+      "correctIndex": 1,
+      "explanation": "Before anything can happen, your browser needs to figure out which server to talk to. DNS translates the human-readable URL (like example.com) into a machine-readable IP address (like 93.184.216.34)."
+    }
+  ],
+  "completionMessage": "You now understand what happens behind the scenes every time you visit a website. It's not magic — it's just files being sent between computers. Next, we'll explore the difference between client and server.",
+  "milestone": null,
+  "nextLesson": "4.4"
+}

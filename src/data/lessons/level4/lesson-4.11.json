@@ -1,0 +1,63 @@
+{
+  "id": "4.11",
+  "level": 4,
+  "order": 11,
+  "title": "The Tech Stack",
+  "subtitle": "How teams choose their tools",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "A **tech stack** is the combination of technologies a team uses to build their app. It's like listing the ingredients for a recipe — each ingredient plays a specific role, and together they create the final product.\n\nEvery tech stack has the same basic layers: something for the frontend, something for the backend, and something for the database. The specific choices vary, but the pattern is always the same.",
+      "analogy": "Choosing a tech stack is like choosing materials to build a house. You need a foundation (database), walls and plumbing (backend), and paint and furniture (frontend). You could use brick or wood, tile or hardwood — the combination depends on what you're building and what your team knows best.",
+      "keyPoints": [
+        "A tech stack typically includes: frontend framework + backend language/framework + database",
+        "Companies choose based on team expertise, project needs, and performance requirements",
+        "There's no single \"best\" stack — different combinations suit different projects",
+        "Knowing what a tech stack is helps you understand job listings and technical conversations"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Here are two popular tech stacks used by real companies. Notice how each one covers the same three layers — frontend, backend, and database — with different tools.",
+      "blocks": [
+        {
+          "language": "text",
+          "label": "MERN Stack (used by many startups)",
+          "code": "Frontend:  React (JavaScript UI library)\nBackend:   Node.js + Express (JavaScript server)\nDatabase:  MongoDB (NoSQL document database)\n\nWhy: One language (JavaScript) for everything"
+        },
+        {
+          "language": "text",
+          "label": "Python Stack (used for data-heavy apps)",
+          "code": "Frontend:  HTML / CSS / JavaScript\nBackend:   Django (Python web framework)\nDatabase:  PostgreSQL (SQL relational database)\n\nWhy: Python excels at data processing and AI"
+        }
+      ],
+      "explanation": "The MERN stack is popular because developers only need to know one language — JavaScript — for both frontend and backend. The Python stack is popular when the app needs heavy data processing, AI features, or complex backend logic."
+    },
+    {
+      "type": "match",
+      "instruction": "Match each technology to its role in a tech stack.",
+      "pairs": [
+        { "left": "React", "right": "Frontend framework" },
+        { "left": "Node.js", "right": "Backend runtime" },
+        { "left": "PostgreSQL", "right": "Database" },
+        { "left": "AWS", "right": "Cloud hosting" }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "A job listing says the company uses a \"MERN stack.\" What does that tell you?",
+      "options": [
+        "They use Python for everything",
+        "They use MongoDB, Express, React, and Node.js",
+        "They only work on mobile apps",
+        "They don't use any databases"
+      ],
+      "correctIndex": 1,
+      "explanation": "MERN stands for MongoDB + Express + React + Node.js. It's one of the most popular stacks for web development because the entire stack uses JavaScript, making it easier for developers to work across all layers."
+    }
+  ],
+  "completionMessage": "You now know what a tech stack is and can recognize common ones. When you see terms like MERN, LAMP, or Django stack, you'll understand what they mean. Next, we'll explore where all this code actually runs — the cloud.",
+  "milestone": null,
+  "nextLesson": "4.12"
+}

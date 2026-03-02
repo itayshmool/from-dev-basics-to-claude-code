@@ -1,0 +1,77 @@
+{
+  "id": "3.3",
+  "level": 3,
+  "order": 3,
+  "title": "Staging Changes",
+  "subtitle": "Choosing what to save",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "",
+          "style.css": ""
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["git add", "git add ."],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "This project has two files but git isn't tracking anything yet. First, initialize git in this folder.",
+      "prompt": "Type `git init` to start tracking.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Repository initialized. Now let's tell git which files to track."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Staging is how you choose which changes to include in your next save point. Think of it like packing items into a box before shipping.",
+      "prompt": "Type `git add index.html` to stage that file.",
+      "hint": "Type: git add index.html",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add index.html"
+      },
+      "onSuccess": {
+        "message": "Staged! `index.html` is now in the 'staging area' \u2014 ready to be saved. Think of staging like packing items into a box before shipping."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Let's check the status to see the difference between staged and unstaged files.",
+      "prompt": "Type `git status` to see what changed.",
+      "hint": "Type: git status",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git status"
+      },
+      "onSuccess": {
+        "message": "`index.html` is now under 'Changes to be committed' \u2014 it's staged and ready. But `style.css` is still listed as 'untracked'. It hasn't been added yet."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "You can stage everything at once instead of adding files one by one.",
+      "prompt": "Type `git add .` to stage all files. The `.` means 'everything in this folder'.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "The `.` means 'everything in this folder'. Both `index.html` and `style.css` are now staged and ready to be saved in your next commit."
+      }
+    }
+  ],
+  "completionMessage": "You learned `git add` to stage specific files and `git add .` to stage everything. Staging lets you choose exactly what goes into each save point. Next: actually saving those changes.",
+  "milestone": null,
+  "nextLesson": "3.4"
+}

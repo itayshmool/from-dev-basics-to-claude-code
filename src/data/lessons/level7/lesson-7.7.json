@@ -1,0 +1,84 @@
+{
+  "id": "7.7",
+  "level": 7,
+  "order": 7,
+  "title": "Environment Variables for Secrets",
+  "subtitle": "Keep API keys and passwords out of your code",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Here's a mistake that has cost companies millions of dollars: **committing API keys and passwords directly into source code**.\n\nOnce a secret is in your git history, it's there forever. Even if you delete it in the next commit, anyone who clones the repo can find it in the history. Bots actively scan GitHub for accidentally committed keys and can exploit them within minutes.\n\nThe solution is simple: **environment variables**. Instead of writing secrets in your code, you store them in a `.env` file that never gets committed to git. Your code reads the values at runtime, and your secrets stay safe.",
+      "analogy": "Think of environment variables like a safe in your office. You don't tape your passwords to your monitor (that's hardcoding secrets in your code). Instead, you lock them in a safe (the .env file) and only take them out when you need them. And you definitely don't photocopy the safe contents and hand them to everyone (committing to git)."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Install the dotenv package. This lets your Node.js app read variables from a .env file automatically.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "npm install dotenv",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "npm ERR! enoent",
+          "solution": "You're not in a Node.js project folder. Make sure you're in a directory with a package.json file."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Create a .env file in the root of your project. This file holds your secrets as key=value pairs, one per line.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "echo 'API_KEY=your_secret_key_here\nPORT=3000' > .env",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "Permission denied",
+          "solution": "Make sure you have write permissions in the current directory. Try: ls -la to check."
+        }
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Load environment variables in your app. The dotenv package reads your .env file and makes everything available through process.env.",
+      "blocks": [
+        {
+          "language": "javascript",
+          "label": "app.js \u2014 using env vars",
+          "code": "require('dotenv').config();\n\nconst apiKey = process.env.API_KEY;\nconst port = process.env.PORT || 3000;\n\nconsole.log('API key loaded:', apiKey ? 'Yes' : 'No');\n// NEVER log the actual key value!"
+        }
+      ],
+      "explanation": "process.env reads from the .env file after dotenv loads it. The || 3000 provides a default value if PORT isn't set \u2014 this is a common pattern so your app still works even without a .env file."
+    },
+    {
+      "type": "checklist",
+      "instruction": "Environment variable security checklist. These three steps should become second nature for every project you create.",
+      "items": [
+        {
+          "text": ".env is listed in .gitignore",
+          "hint": "Check with: cat .gitignore \u2014 you should see .env in the list"
+        },
+        {
+          "text": "I never log actual secret values",
+          "hint": "Log 'key loaded: Yes' not the key itself. Console output can end up in logs that others read."
+        },
+        {
+          "text": "I created .env.example with placeholder values",
+          "hint": "So teammates (or your future self) know what variables are needed without seeing the real secrets"
+        }
+      ]
+    }
+  ],
+  "completionMessage": "You now know how to handle secrets professionally. Environment variables are a non-negotiable part of every real project. .env for secrets, .gitignore to protect them, .env.example to document them.",
+  "milestone": null,
+  "nextLesson": "7.8"
+}

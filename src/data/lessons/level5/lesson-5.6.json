@@ -1,0 +1,75 @@
+{
+  "id": "5.6",
+  "level": 5,
+  "order": 6,
+  "title": "Installing Packages",
+  "subtitle": "Add other people's code to your project",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You're about to install your first npm package: **Express**. Express is the most popular framework for building web servers in JavaScript. Over 30 million developers download it every week.\n\nWhen you run `npm install`, three things happen:\n\n1. npm downloads the package from the registry\n2. It saves the code in a folder called `node_modules`\n3. It records the package name in your `package.json` under dependencies\n\nMake sure you're still inside your `my-server` folder before continuing.",
+      "tip": "If you're not sure which folder you're in, run pwd to check. You should see something ending in /my-server."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Install Express. This downloads Express and all the packages it depends on into your project.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "npm install express",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "EACCES permission error",
+          "solution": "Try: sudo npm install express"
+        },
+        {
+          "problem": "ENOENT no such file or directory, open package.json",
+          "solution": "You're not in the right folder. Run: cd my-server (or wherever you created the project), then try again."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now look at your `package.json` again. You should see a new `dependencies` section listing Express.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "cat package.json",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "continue"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Let's peek inside `node_modules` — the folder where npm stores all downloaded packages. Express needs many other packages to work, so you'll see way more than just 'express' in there.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "ls node_modules | head -20",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "continue"
+    },
+    {
+      "type": "narrative",
+      "content": "That's a lot of folders! Express depends on other packages, which depend on *other* packages. This is called the **dependency tree**.\n\nHere's the important thing: you never commit `node_modules` to git. It can contain thousands of files and hundreds of megabytes. Instead, your `package.json` records what you need, and anyone who clones your project can run `npm install` to download everything fresh.\n\nThis is why `package.json` matters so much — it's the recipe. `node_modules` is the groceries.",
+      "analogy": "package.json is a shopping list. node_modules is the actual groceries. You share the list, not a truckload of food.",
+      "keyPoints": [
+        "npm install downloads packages into node_modules/",
+        "package.json records which packages your project depends on",
+        "Never commit node_modules to git — it's too large",
+        "Anyone can recreate node_modules by running npm install"
+      ]
+    }
+  ],
+  "completionMessage": "You installed your first package! Express is ready to use. But first, there's one important housekeeping step — making sure git ignores the files it shouldn't track.",
+  "milestone": null,
+  "nextLesson": "5.7"
+}

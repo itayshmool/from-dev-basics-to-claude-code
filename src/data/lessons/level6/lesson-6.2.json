@@ -1,0 +1,79 @@
+{
+  "id": "6.2",
+  "level": 6,
+  "order": 2,
+  "title": "Installing Claude Code",
+  "subtitle": "Get Claude Code running on your machine",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Installing Claude Code is straightforward — it's an npm package, just like the ones you learned about in Level 5. You install it globally so it's available from any directory on your machine.\n\nYou'll need three things:\n\n1. **Node.js** (which you already have from Level 5)\n2. **The Claude Code package** (installed via npm)\n3. **An Anthropic account** (for authentication)\n\nLet's get set up.",
+      "keyPoints": [
+        "Claude Code is installed via npm, just like other packages",
+        "It's installed globally (-g) so you can use it anywhere",
+        "You need an Anthropic account to authenticate"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Install Claude Code globally using npm. The `-g` flag makes it available system-wide, not just in one project.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "npm install -g @anthropic-ai/claude-code",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "Permission error (EACCES)",
+          "solution": "Try: sudo npm install -g @anthropic-ai/claude-code"
+        },
+        {
+          "problem": "npm not found",
+          "solution": "Go back to Level 5, Lesson 5.1 to install Node.js first. npm comes bundled with Node.js."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Verify the installation by checking the version. If you see a version number, Claude Code is installed correctly.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "claude --version",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "A version number like 1.x.x (any version number means it worked)",
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now let's authenticate. Run `claude` to start it for the first time. It will walk you through signing in with your Anthropic account. Follow the prompts on screen — it will open a browser window for you to log in.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "claude",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "Authentication failed",
+          "solution": "Make sure you have an Anthropic account. Visit console.anthropic.com to sign up."
+        },
+        {
+          "problem": "Browser didn't open",
+          "solution": "Copy the URL shown in the terminal and paste it into your browser manually."
+        }
+      ]
+    }
+  ],
+  "completionMessage": "Claude Code is installed and authenticated! You're ready to start your first conversation with your AI pair programmer.",
+  "milestone": null,
+  "nextLesson": "6.3"
+}

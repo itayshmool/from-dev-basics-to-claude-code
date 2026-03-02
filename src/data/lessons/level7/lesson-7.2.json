@@ -1,0 +1,68 @@
+{
+  "id": "7.2",
+  "level": 7,
+  "order": 2,
+  "title": "Understanding Code You Didn't Write",
+  "subtitle": "How to read specific functions and figure out what they do",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "In the previous lesson, you learned how to get the big picture of a codebase. Now let's zoom in. How do you read a specific function and understand what it does?\n\nThis is a skill you'll use every single day as a developer. You'll open a file, see a function someone else wrote, and need to figure out what it does, how it works, and whether it has any bugs.\n\nThe good news: code is written in a structured, logical way. Once you know what to look for, reading a function becomes almost like reading a recipe."
+    },
+    {
+      "type": "narrative",
+      "content": "Here's a systematic approach to reading any function you encounter. Follow these steps in order, and even the most confusing function will start to make sense.",
+      "keyPoints": [
+        "Read the function name — it usually describes what it does",
+        "Read the parameters — what inputs does it expect?",
+        "Read the return value — what does it output?",
+        "Trace the logic line by line",
+        "Use Claude: 'Explain what this function does in simple terms'"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Read this function and try to figure out what it does before checking the explanation. Use the steps above: name, parameters, return value, then trace the logic.",
+      "blocks": [
+        {
+          "language": "javascript",
+          "label": "Mystery function",
+          "code": "function processItems(items, threshold) {\n  const filtered = items.filter(item => item.price > threshold);\n  const sorted = filtered.sort((a, b) => b.price - a.price);\n  return sorted.slice(0, 5);\n}"
+        }
+      ],
+      "explanation": "This function takes a list of items and a price threshold, filters out items below the threshold, sorts by price (highest first), and returns the top 5. Names like 'filter', 'sort', and 'slice' are your clues. Even without comments, the code tells you what it does — if you know how to read it."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "When you're stuck on a function, use Claude to verify your understanding. Replace the placeholders with your actual file and interpretation.",
+      "prompt": "Explain what the processItems function in {{filename}} does. Am I right that it {{your_understanding}}?",
+      "placeholders": [
+        {
+          "token": "{{filename}}",
+          "description": "The file containing the function"
+        },
+        {
+          "token": "{{your_understanding}}",
+          "description": "Your interpretation of what it does"
+        }
+      ],
+      "expectedResult": "Claude confirms or corrects your understanding, and may point out edge cases or subtleties you missed. Always try to form your own understanding first — it makes the explanation stick better."
+    },
+    {
+      "type": "quiz",
+      "question": "When reading an unfamiliar function, what should you look at FIRST?",
+      "options": [
+        "The comments above the function",
+        "The function name and parameters",
+        "The last line of the function",
+        "The variables inside the function"
+      ],
+      "correctIndex": 1,
+      "explanation": "The function name tells you WHAT it does, and the parameters tell you WHAT INPUTS it needs. Together, they give you the most important context before you even look at the implementation. Comments are helpful too, but they can be outdated or misleading — the name and parameters are always current."
+    }
+  ],
+  "completionMessage": "You can now read individual functions systematically. Name, parameters, return value, then trace the logic. When in doubt, ask Claude to verify your understanding. Next up: what to do when code doesn't work.",
+  "milestone": null,
+  "nextLesson": "7.3"
+}

@@ -1,0 +1,82 @@
+{
+  "id": "2.6",
+  "level": 2,
+  "order": 6,
+  "title": "Appending to Files",
+  "subtitle": "Add to files with >>",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "project": {
+          "shopping.txt": "Apples\nBread"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/project",
+  "commandsIntroduced": [">> file"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Let's look at a file that already has some content.",
+      "prompt": "Type `cat shopping.txt` to see the current shopping list.",
+      "hint": "cat shopping.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cat shopping.txt"
+      },
+      "onSuccess": {
+        "message": "Two items: Apples and Bread."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now add an item WITHOUT erasing the existing ones. Use `>>` instead of `>`.",
+      "prompt": "Type `echo \"Milk\" >> shopping.txt` to append Milk to the list.",
+      "hint": "echo \"Milk\" >> shopping.txt",
+      "validation": {
+        "type": "fileContains",
+        "value": {
+          "path": "/home/user/project/shopping.txt",
+          "content": "Milk"
+        }
+      },
+      "onSuccess": {
+        "message": "`>>` APPENDS \u2014 adds to the end without deleting anything."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Check that the original content is still there.",
+      "prompt": "Type `cat shopping.txt` to verify.",
+      "hint": "cat shopping.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cat shopping.txt"
+      },
+      "onSuccess": {
+        "message": "Three items now. Original content still there."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Add one more item to practice.",
+      "prompt": "Type `echo \"Eggs\" >> shopping.txt` to add Eggs.",
+      "hint": "echo \"Eggs\" >> shopping.txt",
+      "validation": {
+        "type": "fileContains",
+        "value": {
+          "path": "/home/user/project/shopping.txt",
+          "content": "Eggs"
+        }
+      },
+      "onSuccess": {
+        "message": "Four items. You're building a file line by line."
+      }
+    }
+  ],
+  "completionMessage": "Key difference: `>` OVERWRITES (replaces everything), `>>` APPENDS (adds to the end). Use `>` when you want a fresh file. Use `>>` when you want to add to an existing file.",
+  "milestone": null,
+  "nextLesson": "2.7"
+}

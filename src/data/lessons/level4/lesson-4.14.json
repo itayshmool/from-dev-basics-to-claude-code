@@ -1,0 +1,84 @@
+{
+  "id": "4.14",
+  "level": 4,
+  "order": 14,
+  "title": "DNS and Domains",
+  "subtitle": "How the internet finds websites",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Every website lives on a server, and every server has an **IP address** — a number like `142.250.80.46`. That's the actual address of the server, like a street address for a building.\n\nBut nobody wants to remember numbers. Imagine telling a friend: \"Check out my site at 142.250.80.46!\" Instead, we use **domain names** like `google.com` or `github.com` — human-friendly names that are easy to remember.\n\nThe system that translates domain names into IP addresses is called **DNS** (Domain Name System). It's the internet's phone book.",
+      "analogy": "DNS works like the contacts app on your phone. You don't memorize your friend's phone number — you just tap their name, and your phone looks up the number for you. DNS does the same thing: your browser says \"I want google.com,\" DNS looks up the number (IP address), and your browser connects to it.",
+      "keyPoints": [
+        "Every server has an IP address (like 142.250.80.46)",
+        "Domain names (like google.com) are human-friendly aliases for IP addresses",
+        "**DNS** (Domain Name System) translates domain names into IP addresses",
+        "DNS lookup happens automatically every time you visit any website"
+      ]
+    },
+    {
+      "type": "stepThrough",
+      "instruction": "Here's what happens every time you type a URL into your browser — it takes milliseconds, but there are several steps.",
+      "steps": [
+        {
+          "title": "1. You type example.com",
+          "description": "You type a domain name into your browser's address bar and press Enter. Your browser doesn't know where example.com actually lives yet — it only has the name, not the address.",
+          "highlight": "The browser has the name but needs the number"
+        },
+        {
+          "title": "2. Browser asks DNS",
+          "description": "Your browser sends a request to a DNS server: \"What's the IP address for example.com?\" DNS servers are maintained by internet providers and companies like Google (8.8.8.8) and Cloudflare (1.1.1.1).",
+          "highlight": "DNS request: \"Where does example.com live?\""
+        },
+        {
+          "title": "3. DNS responds with the IP address",
+          "description": "The DNS server looks up example.com in its records and responds with the IP address, like 93.184.216.34. Now your browser knows exactly which server to talk to.",
+          "highlight": "DNS response: \"It's at 93.184.216.34\""
+        },
+        {
+          "title": "4. Browser connects to the IP address",
+          "description": "Your browser uses the IP address to establish a direct connection to the server. It sends an HTTP request asking for the website's content.",
+          "highlight": "A direct connection is made to the server"
+        },
+        {
+          "title": "5. Server sends back the website",
+          "description": "The server receives the request and sends back HTML, CSS, JavaScript, and images. Your browser assembles all these files and displays the finished web page. The entire process takes less than a second.",
+          "highlight": "The web page appears on your screen"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What does DNS stand for, and what does it do?",
+      "options": [
+        "Digital Network Service — it provides internet access",
+        "Domain Name System — it translates domain names into IP addresses",
+        "Data Network Security — it protects websites from hackers",
+        "Dynamic Node Server — it runs websites"
+      ],
+      "correctIndex": 1,
+      "explanation": "DNS stands for Domain Name System. Its job is simple: translate human-readable domain names (like google.com) into machine-readable IP addresses (like 142.250.80.46). Without DNS, you'd have to memorize numbers for every website."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "DNS translates domain names into _____ addresses.",
+      "answer": "IP",
+      "acceptAlternates": ["ip"],
+      "caseSensitive": false
+    }
+  ],
+  "completionMessage": "You've completed Level 4! You now understand how software actually works — from code and programming languages, through servers and APIs, to databases, the cloud, deployment, and DNS. You have the big picture that most people never learn.",
+  "milestone": {
+    "title": "Level 4 Complete: How Software Actually Works",
+    "summary": [
+      "Code is instructions in text files",
+      "Websites are files downloaded from servers",
+      "APIs define how programs communicate",
+      "Databases store data permanently",
+      "The cloud is rented computing power"
+    ],
+    "nextLevelTeaser": "Next up: Level 5 \u2014 Building With Real Tools. You'll install Node.js and build a real web server."
+  },
+  "nextLesson": "5.1"
+}

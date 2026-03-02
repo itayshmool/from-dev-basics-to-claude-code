@@ -1,0 +1,80 @@
+{
+  "id": "4.7",
+  "level": 4,
+  "order": 7,
+  "title": "JSON \u2014 The Universal Data Format",
+  "subtitle": "How computers share structured information",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "When a server sends data back to your app, it needs a format both sides understand. The most popular format on the web is **JSON** (JavaScript Object Notation).\n\nJSON is a way to write structured data as plain text. It looks a lot like a simple list or form \u2014 it has names (called **keys**) paired with values, and it can contain lists and nested groups of data.\n\nEven though it has \"JavaScript\" in the name, JSON is used by every programming language. It's the universal data format of the web.",
+      "analogy": "JSON is like a well-organized form. A form has labeled fields (\"Name: ___\", \"Email: ___\") and you fill in the values. JSON works the same way: each piece of data has a label (key) and a value. And just like a form can have sections (\"Address: Street ___, City ___, Zip ___\"), JSON can have nested groups.",
+      "keyPoints": [
+        "JSON = JavaScript Object Notation \u2014 a plain-text data format",
+        "Data is organized as **key-value pairs**: `\"name\": \"Sara\"`",
+        "Uses curly braces `{}` for objects (groups of key-value pairs)",
+        "Uses square brackets `[]` for arrays (ordered lists)",
+        "Objects can contain other objects \u2014 this is called **nesting**"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Here's what JSON looks like in practice. This is the kind of data a server might send when you view someone's profile.",
+      "blocks": [
+        {
+          "language": "json",
+          "label": "A JSON Object",
+          "code": "{\n  \"name\": \"Sara Johnson\",\n  \"age\": 28,\n  \"email\": \"sara@example.com\",\n  \"hobbies\": [\"reading\", \"hiking\", \"photography\"],\n  \"address\": {\n    \"street\": \"123 Oak Street\",\n    \"city\": \"Portland\",\n    \"state\": \"OR\",\n    \"zip\": \"97201\"\n  }\n}"
+        }
+      ],
+      "explanation": "Notice the structure: \"name\" is a simple text value, \"age\" is a number, \"hobbies\" is an array (a list in square brackets), and \"address\" is a nested object (another group of key-value pairs inside curly braces). Everything has a clear label, making it easy for any program to read."
+    },
+    {
+      "type": "match",
+      "instruction": "Match each JSON concept with its description.",
+      "pairs": [
+        {
+          "left": "{ }",
+          "right": "Object (a group of key-value pairs)"
+        },
+        {
+          "left": "[ ]",
+          "right": "Array (an ordered list)"
+        },
+        {
+          "left": "\"key\": \"value\"",
+          "right": "A key-value pair"
+        },
+        {
+          "left": "Nested objects",
+          "right": "Objects inside other objects"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "In JSON, what does a pair of square brackets [ ] represent?",
+      "options": [
+        "An object",
+        "A key-value pair",
+        "An array (ordered list)",
+        "A comment"
+      ],
+      "correctIndex": 2,
+      "explanation": "Square brackets in JSON create an array \u2014 an ordered list of values. For example, [\"reading\", \"hiking\", \"photography\"] is an array of three strings. Curly braces {} create objects."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "JSON stands for JavaScript Object _____.",
+      "answer": "Notation",
+      "acceptAlternates": [
+        "notation"
+      ],
+      "caseSensitive": false
+    }
+  ],
+  "completionMessage": "You now understand JSON, the universal data format of the web. You've completed Level 4 and have a solid understanding of how software and the web work: code, languages, websites, clients, servers, HTTP, APIs, and JSON. These are the building blocks everything else is built on.",
+  "milestone": null,
+  "nextLesson": "4.8"
+}

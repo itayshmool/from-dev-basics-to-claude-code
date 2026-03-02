@@ -1,0 +1,52 @@
+{
+  "id": "2.9",
+  "level": 2,
+  "order": 9,
+  "title": "Searching Across Folders",
+  "subtitle": "Find text in any file with grep -r",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "project": {
+          "app.js": "// Main application\nconst port = 3000;\nconsole.log('Starting server...');\nconst db = 'mongodb://localhost';\nconsole.log('Connected to database');\n// TODO: add error handling\nconsole.log('Server running on port ' + port);",
+          "config.txt": "port=3000\nhost=localhost\ndebug=true\nlog_level=info",
+          "readme.txt": "This is my project.\nIt runs on port 3000.\nSee config.txt for settings."
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/project",
+  "commandsIntroduced": ["grep -r"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "What if you don't know which file contains the text? Search ALL files at once. The `-r` flag tells grep to search recursively through every file in a folder.",
+      "prompt": "Type `grep -r \"port\" .` to search recursively for 'port' starting from the current directory.",
+      "hint": "grep -r \"port\" .",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "grep -r"
+      },
+      "onSuccess": {
+        "message": "Found 'port' in three different files! `-r` means recursive \u2014 search this folder and all subfolders. The `.` means 'start here'. You didn't need to know which file had the text."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now search for 'localhost' across all files in the project.",
+      "prompt": "Type `grep -r \"localhost\" .` to find every mention of localhost.",
+      "hint": "grep -r \"localhost\" .",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "grep -r"
+      },
+      "onSuccess": {
+        "message": "Found in app.js and config.txt. In real projects with hundreds of files across dozens of folders, `grep -r` is a lifesaver. You'll use it every day."
+      }
+    }
+  ],
+  "completionMessage": "`grep -r` is one of the most used commands in professional development. When you join a new codebase with thousands of files, it's how you find where things are defined, where functions are called, and where bugs are hiding.",
+  "milestone": null,
+  "nextLesson": "2.10"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "2.8",
+  "level": 2,
+  "order": 8,
+  "title": "Searching Inside Files",
+  "subtitle": "Find text with grep",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "project": {
+          "app.js": "// Main application\nconst port = 3000;\nconsole.log('Starting server...');\nconst db = 'mongodb://localhost';\nconsole.log('Connected to database');\n// TODO: add error handling\nconsole.log('Server running on port ' + port);",
+          "config.txt": "port=3000\nhost=localhost\ndebug=true\nlog_level=info",
+          "readme.txt": "This is my project.\nIt runs on port 3000.\nSee config.txt for settings."
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/project",
+  "commandsIntroduced": ["grep", "grep -i"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "`grep` searches for text inside files. It shows every line that contains your search term.",
+      "prompt": "Type `grep \"port\" app.js` to find every line mentioning \"port\".",
+      "hint": "grep \"port\" app.js",
+      "validation": {
+        "type": "exactCommand",
+        "value": "grep \"port\" app.js"
+      },
+      "onSuccess": {
+        "message": "Two lines matched. `grep` shows every line containing your search text."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Try searching for something else. How many `console.log` calls are in the file?",
+      "prompt": "Type `grep \"console\" app.js` to find all console.log lines.",
+      "hint": "grep \"console\" app.js",
+      "validation": {
+        "type": "exactCommand",
+        "value": "grep \"console\" app.js"
+      },
+      "onSuccess": {
+        "message": "Three console.log lines found. This is how developers find specific code in files."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Developers often leave TODO comments as reminders. Let's find them.",
+      "prompt": "Type `grep \"TODO\" app.js` to search for TODO comments.",
+      "hint": "grep \"TODO\" app.js",
+      "validation": {
+        "type": "exactCommand",
+        "value": "grep \"TODO\" app.js"
+      },
+      "onSuccess": {
+        "message": "Found the TODO comment. In real projects, `grep` helps you track down notes and issues across hundreds of files."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "What if you're not sure about capitalization? The `-i` flag makes grep ignore case.",
+      "prompt": "Type `grep -i \"todo\" app.js` to search case-insensitively.",
+      "hint": "grep -i \"todo\" app.js",
+      "validation": {
+        "type": "exactCommand",
+        "value": "grep -i \"todo\" app.js"
+      },
+      "onSuccess": {
+        "message": "Same result! `-i` ignores case, so \"todo\", \"TODO\", and \"Todo\" all match. Very useful when you're not sure how something was written."
+      }
+    }
+  ],
+  "completionMessage": "`grep` is one of the most powerful terminal tools. It searches for text patterns inside files. Add `-i` to ignore case. In later lessons, you'll learn to search across multiple files and use patterns to find even more.",
+  "milestone": null,
+  "nextLesson": "2.9"
+}

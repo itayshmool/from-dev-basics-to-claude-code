@@ -1,0 +1,46 @@
+{
+  "id": "3.11",
+  "level": 3,
+  "order": 11,
+  "title": "Downloading Projects",
+  "subtitle": "Getting code from GitHub",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {}
+    }
+  },
+  "initialDir": "/home/user",
+  "commandsIntroduced": ["git clone", "git pull"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Most developers start by downloading an existing project from GitHub. `git clone` copies the entire project \u2014 all files and their full history.",
+      "prompt": "Type `git clone https://github.com/example/todo-app.git`",
+      "hint": "git clone https://github.com/example/todo-app.git",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git clone"
+      },
+      "onSuccess": {
+        "message": "The project is downloaded with its full history! A new folder called `todo-app` was created. This is how you start working on any existing project."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "When other people push changes to GitHub, you need to download their updates. `git pull` fetches the latest changes and merges them into your copy.",
+      "prompt": "Type `git pull` to check for updates.",
+      "hint": "Type: git pull",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git pull"
+      },
+      "onSuccess": {
+        "message": "Already up to date. In a real project with teammates, this would download any new commits they pushed. You'll run `git pull` at the start of every work session."
+      }
+    }
+  ],
+  "completionMessage": "`git clone` downloads a project for the first time. `git pull` gets updates after that. Together with `git push`, these three commands are how code flows between your computer and GitHub.",
+  "milestone": null,
+  "nextLesson": "3.12"
+}

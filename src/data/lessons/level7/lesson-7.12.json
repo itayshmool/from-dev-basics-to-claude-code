@@ -1,0 +1,83 @@
+{
+  "id": "7.12",
+  "level": 7,
+  "order": 12,
+  "title": "What's Next \u2014 Your Learning Path",
+  "subtitle": "You've finished the course. Here's where to go from here.",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Take a second to look back at where you started. You didn't know what a terminal was. You didn't know what a file path meant, what git does, or how websites actually work.\n\nNow you can navigate any computer from the command line, build and deploy web applications, use AI as a development partner, and follow the same workflow used at every tech company in the world. That's not a small thing. That's a **complete foundation**.\n\nSo what comes next? That depends on what excites you. Here are the paths most developers take from where you are now."
+    },
+    {
+      "type": "narrative",
+      "content": "Every one of these paths builds on what you've already learned. Pick the one that excites you most \u2014 you can always explore the others later.",
+      "keyPoints": [
+        "Web apps (frontend): Learn React, Next.js, Tailwind CSS \u2014 build interactive user interfaces",
+        "Web apps (backend): Deep-dive Express, PostgreSQL, authentication \u2014 build powerful APIs and services",
+        "Mobile apps: React Native, Expo \u2014 build iOS and Android apps with JavaScript",
+        "Automation and scripts: Python, cron jobs, web scraping \u2014 automate repetitive tasks",
+        "Data and AI: Python, pandas, basic ML \u2014 analyze data and build intelligent features"
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "Knowing **what** to learn next matters less than knowing **how** to keep learning. Here's the approach that works:\n\n1. **Build projects** \u2014 this is how you learn fastest. Pick something you actually want to exist and build it. You'll learn ten times more from one real project than from ten tutorials.\n\n2. **Use Claude Code as your tutor** \u2014 when you're stuck, describe what you're trying to do. Claude can explain concepts, debug your code, and teach you new patterns in the context of your actual project.\n\n3. **Read other people's code on GitHub** \u2014 find projects you use and read their source. You learned a code-reading protocol in this course. Use it.\n\n4. **Join communities** \u2014 Discord servers, Reddit communities, local meetups. Programming is more fun with other people.\n\n5. **Don't compare yourself to people who've been coding for years** \u2014 everyone started where you are. The developers you admire were once confused by the same things that confused you. The only difference is time and practice."
+    },
+    {
+      "type": "checklist",
+      "instruction": "Your developer journey checklist \u2014 everything you've accomplished across this entire course. Check each one and take a moment to feel the weight of what you've learned.",
+      "items": [
+        {
+          "text": "I can navigate any computer from the terminal"
+        },
+        {
+          "text": "I can read, write, and search files with commands"
+        },
+        {
+          "text": "I can track code history with git"
+        },
+        {
+          "text": "I understand how web applications work"
+        },
+        {
+          "text": "I can build web servers from scratch"
+        },
+        {
+          "text": "I can use AI to accelerate development"
+        },
+        {
+          "text": "I can debug systematically"
+        },
+        {
+          "text": "I can deploy to the internet"
+        },
+        {
+          "text": "I follow professional developer workflows"
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "You're not pretending to be a developer. **You are one.** Junior, but real. Every senior developer you meet was once exactly where you are \u2014 staring at a terminal for the first time, wondering if they'd ever understand any of this.\n\nYou understood it. You built things. You deployed them to the internet.\n\nAnd with Claude Code as your pair programmer, you can build anything you can describe. You don't need to memorize every API or know every framework. You need to understand the fundamentals \u2014 and you do \u2014 and know how to ask for help effectively \u2014 and you do that too.\n\nThe only thing left to do: **go build something.**"
+    }
+  ],
+  "completionMessage": "You've completed the entire Terminal Trainer course. From 'what's a terminal?' to deploying live web applications with a professional workflow. You are a developer. Now go build something amazing.",
+  "milestone": {
+    "title": "All Levels Complete!",
+    "summary": [
+      "Navigate any computer from the terminal",
+      "Read, write, and search files with commands",
+      "Track code history with git and GitHub",
+      "Understand how web applications work",
+      "Build web servers and APIs from scratch",
+      "Use Claude Code to build projects through conversation",
+      "Debug systematically and find answers independently",
+      "Deploy applications to the internet",
+      "Follow professional developer workflows"
+    ],
+    "nextLevelTeaser": "You've completed the entire course. Now go build something amazing."
+  },
+  "nextLesson": null
+}

@@ -1,0 +1,64 @@
+{
+  "id": "4.1",
+  "level": 4,
+  "order": 1,
+  "title": "What Is Code?",
+  "subtitle": "The language computers understand",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "**Code** is just text that tells a computer what to do. When you write code, you're writing step-by-step instructions in a language that a computer can follow.\n\nYou already give instructions every day: a recipe tells someone how to cook a meal, driving directions tell someone where to turn. Code does the same thing, but for computers.",
+      "analogy": "Code is like a recipe. A recipe says \"mix flour and eggs, then bake at 350 for 20 minutes.\" Code says \"ask for a name, then display a greeting.\" Both are just ordered instructions that produce a result.",
+      "keyPoints": [
+        "Code is plain text — you write it in a regular text file, not a special app",
+        "Code runs top to bottom, one instruction at a time",
+        "The computer follows your instructions literally — it does exactly what you say, nothing more",
+        "If the instructions are wrong, the computer doesn't guess what you meant — it either does the wrong thing or gives an error"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Here's the same simple program written three ways: in plain English, in Python, and in JavaScript. Notice how similar they all look.",
+      "blocks": [
+        {
+          "language": "text",
+          "label": "Plain English",
+          "code": "1. Ask the user for their name\n2. Save their answer\n3. Print \"Hello, \" followed by their name"
+        },
+        {
+          "language": "python",
+          "label": "Python",
+          "code": "name = input(\"What is your name? \")\nprint(\"Hello, \" + name)"
+        },
+        {
+          "language": "javascript",
+          "label": "JavaScript",
+          "code": "const name = prompt(\"What is your name?\");\nconsole.log(\"Hello, \" + name);"
+        }
+      ],
+      "explanation": "All three versions do the same thing: ask for a name, then say hello. Programming languages are just structured ways of writing the same instructions you'd give in English."
+    },
+    {
+      "type": "quiz",
+      "question": "What is code?",
+      "options": [
+        "A secret language only experts can read",
+        "Text instructions that tell a computer what to do",
+        "A special type of file that runs automatically",
+        "Binary ones and zeros"
+      ],
+      "correctIndex": 1,
+      "explanation": "Code is simply text-based instructions for a computer. It's written in plain text files using programming languages that have specific rules, but it's not secret or magical — anyone can learn to read and write it."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "Code runs from top to _____, one instruction at a time.",
+      "answer": "bottom",
+      "caseSensitive": false
+    }
+  ],
+  "completionMessage": "You now know what code is — just text instructions for computers, written in a specific language. Next, we'll explore the different programming languages and what each one is used for.",
+  "milestone": null,
+  "nextLesson": "4.2"
+}

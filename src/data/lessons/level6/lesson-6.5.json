@@ -1,0 +1,62 @@
+{
+  "id": "6.5",
+  "level": 6,
+  "order": 5,
+  "title": "Creating Files with Claude",
+  "subtitle": "Describe what you want, Claude builds it",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "So far, you've used Claude Code to *understand* code. Now let's use it to **create** something from scratch.\n\nThis is where things get exciting. Instead of writing every line of HTML, CSS, and JavaScript yourself, you describe what you want in plain English. Claude writes the code, creates the files, and you review the result.\n\nYour role shifts from *typist* to *director*. You decide what to build, describe it clearly, and guide Claude to get it right. The quality of what Claude produces depends directly on how clearly you describe what you want.",
+      "analogy": "It's like working with a talented but very literal architect. If you say 'build me a house,' you'll get a house — but it might not be what you imagined. If you say 'build me a two-story house with a wrap-around porch, blue siding, and large kitchen windows,' you'll get much closer to your vision."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Let's create a web page. Ask Claude to build an HTML page with a navigation bar. Be specific about what you want in the nav.",
+      "prompt": "Create an HTML page with a nav bar containing Home, About, and Contact links. Use a clean, modern style.",
+      "expectedResult": "Claude creates index.html with styled HTML and CSS — a complete, working web page with a navigation bar."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Open the file Claude created in your browser to see the result. You can do this from the terminal.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "open index.html",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "open command doesn't work (Windows)",
+          "solution": "On Windows, use: start index.html"
+        },
+        {
+          "problem": "File not found",
+          "solution": "Check the filename Claude used — it might be different. Run ls to see the files in your directory."
+        }
+      ]
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Now ask Claude to add to what it already built. This shows Claude's ability to understand context — it knows what files exist and modifies them intelligently.",
+      "prompt": "Add a dark mode color scheme to this page. Create a separate CSS file and link it from the HTML.",
+      "expectedResult": "Claude creates style.css with dark mode styles and updates the HTML to link the new stylesheet. It knows the existing HTML structure and adds to it."
+    },
+    {
+      "type": "narrative",
+      "content": "Look at what just happened. You described what you wanted in plain English — twice. Claude wrote the code both times. Your job was to review it, test it in the browser, and iterate.\n\nThis is the modern development workflow with AI:\n\n1. **Describe** what you want\n2. **Review** what Claude creates\n3. **Test** it (open in browser, run it, etc.)\n4. **Iterate** by asking for changes\n\nYou're not just a passenger — you're the decision-maker. Claude is fast, but you need to know if the result is correct and good enough.",
+      "keyPoints": [
+        "Claude creates real files in your project directory",
+        "Always review and test what Claude produces",
+        "Claude remembers context — it knows what files already exist",
+        "Iterate by asking for changes rather than starting over"
+      ]
+    }
+  ],
+  "completionMessage": "You've used Claude to create files from a plain-English description. But creating from scratch is only half the story — editing existing code is just as important.",
+  "milestone": null,
+  "nextLesson": "6.6"
+}

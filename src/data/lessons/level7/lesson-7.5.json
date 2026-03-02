@@ -1,0 +1,63 @@
+{
+  "id": "7.5",
+  "level": 7,
+  "order": 5,
+  "title": "Finding Answers",
+  "subtitle": "How to search effectively when you're stuck",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Here's something no one tells beginners: **no developer memorizes everything**. Not even close.\n\nSenior developers with 20 years of experience still look things up every single day. They search for syntax they've forgotten, error messages they haven't seen before, and techniques they haven't used in a while.\n\nThe difference between a junior and a senior developer isn't what they have memorized — it's **how fast they can find the answer**. Searching is the real skill. Let's sharpen it.",
+      "keyPoints": [
+        "Read the error message first — copy the exact text",
+        "Search with context: 'express cannot GET /api/users' not 'my server doesnt work'",
+        "Include the technology: 'javascript filter array by property'",
+        "Check the date: prefer results from the last 2-3 years",
+        "Official docs first: MDN for JavaScript, Express docs for Express"
+      ]
+    },
+    {
+      "type": "stepThrough",
+      "instruction": "Stack Overflow is one of the most useful resources for developers. Here's how to read it effectively instead of just copy-pasting the first answer you see.",
+      "steps": [
+        {
+          "title": "Check the vote count",
+          "description": "Higher votes = more trusted by the community. An answer with 500 upvotes has been validated by hundreds of developers. An answer with 2 upvotes might work but hasn't been widely tested."
+        },
+        {
+          "title": "Read the accepted answer first",
+          "description": "The green checkmark means the person who asked the question confirmed it works. Start here, but don't stop here — sometimes a newer, better answer exists below it."
+        },
+        {
+          "title": "Read the comments",
+          "description": "Comments on answers often have important corrections, edge cases, or updates. 'This no longer works in version 5' or 'You also need to add X' — these details can save you hours of confusion."
+        },
+        {
+          "title": "Don't just copy-paste",
+          "description": "Understand the solution before using it. Adapt it to your code. Blindly pasting code you don't understand is how you introduce new bugs while fixing old ones. Take 30 seconds to understand WHY the solution works."
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "Beyond Stack Overflow, here's your hierarchy of where to look for answers, from most reliable to least:\n\n1. **Official documentation** (MDN, Express docs, Node.js docs) — written by the people who built it\n2. **Stack Overflow** — community-vetted answers with vote counts\n3. **GitHub Issues** — especially for library-specific bugs\n4. **Blog posts and tutorials** — good for walkthroughs, but check the date\n5. **Claude** — great for explanations and personalized help with your specific code",
+      "tip": "When you get an error, the fastest path is: read the error message, copy the exact error text, paste it into a search engine. You'll almost always find someone who had the same problem and solved it."
+    },
+    {
+      "type": "quiz",
+      "question": "What's the best way to search for a JavaScript error?",
+      "options": [
+        "Search 'my code broken please help'",
+        "Search the exact error message text",
+        "Search 'how to code JavaScript'",
+        "Search 'best JavaScript tutorial'"
+      ],
+      "correctIndex": 1,
+      "explanation": "Copying the exact error message text gives search engines the most specific information to match against. Someone else almost certainly got the same error and posted about it. Vague searches like 'my code broken' will give you vague, unhelpful results."
+    }
+  ],
+  "completionMessage": "You now know how to find answers like a professional developer. Search with specific error messages, read Stack Overflow critically, and check official docs first. The best developers aren't the ones who know everything — they're the ones who can find anything.",
+  "milestone": null,
+  "nextLesson": "7.6"
+}

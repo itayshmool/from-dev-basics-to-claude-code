@@ -1,0 +1,83 @@
+{
+  "id": "5.8",
+  "level": 5,
+  "order": 8,
+  "title": "Hello World Server",
+  "subtitle": "Build a real web server in 10 lines of code",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Time to build something real — a web server in 10 lines of code.\n\nEvery website you visit works because a **server** is listening for requests and sending back responses. When you type a URL in your browser, your browser sends a request to a server, and the server sends back the web page.\n\nYou're about to build one of those servers. It will run on your own computer, and you'll be able to visit it in your browser. This is the same technology that powers Netflix, Twitter, and millions of other web apps.",
+      "keyPoints": [
+        "A server listens for requests and sends responses",
+        "Express makes building servers simple",
+        "Your server will run locally at http://localhost:3000"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Create a file called `app.js` with the following code. You can copy the entire block — this is a complete Express web server. Make sure you're in your `my-server` folder where you installed Express.",
+      "codeBlocks": [
+        {
+          "language": "javascript",
+          "filename": "app.js",
+          "code": "const express = require('express');\nconst app = express();\nconst port = 3000;\n\napp.get('/', (req, res) => {\n  res.send('Hello, World! This is my first server.');\n});\n\napp.listen(port, () => {\n  console.log(`Server running at http://localhost:${port}`);\n});",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "Cannot find module 'express'",
+          "solution": "Make sure you ran npm install express in the same folder. Check with: ls node_modules/express"
+        },
+        {
+          "problem": "I don't know how to create the file",
+          "solution": "Open any text editor, paste the code, and save it as app.js in your my-server folder. Or use: nano app.js in the terminal, paste the code, then press Ctrl+O to save and Ctrl+X to exit."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Start your server! Run the file with Node. You should see a message confirming the server is running.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "node app.js",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "Server running at http://localhost:3000",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "Error: listen EADDRINUSE",
+          "solution": "Port 3000 is already in use by another program. Either stop that program or change the port number in app.js to 3001."
+        },
+        {
+          "problem": "Cannot find module 'express'",
+          "solution": "Make sure you're in the my-server folder and that you ran npm install express earlier. Check with: ls node_modules/express"
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Open your web browser and go to **http://localhost:3000**. You should see your message displayed on the page!\n\nWhen you're done admiring your work, go back to your terminal and press **Ctrl+C** to stop the server.",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "This site can't be reached",
+          "solution": "Make sure your server is still running in the terminal (you should see the 'Server running' message). Don't close that terminal window."
+        },
+        {
+          "problem": "I can't type in the terminal anymore",
+          "solution": "That's because the server is running! It takes over the terminal while it's active. Press Ctrl+C to stop it and get your prompt back."
+        }
+      ]
+    }
+  ],
+  "completionMessage": "You just built a web server! A real, working server running on your machine. You installed Node.js, learned npm, created a project, installed a package, and built something that responds to web browsers. That's a huge milestone. You're not just learning about programming anymore — you're doing it.",
+  "milestone": null,
+  "nextLesson": "5.9"
+}

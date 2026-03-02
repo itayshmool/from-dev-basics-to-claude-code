@@ -13,7 +13,7 @@ function formatPrompt(cwd: string, home: string): string {
 }
 
 export function Terminal({ onCommandExecuted, disabled }: TerminalProps) {
-  const { vfs, history, addToHistory, clearHistory, setLastCommand, commandHistory, bumpFsVersion } = useTerminal();
+  const { vfs, history, addToHistory, clearHistory, setLastCommand, commandHistory, bumpFsVersion, envVars, git } = useTerminal();
   const [input, setInput] = useState('');
   const [historyIndex, setHistoryIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -38,7 +38,7 @@ export function Terminal({ onCommandExecuted, disabled }: TerminalProps) {
     setHistoryIndex(-1);
     setLastCommand(cmd);
 
-    const result = executeCommand(cmd, vfs);
+    const result = executeCommand(cmd, vfs, envVars, git);
 
     if (result.clearedScreen) {
       clearHistory();

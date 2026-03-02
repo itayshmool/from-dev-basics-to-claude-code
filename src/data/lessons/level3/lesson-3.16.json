@@ -1,0 +1,58 @@
+{
+  "id": "3.16",
+  "level": 3,
+  "order": 16,
+  "title": "Full Workflow Challenge",
+  "subtitle": "Putting it all together",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "portfolio": {
+          "index.html": "",
+          "style.css": ""
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/portfolio",
+  "commandsIntroduced": ["git checkout --"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Build a portfolio site using the full git workflow. Initialize a repo, make commits, create a branch, merge it, and push to GitHub.\n\nTarget workflow:\n1. git init\n2. Add content to index.html, stage, and commit\n3. Create a branch for styles\n4. Add styles to style.css, stage, and commit\n5. Switch back to main and merge\n6. Add a remote and push",
+      "prompt": "Complete the full git workflow. Start with `git init` and end with `git push`.",
+      "hint": "Start by initializing the repository: git init",
+      "hints": [
+        "Start with: git init",
+        "Add content: echo \"<h1>Portfolio</h1>\" > index.html, then git add . and git commit -m \"Initial commit\"",
+        "Branch: git checkout -b add-styles",
+        "Add styles: echo \"body { color: navy; }\" > style.css, then git add . and git commit -m \"Add styles\"",
+        "Merge: git checkout main, then git merge add-styles",
+        "Push: git remote add origin https://github.com/user/portfolio.git, then git push -u origin main"
+      ],
+      "freeMode": true,
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git push"
+      },
+      "onSuccess": {
+        "message": "You just completed the full git workflow! From init to push \u2014 you initialized a repo, made commits, branched, merged, and pushed to a remote. This is exactly what professional developers do every day."
+      }
+    }
+  ],
+  "completionMessage": "Level 3 complete! You've mastered git \u2014 the tool that every developer uses every single day.",
+  "milestone": {
+    "title": "Your Code Has a History",
+    "summary": [
+      "Initialize repositories with git init",
+      "Track changes with add, commit, and status",
+      "View history with git log",
+      "See differences with git diff",
+      "Branch, merge, and collaborate",
+      "Push code to GitHub"
+    ],
+    "nextLevelTeaser": "Next: Level 4 \u2014 How Software Actually Works. Understand the big picture of how apps, servers, and the internet fit together."
+  },
+  "nextLesson": "4.1"
+}

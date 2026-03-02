@@ -1,0 +1,144 @@
+{
+  "id": "3.13",
+  "level": 3,
+  "order": 13,
+  "title": "Merging Branches",
+  "subtitle": "Combining your work",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "<html>\n<body>\n<h1>My Website</h1>\n</body>\n</html>"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["git merge"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "We need a repository with a commit before we can branch and merge. Initialize git first.",
+      "prompt": "Type `git init` to start.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Repository ready."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage all files.",
+      "prompt": "Type `git add .` to stage everything.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "Staged. Now commit."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Save your initial commit.",
+      "prompt": "Type `git commit -m \"Initial commit\"`",
+      "hint": "Type: git commit -m \"Initial commit\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit"
+      },
+      "onSuccess": {
+        "message": "Base commit saved. Now let's create a feature branch."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Create a new branch for your feature. You're going to add a footer to the website.",
+      "prompt": "Type `git checkout -b add-footer` to create and switch to the feature branch.",
+      "hint": "Type: git checkout -b add-footer",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git checkout -b"
+      },
+      "onSuccess": {
+        "message": "You're now on the 'add-footer' branch. Time to make a change."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Add a footer to the HTML file. The `>>` operator appends text to a file without erasing what's already there.",
+      "prompt": "Type `echo \"<footer>Copyright 2024</footer>\" >> index.html` to add a footer.",
+      "hint": "Type: echo \"<footer>Copyright 2024</footer>\" >> index.html",
+      "validation": {
+        "type": "fileContains",
+        "value": {
+          "path": "/home/user/my-project/index.html",
+          "content": "footer"
+        }
+      },
+      "onSuccess": {
+        "message": "Footer added to index.html. Now we need to commit this change on the feature branch."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage your changes.",
+      "prompt": "Type `git add .` to stage the modified file.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "Changes staged. Now commit them."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Commit the footer feature on this branch.",
+      "prompt": "Type `git commit -m \"Add footer\"` to save this change.",
+      "hint": "Type: git commit -m \"Add footer\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit"
+      },
+      "onSuccess": {
+        "message": "Feature committed on the add-footer branch. Now switch back to main to merge it in."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "To merge, you first switch to the branch you want to merge INTO. Switch back to main.",
+      "prompt": "Type `git checkout main` to switch back to the main branch.",
+      "hint": "Type: git checkout main",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git checkout main"
+      },
+      "onSuccess": {
+        "message": "You're back on main. Notice the footer is gone from index.html \u2014 that change only exists on add-footer. Let's bring it in."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "**Merge** brings the changes from another branch into your current branch. Since you're on main, merging add-footer will bring the footer into main.",
+      "prompt": "Type `git merge add-footer` to merge the feature branch into main.",
+      "hint": "Type: git merge add-footer",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git merge"
+      },
+      "onSuccess": {
+        "message": "The footer is now on main! That's the power of branches: experiment safely, then merge when ready."
+      }
+    }
+  ],
+  "completionMessage": "You just completed the full branch-and-merge workflow: create a branch, make changes, commit, switch back, and merge. This is how professional developers add features without breaking the main codebase.",
+  "milestone": null,
+  "nextLesson": "3.14"
+}

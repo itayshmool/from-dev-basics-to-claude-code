@@ -121,7 +121,7 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
                     {levelData.lessons.map((lesson) => {
                       const isCurrent = lesson.id === currentLessonId;
                       const isDone = isLessonComplete(lesson.id);
-                      const canAccess = isDone || isCurrent || isLessonAccessible(lesson.id, completedLessons);
+                      const canAccess = isDone || isCurrent || isLessonAccessible();
 
                       return (
                         <button
@@ -196,11 +196,6 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
   );
 }
 
-function isLessonAccessible(lessonId: string, completedLessons: string[]): boolean {
-  if (lessonId === '0.1') return true;
-  const [levelStr, orderStr] = lessonId.split('.');
-  const prevOrder = parseInt(orderStr) - 1;
-  if (prevOrder < 1) return true;
-  const prevId = `${levelStr}.${prevOrder}`;
-  return completedLessons.includes(prevId);
+function isLessonAccessible(): boolean {
+  return true;
 }

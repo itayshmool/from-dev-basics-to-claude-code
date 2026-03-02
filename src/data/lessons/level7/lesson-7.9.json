@@ -1,0 +1,67 @@
+{
+  "id": "7.9",
+  "level": 7,
+  "order": 9,
+  "title": "Deploying to the Internet",
+  "subtitle": "Make your project live for the whole world to see",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Everything you've built so far runs on **localhost** \u2014 your own computer. Nobody else can see it. That changes now.\n\nDeployment means putting your application on a server that's connected to the internet 24/7, so anyone with the URL can use it. It sounds complicated, but modern platforms have made it remarkably simple. You push your code, they handle the rest.\n\nWe'll use **Render** because it has a generous free tier, works directly with GitHub, and requires zero server configuration. Your app will be live in minutes.",
+      "analogy": "localhost is like cooking a meal in your kitchen \u2014 only people in your house can eat it. Deploying is like opening a restaurant: anyone can walk in from anywhere. Render is like a restaurant space that's already set up with a kitchen, tables, and an address \u2014 you just bring the food (your code)."
+    },
+    {
+      "type": "stepThrough",
+      "instruction": "Deployment steps with Render (free tier). Follow these in order and you'll have a live URL in about 10 minutes.",
+      "steps": [
+        {
+          "title": "Push to GitHub",
+          "description": "Make sure your project is committed and pushed to a GitHub repository. Render will pull your code directly from GitHub, so everything needs to be up to date."
+        },
+        {
+          "title": "Sign up at render.com",
+          "description": "Use 'Sign up with GitHub' for the easiest setup. This lets Render access your repositories without extra configuration."
+        },
+        {
+          "title": "Create New Web Service",
+          "description": "Click 'New' \u2192 'Web Service' and connect your GitHub repository. Render will ask which repo to deploy."
+        },
+        {
+          "title": "Configure settings",
+          "description": "Build command: npm install. Start command: node app.js. These tell Render how to set up and run your app. The build command installs dependencies, and the start command launches your server."
+        },
+        {
+          "title": "Add environment variables",
+          "description": "Copy your .env values into Render's environment settings. Never commit them to git \u2014 enter them directly in the Render dashboard. Each key-value pair goes in separately."
+        },
+        {
+          "title": "Deploy!",
+          "description": "Click Deploy and wait for the build. You'll see logs streaming in real time. When the status turns green, your app is live at a .onrender.com URL that you can share with anyone."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Deploy your project by working through this checklist. Take your time \u2014 the first deployment always takes a few tries, and that's completely normal.",
+      "confirmationType": "checklist",
+      "checklistItems": [
+        "Project is pushed to GitHub",
+        "Signed up on render.com",
+        "Created a new Web Service",
+        "Connected GitHub repository",
+        "Set build and start commands",
+        "Added environment variables",
+        "Deployment succeeded \u2014 I can visit my public URL"
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "Take a moment to appreciate what just happened. Someone on the other side of the world can now type your URL into their browser and use something **you built**. You wrote the code, you deployed it, and it's running on a real server right now.\n\nThis is the moment most developers remember forever \u2014 the first time their project went live.",
+      "tip": "Bookmark your deployment URL and share it with someone. Showing off what you've built is one of the best motivators to keep learning."
+    }
+  ],
+  "completionMessage": "Your project is live on the internet. You've gone from writing code on your own machine to deploying a real web service that anyone can access. That's a massive milestone.",
+  "milestone": null,
+  "nextLesson": "7.10"
+}

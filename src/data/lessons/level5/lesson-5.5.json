@@ -1,0 +1,71 @@
+{
+  "id": "5.5",
+  "level": 5,
+  "order": 5,
+  "title": "Creating a Project",
+  "subtitle": "Set up a real Node.js project from scratch",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "guideStep",
+      "instruction": "Every project starts with a folder. Create one called `my-server` and move into it. These two commands create the directory and change into it.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "mkdir my-server && cd my-server",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "mkdir: cannot create directory: File exists",
+          "solution": "You already have a my-server folder. That's fine! Just run: cd my-server"
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now initialize your project with npm. The `-y` flag means \"yes to all defaults\" — it skips the questionnaire and creates the config file immediately.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "npm init -y",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "package.json created",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "npm WARN",
+          "solution": "Warnings are okay! As long as you see a package.json was created, you're good. Warnings are not errors."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Let's look at what npm created. The `package.json` file is the heart of every Node.js project — it describes your project and tracks its dependencies.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "cat package.json",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "continue"
+    },
+    {
+      "type": "narrative",
+      "content": "Here's what each field in `package.json` means:\n\n- **name** — your project's name (defaults to the folder name)\n- **version** — your project's version number (starts at 1.0.0)\n- **description** — a short summary of what your project does\n- **main** — the entry point file (which file runs when someone imports your project)\n- **scripts** — custom commands you can run with `npm run <name>`\n- **keywords** — search tags if you publish to npm\n- **license** — how others can use your code\n\nThe most important field you'll use soon is **dependencies** — it will list every package your project needs. Right now it's empty because we haven't installed anything yet.",
+      "keyPoints": [
+        "package.json is the config file for every Node.js project",
+        "npm init -y creates it with sensible defaults",
+        "The dependencies field tracks which packages your project uses"
+      ]
+    }
+  ],
+  "completionMessage": "You have a real Node.js project! It's just a folder with a package.json right now, but that's how every project starts — even the ones that become billion-dollar companies. Time to install your first package.",
+  "milestone": null,
+  "nextLesson": "5.6"
+}

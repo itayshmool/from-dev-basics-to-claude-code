@@ -1,0 +1,64 @@
+{
+  "id": "6.3",
+  "level": 6,
+  "order": 3,
+  "title": "Your First Conversation",
+  "subtitle": "Talk to Claude Code like a colleague",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Claude Code works through conversation, just like talking to a colleague sitting next to you. There's no special syntax, no programming language, no commands to memorize. You type what you want in plain English, and Claude responds — reading files, explaining code, or making changes as needed.\n\nThe key difference from a regular chatbot: Claude Code is *aware of your project*. When you start it inside a project folder, it can see every file, understand the structure, and work with your actual code.\n\nLet's have your first conversation.",
+      "tip": "Always start Claude Code from inside a project directory. That way it knows which files to work with. If you start it from your home directory, it won't have a project context."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Navigate to your project folder from Level 5 (or any folder with code in it) and start Claude Code. If you don't have a project handy, create a quick one with `mkdir my-project && cd my-project`.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "cd ~/my-project && claude",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "Directory not found",
+          "solution": "Use any project directory you have. Or create one: mkdir ~/my-project && cd ~/my-project && echo 'console.log(\"hello\")' > app.js"
+        }
+      ]
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Let's start simple. Ask Claude to look around and tell you what's in your project.",
+      "prompt": "What files are in this project?",
+      "expectedResult": "Claude will list and describe each file in your project directory. It reads the actual files — not guessing, but looking at your real project."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Now ask Claude to explain some code. Pick any file in your project and ask Claude to break it down for you.",
+      "prompt": "Explain what {{filename}} does in simple terms",
+      "placeholders": [
+        {
+          "token": "{{filename}}",
+          "description": "The name of a file in your project (e.g., app.js, index.html, package.json)"
+        }
+      ],
+      "expectedResult": "Claude will read the file and give you a plain-English explanation of what the code does, section by section."
+    },
+    {
+      "type": "narrative",
+      "content": "Notice what just happened: you asked a question in plain English, and Claude *read your actual files* to answer it. It didn't make up an answer or guess — it looked at your real code.\n\nThis is the core superpower of Claude Code. It's not a generic chatbot. It's a context-aware assistant that understands *your specific project*.",
+      "keyPoints": [
+        "Start Claude Code from inside a project folder",
+        "Ask questions in plain English — no special syntax",
+        "Claude reads your actual files to give accurate answers",
+        "Type /exit or press Ctrl+C to end a session"
+      ]
+    }
+  ],
+  "completionMessage": "You just had your first real conversation with Claude Code! You asked questions, and it read your project to answer them. Next, let's use this power to understand code you didn't write.",
+  "milestone": null,
+  "nextLesson": "6.4"
+}

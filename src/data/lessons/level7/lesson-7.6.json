@@ -1,0 +1,75 @@
+{
+  "id": "7.6",
+  "level": 7,
+  "order": 6,
+  "title": "Working with External APIs",
+  "subtitle": "Fetching data from other services in your app",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Most real-world applications don't exist in isolation. They talk to other services to get data: weather apps call weather APIs, social media apps call authentication APIs, and e-commerce apps call payment APIs.\n\nAn **API** (Application Programming Interface) is just a URL that returns data instead of a web page. When you visit a website, your browser gets back HTML. When your code calls an API, it gets back **JSON** \u2014 structured data your program can use.\n\nYou already learned about APIs in Level 4. Now let's use one in real code.",
+      "analogy": "If your server is a restaurant kitchen, an external API is a supplier. You don't grow your own tomatoes \u2014 you call the supplier (API), place an order (request), and they deliver the goods (response). If the supplier is closed (API is down), you need a backup plan (error handling)."
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Here's a route that fetches data from an external API. Read through it and notice the three key patterns: async/await, fetch, and try/catch.",
+      "blocks": [
+        {
+          "language": "javascript",
+          "label": "Example: API route",
+          "code": "app.get('/api/joke', async (req, res) => {\n  try {\n    const response = await fetch('https://official-joke-api.appspot.com/random_joke');\n    const joke = await response.json();\n    res.json({\n      setup: joke.setup,\n      punchline: joke.punchline\n    });\n  } catch (error) {\n    res.status(500).json({ error: 'Failed to fetch joke' });\n  }\n});"
+        }
+      ],
+      "explanation": "Three things to notice: (1) **async/await** lets you wait for external data without freezing your server. The 'await' keyword pauses this function until the data arrives, but other requests keep being handled. (2) **fetch** sends the HTTP request to the external API. (3) **try/catch** handles errors gracefully \u2014 if the joke API is down, your server still responds with a helpful error message instead of crashing."
+    },
+    {
+      "type": "narrative",
+      "content": "When working with external APIs, there are a few concepts that come up again and again. Understanding these will save you from common mistakes.",
+      "keyPoints": [
+        "async/await \u2014 a way to wait for external data without blocking your server",
+        "API keys \u2014 authentication for paid or private APIs (keep these in .env!)",
+        "Rate limits \u2014 APIs limit how many requests you can make per minute",
+        "Error handling \u2014 always have a fallback if the API is down"
+      ],
+      "tip": "Never put API keys directly in your code. Store them in a .env file (which you learned to .gitignore in Level 5). Access them with process.env.MY_API_KEY. If an API key ends up on GitHub, assume it's compromised and generate a new one."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Try adding this API route to your Express server from Level 5. This calls a free joke API that doesn't require an API key \u2014 perfect for practice.",
+      "codeBlocks": [
+        {
+          "language": "javascript",
+          "code": "// Add this to your app.js\napp.get('/api/joke', async (req, res) => {\n  try {\n    const response = await fetch('https://official-joke-api.appspot.com/random_joke');\n    const joke = await response.json();\n    res.json({ setup: joke.setup, punchline: joke.punchline });\n  } catch (error) {\n    res.status(500).json({ error: 'Failed to fetch joke' });\n  }\n});",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "fetch is not defined",
+          "solution": "You need Node.js 18 or later for built-in fetch. Check with: node -v. If you're on an older version, install node-fetch: npm install node-fetch"
+        },
+        {
+          "problem": "Cannot GET /api/joke",
+          "solution": "Make sure you added the route before app.listen() in your app.js file, and restart your server."
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Why do we wrap the API call in a try/catch block?",
+      "options": [
+        "JavaScript requires try/catch for all functions",
+        "To make the code run faster",
+        "To handle errors gracefully if the external API is down",
+        "To prevent the API from being called too often"
+      ],
+      "correctIndex": 2,
+      "explanation": "External APIs can fail for many reasons: the service is down, your internet drops, the API changed its format. Without try/catch, your server would crash. With it, you catch the error and send a friendly error message back to the user instead."
+    }
+  ],
+  "completionMessage": "You can now fetch data from external APIs in your Express server! You understand async/await, error handling, and the key concepts around API integration. This is the last lesson in Level 7 \u2014 you've built a solid foundation of junior developer patterns.",
+  "milestone": null,
+  "nextLesson": "7.7"
+}

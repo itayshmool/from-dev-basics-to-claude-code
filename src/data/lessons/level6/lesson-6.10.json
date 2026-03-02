@@ -1,0 +1,62 @@
+{
+  "id": "6.10",
+  "level": 6,
+  "order": 10,
+  "title": "Reviewing What Claude Wrote",
+  "subtitle": "Trust but verify — always check before committing",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Claude Code is powerful, but it's not perfect. Just like you'd review a colleague's code before merging it, you should **always review what Claude wrote** before committing it to your project.\n\nThis isn't about distrust — it's about being a responsible developer. Even experienced human programmers have their code reviewed. The habit of reviewing changes is what separates someone who uses AI well from someone who uses it recklessly.\n\nThe good news: you already know the tool for this. It's `git diff`."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "After Claude makes changes to your project, review them with git diff. This shows you exactly what was added, removed, or modified — line by line.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "git diff",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "continue"
+    },
+    {
+      "type": "narrative",
+      "content": "Reading a diff is a skill. Here's a quick refresher on what you're looking at:",
+      "keyPoints": [
+        "Green lines (starting with +) are code that was added",
+        "Red lines (starting with -) are code that was removed",
+        "Test in the browser — does the change actually work as expected?",
+        "If you're satisfied, stage and commit the changes",
+        "If something's off, tell Claude what to change — iterate!"
+      ]
+    },
+    {
+      "type": "checklist",
+      "instruction": "Use this code review checklist every time Claude makes changes. Make it a habit — it only takes a minute and saves hours of debugging.",
+      "items": [
+        {
+          "text": "I've run git diff to see what changed",
+          "hint": "Green = added, red = removed. Scan for anything unexpected."
+        },
+        {
+          "text": "I understand what the changes do",
+          "hint": "If not, ask Claude: 'Explain what you just changed and why'"
+        },
+        {
+          "text": "I've tested in the browser",
+          "hint": "Does it look right? Does it work as expected? Try edge cases."
+        },
+        {
+          "text": "I'm ready to commit (or iterate further)",
+          "hint": "If something's wrong, tell Claude. If it's good, commit it."
+        }
+      ]
+    }
+  ],
+  "completionMessage": "Review before you commit. This one habit will save you from countless bugs and unexpected changes. You're now practicing the same code review discipline that professional teams use every day.",
+  "milestone": null,
+  "nextLesson": "6.11"
+}

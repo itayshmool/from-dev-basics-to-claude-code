@@ -1,0 +1,102 @@
+{
+  "id": "7.11",
+  "level": 7,
+  "order": 11,
+  "title": "The Professional Developer Workflow",
+  "subtitle": "How every tech company in the world ships code",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You've learned every individual skill: terminal, files, git, web servers, APIs, Claude Code, debugging, deployment. Now let's put them all together into the **workflow that every professional development team follows**.\n\nThe tools vary \u2014 some teams use GitLab instead of GitHub, some deploy to AWS instead of Render, some use different languages. But the **process** is always the same. Learn this workflow and you can walk into any tech company and understand how they ship software.",
+      "analogy": "Individual skills are like learning to dribble, pass, and shoot. The professional workflow is the actual game \u2014 it's how you combine everything you've learned into a coordinated sequence that produces results. Knowing the workflow is what separates someone who can code from someone who can ship."
+    },
+    {
+      "type": "stepThrough",
+      "instruction": "The full development cycle. Every feature, bug fix, and improvement follows this exact loop.",
+      "steps": [
+        {
+          "title": "ISSUE",
+          "description": "Someone reports a bug or requests a feature. This is tracked in GitHub Issues, a Jira board, or a simple to-do list. Every piece of work starts with a clearly described problem or goal."
+        },
+        {
+          "title": "BRANCH",
+          "description": "Create a branch: git checkout -b fix-login-bug. Never work directly on main. The branch isolates your changes so you can experiment without breaking anything."
+        },
+        {
+          "title": "CODE",
+          "description": "Use Claude Code to implement the fix or feature. Describe what you want clearly, review what it produces, and iterate until it's right. This is where the actual building happens."
+        },
+        {
+          "title": "TEST",
+          "description": "Verify it works locally. Check edge cases. Does it break anything else? Try weird inputs, empty fields, and unexpected scenarios. If you have automated tests, run them."
+        },
+        {
+          "title": "REVIEW",
+          "description": "Run git diff. Review your own changes line by line. Would you approve this code if someone else wrote it? Look for leftover console.logs, hardcoded values, or anything that doesn't belong."
+        },
+        {
+          "title": "COMMIT",
+          "description": "Stage and commit with a descriptive message. One commit per logical change. 'Fix login validation to reject empty passwords' tells the story. 'Fixed stuff' does not."
+        },
+        {
+          "title": "PUSH",
+          "description": "Push your branch to GitHub: git push -u origin fix-login-bug. This makes your changes available for others to see and review."
+        },
+        {
+          "title": "PULL REQUEST",
+          "description": "Create a PR on GitHub. Describe what you changed and why. This is where teammates (or your future self) review the code before it goes live. Include context: what was the bug? How did you fix it? How can someone test it?"
+        },
+        {
+          "title": "MERGE",
+          "description": "After review and approval, merge to main. The feature branch has served its purpose and can be deleted. Your changes are now part of the official codebase."
+        },
+        {
+          "title": "DEPLOY",
+          "description": "If auto-deploy is configured (like with Render), your changes go live automatically when merged to main. If not, trigger a manual deployment. Either way, the cycle is complete \u2014 from idea to live feature."
+        }
+      ]
+    },
+    {
+      "type": "checklist",
+      "instruction": "Complete the professional workflow for a real feature or improvement. Pick something small \u2014 add a new route, fix a visual bug, improve an error message \u2014 and follow every step.",
+      "items": [
+        {
+          "text": "Created a feature branch",
+          "hint": "git checkout -b feature-name"
+        },
+        {
+          "text": "Built the feature using Claude Code",
+          "hint": "Describe what you want clearly and review the output"
+        },
+        {
+          "text": "Tested locally in the browser",
+          "hint": "Does it work? Any edge cases? Try unexpected inputs."
+        },
+        {
+          "text": "Reviewed changes with git diff",
+          "hint": "Read every changed line. Remove anything that shouldn't be there."
+        },
+        {
+          "text": "Committed with a descriptive message",
+          "hint": "Explain what changed and why, not just 'update'"
+        },
+        {
+          "text": "Pushed to GitHub",
+          "hint": "git push -u origin your-branch-name"
+        },
+        {
+          "text": "Verified deployment (if auto-deploy is configured)",
+          "hint": "Visit your live URL and confirm the changes are there"
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "Congratulations. You just followed the exact same workflow used at Google, Stripe, Shopify, and every other tech company. The scale is different, but the process is identical: issue, branch, code, test, review, commit, push, PR, merge, deploy.\n\nThis loop repeats hundreds of times a day at large companies. And now you know how to do it too."
+    }
+  ],
+  "completionMessage": "You've completed the professional developer workflow from start to finish. Issue, branch, code, test, review, commit, push, PR, merge, deploy. This is how real software gets built. You're not just learning to code \u2014 you're learning to ship.",
+  "milestone": null,
+  "nextLesson": "7.12"
+}

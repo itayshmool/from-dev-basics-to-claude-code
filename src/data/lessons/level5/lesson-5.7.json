@@ -1,0 +1,71 @@
+{
+  "id": "5.7",
+  "level": 5,
+  "order": 7,
+  "title": ".gitignore — What Not to Track",
+  "subtitle": "Keep sensitive and generated files out of git",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Not everything in your project should be tracked by git. Two categories of files should always be excluded:\n\n**Generated files** like `node_modules/` — these can be recreated with a single command (`npm install`). They're huge, change constantly, and would bloat your repository.\n\n**Secret files** like `.env` — these contain passwords, API keys, and other sensitive data. If you commit them to git and push to GitHub, anyone can see your secrets.\n\nThe `.gitignore` file tells git: \"Pretend these files don't exist. Don't track them, don't commit them, don't even mention them.\"",
+      "keyPoints": [
+        "node_modules/ is generated — exclude it from git",
+        ".env files contain secrets — never commit them",
+        ".gitignore tells git which files to ignore",
+        "This is one of the first files you should create in any project"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Create a `.gitignore` file and add `node_modules/` as the first entry. The `>` operator creates the file (or overwrites it if it exists).",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "echo \"node_modules/\" > .gitignore",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now add `.env` to the ignore list. The `>>` operator *appends* to the file instead of overwriting it — an important difference!",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "echo \".env\" >> .gitignore",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "I accidentally used > instead of >>",
+          "solution": "That's okay — it just means node_modules/ was overwritten. Run: echo \"node_modules/\" > .gitignore && echo \".env\" >> .gitignore to fix it."
+        }
+      ]
+    },
+    {
+      "type": "checklist",
+      "instruction": "Verify your .gitignore is set up correctly. You can run `cat .gitignore` to check its contents.",
+      "items": [
+        {
+          "text": "node_modules/ is in .gitignore",
+          "hint": "Run: cat .gitignore — you should see node_modules/ on the first line"
+        },
+        {
+          "text": ".env is in .gitignore",
+          "hint": "Run: cat .gitignore — you should see .env on the second line"
+        },
+        {
+          "text": "You understand why these files shouldn't be committed",
+          "hint": "node_modules is too large and can be recreated. .env contains secrets like passwords and API keys."
+        }
+      ]
+    }
+  ],
+  "completionMessage": "Your project is properly configured! Generated files and secrets will stay out of version control. Now for the grand finale — let's build an actual web server.",
+  "milestone": null,
+  "nextLesson": "5.8"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "4.5",
+  "level": 4,
+  "order": 5,
+  "title": "HTTP \u2014 How Computers Talk",
+  "subtitle": "The request-response protocol of the web",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "When your browser (the client) talks to a server, they use a protocol called **HTTP** (HyperText Transfer Protocol). It's a simple back-and-forth conversation:\n\n1. Your browser sends a **request**: \"I want this page\" or \"Here's some data to save\"\n2. The server sends a **response**: \"Here's the page\" or \"Got it, saved successfully\" or \"Sorry, I couldn't find that\"\n\nEvery interaction on the web follows this pattern. Every page load, every form submission, every image that appears — it's all HTTP requests and responses flying back and forth.",
+      "analogy": "HTTP is like sending letters. You write a letter (the request) with a specific action — \"Please send me your catalog\" or \"Here's my order form.\" The company writes back (the response) with what you asked for, or a note saying they couldn't help. Each letter has a clear format both sides understand.",
+      "keyPoints": [
+        "HTTP = HyperText Transfer Protocol, the language of the web",
+        "Every web interaction is a request from the client and a response from the server",
+        "Requests include a **method** that says what you want to do",
+        "Responses include a **status code** that says what happened"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "HTTP has different methods for different actions. Here are the four most common ones.",
+      "blocks": [
+        {
+          "language": "text",
+          "label": "GET \u2014 Read data",
+          "code": "GET /api/users\n\n\"Give me the list of users.\"\nUsed when: loading a page, viewing a profile, searching"
+        },
+        {
+          "language": "text",
+          "label": "POST \u2014 Create data",
+          "code": "POST /api/users\n\n\"Here's a new user to add.\"\nUsed when: signing up, submitting a form, posting a comment"
+        },
+        {
+          "language": "text",
+          "label": "PUT \u2014 Update data",
+          "code": "PUT /api/users/42\n\n\"Update user #42 with this new info.\"\nUsed when: editing your profile, changing settings"
+        },
+        {
+          "language": "text",
+          "label": "DELETE \u2014 Remove data",
+          "code": "DELETE /api/users/42\n\n\"Remove user #42.\"\nUsed when: deleting your account, removing a post"
+        }
+      ],
+      "explanation": "Think of it like CRUD: Create (POST), Read (GET), Update (PUT), Delete (DELETE). These four operations cover almost everything you do on the web."
+    },
+    {
+      "type": "match",
+      "instruction": "Match each HTTP status code with its meaning. You've probably seen some of these before!",
+      "pairs": [
+        { "left": "200", "right": "OK \u2014 Success" },
+        { "left": "404", "right": "Not Found" },
+        { "left": "500", "right": "Server Error" },
+        { "left": "301", "right": "Redirect" }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "When you submit a sign-up form on a website, which HTTP method does your browser most likely use?",
+      "options": ["GET", "POST", "PUT", "DELETE"],
+      "correctIndex": 1,
+      "explanation": "POST is used to create new data. When you sign up, you're creating a new user account, so the browser sends a POST request with your form data to the server."
+    }
+  ],
+  "completionMessage": "You now understand HTTP — the protocol that powers every interaction on the web. Requests go out, responses come back, and status codes tell you what happened. Next, we'll learn about APIs — the menus that servers offer.",
+  "milestone": null,
+  "nextLesson": "4.6"
+}

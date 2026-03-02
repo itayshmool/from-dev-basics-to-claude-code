@@ -1,0 +1,63 @@
+{
+  "id": "6.14",
+  "level": 6,
+  "order": 14,
+  "title": "Tips and Tricks",
+  "subtitle": "Power patterns that make Claude Code even more effective",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You know the basics of working with Claude Code. Now let's level up with some power patterns that experienced developers use to get even better results.\n\nThese aren't tricks or hacks — they're **habits** that compound over time. Each one is small on its own, but together they transform how you work."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Before Claude writes any code, ask it to describe its plan. This catches bad approaches before they become bad code. It's much easier to change a plan than to rewrite code.",
+      "prompt": "Before writing any code, describe what you would do to add {{feature}} to this project",
+      "placeholders": [
+        {
+          "token": "{{feature}}",
+          "description": "The feature you want (e.g., 'user authentication', 'dark mode toggle', 'bookmark categories')"
+        }
+      ],
+      "expectedResult": "Claude outlines a step-by-step plan: which files it would create or modify, what approach it would take, and any trade-offs. You can review this plan and course-correct before a single line of code is written."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "After Claude makes changes, ask it to explain its reasoning. This turns every interaction into a learning opportunity.",
+      "prompt": "Explain what you just did and why you made those choices",
+      "expectedResult": "Claude walks through the changes it made, explains why it chose that approach over alternatives, and highlights any patterns or concepts worth understanding. This is like having a patient tutor who explains every move."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Writing good commit messages is an art. Let Claude handle it — it can read the diff and summarize the changes better than most humans.",
+      "prompt": "Write a commit message for the current changes",
+      "expectedResult": "Claude reads the current git diff and writes a clear, descriptive commit message that explains what changed and why. Much better than 'fixed stuff' or 'update'."
+    },
+    {
+      "type": "checklist",
+      "instruction": "Adopt these Claude Code power user habits. Each one is small, but together they make a huge difference in the quality of your output.",
+      "items": [
+        {
+          "text": "Start with a plan: ask Claude to describe the approach before coding",
+          "hint": "Saves time by catching bad approaches early — changing a plan is free, rewriting code is expensive"
+        },
+        {
+          "text": "Be specific about files: 'In app.js, change the port from 3000 to 8080'",
+          "hint": "More context = better output. Tell Claude exactly where to look and what to change."
+        },
+        {
+          "text": "Ask for explanations after changes",
+          "hint": "'Explain what you just did' turns every interaction into a learning moment"
+        },
+        {
+          "text": "Use Claude for git: commit messages, branch names, PR descriptions",
+          "hint": "Claude can read your diff and write better commit messages than most developers"
+        }
+      ]
+    }
+  ],
+  "completionMessage": "These power patterns will make you more effective with Claude Code from day one. Plan first, be specific, ask for explanations, and let Claude handle the tedious parts like commit messages. You're ready for the final challenge.",
+  "milestone": null,
+  "nextLesson": "6.15"
+}

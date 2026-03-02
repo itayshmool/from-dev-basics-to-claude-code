@@ -1,0 +1,90 @@
+{
+  "id": "3.6",
+  "level": 3,
+  "order": 6,
+  "title": "Viewing History",
+  "subtitle": "Your project's timeline",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "<html>\n<body>\n<h1>My Website</h1>\n</body>\n</html>",
+          "about.html": "<html>\n<body>\n<h1>About</h1>\n</body>\n</html>"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["git log", "git log --oneline"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Let's set up a project with a commit so we can view its history.",
+      "prompt": "Type `git init` to initialize the repository.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Repository initialized."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage all files.",
+      "prompt": "Type `git add .` to stage everything.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "All files staged."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Create a commit to save this snapshot.",
+      "prompt": "Type `git commit -m \"Initial commit\"` to save.",
+      "hint": "Type: git commit -m \"Initial commit\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit"
+      },
+      "onSuccess": {
+        "message": "Commit saved. Now let's look at your project's history."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "The `git log` command shows your project's timeline \u2014 every commit you've ever made, newest first.",
+      "prompt": "Type `git log` to view your commit history.",
+      "hint": "Type: git log",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git log"
+      },
+      "onSuccess": {
+        "message": "Every commit shows: a unique hash (that long string of letters and numbers), the author, the date, and your message. The hash is like a fingerprint \u2014 no two commits have the same one."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "When you have many commits, the full log can be overwhelming. There's a compact view.",
+      "prompt": "Type `git log --oneline` for a shorter view.",
+      "hint": "Type: git log --oneline",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git log --oneline"
+      },
+      "onSuccess": {
+        "message": "One line per commit \u2014 just the short hash and the message. Much easier to scan when you have many commits. This is the view most developers use day-to-day."
+      }
+    }
+  ],
+  "completionMessage": "You can now view your project's entire history with `git log`. Every change, every message, every save point \u2014 all recorded. You've learned the fundamentals of git: init, add, commit, and log.",
+  "milestone": null,
+  "nextLesson": "3.7"
+}

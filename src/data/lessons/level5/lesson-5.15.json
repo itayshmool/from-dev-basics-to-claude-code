@@ -1,0 +1,73 @@
+{
+  "id": "5.15",
+  "level": 5,
+  "order": 15,
+  "title": "Level 5 Challenge",
+  "subtitle": "Put it all together — build a complete server",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Time to put everything you've learned together. In this challenge, you'll build a **complete server** from scratch that combines everything from Level 5:\n\n- Serving HTML pages\n- Text routes\n- JSON API endpoints\n- Query parameters\n- Proper project setup with .gitignore\n- Version control with Git and GitHub\n\nThere's no step-by-step hand-holding here. You have all the knowledge you need from the previous lessons. If you get stuck on any step, check the hints — but try on your own first.\n\nThis is what real development feels like: you know the pieces, now assemble them into something complete.",
+      "keyPoints": [
+        "This challenge combines everything from Level 5",
+        "Try each step on your own before checking the hints",
+        "It's okay to look back at previous lessons for reference",
+        "When you finish, you'll have a real project on GitHub"
+      ]
+    },
+    {
+      "type": "checklist",
+      "instruction": "Build a server with all of these features. Check off each one as you complete it.",
+      "items": [
+        {
+          "text": "GET / serves an HTML welcome page",
+          "hint": "Use express.static('public') and create a public/index.html file with your HTML content. Make sure the static middleware line comes before your routes in app.js."
+        },
+        {
+          "text": "GET /about serves an about page",
+          "hint": "Use app.get('/about', (req, res) => { res.send('Your about page content here'); }); — you can return plain text or HTML string."
+        },
+        {
+          "text": "GET /api/time returns JSON with the current time",
+          "hint": "Use res.json() instead of res.send(). Example: res.json({ time: new Date().toLocaleTimeString(), date: new Date().toLocaleDateString() });"
+        },
+        {
+          "text": "GET /api/greeting?name=Sara returns a personalized greeting",
+          "hint": "Access the query parameter with req.query.name. Example: app.get('/api/greeting', (req, res) => { const name = req.query.name || 'World'; res.json({ greeting: `Hello, ${name}!` }); });"
+        },
+        {
+          "text": "Proper .gitignore with node_modules/ and .env",
+          "hint": "Create a .gitignore file in your project root. Add node_modules/ on one line and .env on the next. You can do this with: echo 'node_modules/\\n.env' > .gitignore"
+        },
+        {
+          "text": "Project pushed to GitHub",
+          "hint": "Initialize git (git init), add files (git add .), commit (git commit -m 'My first server'), create a repo on GitHub, add the remote (git remote add origin <url>), and push (git push -u origin main)."
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "**Congratulations — you just built a real web server and published it to GitHub.**\n\nLet that sink in. A few lessons ago, you installed Node.js for the first time. Now you have:\n\n- A working web server that serves HTML pages\n- API endpoints that return live JSON data\n- Dynamic routes that respond to user input (query parameters)\n- A properly configured project with version control\n- Code published to GitHub for the world to see\n\nThis isn't a toy project or a simulation. This is **real software**, built with the same tools and patterns that professional developers use every day.\n\nThe key insight from Level 5: **building software isn't about memorizing syntax.** It's about understanding the pieces — servers, routes, responses, data formats — and assembling them. You now understand those pieces.\n\nAnd soon, Claude Code will help you assemble them much, much faster.",
+      "keyPoints": [
+        "You built a real, working web server from scratch",
+        "You created both HTML pages and JSON API endpoints",
+        "Your code is on GitHub — a real project in your portfolio",
+        "Next up: Claude Code will supercharge your building speed"
+      ]
+    }
+  ],
+  "completionMessage": "Level 5 complete! You've gone from installing Node.js to building and publishing a real web server. You're no longer just learning about tools — you're using them to build real things.",
+  "milestone": {
+    "title": "Level 5 Complete: Building With Real Tools",
+    "summary": [
+      "Install and use Node.js",
+      "Create projects with npm",
+      "Build a web server from scratch",
+      "Create API endpoints that return JSON",
+      "Serve HTML pages"
+    ],
+    "nextLevelTeaser": "Next up: Level 6 — Claude Code. You'll learn to build projects by describing what you want in plain English."
+  },
+  "nextLesson": "6.1"
+}

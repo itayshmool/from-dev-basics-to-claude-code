@@ -1,0 +1,66 @@
+{
+  "id": "5.1",
+  "level": 5,
+  "order": 1,
+  "title": "Installing Node.js",
+  "subtitle": "Get JavaScript running on your machine",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "So far, you've been learning inside a simulated terminal. Now it's time to do things **for real** on your own computer.\n\nWe're going to install **Node.js** — a tool that lets you run JavaScript outside of a web browser. JavaScript is the language behind almost every website, and Node.js is what lets developers use it to build servers, tools, and apps.\n\nThink of it this way: your browser already speaks JavaScript. Node.js teaches your *computer* to speak it too.",
+      "analogy": "If JavaScript is a language, the browser is like a translator who only works in one room (web pages). Node.js is a translator who follows you everywhere — your terminal, your server, your scripts.",
+      "keyPoints": [
+        "Node.js lets you run JavaScript in your terminal",
+        "It comes with npm, a tool for installing JavaScript packages",
+        "Almost every modern web project uses Node.js"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Let's install Node.js on your machine. Follow the instructions for your operating system.",
+      "platform": {
+        "mac": "Open Terminal and install with Homebrew:\n\nbrew install node\n\nIf you don't have Homebrew, install it first:\n\n/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"",
+        "windows": "Download Node.js from nodejs.org. Choose the LTS version. Run the installer and accept all defaults."
+      },
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "command not found",
+          "solution": "Close and reopen your terminal, then try again. The PATH needs to refresh."
+        },
+        {
+          "problem": "Permission denied",
+          "solution": "On Mac, try prefixing the command with sudo. On Windows, right-click the installer and choose 'Run as administrator'."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Let's verify that Node.js installed correctly. Run these two commands to check the versions of Node and npm (the package manager that comes bundled with Node).",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "node -v",
+          "copyable": true
+        },
+        {
+          "language": "bash",
+          "code": "npm -v",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "v20.x.x or similar (any version number means it worked)",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "command not found: node",
+          "solution": "Close your terminal completely and reopen it. If that doesn't work, try restarting your computer. The installation needs your PATH to update."
+        }
+      ]
+    }
+  ],
+  "completionMessage": "Node.js is installed! You now have two powerful tools: `node` for running JavaScript and `npm` for installing packages. Let's put them to use.",
+  "milestone": null,
+  "nextLesson": "5.2"
+}

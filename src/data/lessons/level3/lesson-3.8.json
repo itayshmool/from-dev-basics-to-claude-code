@@ -1,0 +1,105 @@
+{
+  "id": "3.8",
+  "level": 3,
+  "order": 8,
+  "title": "Undoing Changes",
+  "subtitle": "Your safety net",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "<html>\n<body>\n<h1>My Website</h1>\n</body>\n</html>"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["git checkout --"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "First, set up a git repository so we have a safety net.",
+      "prompt": "Type `git init` to initialize the repository.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Repository created. Let's save the current good version of index.html."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage the file.",
+      "prompt": "Type `git add .` to stage everything.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "Staged. Now commit it."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Commit the working version.",
+      "prompt": "Type `git commit -m \"Initial commit\"`",
+      "hint": "git commit -m \"Initial commit\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit"
+      },
+      "onSuccess": {
+        "message": "Committed! Git now has a safe copy of your working website."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Oh no! You accidentally overwrite the entire file with garbage.",
+      "prompt": "Type `echo \"BROKEN\" > index.html` to simulate a mistake.",
+      "hint": "echo \"BROKEN\" > index.html",
+      "validation": {
+        "type": "fileContains",
+        "value": {
+          "path": "/home/user/my-project/index.html",
+          "content": "BROKEN"
+        }
+      },
+      "onSuccess": {
+        "message": "The file is destroyed! All your HTML is gone, replaced with just 'BROKEN'."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "See the damage for yourself.",
+      "prompt": "Type `cat index.html` to view the file contents.",
+      "hint": "Type: cat index.html",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cat index.html"
+      },
+      "onSuccess": {
+        "message": "The whole file is just 'BROKEN' now! In the old days, you'd have to retype everything. But git remembers the original..."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Use `git checkout` to restore the file to its last committed version. The `--` tells git you mean a file, not a branch.",
+      "prompt": "Type `git checkout -- index.html` to restore it.",
+      "hint": "git checkout -- index.html",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git checkout"
+      },
+      "onSuccess": {
+        "message": "The file is restored! Your HTML is back exactly as it was. `git checkout --` undoes all uncommitted changes to a file. This is your safety net."
+      }
+    }
+  ],
+  "completionMessage": "`git checkout -- filename` restores a file to its last committed version. As long as you commit regularly, you can always undo mistakes. Git is your safety net.",
+  "milestone": null,
+  "nextLesson": "3.9"
+}

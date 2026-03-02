@@ -1,0 +1,82 @@
+{
+  "id": "5.9",
+  "level": 5,
+  "order": 9,
+  "title": "Running Your Server",
+  "subtitle": "Bring your server to life",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Your server code is written, but right now it's just a file sitting on your computer. It's not *doing* anything yet.\n\nWhen you run `node app.js`, something magical happens: your computer transforms from a regular machine into a **web server**. It starts *listening* for requests, just like a restaurant opens its doors and waits for customers.\n\nThe address it listens on is `localhost` — which literally means \"this computer.\" Instead of serving pages to the whole internet, it serves them to *you*, right here, right now.",
+      "analogy": "Starting a server is like flipping the \"OPEN\" sign on a shop. The shop was always there, but now it's ready for visitors. Your computer was always there, but now it's ready to respond to web requests.",
+      "keyPoints": [
+        "node app.js starts your server and keeps it running",
+        "The terminal will appear to \"hang\" — that's normal, your server is listening",
+        "localhost means your own computer is acting as the server"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Start your server by running the app.js file with Node. Make sure you're in your project directory (the folder with app.js and package.json).",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "node app.js",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "Server running at http://localhost:3000",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "Error: Cannot find module 'express'",
+          "solution": "You need to install Express first. Run: npm install express"
+        },
+        {
+          "problem": "Error: listen EADDRINUSE :::3000",
+          "solution": "Port 3000 is already in use. Either stop the other process using it, or change the port number in app.js to 3001."
+        },
+        {
+          "problem": "SyntaxError or unexpected token",
+          "solution": "There's a typo in your app.js file. Double-check the code from the previous lesson, especially quotes, parentheses, and semicolons."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Your server is now running! Open your web browser (Chrome, Safari, Firefox — any browser works) and type this address in the address bar:\n\n**http://localhost:3000**\n\nYou should see your \"Hello, World!\" message displayed in the browser. That text is coming from your server — your computer received the browser's request and sent back a response.",
+      "codeBlocks": [
+        {
+          "language": "text",
+          "code": "http://localhost:3000",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "Hello, World! This is my first server.",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "This site can't be reached / Connection refused",
+          "solution": "Make sure your server is still running in the terminal. If the terminal shows a regular prompt (not the 'Server running' message), run node app.js again."
+        },
+        {
+          "problem": "The page loads but shows something different",
+          "solution": "Check that you're visiting http://localhost:3000 (not https, and make sure the port number matches what your app.js uses)."
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "**You just built a web server. A real one.**\n\nWhen you typed `localhost:3000` in your browser, here's what happened behind the scenes:\n\n1. Your browser sent an **HTTP GET request** to your computer on port 3000\n2. Your Express server received that request\n3. The `app.get('/')` handler matched the URL\n4. Your server sent back the text \"Hello, World!\"\n5. Your browser displayed it\n\nThis is *exactly* how every website on the internet works. The only difference? Those servers run on big computers in data centers instead of your laptop. But the mechanism is identical.",
+      "keyPoints": [
+        "Your browser is the client, your Node.js app is the server",
+        "This is the same request-response cycle that powers every website",
+        "Go back to your terminal — the server is still running, waiting for more requests"
+      ]
+    }
+  ],
+  "completionMessage": "Your first server is alive! It's listening, it's responding, and it's running right on your machine. This is how every web developer starts.",
+  "milestone": null,
+  "nextLesson": "5.10"
+}

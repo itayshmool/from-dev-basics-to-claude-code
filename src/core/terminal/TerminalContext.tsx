@@ -1,6 +1,7 @@
 import { createContext, useContext, useRef, useState, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { VirtualFileSystem } from '../vfs/VirtualFileSystem';
+import { VirtualGit } from '../git/VirtualGit';
 import type { FileSystemSpec } from '../lesson/types';
 
 export interface TerminalLine {
@@ -20,6 +21,8 @@ interface TerminalContextValue {
   commandHistory: string[];
   fsVersion: number;
   bumpFsVersion: () => void;
+  envVars: Map<string, string>;
+  git: VirtualGit;
 }
 
 const TerminalCtx = createContext<TerminalContextValue | null>(null);
@@ -34,6 +37,12 @@ export function TerminalProvider({
   children: ReactNode;
 }) {
   const vfsRef = useRef(new VirtualFileSystem(initialFs, initialDir || '/home/user'));
+  const gitRef = useRef(new VirtualGit(vfsRef.current));
+  const envVarsRef = useRef(new Map<string, string>([
+    ['HOME', initialDir || '/home/user'],
+    ['USER', 'user'],
+    ['PATH', '/usr/bin:/usr/local/bin'],
+  ]));
   const [history, setHistory] = useState<TerminalLine[]>([]);
   const [lastCommand, setLastCommand] = useState('');
   const [fsVersion, setFsVersion] = useState(0);
@@ -66,6 +75,8 @@ export function TerminalProvider({
       commandHistory: commandHistoryRef.current,
       fsVersion,
       bumpFsVersion,
+      envVars: envVarsRef.current,
+      git: gitRef.current,
     }}>
       {children}
     </TerminalCtx.Provider>

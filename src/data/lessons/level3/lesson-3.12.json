@@ -1,0 +1,89 @@
+{
+  "id": "3.12",
+  "level": 3,
+  "order": 12,
+  "title": "Creating Branches",
+  "subtitle": "Experimenting safely",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "<html>\n<body>\n<h1>My Website</h1>\n</body>\n</html>"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["git branch", "git checkout -b"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Before we can branch, we need a repository with at least one commit. Let's set that up.",
+      "prompt": "Type `git init` to initialize the repository.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Repository initialized. Now let's stage our file."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage all files for our first commit.",
+      "prompt": "Type `git add .` to stage everything.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "Files staged. Let's commit them."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Create an initial commit so we have a starting point to branch from.",
+      "prompt": "Type `git commit -m \"Initial commit\"` to save your first snapshot.",
+      "hint": "Type: git commit -m \"Initial commit\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit"
+      },
+      "onSuccess": {
+        "message": "First commit saved. Now you have a base to branch from. Here's where it gets powerful."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "A **branch** is a separate copy of your project where you can experiment without affecting the original. `git checkout -b` creates a new branch AND switches to it in one command.",
+      "prompt": "Type `git checkout -b new-feature` to create and switch to a new branch.",
+      "hint": "Type: git checkout -b new-feature",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git checkout -b"
+      },
+      "onSuccess": {
+        "message": "You created a new branch called 'new-feature' and switched to it. Changes here won't affect the main branch."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Let's see all the branches in this repository.",
+      "prompt": "Type `git branch` to list all branches.",
+      "hint": "Type: git branch",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git branch"
+      },
+      "onSuccess": {
+        "message": "Two branches: main and new-feature. The * shows which one you're on. You're on new-feature, so any changes you make here stay on this branch until you merge."
+      }
+    }
+  ],
+  "completionMessage": "You learned how to create branches with `git checkout -b`. Branches let you experiment freely \u2014 if something goes wrong, the main branch is untouched. Next: merging branches back together.",
+  "milestone": null,
+  "nextLesson": "3.13"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "6.7",
+  "level": 6,
+  "order": 7,
+  "title": "Building a Project from a Description",
+  "subtitle": "From idea to working app in one prompt",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Let's build something real. So far you've created single files and made small edits. But Claude Code can handle much more — you can give it a complete project description and watch it build the whole thing.\n\nThe secret to getting great results is **being specific**. The more detail you provide about features, behavior, and design, the closer Claude gets to exactly what you want on the first try.\n\nWe're going to build a **bookmark manager** — a simple web app where you can save, view, and delete bookmarks. No server needed — everything runs in the browser using localStorage.",
+      "tip": "Before giving Claude a big prompt, think through what you actually want. List the features, describe the behavior, mention the tech. A minute of planning saves ten minutes of iteration."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Give Claude a detailed project description. Notice how specific this prompt is — it lists every feature, describes the behavior, and specifies the technical approach.",
+      "prompt": "Build me a simple bookmark manager web app:\n- An HTML page with a form to add bookmarks (URL and title)\n- JavaScript that saves bookmarks to localStorage\n- A list that displays all saved bookmarks\n- Each bookmark has a delete button\n- Clean, modern CSS styling\n- All in a single-page app (no server needed)",
+      "expectedResult": "Claude creates multiple files: HTML, CSS, and JavaScript for a complete, working bookmark manager. It builds the form, the list display, localStorage logic, and delete functionality."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Open the HTML file Claude created in your browser and try it out. Add a few bookmarks, refresh the page to verify they persist, and test the delete buttons.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "open index.html",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "open command doesn't work (Windows)",
+          "solution": "On Windows, use: start index.html"
+        },
+        {
+          "problem": "Bookmarks don't persist after refresh",
+          "solution": "Ask Claude: 'The bookmarks disappear when I refresh. Can you fix the localStorage logic?' Give it the specific bug to fix."
+        }
+      ]
+    },
+    {
+      "type": "checklist",
+      "instruction": "Test the bookmark manager thoroughly. Check off each feature as you verify it works.",
+      "items": [
+        {
+          "text": "I can add a bookmark with URL and title",
+          "hint": "Fill in both fields and click the add button. The bookmark should appear in the list below."
+        },
+        {
+          "text": "Bookmarks appear in a list",
+          "hint": "After adding a bookmark, it should show up on the page with the title and URL visible."
+        },
+        {
+          "text": "Delete button removes a bookmark",
+          "hint": "Click the delete button next to any bookmark. It should disappear from the list."
+        },
+        {
+          "text": "Bookmarks persist after refreshing the page",
+          "hint": "Add a bookmark, then refresh the browser (Cmd+R or Ctrl+R). The bookmark should still be there."
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "You just built a complete, working web application by describing it in English. Think about how long this would take to code by hand — setting up the HTML structure, writing the JavaScript for localStorage, handling form submissions, implementing delete logic, styling everything with CSS.\n\nWith Claude Code, the first version took seconds. And if anything isn't right, you iterate: ask Claude to fix it, add features, or change the design.\n\nThis is the power of AI-assisted development. You bring the ideas and the judgment. Claude brings the speed.",
+      "keyPoints": [
+        "Detailed prompts produce better results — list every feature you want",
+        "Always test the output yourself before moving on",
+        "If something isn't right, describe the problem and ask Claude to fix it",
+        "Claude built in seconds what would take manual coding much longer"
+      ]
+    }
+  ],
+  "completionMessage": "You built a complete app from a single description. That's incredible progress! But there's one more skill that separates good Claude Code users from great ones: writing effective prompts.",
+  "milestone": null,
+  "nextLesson": "6.8"
+}

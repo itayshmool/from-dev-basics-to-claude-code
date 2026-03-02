@@ -1,0 +1,41 @@
+{
+  "id": "6.4",
+  "level": 6,
+  "order": 4,
+  "title": "Reading Code with Claude",
+  "subtitle": "Understand any codebase in minutes",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "One of Claude Code's most powerful uses is **understanding code you didn't write**. This is a skill every developer needs constantly — when joining a new team, exploring an open-source project, or returning to your own code after a few months.\n\nBefore Claude Code, understanding a new codebase meant hours of reading files, tracing function calls, and piecing together how everything connects. Now you can just ask.\n\nLet's practice reading code with Claude. Start Claude Code in any project you have — ideally the one from Level 5, or any project with a few files.",
+      "analogy": "Imagine being dropped into a new city with no map. You could wander around for hours figuring out where everything is. Or you could ask a local who knows every street. Claude Code is that local — except it knows every line of code."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Start with the big picture. Ask Claude for an overview of the entire project — what it does and how it's organized.",
+      "prompt": "Give me an overview of this project — what does it do and how is it structured?",
+      "expectedResult": "Claude reads all your files and explains the project's purpose, architecture, and how the pieces fit together."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Now zoom in. Pick the main file in your project and ask Claude to walk you through it line by line.",
+      "prompt": "Explain what the main file does, line by line",
+      "expectedResult": "Claude walks through the code explaining each section — imports, functions, logic, and how they connect."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "If your project has a package.json, ask Claude to explain your dependencies. If not, skip this step.",
+      "prompt": "What dependencies does this project use and what are they for?",
+      "expectedResult": "Claude reads package.json and explains each dependency — what it does, why it's needed, and how your project uses it."
+    },
+    {
+      "type": "narrative",
+      "content": "This is how real developers work every day. When you join a company, you get dropped into a codebase with thousands of files that you've never seen before. Your first job is to understand it.\n\nBefore AI tools, this could take weeks. Developers would read documentation (if it existed), trace code paths by hand, and ask teammates for context. Claude Code dramatically accelerates this process.\n\nEven experienced developers use this pattern constantly. Understanding code is just as important as writing it.",
+      "tip": "Try this with any open-source project: clone a GitHub repo, cd into it, run claude, and ask for an overview. It's the fastest way to understand someone else's work."
+    }
+  ],
+  "completionMessage": "You can now use Claude Code to understand any codebase. This skill alone is incredibly valuable — most developers spend more time reading code than writing it. Next, let's have Claude create something new.",
+  "milestone": null,
+  "nextLesson": "6.5"
+}

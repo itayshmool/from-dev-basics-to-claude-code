@@ -1,0 +1,57 @@
+{
+  "id": "3.9",
+  "level": 3,
+  "order": 9,
+  "title": "Understanding GitHub",
+  "subtitle": "Your code in the cloud",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "So far, git has been tracking your files locally \u2014 everything lives on your computer. But what if your computer breaks? What if you want to share your code with someone? That's where **GitHub** comes in.",
+      "analogy": "Git is like a journal where you record every change. GitHub is like putting a copy of that journal in a safe deposit box \u2014 it's backed up, secure, and you can share it with others.",
+      "keyPoints": [
+        "GitHub stores your code online as a backup",
+        "It lets others see, download, and contribute to your code",
+        "Most open-source software lives on GitHub",
+        "Git works without GitHub, but GitHub needs git"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What's the relationship between git and GitHub?",
+      "options": [
+        "They're the same thing",
+        "Git tracks changes locally, GitHub stores them online",
+        "GitHub is a programming language",
+        "Git only works with GitHub"
+      ],
+      "correctIndex": 1,
+      "explanation": "Git is the tool that tracks changes on your computer. GitHub is an online service that stores your git repositories in the cloud. You can use git without GitHub, but GitHub relies on git."
+    },
+    {
+      "type": "narrative",
+      "content": "Three key commands connect your local git to GitHub. These are the bridge between your computer and the cloud.",
+      "keyPoints": [
+        "`git push` \u2014 upload your commits to GitHub",
+        "`git pull` \u2014 download new commits from GitHub",
+        "`git clone` \u2014 download an entire project from GitHub for the first time"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "You want to download someone else's project from GitHub to your computer. Which command do you use?",
+      "options": [
+        "git push",
+        "git pull",
+        "git clone",
+        "git download"
+      ],
+      "correctIndex": 2,
+      "explanation": "`git clone` downloads an entire project and its full history from GitHub. You use it when getting a project for the first time. After that, `git pull` gets any new updates."
+    }
+  ],
+  "completionMessage": "You now understand the relationship between git and GitHub. Git tracks changes locally, GitHub stores them online. Next, you'll learn how to push your code to GitHub.",
+  "milestone": null,
+  "nextLesson": "3.10"
+}

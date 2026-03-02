@@ -1,0 +1,89 @@
+{
+  "id": "3.10",
+  "level": 3,
+  "order": 10,
+  "title": "Pushing to GitHub",
+  "subtitle": "Uploading your code",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "<html><body><h1>Hello</h1></body></html>"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["git remote add", "git push"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Let's set up a project and push it to GitHub. First, initialize the repository.",
+      "prompt": "Type `git init` to create the repository.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Repository initialized. Let's prepare a commit to push."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage all files.",
+      "prompt": "Type `git add .` to stage everything.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "Files staged. Now commit them."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Commit your files.",
+      "prompt": "Type `git commit -m \"Initial commit\"`",
+      "hint": "git commit -m \"Initial commit\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit"
+      },
+      "onSuccess": {
+        "message": "Committed! Now you have something to push to GitHub."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Connect your local repository to GitHub. `origin` is the conventional name for your GitHub connection, and the URL is where your project lives online.",
+      "prompt": "Type `git remote add origin https://github.com/user/my-project.git`",
+      "hint": "git remote add origin https://github.com/user/my-project.git",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git remote add"
+      },
+      "onSuccess": {
+        "message": "'origin' is the nickname for your GitHub URL. Think of it as saving a bookmark. Now git knows where to send your code."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Upload your code to GitHub. The `-u` flag remembers this connection so future pushes are simpler.",
+      "prompt": "Type `git push -u origin main`",
+      "hint": "git push -u origin main",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git push"
+      },
+      "onSuccess": {
+        "message": "Your code is on GitHub! Anyone with the link can now see your project. From now on, after each commit, just type `git push` to upload your latest changes."
+      }
+    }
+  ],
+  "completionMessage": "You learned the push workflow: `git remote add` connects to GitHub, `git push` uploads your commits. This is how every developer shares and backs up their code.",
+  "milestone": null,
+  "nextLesson": "3.11"
+}

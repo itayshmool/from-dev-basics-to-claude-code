@@ -1,0 +1,67 @@
+{
+  "id": "4.10",
+  "level": 4,
+  "order": 10,
+  "title": "Frontend vs Backend",
+  "subtitle": "The two halves of every app",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Most software is split into two parts: the **frontend** and the **backend**.\n\nThe **frontend** is everything you see and interact with — buttons, menus, animations, text, images. It runs in your browser or on your phone.\n\nThe **backend** is everything that happens behind the scenes — checking passwords, processing payments, querying databases, sending emails. It runs on a server somewhere.\n\nThink of a restaurant: the frontend is the dining room (where customers sit, see the menu, and eat), while the backend is the kitchen (where food is prepared, orders are managed, and inventory is tracked). Customers never see the kitchen, but it's where all the real work happens.",
+      "keyPoints": [
+        "**Frontend** = what users see and interact with (HTML, CSS, JavaScript)",
+        "**Backend** = the logic and data processing users never see (servers, databases, APIs)",
+        "They communicate constantly — the frontend sends requests, the backend sends responses",
+        "Some developers specialize in one; \"full-stack\" developers work on both"
+      ]
+    },
+    {
+      "type": "dragSort",
+      "instruction": "Drag each item to the correct side of the app. Does it belong to the Frontend or the Backend?",
+      "categories": [
+        {
+          "name": "Frontend",
+          "description": "What users see and interact with"
+        },
+        {
+          "name": "Backend",
+          "description": "Behind-the-scenes logic and data"
+        }
+      ],
+      "items": [
+        { "text": "HTML and CSS", "correctCategory": "Frontend" },
+        { "text": "Database queries", "correctCategory": "Backend" },
+        { "text": "Button click animations", "correctCategory": "Frontend" },
+        { "text": "Password verification", "correctCategory": "Backend" },
+        { "text": "Page layout", "correctCategory": "Frontend" },
+        { "text": "Sending emails", "correctCategory": "Backend" }
+      ]
+    },
+    {
+      "type": "match",
+      "instruction": "Match each description to whether it's a Frontend or Backend concept.",
+      "pairs": [
+        { "left": "Where users interact", "right": "Frontend" },
+        { "left": "Where data is processed", "right": "Backend" },
+        { "left": "Runs in the browser", "right": "Frontend" },
+        { "left": "Runs on a server", "right": "Backend" }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "When you type your password and click \"Log In,\" where is your password actually checked?",
+      "options": [
+        "In your browser (frontend)",
+        "On the server (backend)",
+        "In the URL bar",
+        "On your phone's operating system"
+      ],
+      "correctIndex": 1,
+      "explanation": "Password verification always happens on the backend (server side). The frontend collects your password and sends it to the server, which checks it against what's stored in the database. If the frontend checked passwords, anyone could peek at the code and see everyone's password."
+    }
+  ],
+  "completionMessage": "You now understand the fundamental split in software: frontend is what users see, backend is what happens behind the scenes. Together, they make every app work. Next, we'll look at how these pieces are combined into a \"tech stack.\"",
+  "milestone": null,
+  "nextLesson": "4.11"
+}

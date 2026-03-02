@@ -1,0 +1,65 @@
+{
+  "id": "2.1",
+  "level": 2,
+  "order": 1,
+  "title": "Looking Inside Files",
+  "subtitle": "Read file contents with cat",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "project": {
+          "readme.txt": "Welcome to my project.\nThis is a simple website.\nVersion 1.0",
+          "config.txt": "theme=dark\nlanguage=en\nport=3000",
+          "index.html": "<html>\n<head><title>My Site</title></head>\n<body>\n<h1>Hello World</h1>\n</body>\n</html>"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/project",
+  "commandsIntroduced": ["cat"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "You can see files with `ls`, but how do you read what's inside them? That's what `cat` is for. It dumps a file's contents right to your screen.",
+      "prompt": "Type `cat readme.txt` to read the project's readme file.",
+      "hint": "Type: cat readme.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cat readme.txt"
+      },
+      "onSuccess": {
+        "message": "`cat` dumps the entire file to your screen in one shot. It's named after 'concatenate' because it can also join multiple files together. For short files like this, it's perfect."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Let's read another file. Config files often store settings as key=value pairs.",
+      "prompt": "Type `cat config.txt` to see the project's configuration.",
+      "hint": "Type: cat config.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cat config.txt"
+      },
+      "onSuccess": {
+        "message": "A config file! Those `key=value` pairs store program settings. `theme=dark` means dark mode is on, `port=3000` means the server listens on port 3000. You'll see this pattern everywhere in programming."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "One more. Let's peek at the HTML file that makes up the website.",
+      "prompt": "Type `cat index.html` to read the website's source code.",
+      "hint": "Type: cat index.html",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cat index.html"
+      },
+      "onSuccess": {
+        "message": "HTML! The code behind every web page. Those angle brackets (`<html>`, `<h1>`) are tags that tell the browser how to display content. `cat` doesn't care what's in the file — it just prints it all."
+      }
+    }
+  ],
+  "completionMessage": "You now know `cat` — the quickest way to read a file. It's great for short files, but for long files with hundreds of lines, you'll want something more targeted. That's coming next.",
+  "milestone": null,
+  "nextLesson": "2.2"
+}

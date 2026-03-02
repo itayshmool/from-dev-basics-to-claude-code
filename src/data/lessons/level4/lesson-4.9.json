@@ -1,0 +1,70 @@
+{
+  "id": "4.9",
+  "level": 4,
+  "order": 9,
+  "title": "SQL \u2014 Talking to Databases",
+  "subtitle": "The language databases understand",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You know that databases store data in organized tables. But how do you actually get data in and out? You use **SQL** (Structured Query Language).\n\nSQL is a special language designed for one purpose: communicating with databases. You write a SQL query, the database reads it, and sends back the results. It's like placing an order at a restaurant — you tell the kitchen what you want, and they bring it to you.",
+      "keyPoints": [
+        "SQL stands for Structured Query Language (pronounced \"sequel\" or \"S-Q-L\")",
+        "It has simple English-like commands: SELECT, INSERT, UPDATE, DELETE",
+        "SQL works with almost all relational (table-based) databases",
+        "You don't need to memorize complex syntax — the basics are surprisingly readable"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Here are the four essential SQL commands. Each one does exactly what its name suggests.",
+      "blocks": [
+        {
+          "language": "sql",
+          "label": "Get all users",
+          "code": "SELECT * FROM users;"
+        },
+        {
+          "language": "sql",
+          "label": "Filter by name",
+          "code": "SELECT * FROM users WHERE name = 'Sara';"
+        },
+        {
+          "language": "sql",
+          "label": "Add a new user",
+          "code": "INSERT INTO users (name, email)\nVALUES ('Morgan', 'morgan@email.com');"
+        },
+        {
+          "language": "sql",
+          "label": "Update a user",
+          "code": "UPDATE users SET email = 'new@email.com'\nWHERE name = 'Sara';"
+        },
+        {
+          "language": "sql",
+          "label": "Delete a user",
+          "code": "DELETE FROM users WHERE name = 'Morgan';"
+        }
+      ],
+      "explanation": "Notice how readable SQL is — it almost reads like English. SELECT means \"give me,\" FROM means \"from this table,\" WHERE means \"but only the rows that match this condition.\" You don't need to be a programmer to understand what these queries do."
+    },
+    {
+      "type": "match",
+      "instruction": "Match each SQL keyword to the action it performs.",
+      "pairs": [
+        { "left": "SELECT", "right": "Read data" },
+        { "left": "INSERT", "right": "Add data" },
+        { "left": "UPDATE", "right": "Change data" },
+        { "left": "DELETE", "right": "Remove data" }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "These four commands — SELECT, INSERT, UPDATE, DELETE — are often called **CRUD** operations (Create, Read, Update, Delete). They cover the vast majority of what apps do with databases.\n\nEvery time you sign up for a service, that's an INSERT. Every time you scroll your feed, that's a SELECT. Every time you edit your profile, that's an UPDATE. And when you delete your account, well, that's a DELETE.",
+      "tip": "You don't need to write SQL from scratch. Claude Code can generate SQL queries for you — just describe what data you want in plain English, and it will write the query."
+    }
+  ],
+  "completionMessage": "You've learned SQL, the language for talking to databases. With just four commands — SELECT, INSERT, UPDATE, DELETE — you can do almost anything with stored data. Next, we'll zoom out and look at how frontend and backend work together.",
+  "milestone": null,
+  "nextLesson": "4.10"
+}

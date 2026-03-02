@@ -1,0 +1,46 @@
+{
+  "id": "6.1",
+  "level": 6,
+  "order": 1,
+  "title": "What Is Claude Code?",
+  "subtitle": "Meet your AI pair programmer",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You've been learning the terminal, git, JavaScript, and web development. You can build things from scratch now. But what if you had a brilliant colleague sitting right next to you in the terminal — someone who can read your files, write code, run commands, and explain anything?\n\nThat's **Claude Code**.\n\nClaude Code is an AI assistant that lives inside your terminal. It's not a chatbot on a website — it's a tool that can *see* your project, *read* your files, *write* new code, and *run* commands, all while having a conversation with you in plain English.\n\nYou describe what you want. Claude builds it. You review, iterate, and ship.",
+      "analogy": "Think of Claude Code as a co-pilot. You're the pilot — you decide where to go, what to build, and what's good enough. Claude is the co-pilot who handles the tedious parts: writing boilerplate, looking up syntax, debugging errors, and generating code at the speed of thought.",
+      "keyPoints": [
+        "Claude Code is an AI assistant that runs inside your terminal",
+        "It can read, write, and edit files in your project",
+        "It can run terminal commands on your behalf",
+        "You communicate with it in plain English — no special syntax needed"
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "You might be wondering: isn't this just like Claude.ai, the website where you chat with Claude?\n\nNot quite. They're related but serve very different purposes:\n\n**Claude.ai (the web app)** is great for brainstorming, asking questions, getting explanations, writing emails, and general conversation. It lives in your browser and doesn't have access to your computer.\n\n**Claude Code (the terminal tool)** is built for *building*. It lives in your terminal, inside your project. It can see every file, understand your codebase, create new files, edit existing ones, run your tests, and commit to git. It's not just answering questions — it's *doing work* alongside you.\n\nThe difference is like texting a friend for advice vs. having that friend come over and help you build furniture together.",
+      "keyPoints": [
+        "Claude.ai = brainstorming, questions, general conversation (in your browser)",
+        "Claude Code = building, editing, running commands (in your terminal)",
+        "Claude.ai can't see your files; Claude Code can",
+        "Use Claude.ai for thinking, Claude Code for building"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What can Claude Code do that Claude.ai cannot?",
+      "options": [
+        "Answer questions",
+        "Write poetry",
+        "Edit files in your project",
+        "Search the web"
+      ],
+      "correctIndex": 2,
+      "explanation": "Claude Code runs inside your terminal with access to your project files. It can read, create, and edit files directly — something Claude.ai in the browser cannot do. Both can answer questions and write creatively, but only Claude Code can touch your actual project."
+    }
+  ],
+  "completionMessage": "Now you know what Claude Code is and how it differs from Claude.ai. It's time to get it installed on your machine.",
+  "milestone": null,
+  "nextLesson": "6.2"
+}

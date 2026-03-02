@@ -1,0 +1,71 @@
+{
+  "id": "4.13",
+  "level": 4,
+  "order": 13,
+  "title": "Deployment",
+  "subtitle": "Getting your code from laptop to live",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You've written your app and it works on your laptop. But nobody else can use it yet — it's just files on your machine. **Deployment** is the process of moving your code from your laptop to a server where the whole world can access it.\n\nThink of it like writing a book. You've finished the manuscript (your code). Now you need to send it to the publisher (a hosting service), who prints it and puts it in bookstores (the internet). Until you deploy, your app is a private manuscript that only you can read.",
+      "keyPoints": [
+        "**Deployment** = making your app available to real users on the internet",
+        "Your code moves from your laptop to a server that's always running",
+        "Popular hosting services: Vercel, Netlify, AWS, Heroku, GitHub Pages",
+        "Modern deployment is usually automated — push your code, and it goes live"
+      ]
+    },
+    {
+      "type": "stepThrough",
+      "instruction": "Here are the typical steps to deploy a modern web app.",
+      "steps": [
+        {
+          "title": "1. Code on your laptop",
+          "description": "You write and test your app locally. It works on your machine, but it only runs while your computer is on and only you can access it.",
+          "highlight": "localhost:3000 — the address of your local app"
+        },
+        {
+          "title": "2. Push to GitHub",
+          "description": "You push your code to a GitHub repository. This puts your code in a central place that the hosting service can access. GitHub acts as the middleman between your laptop and the server.",
+          "highlight": "git push origin main"
+        },
+        {
+          "title": "3. Hosting service pulls your code",
+          "description": "Your hosting service (like Vercel or Netlify) is connected to your GitHub repo. When it detects new code has been pushed, it automatically pulls the latest version.",
+          "highlight": "The hosting service watches your repo for changes"
+        },
+        {
+          "title": "4. Build and run",
+          "description": "The hosting service installs dependencies, builds your app (compiles TypeScript, bundles files, optimizes images), and starts running it on their servers.",
+          "highlight": "npm install && npm run build"
+        },
+        {
+          "title": "5. Public URL is live",
+          "description": "Your app gets a public URL like myapp.vercel.app or yourname.github.io. Anyone in the world can now visit that URL and use your app. It's live 24/7.",
+          "highlight": "Your app is now on the internet!"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What is deployment?",
+      "options": [
+        "Writing code on your laptop",
+        "Testing your app locally",
+        "Moving your code to a server so the world can access it",
+        "Buying a domain name"
+      ],
+      "correctIndex": 2,
+      "explanation": "Deployment is the process of taking your code from your local machine and putting it on a server that's publicly accessible. Until you deploy, your app only exists on your laptop."
+    },
+    {
+      "type": "narrative",
+      "content": "Modern deployment is almost magical compared to how it used to work. In the old days, developers had to manually copy files to servers using FTP. Today, most teams use **auto-deployment** (also called continuous deployment or CD).\n\nHere's how it works: you connect your GitHub repo to a hosting service like Vercel or Netlify. Then, every time you push code to GitHub, the hosting service automatically detects the change, builds your app, and deploys the new version. Push to GitHub, and your site updates within seconds.",
+      "tip": "This app you're using right now is auto-deployed! When we push code to GitHub, GitHub Actions automatically builds it and deploys to GitHub Pages. No manual steps needed."
+    }
+  ],
+  "completionMessage": "You now understand deployment — the bridge between writing code and having a live app on the internet. Push to GitHub, hosting service builds it, public URL goes live. In the final lesson of this level, we'll learn about DNS and how domain names work.",
+  "milestone": null,
+  "nextLesson": "4.14"
+}

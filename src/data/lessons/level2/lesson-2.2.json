@@ -1,0 +1,64 @@
+{
+  "id": "2.2",
+  "level": 2,
+  "order": 2,
+  "title": "Peeking at the Top",
+  "subtitle": "Preview files with head",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "project": {
+          "log.txt": "[2024-01-15 08:00:01] INFO: Server starting on port 3000\n[2024-01-15 08:00:02] INFO: Loading configuration from /etc/app/config.yml\n[2024-01-15 08:00:02] INFO: Database connection pool initialized (max: 20)\n[2024-01-15 08:00:03] INFO: Redis cache connected at 127.0.0.1:6379\n[2024-01-15 08:00:03] INFO: Registered 14 API routes\n[2024-01-15 08:00:04] INFO: Health check endpoint active at /health\n[2024-01-15 08:00:04] INFO: Server ready - accepting connections\n[2024-01-15 08:01:12] INFO: GET /api/users 200 45ms\n[2024-01-15 08:01:15] INFO: GET /api/users/42/profile 200 32ms\n[2024-01-15 08:02:03] WARN: Slow query detected: getUserOrders took 1203ms\n[2024-01-15 08:02:44] INFO: POST /api/orders 201 128ms\n[2024-01-15 08:03:01] INFO: GET /api/products?category=electronics 200 67ms\n[2024-01-15 08:03:22] INFO: Email notification queued for order #1847\n[2024-01-15 08:04:15] ERROR: Failed to connect to payment gateway - retrying in 5s\n[2024-01-15 08:04:20] INFO: Payment gateway reconnected successfully\n[2024-01-15 08:04:55] INFO: GET /api/orders/1847/status 200 23ms\n[2024-01-15 08:05:30] INFO: WebSocket connection opened: client_id=ws_8f3a\n[2024-01-15 08:06:12] INFO: GET /api/dashboard/stats 200 189ms\n[2024-01-15 08:06:45] WARN: Rate limit approaching for IP 192.168.1.105 (87/100)\n[2024-01-15 08:07:01] INFO: POST /api/auth/login 200 95ms\n[2024-01-15 08:07:33] INFO: GET /api/notifications 200 41ms\n[2024-01-15 08:08:02] INFO: Background job started: cleanup_expired_sessions\n[2024-01-15 08:08:15] INFO: Cleaned up 23 expired sessions\n[2024-01-15 08:09:00] INFO: GET /api/users/15/settings 200 28ms\n[2024-01-15 08:09:44] INFO: PUT /api/users/15/settings 200 56ms\n[2024-01-15 08:10:12] ERROR: Unhandled exception in /api/reports/generate - NullPointerException\n[2024-01-15 08:10:12] ERROR: Stack trace: at ReportService.generate(ReportService.java:142)\n[2024-01-15 08:10:30] INFO: GET /api/products 200 52ms\n[2024-01-15 08:11:05] INFO: POST /api/cart/items 201 44ms\n[2024-01-15 08:11:45] INFO: WebSocket message received: client_id=ws_8f3a type=ping\n[2024-01-15 08:12:20] INFO: GET /api/orders?status=pending 200 71ms\n[2024-01-15 08:12:55] WARN: Disk usage at 82% on /var/log - consider rotation\n[2024-01-15 08:13:30] INFO: POST /api/auth/logout 200 12ms\n[2024-01-15 08:14:01] INFO: Background job started: send_daily_digest_emails\n[2024-01-15 08:14:22] INFO: Sent 156 daily digest emails\n[2024-01-15 08:15:00] INFO: GET /api/health 200 3ms\n[2024-01-15 08:15:33] INFO: New user registered: user_id=2051\n[2024-01-15 08:16:10] INFO: POST /api/auth/login 200 88ms\n[2024-01-15 08:16:45] INFO: GET /api/users/2051/onboarding 200 35ms\n[2024-01-15 08:17:20] INFO: File upload started: invoice_march.pdf (2.4MB)\n[2024-01-15 08:17:25] INFO: File upload completed: invoice_march.pdf stored at /uploads/2051/\n[2024-01-15 08:18:00] INFO: GET /api/search?q=wireless+headphones 200 234ms\n[2024-01-15 08:18:35] WARN: Search query took 234ms - index may need rebuilding\n[2024-01-15 08:19:10] INFO: POST /api/reviews 201 67ms\n[2024-01-15 08:19:45] INFO: Cache invalidated for product_id=892\n[2024-01-15 08:20:20] INFO: GET /api/products/892 200 145ms (cache miss)\n[2024-01-15 08:20:55] INFO: GET /api/products/892 200 8ms (cache hit)\n[2024-01-15 08:21:30] INFO: WebSocket connection closed: client_id=ws_8f3a\n[2024-01-15 08:22:05] INFO: Background job started: generate_sales_report\n[2024-01-15 08:22:40] INFO: Sales report generated: Q4_2023_sales.csv (1847 rows)",
+          "data.csv": "name,email,role,joined\nAlice Chen,alice.chen@example.com,engineer,2023-03-15\nBob Martinez,bob.martinez@example.com,designer,2023-04-02\nCarol White,carol.white@example.com,manager,2022-11-20\nDavid Kim,david.kim@example.com,engineer,2023-06-10\nEmma Johnson,emma.j@example.com,analyst,2023-01-08\nFrank Liu,frank.liu@example.com,engineer,2022-09-14\nGrace Patel,grace.patel@example.com,designer,2023-07-22\nHenry Brown,henry.b@example.com,manager,2022-05-30\nIsabel Garcia,isabel.g@example.com,analyst,2023-08-11\nJack Thompson,jack.t@example.com,engineer,2023-02-17\nKaren Lee,karen.lee@example.com,designer,2022-12-05\nLiam Wilson,liam.w@example.com,engineer,2023-09-28\nMia Davis,mia.davis@example.com,analyst,2023-04-19\nNoah Clark,noah.c@example.com,manager,2022-08-07\nOlivia Moore,olivia.m@example.com,engineer,2023-05-14\nPeter Yang,peter.yang@example.com,designer,2023-10-01\nQuinn Roberts,quinn.r@example.com,analyst,2023-03-25\nRachel Adams,rachel.a@example.com,engineer,2022-10-16\nSam Turner,sam.turner@example.com,manager,2023-01-30\nTina Nguyen,tina.n@example.com,engineer,2023-07-08\nUmar Hassan,umar.h@example.com,designer,2023-11-12\nVera Scott,vera.scott@example.com,analyst,2023-06-03\nWill Baker,will.b@example.com,engineer,2022-07-21\nXena Price,xena.p@example.com,manager,2023-08-29\nYuki Tanaka,yuki.t@example.com,engineer,2023-02-04\nZara Mitchell,zara.m@example.com,designer,2023-09-17\nAlex Rivera,alex.r@example.com,analyst,2023-05-26\nBeth Cooper,beth.c@example.com,engineer,2023-12-01\nChris Evans,chris.e@example.com,manager,2022-06-15"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/project",
+  "commandsIntroduced": ["head", "head -n"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "That log file has 50 lines. Using `cat` would flood your screen. `head` shows just the first 10 lines by default — perfect for a quick peek.",
+      "prompt": "Type `head log.txt` to see the first 10 lines of the server log.",
+      "hint": "Type: head log.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "head log.txt"
+      },
+      "onSuccess": {
+        "message": "Just the first 10 lines! You can see the server starting up: loading config, connecting to the database, registering routes. Much better than scrolling through all 50 lines."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "You can control exactly how many lines `head` shows with the `-n` flag. Want just the first 3? Use `-n 3`.",
+      "prompt": "Type `head -n 3 log.txt` to see only the first 3 lines.",
+      "hint": "Type: head -n 3 log.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "head -n 3 log.txt"
+      },
+      "onSuccess": {
+        "message": "Only 3 lines — the very start of the server boot. The `-n` flag lets you be precise about how much you want to see."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Here's a pro trick: use `head -n 1` on a CSV file to see just the column headers. That tells you what data the file contains without drowning in rows.",
+      "prompt": "Type `head -n 1 data.csv` to see the column headers.",
+      "hint": "Type: head -n 1 data.csv",
+      "validation": {
+        "type": "exactCommand",
+        "value": "head -n 1 data.csv"
+      },
+      "onSuccess": {
+        "message": "name, email, role, joined — now you know the structure of the data without reading all 30 rows. Developers do this constantly with CSV and log files."
+      }
+    }
+  ],
+  "completionMessage": "You now know `head` — perfect for peeking at the beginning of files. Use `head` for a quick 10-line preview, or `head -n N` for exactly N lines. But what about the end of a file?",
+  "milestone": null,
+  "nextLesson": "2.3"
+}

@@ -1,0 +1,80 @@
+{
+  "id": "2.5",
+  "level": 2,
+  "order": 5,
+  "title": "Writing to Files",
+  "subtitle": "Redirect output with >",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "project": {}
+      }
+    }
+  },
+  "initialDir": "/home/user/project",
+  "commandsIntroduced": ["> file"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Create a file with content: use `echo` with `>` to redirect output into a file.",
+      "prompt": "Type `echo \"Hello, world\" > greeting.txt`",
+      "hint": "echo \"Hello, world\" > greeting.txt",
+      "validation": {
+        "type": "fileContains",
+        "value": {
+          "path": "/home/user/project/greeting.txt",
+          "content": "Hello, world"
+        }
+      },
+      "onSuccess": {
+        "message": "The `>` symbol redirected the output into a file. The file was created automatically."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Verify it worked.",
+      "prompt": "Type `cat greeting.txt` to see what's inside.",
+      "hint": "cat greeting.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cat greeting.txt"
+      },
+      "onSuccess": {
+        "message": "There it is! You just wrote to a file without opening an editor."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now overwrite the file.",
+      "prompt": "Type `echo \"Goodbye\" > greeting.txt` \u2014 what happens to the old content?",
+      "hint": "echo \"Goodbye\" > greeting.txt",
+      "validation": {
+        "type": "fileContains",
+        "value": {
+          "path": "/home/user/project/greeting.txt",
+          "content": "Goodbye"
+        }
+      },
+      "onSuccess": {
+        "message": "Check the file now to see what happened..."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Read the file again to see what happened.",
+      "prompt": "Type `cat greeting.txt`",
+      "hint": "cat greeting.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cat greeting.txt"
+      },
+      "onSuccess": {
+        "message": "'Hello, world' is gone! `>` OVERWRITES the entire file. This is important to remember."
+      }
+    }
+  ],
+  "completionMessage": "You learned the `>` redirect operator. It sends command output into a file instead of the screen. But be careful \u2014 `>` overwrites everything! Next, you'll learn how to add to a file without erasing it.",
+  "milestone": null,
+  "nextLesson": "2.6"
+}

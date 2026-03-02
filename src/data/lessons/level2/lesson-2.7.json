@@ -1,0 +1,50 @@
+{
+  "id": "2.7",
+  "level": 2,
+  "order": 7,
+  "title": "Copying File Contents",
+  "subtitle": "Use cat with > to duplicate content",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "project": {
+          "original.txt": "This is the original file.\nIt has important content.\nDon't lose it."
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/project",
+  "commandsIntroduced": ["cat file > newfile"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "You can combine `cat` with `>` to copy the contents of one file into another. `cat` reads the file, and `>` sends the output to a new file.",
+      "prompt": "Type `cat original.txt > backup.txt` to copy the content into a backup.",
+      "hint": "cat original.txt > backup.txt",
+      "validation": {
+        "type": "fileExists",
+        "value": "/home/user/project/backup.txt"
+      },
+      "onSuccess": {
+        "message": "`cat` read the file, `>` sent the output to a new file. You just made a backup!"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Let's verify the copy has the same content.",
+      "prompt": "Type `cat backup.txt` to check.",
+      "hint": "cat backup.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cat backup.txt"
+      },
+      "onSuccess": {
+        "message": "Same content as the original. This copies CONTENT by reading and redirecting \u2014 different from the `cp` command you'll learn later."
+      }
+    }
+  ],
+  "completionMessage": "You combined two things you already know \u2014 `cat` and `>` \u2014 to create something new: a way to copy file contents. This is how the terminal works \u2014 small tools combine into powerful workflows.",
+  "milestone": null,
+  "nextLesson": "2.8"
+}

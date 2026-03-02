@@ -1,0 +1,62 @@
+{
+  "id": "7.10",
+  "level": 7,
+  "order": 10,
+  "title": "Custom Domains",
+  "subtitle": "Give your project a real web address",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Your app is live at something like `my-app.onrender.com`. It works perfectly, but what if you want **myapp.com**?\n\nA custom domain makes your project look professional, is easier to remember, and shows that you're serious about what you've built. The good news: setting one up is straightforward and costs about $10-15 per year.",
+      "analogy": "Your .onrender.com URL is like a numbered street address \u2014 it works, but it's hard to remember and doesn't feel personal. A custom domain is like naming your building \u2014 'The Grand Hotel' is more memorable than '247 West 43rd Street'."
+    },
+    {
+      "type": "narrative",
+      "content": "Here's what you need to know about custom domains before diving into the setup.",
+      "keyPoints": [
+        "You buy a domain from a registrar (Namecheap, Google Domains, Cloudflare)",
+        "You configure DNS to point the domain to your hosting service",
+        "Your hosting service handles HTTPS certificates automatically",
+        "This is optional \u2014 your .onrender.com URL works perfectly fine for learning and portfolio projects"
+      ]
+    },
+    {
+      "type": "stepThrough",
+      "instruction": "How custom domains work. Understanding these steps will demystify one of the most common questions beginners have about the web.",
+      "steps": [
+        {
+          "title": "Buy a domain",
+          "description": "Choose a registrar (Namecheap and Cloudflare are popular) and search for an available name. Prices range from $10-$15/year for common extensions like .com, .dev, or .io. Avoid premium domains that cost hundreds \u2014 you don't need them."
+        },
+        {
+          "title": "Add domain to Render",
+          "description": "In your Render dashboard, go to Settings \u2192 Custom Domain and enter your domain name. Render will give you a target address to use in the next step."
+        },
+        {
+          "title": "Configure DNS",
+          "description": "At your registrar, add a CNAME record pointing your domain to your Render URL. A CNAME record is like a forwarding address \u2014 it tells the internet 'when someone types myapp.com, send them to my-app.onrender.com'."
+        },
+        {
+          "title": "Wait for DNS propagation",
+          "description": "DNS changes can take up to 48 hours to spread worldwide, but they usually work within minutes. Be patient \u2014 if it doesn't work immediately, try again in an hour. Render will automatically set up HTTPS once the domain is connected."
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What does DNS do?",
+      "options": [
+        "Hosts your website files",
+        "Translates domain names to server addresses",
+        "Protects against hackers",
+        "Speeds up your website"
+      ],
+      "correctIndex": 1,
+      "explanation": "DNS (Domain Name System) is the internet's phone book. When you type 'myapp.com' into a browser, DNS translates that human-readable name into the server address where your app actually lives. Without DNS, you'd have to remember IP addresses like 104.21.34.56 for every website."
+    }
+  ],
+  "completionMessage": "You understand how custom domains work: buy a domain, configure DNS to point it at your hosting service, and let the platform handle HTTPS. Whether you set one up now or later, you know exactly how the pieces fit together.",
+  "milestone": null,
+  "nextLesson": "7.11"
+}

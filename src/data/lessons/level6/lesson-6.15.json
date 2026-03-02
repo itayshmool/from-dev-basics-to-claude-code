@@ -1,0 +1,80 @@
+{
+  "id": "6.15",
+  "level": 6,
+  "order": 15,
+  "title": "Level 6 Challenge",
+  "subtitle": "Build and ship a complete project using Claude Code",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "This is the real deal. You're going to build a **complete bookmark manager application** from scratch using Claude Code — and push it to GitHub when you're done.\n\nNo step-by-step hand-holding. No simulations. You have all the skills:\n\n- **Terminal** (Level 1) — navigating and running commands\n- **File system** (Level 2) — creating and organizing files\n- **Git** (Level 3) — version control and GitHub\n- **Web fundamentals** (Level 4) — HTML, CSS, JavaScript\n- **Node.js** (Level 5) — building real projects\n- **Claude Code** (Level 6) — AI-powered development\n\nEach checkbox below is a feature to add. Build them one at a time using Claude Code. Review every change with `git diff`. Use feature branches. This is the professional workflow.\n\nTake your time. There's no rush. The goal isn't speed — it's building something real that works."
+    },
+    {
+      "type": "checklist",
+      "instruction": "Build a bookmark manager from scratch using Claude Code. Complete each feature one at a time, in order. Use the iterative workflow you've learned: prompt Claude, review the changes, commit, then move on.",
+      "items": [
+        {
+          "text": "Create a new project folder and initialize with npm",
+          "hint": "mkdir bookmark-app && cd bookmark-app && npm init -y"
+        },
+        {
+          "text": "Use Claude to build: HTML page with a form (URL + title + category fields)",
+          "hint": "Describe exactly what fields you want and how the form should look"
+        },
+        {
+          "text": "Use Claude to add: localStorage persistence",
+          "hint": "Tell Claude: 'Save bookmarks to localStorage and load them on page refresh'"
+        },
+        {
+          "text": "Use Claude to add: display bookmarks grouped by category",
+          "hint": "Describe the grouping behavior clearly — bookmarks should appear under category headings"
+        },
+        {
+          "text": "Use Claude to add: search/filter functionality",
+          "hint": "Ask Claude to filter bookmarks as the user types in a search bar"
+        },
+        {
+          "text": "Use Claude to add: delete and edit capabilities",
+          "hint": "One feature at a time — add delete first, then edit. Iterate!"
+        },
+        {
+          "text": "Review every change with git diff",
+          "hint": "Don't skip this step — it's how you stay in control of your codebase"
+        },
+        {
+          "text": "Use git branches for each feature",
+          "hint": "git checkout -b feature-name for each new feature, merge when done"
+        },
+        {
+          "text": "Push the finished project to GitHub",
+          "hint": "git remote add origin <your-repo-url> && git push -u origin main"
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "**Congratulations. You just built and shipped a real application using Claude Code.**\n\nLet that sink in. You started this course not knowing what a terminal was. Now you've:\n\n- Navigated the file system from the command line\n- Created and managed files and folders\n- Used git for version control\n- Understood how websites and servers work\n- Built a Node.js project from scratch\n- Used an AI pair programmer to build a complete app\n- Pushed your work to GitHub for the world to see\n\nYou're not just following tutorials anymore. You're **building things**. That's the difference between learning about software and being someone who creates it.\n\nThe bookmark manager on your GitHub profile is proof. You built that. With real tools. Using a professional workflow.\n\nAnd this is just the beginning.",
+      "keyPoints": [
+        "You built a real, working application from scratch",
+        "You used Claude Code as a professional development tool",
+        "You followed the branch-build-review-commit workflow",
+        "Your project is live on GitHub — a real portfolio piece",
+        "Next up: Level 7 — the patterns that junior developers use every day"
+      ]
+    }
+  ],
+  "completionMessage": "Level 6 complete! You've gone from learning about Claude Code to using it to build and ship a real project. You're not just learning anymore — you're building. That's what developers do.",
+  "milestone": {
+    "title": "Level 6 Complete: Claude Code \u2014 Your AI Pair Programmer",
+    "summary": [
+      "Install and configure Claude Code",
+      "Build projects through conversation",
+      "Write effective prompts",
+      "Review and iterate on AI-generated code",
+      "Combine Claude Code with a professional git workflow"
+    ],
+    "nextLevelTeaser": "Next up: Level 7 \u2014 Junior Developer Patterns. You'll learn to debug, deploy, and work like a professional."
+  },
+  "nextLesson": "7.1"
+}

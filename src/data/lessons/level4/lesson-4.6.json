@@ -1,0 +1,60 @@
+{
+  "id": "4.6",
+  "level": 4,
+  "order": 6,
+  "title": "What Is an API?",
+  "subtitle": "The menu of things a server can do",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "An **API** (Application Programming Interface) is a set of rules that defines what requests a server will accept and what responses it will send back.\n\nWhen a developer builds a server, they don't just let anyone send any request they want. Instead, they create an API — a clear list of endpoints (URLs) you can call, what data to send, and what you'll get back.\n\nEvery app you use relies on APIs. When a weather app shows you the forecast, it's calling a weather API. When you log in to a website, it's calling an authentication API. When you scroll through social media, it's calling an API to fetch the next batch of posts.",
+      "analogy": "An API is like a restaurant menu. The menu tells you exactly what you can order, what each dish contains, and what it costs. You can't walk into the kitchen and make whatever you want — you choose from the menu. An API works the same way: it tells your app exactly what it can request from the server.",
+      "keyPoints": [
+        "API = Application Programming Interface",
+        "It defines the \"menu\" of requests a server accepts",
+        "Each item on the menu is called an **endpoint** (a specific URL + method)",
+        "APIs let different software systems talk to each other without knowing each other's internals"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Here's what a typical API for a blog might look like. Each endpoint is a combination of an HTTP method and a URL path.",
+      "blocks": [
+        {
+          "language": "text",
+          "label": "Blog API Endpoints",
+          "code": "GET    /api/posts          \u2192 Get all blog posts\nGET    /api/posts/15       \u2192 Get post #15\nPOST   /api/posts          \u2192 Create a new post\nPUT    /api/posts/15       \u2192 Update post #15\nDELETE /api/posts/15       \u2192 Delete post #15"
+        },
+        {
+          "language": "text",
+          "label": "User API Endpoints",
+          "code": "GET    /api/users          \u2192 Get all users\nGET    /api/users/42       \u2192 Get user #42's profile\nPOST   /api/users          \u2192 Create a new user (sign up)\nPUT    /api/users/42       \u2192 Update user #42's profile\nDELETE /api/users/42       \u2192 Delete user #42's account"
+        }
+      ],
+      "explanation": "Notice the pattern: the URL tells you WHAT you're working with (/posts or /users), the number tells you WHICH one, and the HTTP method tells you WHAT you want to do with it. This consistent pattern makes APIs predictable and easy to use."
+    },
+    {
+      "type": "quiz",
+      "question": "A mobile weather app displays today's forecast. How does it get that data?",
+      "options": [
+        "The forecast is hardcoded into the app",
+        "The app calls a weather API to request the latest data",
+        "The app reads the data from your phone's sensors",
+        "The app scrapes a weather website"
+      ],
+      "correctIndex": 1,
+      "explanation": "The weather app sends a request to a weather API (like \"GET /api/forecast?city=London\"), and the server responds with the latest weather data. The app then displays it in a nice format. That's APIs in action."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "An API defines what _____ a server will accept.",
+      "answer": "requests",
+      "acceptAlternates": ["request"],
+      "caseSensitive": false
+    }
+  ],
+  "completionMessage": "You now understand APIs — the menus that servers publish so other software knows how to talk to them. In the final lesson, we'll look at JSON, the data format that APIs use to send information back and forth.",
+  "milestone": null,
+  "nextLesson": "4.7"
+}

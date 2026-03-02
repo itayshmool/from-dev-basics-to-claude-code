@@ -1,0 +1,71 @@
+{
+  "id": "6.12",
+  "level": 6,
+  "order": 12,
+  "title": "Git Workflow with Claude",
+  "subtitle": "Combine Claude Code with professional version control",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "In Level 3, you learned git: branches, commits, merges, and pushing to GitHub. In this lesson, you'll combine that workflow with Claude Code.\n\nThe professional pattern looks like this:\n\n1. **Branch** — create a feature branch for the new work\n2. **Build** — use Claude Code to implement the feature\n3. **Review** — check what Claude wrote with `git diff`\n4. **Commit** — save the changes with a descriptive message\n5. **Merge** — bring the feature into your main branch\n6. **Push** — send it to GitHub\n\nThis is exactly how software teams work. Claude Code slots right into the \"Build\" step — the rest of the workflow stays the same."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Start by creating a feature branch. This keeps your experimental work separate from the stable main branch — just like you learned in Level 3.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "git checkout -b feature-search",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "fatal: not a git repository",
+          "solution": "You need to be inside a git repository. Run 'git init' first, or cd into your project folder."
+        },
+        {
+          "problem": "already exists",
+          "solution": "You already have this branch. Switch to it with: git checkout feature-search"
+        }
+      ]
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Now use Claude Code to build the feature. Be specific about what you want — Claude will create it on your feature branch.",
+      "prompt": "Add a search bar that filters bookmarks by title as the user types",
+      "expectedResult": "Claude adds a search input field and JavaScript logic that filters the displayed bookmarks in real time as the user types. Only bookmarks whose titles match the search text are shown."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Review what Claude built, then commit, merge, and push. This is the full cycle — from branch to deployed code.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "git diff\ngit add .\ngit commit -m \"Add search filter feature\"\ngit checkout main\ngit merge feature-search\ngit push",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "nothing to commit",
+          "solution": "Claude's changes may not have been saved. Make sure Claude actually modified files, then try git add . again."
+        },
+        {
+          "problem": "merge conflict",
+          "solution": "If you get a merge conflict, ask Claude: 'Help me resolve the merge conflict in <filename>'. Claude can read the conflict markers and fix them."
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "This is the professional workflow: **branch, build, review, commit, merge, push**. Claude Code fits right into the \"build\" step without changing anything else.\n\nEvery feature gets its own branch. Every change gets reviewed before committing. Every commit gets pushed to GitHub. This is how real software teams ship code — and now it's how you ship code too."
+    }
+  ],
+  "completionMessage": "You've combined Claude Code with a professional git workflow. Branch, build with Claude, review, commit, merge, push. This pattern scales from solo projects to teams of hundreds.",
+  "milestone": null,
+  "nextLesson": "6.13"
+}

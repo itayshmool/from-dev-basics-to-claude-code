@@ -223,6 +223,31 @@ export class VirtualFileSystem {
     return 'ok';
   }
 
+  writeFile(path: string, content: string): boolean {
+    const resolved = this.resolvePath(path);
+    const node = this.getNode(resolved);
+    if (node?.type === 'file') {
+      (node as FileNode).content = content;
+      return true;
+    }
+    return this.createFile(path, content);
+  }
+
+  getAllFilePaths(basePath = '/'): string[] {
+    const paths: string[] = [];
+    const node = this.getNode(basePath);
+    if (!node || node.type === 'file') return paths;
+    const walk = (dir: DirNode, prefix: string) => {
+      for (const [name, child] of dir.children) {
+        const full = prefix === '/' ? '/' + name : prefix + '/' + name;
+        if (child.type === 'file') paths.push(full);
+        else walk(child as DirNode, full);
+      }
+    };
+    walk(node as DirNode, basePath);
+    return paths;
+  }
+
   toJSON(path = '/'): FileSystemSpec {
     const node = this.getNode(path);
     if (!node || node.type === 'file') return {};

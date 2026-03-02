@@ -1,0 +1,60 @@
+{
+  "id": "6.11",
+  "level": 6,
+  "order": 11,
+  "title": "Debugging with Claude",
+  "subtitle": "When something breaks, Claude is your debugging partner",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Things will break. That's not a failure — it's a normal part of building software. The difference between a beginner and an experienced developer isn't that experienced developers never get errors. It's that they know how to **describe the problem clearly** and **find the fix efficiently**.\n\nClaude Code is an excellent debugging partner. But it can only help if you tell it what's wrong. Vague descriptions like \"it doesn't work\" give Claude very little to work with. Specific descriptions like \"the form submits but the success message never appears\" point Claude right at the issue.\n\nThe key pattern for reporting bugs: **Expected X, got Y, here's what I tried.**"
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "When you see an error in the terminal, copy the exact error message and paste it to Claude. Don't paraphrase — the exact text contains important clues like file names, line numbers, and error codes.",
+      "prompt": "I'm getting this error when I run the server: {{error_message}}",
+      "placeholders": [
+        {
+          "token": "{{error_message}}",
+          "description": "Paste the exact error text from your terminal — copy the whole thing, including file paths and line numbers"
+        }
+      ],
+      "expectedResult": "Claude reads the error, explains what went wrong in plain English, identifies the file and line causing the issue, and suggests a specific fix"
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Not all bugs produce error messages. Sometimes things just look wrong in the browser. For visual bugs, describe what you see versus what you expected.",
+      "prompt": "The {{element}} is {{problem}} instead of {{expected}}",
+      "placeholders": [
+        {
+          "token": "{{element}}",
+          "description": "What's wrong (e.g., 'list items', 'navigation bar', 'submit button')"
+        },
+        {
+          "token": "{{problem}}",
+          "description": "What you see (e.g., 'overlapping each other', 'invisible', 'stretched to full width')"
+        },
+        {
+          "token": "{{expected}}",
+          "description": "What you expected (e.g., 'stacking vertically with spacing', 'visible and centered', 'a small button')"
+        }
+      ],
+      "expectedResult": "Claude diagnoses the layout or styling issue and modifies the code to fix it. It might adjust CSS, fix HTML structure, or correct a logic error."
+    },
+    {
+      "type": "narrative",
+      "content": "Describing problems clearly is a genuine skill — and one that makes you better at working with both AI and human teammates.",
+      "keyPoints": [
+        "Describing the problem clearly is the most important debugging skill",
+        "The magic pattern: 'Expected X, got Y, here's what I tried'",
+        "Copy exact error messages — don't paraphrase them",
+        "For visual bugs, describe what you see vs. what you expected",
+        "Include context: what were you doing when it broke?"
+      ]
+    }
+  ],
+  "completionMessage": "You now know how to turn Claude into a debugging partner. The pattern is simple: describe the problem clearly, provide the exact error or symptoms, and let Claude trace it back to the cause. This works with any bug, in any project.",
+  "milestone": null,
+  "nextLesson": "6.12"
+}

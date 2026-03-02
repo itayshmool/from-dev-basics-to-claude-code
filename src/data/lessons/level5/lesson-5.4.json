@@ -1,0 +1,50 @@
+{
+  "id": "5.4",
+  "level": 5,
+  "order": 4,
+  "title": "What Is npm?",
+  "subtitle": "The world's largest code library",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "When you installed Node.js, you got a bonus tool called **npm** — the Node Package Manager.\n\nnpm is like an app store, but for code. Instead of downloading apps to your phone, you download **packages** (reusable chunks of code) to your project. Need to build a web server? There's a package for that. Need to format dates? There's a package for that. Need to send emails? Package.\n\nInstead of writing everything from scratch, developers stand on the shoulders of millions of other developers who've shared their work for free.",
+      "analogy": "npm is like a massive LEGO store. Instead of carving every brick yourself, you grab pre-made pieces and snap them together to build something new."
+    },
+    {
+      "type": "narrative",
+      "content": "The npm registry has over **2 million packages** — and it grows every day. Here are some of the most popular ones you'll encounter:",
+      "keyPoints": [
+        "express — build web servers (downloaded 30+ million times per week)",
+        "axios — make HTTP requests to other servers and APIs",
+        "dayjs — work with dates and times without going insane",
+        "chalk — add colors to your terminal output"
+      ],
+      "tip": "You can browse all packages at npmjs.com. Every package has a page with documentation, download stats, and a link to its source code."
+    },
+    {
+      "type": "quiz",
+      "question": "What is npm?",
+      "options": [
+        "A programming language",
+        "A text editor for writing code",
+        "A package manager that lets you install reusable code libraries",
+        "A website for hosting your projects"
+      ],
+      "correctIndex": 2,
+      "explanation": "npm (Node Package Manager) is a tool for installing, managing, and sharing reusable JavaScript packages. It came bundled with Node.js when you installed it. It's not a language, editor, or hosting service — it's a package manager."
+    },
+    {
+      "type": "narrative",
+      "content": "You'll use npm constantly as a developer. The two commands you'll use most:\n\n- `npm install <package>` — download a package into your project\n- `npm init` — set up a new project\n\nLet's put these to work in the next lesson.",
+      "keyPoints": [
+        "npm install downloads packages from the registry",
+        "npm init creates a new project configuration",
+        "Every Node.js project has a package.json file that lists its packages"
+      ]
+    }
+  ],
+  "completionMessage": "Now you know what npm is — a massive library of free, reusable code. Next, you'll create your first real project and start using it.",
+  "milestone": null,
+  "nextLesson": "5.5"
+}

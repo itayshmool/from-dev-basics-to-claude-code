@@ -1,0 +1,70 @@
+{
+  "id": "7.4",
+  "level": 7,
+  "order": 4,
+  "title": "Console.log Debugging",
+  "subtitle": "The simplest and most effective debugging tool",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "There are fancy debugging tools with breakpoints, watch expressions, and step-through execution. You'll learn those eventually. But the tool you'll use **most often**, even as a senior developer, is the humble `console.log()`.\n\nThe idea is dead simple: **print things out to see what's actually happening**. When your code doesn't behave as expected, the fastest way to understand why is to log the values at each step and compare what you *expected* to what *actually* happened.\n\nIt's not glamorous. It's not sophisticated. But it works, and it works fast.",
+      "analogy": "Console.log debugging is like putting trail cameras in a forest. You can't watch every tree all the time, but you can place cameras at key points to see what's passing through. When something unexpected shows up, you know exactly where to look."
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Compare these two versions. The first has a bug hiding somewhere. The second adds strategic logs so you can see exactly what's happening at each step.",
+      "blocks": [
+        {
+          "language": "javascript",
+          "label": "Before (no logs)",
+          "code": "function processBookmarks(bookmarks) {\n  const filtered = bookmarks.filter(b => b.active);\n  return filtered.map(b => b.title);\n}"
+        },
+        {
+          "language": "javascript",
+          "label": "After (with debug logs)",
+          "code": "function processBookmarks(bookmarks) {\n  console.log('Input bookmarks:', bookmarks);\n  const filtered = bookmarks.filter(b => b.active);\n  console.log('After filter:', filtered);\n  console.log('Count:', filtered.length);\n  return filtered.map(b => b.title);\n}"
+        }
+      ],
+      "explanation": "With the logs, you can see: Did the function receive the right input? Did the filter work as expected? How many items survived the filter? If any step produces unexpected output, you've found where the bug lives."
+    },
+    {
+      "type": "narrative",
+      "content": "Strategic logging is an art. Don't just dump logs everywhere — place them at the points where data transforms or where something could go wrong.",
+      "keyPoints": [
+        "Log at the START of a function (did it get called? with what?)",
+        "Log BEFORE and AFTER transformations (what changed?)",
+        "Label every log: console.log('step 3 - data:', data)",
+        "Remove debug logs before committing"
+      ],
+      "tip": "Always label your logs! If you just write console.log(data) five times, you'll see five outputs and have no idea which is which. Write console.log('after filter:', data) so every output tells you exactly where it came from."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "When you're done debugging, use Claude to clean up. Debug logs should never make it into your final code.",
+      "prompt": "Remove all debug console.log statements from {{filename}}",
+      "placeholders": [
+        {
+          "token": "{{filename}}",
+          "description": "The file with debug logs (e.g., app.js)"
+        }
+      ],
+      "expectedResult": "Claude removes only the debug logs, keeping any intentional logging (like error logs or startup messages). Claude can tell the difference based on context."
+    },
+    {
+      "type": "quiz",
+      "question": "Why should you label every console.log statement?",
+      "options": [
+        "It makes the code run faster",
+        "JavaScript requires labels on console.log",
+        "So you can tell which log produced which output",
+        "Labels are only needed in production code"
+      ],
+      "correctIndex": 2,
+      "explanation": "When you have multiple console.log statements, the terminal shows all their outputs in order. Without labels, you see a wall of data with no context. Labels like console.log('after filter:', data) tell you exactly what you're looking at."
+    }
+  ],
+  "completionMessage": "Console.log is now in your debugging toolkit. Place logs strategically, label them clearly, and remove them when you're done. It's simple, it's effective, and even senior developers use it daily. Next: how to find answers when you're stuck.",
+  "milestone": null,
+  "nextLesson": "7.5"
+}

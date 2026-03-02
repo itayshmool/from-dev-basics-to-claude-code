@@ -1,0 +1,71 @@
+{
+  "id": "7.3",
+  "level": 7,
+  "order": 3,
+  "title": "The Debugging Mindset",
+  "subtitle": "A scientific approach to finding and fixing bugs",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Your code will break. Every developer's code breaks. The difference between a beginner and a professional isn't that professionals write bug-free code — it's that professionals know how to **find and fix bugs systematically**.\n\nDebugging is not random trial and error. It's not changing things and hoping for the best. It's a scientific method: observe, hypothesize, test, conclude.\n\nThe developers who seem like wizards at debugging aren't smarter — they just follow a process instead of panicking.",
+      "analogy": "Debugging is like being a detective. A crime (bug) has been committed. You gather evidence (error messages, logs), form a theory (hypothesis), test it (change one thing), and either solve the case or form a new theory. You never randomly arrest people and hope for the best."
+    },
+    {
+      "type": "stepThrough",
+      "instruction": "The Debugging Process — follow these steps every time you encounter a bug",
+      "steps": [
+        {
+          "title": "REPRODUCE",
+          "description": "Can you make the bug happen consistently? If it's random, look for timing or state issues. If you can't reproduce it, you can't fix it with confidence. Write down the exact steps that trigger the bug."
+        },
+        {
+          "title": "ISOLATE",
+          "description": "Where exactly does it go wrong? Narrow down to the specific file, function, or line. Use console.log or error messages to pinpoint the location. The smaller the area you're investigating, the faster you'll find the problem."
+        },
+        {
+          "title": "HYPOTHESIZE",
+          "description": "What do you think is causing it? Form a theory before changing anything. 'I think the bug is because the array is empty when we try to access index 0.' Having a theory focuses your investigation."
+        },
+        {
+          "title": "TEST",
+          "description": "Change ONE thing to test your hypothesis. Never change multiple things at once — if you change three things and the bug disappears, you won't know which change fixed it. Discipline here saves hours later."
+        },
+        {
+          "title": "FIX",
+          "description": "Apply the fix based on what you learned. A good fix addresses the root cause, not just the symptom. If users crash when the array is empty, don't just hide the error — handle the empty array properly."
+        },
+        {
+          "title": "VERIFY",
+          "description": "Does the original bug still happen? Did you break anything else? Test the fix, then test the things around it. A fix that creates new bugs isn't really a fix."
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "Here are the golden rules of debugging that will save you countless hours. Tape them to your monitor if you have to.",
+      "keyPoints": [
+        "Don't change multiple things at once — you won't know what fixed it",
+        "Read the error message — it usually tells you what's wrong and where",
+        "Trust the error, not your assumption about where the bug is",
+        "Every developer debugs. Senior developers just do it more systematically."
+      ],
+      "tip": "When you're frustrated with a bug, take a 5-minute break. Seriously. Many developers report solving bugs right after stepping away. Your subconscious keeps working on the problem even when you're not staring at the screen."
+    },
+    {
+      "type": "quiz",
+      "question": "What's the FIRST step in debugging?",
+      "options": [
+        "Change the code and hope for the best",
+        "Reproduce the bug consistently",
+        "Ask Claude to fix it",
+        "Delete the file and start over"
+      ],
+      "correctIndex": 1,
+      "explanation": "Before you can fix a bug, you need to be able to make it happen on command. If you can't reproduce it, you can't verify that your fix works. Reproducing the bug is always step one — everything else builds on it."
+    }
+  ],
+  "completionMessage": "You now have a systematic debugging process: Reproduce, Isolate, Hypothesize, Test, Fix, Verify. Follow this every time and you'll solve bugs faster than most developers. Next, let's learn the most practical debugging tool.",
+  "milestone": null,
+  "nextLesson": "7.4"
+}

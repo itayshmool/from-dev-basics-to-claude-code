@@ -89,6 +89,86 @@ export interface TerminalStepSection {
   };
 }
 
+// --- Level 4 section types ---
+
+export interface CodeExampleSection {
+  type: 'codeExample';
+  instruction: string;
+  blocks: Array<{
+    language: string;
+    label?: string;
+    code: string;
+  }>;
+  explanation?: string;
+}
+
+export interface DragSortSection {
+  type: 'dragSort';
+  instruction: string;
+  categories: Array<{
+    name: string;
+    description?: string;
+  }>;
+  items: Array<{
+    text: string;
+    correctCategory: string;
+  }>;
+}
+
+export interface StepThroughSection {
+  type: 'stepThrough';
+  instruction: string;
+  steps: Array<{
+    title: string;
+    description: string;
+    highlight?: string;
+  }>;
+}
+
+// --- Levels 5-7 section types (guide mode) ---
+
+export interface GuideStepSection {
+  type: 'guideStep';
+  instruction: string;
+  platform?: {
+    mac: string;
+    windows: string;
+  };
+  codeBlocks?: Array<{
+    language: string;
+    code: string;
+    filename?: string;
+    copyable?: boolean;
+  }>;
+  expectedOutput?: string;
+  troubleshooting?: Array<{
+    problem: string;
+    solution: string;
+  }>;
+  confirmationType: 'success_or_error' | 'continue' | 'checklist';
+  checklistItems?: string[];
+}
+
+export interface PromptTemplateSection {
+  type: 'promptTemplate';
+  instruction: string;
+  prompt: string;
+  placeholders?: Array<{
+    token: string;
+    description: string;
+  }>;
+  expectedResult?: string;
+}
+
+export interface ChecklistSection {
+  type: 'checklist';
+  instruction: string;
+  items: Array<{
+    text: string;
+    hint?: string;
+  }>;
+}
+
 export type LessonSection =
   | NarrativeSection
   | QuizSection
@@ -98,7 +178,13 @@ export type LessonSection =
   | PathBuilderSection
   | TerminalPreviewSection
   | ProgramSimSection
-  | TerminalStepSection;
+  | TerminalStepSection
+  | CodeExampleSection
+  | DragSortSection
+  | StepThroughSection
+  | GuideStepSection
+  | PromptTemplateSection
+  | ChecklistSection;
 
 // --- Lesson ---
 
@@ -114,7 +200,7 @@ export interface Lesson {
   order: number;
   title: string;
   subtitle: string;
-  type: 'conceptual' | 'terminal';
+  type: 'conceptual' | 'terminal' | 'guide';
   initialFs?: FileSystemSpec;
   initialDir?: string;
   commandsIntroduced?: string[];

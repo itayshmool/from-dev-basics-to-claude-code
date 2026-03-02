@@ -1,0 +1,106 @@
+{
+  "id": "3.15",
+  "level": 3,
+  "order": 15,
+  "title": "Writing Good Commits",
+  "subtitle": "Messages your future self will thank you for",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "blog": {
+          "index.html": "<html>\n<body>\n<h1>My Blog</h1>\n<div id='posts'></div>\n</body>\n</html>",
+          "style.css": "body {\n  font-family: sans-serif;\n  margin: 0;\n  padding: 20px;\n}"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/blog",
+  "commandsIntroduced": [],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "You have a blog project with HTML and CSS. Let's practice the full workflow with good commit messages.",
+      "prompt": "Type `git init` to start tracking this project.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Repository initialized. Let's stage everything."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage all files for your initial commit.",
+      "prompt": "Type `git add .` to stage everything.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "All files staged. Now for the important part \u2014 writing a descriptive commit message."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Your initial commit should describe what the project contains. Don't just write 'first commit' \u2014 be specific about what you're starting with.",
+      "prompt": "Write a descriptive commit. Try: `git commit -m \"Set up blog with HTML structure and base styles\"`",
+      "hint": "Type: git commit -m \"Set up blog with HTML structure and base styles\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit -m"
+      },
+      "onSuccess": {
+        "message": "Great message! It describes WHAT the commit contains. Someone reading your git log would immediately know what this project started with."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now add a new feature to your blog \u2014 a navigation bar.",
+      "prompt": "Type `echo \"<nav>Home | About | Contact</nav>\" >> index.html` to add navigation.",
+      "hint": "Type: echo \"<nav>Home | About | Contact</nav>\" >> index.html",
+      "validation": {
+        "type": "fileContains",
+        "value": {
+          "path": "/home/user/blog/index.html",
+          "content": "nav"
+        }
+      },
+      "onSuccess": {
+        "message": "Navigation added. Now stage and commit this change."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage the modified file.",
+      "prompt": "Type `git add .` to stage your changes.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "Staged. Now write a commit message that describes this specific change."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Write a commit message for this change. Describe what you added, not just 'update'. Good examples: 'Add navigation bar to blog', 'Add nav links for Home, About, Contact'.",
+      "prompt": "Commit with a descriptive message using `git commit -m \"...\"`",
+      "hint": "Type: git commit -m \"Add navigation bar to blog\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit -m"
+      },
+      "onSuccess": {
+        "message": "Each commit tells a story. When you run git log, you should be able to understand the project's history just by reading the messages. That's the mark of a professional developer."
+      }
+    }
+  ],
+  "completionMessage": "Good commit messages are a superpower. They help your teammates, your future self, and anyone who reads your code. The rule: describe WHAT changed and WHY, not just THAT something changed.",
+  "milestone": null,
+  "nextLesson": "3.16"
+}

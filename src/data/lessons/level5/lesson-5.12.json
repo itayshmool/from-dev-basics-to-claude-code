@@ -1,0 +1,74 @@
+{
+  "id": "5.12",
+  "level": 5,
+  "order": 12,
+  "title": "Serving JSON (Building an API)",
+  "subtitle": "Make your server speak the language of the web",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "So far, your routes return plain text with `res.send()`. That works for simple messages, but **real APIs don't return plain text — they return JSON.**\n\nRemember JSON from Level 4? It's the universal data format of the web. When your phone checks the weather, when a website loads your profile, when an app fetches new posts — all of that data travels as JSON.\n\nExpress makes this incredibly easy. Instead of `res.send()`, you use `res.json()` and pass it a JavaScript object. Express automatically converts it to JSON and sends it with the right headers so browsers and apps know how to read it.",
+      "keyPoints": [
+        "res.send() returns plain text",
+        "res.json() returns JSON data — the standard for APIs",
+        "Express handles the conversion from JavaScript objects to JSON automatically",
+        "This is how every API you've ever used works behind the scenes"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Add a new JSON route to your `app.js` file. This route will return the current time and date as structured data. Add it alongside your other routes (before `app.listen()`).",
+      "codeBlocks": [
+        {
+          "language": "javascript",
+          "code": "app.get('/api/time', (req, res) => {\n  res.json({\n    time: new Date().toLocaleTimeString(),\n    date: new Date().toLocaleDateString()\n  });\n});",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "I'm not sure where to add this",
+          "solution": "Add it right after your other app.get() routes and before the app.listen() at the bottom. The order of routes doesn't matter much, but keeping them organized helps."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Stop your server with **Ctrl+C** and restart it, then visit the new route in your browser.\n\nYou should see JSON data with the current time and date — not plain text, but structured data with curly braces and key-value pairs.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "node app.js",
+          "copyable": true
+        },
+        {
+          "language": "text",
+          "code": "http://localhost:3000/api/time",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "{\"time\":\"2:30:45 PM\",\"date\":\"3/2/2026\"} (your actual time and date will be different)",
+      "confirmationType": "success_or_error",
+      "troubleshooting": [
+        {
+          "problem": "I see plain text instead of JSON",
+          "solution": "Make sure you used res.json() and not res.send(). Also check that you restarted the server after making changes."
+        },
+        {
+          "problem": "The JSON looks weird in my browser",
+          "solution": "Some browsers display raw JSON without formatting. Try installing a browser extension like 'JSON Formatter' for Chrome, or just verify that you see curly braces and key-value pairs — that means it's working."
+        }
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "Your server is now **speaking JSON** — the same language that every API on the internet uses.\n\nRefresh the page a few times. Notice how the time changes with each request? That's because your server runs the code fresh every time someone visits the URL. It's *dynamic* — it generates a response on the fly based on the current moment.\n\nThis is the difference between a static website (same content every time) and an API (content that can change based on data, time, user, or anything else).\n\nRemember Level 4, where you learned about APIs and JSON? You're now on the **other side** of that conversation. You're not just consuming APIs anymore — you're *building* them.",
+      "tip": "Try visiting /api/time from a different browser tab or even from your phone (if it's on the same WiFi). Each request gets a fresh response with the current time."
+    }
+  ],
+  "completionMessage": "You just built an API endpoint that returns live JSON data. Every time someone visits /api/time, they get the current time. This is exactly how weather APIs, stock APIs, and social media feeds work.",
+  "milestone": null,
+  "nextLesson": "5.13"
+}

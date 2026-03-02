@@ -1,0 +1,92 @@
+{
+  "id": "3.7",
+  "level": 3,
+  "order": 7,
+  "title": "Seeing What Changed",
+  "subtitle": "Spotting differences",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "app.js": "const name = 'World';\nconsole.log('Hello ' + name);"
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["git diff"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Before we can see changes, we need a git repository with a commit to compare against.",
+      "prompt": "Type `git init` to create a repository.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Repository initialized. Now let's save the current version of app.js."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Stage all files for your first commit.",
+      "prompt": "Type `git add .` to stage everything.",
+      "hint": "Type: git add .",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git add ."
+      },
+      "onSuccess": {
+        "message": "Files staged. Now commit them."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Create the initial commit so git has a baseline to compare against.",
+      "prompt": "Type `git commit -m \"Initial commit\"`",
+      "hint": "git commit -m \"Initial commit\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "git commit"
+      },
+      "onSuccess": {
+        "message": "Committed! Git now remembers exactly what app.js looks like right now."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now let's change the file. We'll add a new line to app.js.",
+      "prompt": "Type `echo \"console.log('Goodbye');\" >> app.js` to add a line.",
+      "hint": "echo \"console.log('Goodbye');\" >> app.js",
+      "validation": {
+        "type": "fileContains",
+        "value": {
+          "path": "/home/user/my-project/app.js",
+          "content": "Goodbye"
+        }
+      },
+      "onSuccess": {
+        "message": "File modified! But you haven't staged or committed this change. Git knows something is different."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now use `git diff` to see exactly what changed since your last commit.",
+      "prompt": "Type `git diff` to see the difference.",
+      "hint": "Type: git diff",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git diff"
+      },
+      "onSuccess": {
+        "message": "Lines starting with `+` are additions, lines starting with `-` are removals. Green means added, red means removed. This is how developers review their changes before committing."
+      }
+    }
+  ],
+  "completionMessage": "`git diff` shows you exactly what changed since your last commit. Use it before every commit to review your work. It's like a spell-checker for your code changes.",
+  "milestone": null,
+  "nextLesson": "3.8"
+}

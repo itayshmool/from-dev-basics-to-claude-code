@@ -1,0 +1,61 @@
+{
+  "id": "3.2",
+  "level": 3,
+  "order": 2,
+  "title": "Starting a Repository",
+  "subtitle": "Your first git command",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {}
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["git init"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Every git project starts the same way: `git init`. This tells git to start tracking this folder.",
+      "prompt": "Type `git init` to initialize a new git repository.",
+      "hint": "Type: git init",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git init"
+      },
+      "onSuccess": {
+        "message": "Git is now watching this folder! It created a hidden `.git` directory where it stores all its tracking data. You won't see it with `ls`, but it's there."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Let's create a file to track.",
+      "prompt": "Create a file: `touch index.html`",
+      "hint": "Type: touch index.html",
+      "validation": {
+        "type": "fileExists",
+        "value": "/home/user/my-project/index.html"
+      },
+      "onSuccess": {
+        "message": "File created. But git doesn't automatically track new files \u2014 you have to tell it which files to watch. Let's see what git thinks about this new file."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Check what git sees.",
+      "prompt": "Type `git status` to see what git knows about your files.",
+      "hint": "Type: git status",
+      "validation": {
+        "type": "exactCommand",
+        "value": "git status"
+      },
+      "onSuccess": {
+        "message": "Git sees `index.html` as an 'untracked file'. That means git knows the file exists, but isn't tracking changes to it yet. You need to explicitly tell git to track it."
+      }
+    }
+  ],
+  "completionMessage": "You initialized your first git repository with `git init` and saw how git notices new files. Next, you'll learn how to tell git which files to track.",
+  "milestone": null,
+  "nextLesson": "3.3"
+}

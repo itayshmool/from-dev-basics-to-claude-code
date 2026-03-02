@@ -1,0 +1,52 @@
+{
+  "id": "6.6",
+  "level": 6,
+  "order": 6,
+  "title": "Editing Existing Code",
+  "subtitle": "Modify your project with precision",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Creating new files is impressive, but most real-world development is about **editing existing code**. Adding a feature to an app. Fixing a bug. Changing a design. Refactoring a function.\n\nThis is where Claude Code really shines. Because it can read your entire project, it understands the context. When you ask it to add a footer, it knows what HTML structure exists. When you ask it to change styling, it knows which CSS file to modify.\n\nClaude doesn't start from scratch — it surgically edits exactly what needs to change, leaving everything else untouched.",
+      "analogy": "Imagine asking a contractor to add a room to your house. A bad contractor might knock down walls randomly. A good contractor studies the blueprints, understands the structure, and adds the room in exactly the right place. Claude Code is the good contractor."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Ask Claude to add a footer to the HTML page you created in the last lesson. Be specific about what should be in it.",
+      "prompt": "Add a footer to index.html with copyright 2024 and a link to GitHub",
+      "expectedResult": "Claude edits the existing file, adding only the footer section. The rest of the page stays exactly as it was."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Now ask Claude to modify the CSS. This is a targeted change — Claude should update only the relevant style rule.",
+      "prompt": "Make the nav bar sticky so it stays at the top when scrolling",
+      "expectedResult": "Claude modifies the CSS to add position: sticky and top: 0 to the nav bar. Only the nav styling changes — everything else remains the same."
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now let's use a tool you learned in Level 3 — `git diff`. This shows you exactly what Claude changed. Green lines are additions, red lines are removals.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "git diff",
+          "copyable": true
+        }
+      ],
+      "confirmationType": "continue"
+    },
+    {
+      "type": "narrative",
+      "content": "This is a critical habit: **always review changes before committing**. Claude is powerful but not perfect. You should always:\n\n- Read through the diff to understand what changed\n- Test the changes in your browser or by running the code\n- Only commit when you're satisfied with the result\n\nThe `git diff` command is your best friend here. It shows you exactly what was added, removed, or modified — line by line.",
+      "keyPoints": [
+        "Always review changes before committing",
+        "git diff shows exactly what Claude modified",
+        "Green lines (+) = added code, red lines (-) = removed code",
+        "Claude edits surgically — it changes only what's needed"
+      ]
+    }
+  ],
+  "completionMessage": "You've learned to use Claude Code for targeted edits to existing code. Now let's think bigger — building an entire project from a single description.",
+  "milestone": null,
+  "nextLesson": "6.7"
+}

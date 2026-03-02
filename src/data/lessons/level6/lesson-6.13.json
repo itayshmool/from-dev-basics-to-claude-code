@@ -1,0 +1,46 @@
+{
+  "id": "6.13",
+  "level": 6,
+  "order": 13,
+  "title": "When NOT to Use Claude Code",
+  "subtitle": "Know when to use Claude Code, Claude.ai, or your own brain",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Claude Code is incredibly powerful, but it's not the right tool for everything. Knowing **when not to use it** is just as important as knowing how to use it well.\n\nThere are three modes of working, and the best developers switch between them fluidly:\n\n- **Claude Code** — for building, editing, and debugging code in your project\n- **Claude.ai** (the chat interface) — for brainstorming, planning, writing docs, and asking conceptual questions\n- **Your own learning** (docs, tutorials, Google) — for deeply understanding concepts you'll use repeatedly",
+      "keyPoints": [
+        "Don't use it as a crutch — if you don't understand the code, ask Claude to explain before moving on",
+        "Don't blindly accept — always review changes with git diff",
+        "Don't skip learning — use Claude to learn faster, not to avoid learning entirely",
+        "Use Claude.ai instead for: brainstorming ideas, planning features, writing non-code content",
+        "Use docs and Google when: you need to deeply understand a concept you'll use over and over"
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "When should you use Claude.ai (the chat interface) instead of Claude Code?",
+      "options": [
+        "To edit a file in your project",
+        "To brainstorm ideas for a new feature",
+        "To run terminal commands",
+        "To install packages"
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude.ai is ideal for brainstorming, planning, and open-ended conversations. Claude Code is better for tasks that involve reading, writing, or modifying actual files in your project. For brainstorming, you don't need Claude to be inside your codebase — you need a thinking partner."
+    },
+    {
+      "type": "narrative",
+      "content": "Here's a useful mental model for thinking about your relationship with Claude Code:",
+      "analogy": "Claude is a power tool. A nail gun is faster than a hammer, but you still need to know where the nails go. If you don't understand the blueprint, a faster tool just helps you make mistakes faster. Learn the blueprint (the concepts), then use the power tool (Claude Code) to build efficiently."
+    },
+    {
+      "type": "narrative",
+      "content": "The developers who get the most out of AI tools are the ones who stay curious. They don't just accept Claude's output — they ask *why* it made those choices. They read the code. They learn the patterns. Over time, they need Claude less for simple things and use it more for complex, creative work.",
+      "tip": "You're the architect, Claude is the builder. You decide what to build and why. Claude helps you build it faster. The more you understand about architecture, the better your buildings will be — no matter how good your builder is."
+    }
+  ],
+  "completionMessage": "Knowing when NOT to use a tool is a sign of mastery. You now understand the three modes — Claude Code for building, Claude.ai for thinking, and your own learning for deep understanding. Use all three.",
+  "milestone": null,
+  "nextLesson": "6.14"
+}

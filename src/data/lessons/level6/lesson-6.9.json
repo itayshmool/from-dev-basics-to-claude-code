@@ -1,0 +1,33 @@
+{
+  "id": "6.9",
+  "level": 6,
+  "order": 9,
+  "title": "Iterating with Claude",
+  "subtitle": "Build features through conversation, one step at a time",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "The best workflow with Claude Code isn't one perfect prompt that produces a finished product. It's a **conversation**. Each prompt builds on the last, refining and adding to what Claude already created.\n\nThink of it like sculpting. You don't carve a statue in one swing of the chisel. You rough out the shape, then refine the details, then polish the surface. Each step gets you closer to what you want.\n\nHere's what an iterative conversation looks like:\n\n1. **You:** \"Build a contact form with name, email, and message fields\"\n2. **Claude creates** the basic form\n3. **You:** \"Add validation\"\n4. **Claude adds** validation rules\n5. **You:** \"Move error messages inline next to each field\"\n6. **Claude moves** the error display\n7. **You:** \"Add a success animation when the form submits\"\n8. **Claude adds** the animation\n\nEach prompt is small and focused. Each builds on what came before. This is how professional developers work with AI tools — not one giant prompt, but a series of clear, incremental requests."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Start a new feature conversation. Begin with the simplest version of what you want — just the core structure, nothing fancy.",
+      "prompt": "Build a contact form with name, email, and message fields",
+      "expectedResult": "Claude creates a contact form with basic HTML structure, input fields for name, email, and message, and simple styling. It won't have validation or animations yet — that's intentional."
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Now iterate on Claude's output. Add a specific improvement to what Claude just built. Notice how you don't need to repeat the context — Claude remembers the form it just created.",
+      "prompt": "Add validation — name and email should be required, email should be a valid format. Show error messages inline next to each field.",
+      "expectedResult": "Claude modifies the existing form to add validation logic. Required fields get checked on submit, email format is validated, and error messages appear right next to the field that has an issue — not in a generic alert box."
+    },
+    {
+      "type": "narrative",
+      "tip": "Each prompt builds on the last. Claude remembers the full conversation and knows the complete context of your project. You don't need to re-explain what you've already built — just describe what you want to change or add next."
+    }
+  ],
+  "completionMessage": "You've learned the iterative workflow. Start simple, then refine. Each prompt is a small step, and Claude keeps the full context of your conversation. This is how real features get built.",
+  "milestone": null,
+  "nextLesson": "6.10"
+}

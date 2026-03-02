@@ -1,0 +1,70 @@
+{
+  "id": "4.8",
+  "level": 4,
+  "order": 8,
+  "title": "What Is a Database?",
+  "subtitle": "Where apps store their data permanently",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Every app you use stores data somewhere. When you create an account, post a photo, or save a document, that information needs to live somewhere permanent so it's still there when you come back tomorrow.\n\nThat's what a **database** is: an organized system for storing and retrieving data. Without databases, every app would forget everything the moment you closed it.",
+      "analogy": "A database is like a well-organized pantry with labeled shelves. Instead of tossing ingredients randomly into a closet, you put canned goods on one shelf, spices on another, and grains on a third. When you need something, you know exactly where to look. A database does the same thing with data — it keeps everything organized so the app can find it instantly.",
+      "keyPoints": [
+        "A database stores data permanently — it survives restarts, crashes, and power outages",
+        "Data is organized into structured collections (like tables with rows and columns)",
+        "Apps read from and write to the database whenever users do something",
+        "Most apps have at least one database behind the scenes"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Here's what data looks like inside a typical database. This is a \"users\" table — each row is one user, and each column is a piece of information about them.",
+      "blocks": [
+        {
+          "language": "sql",
+          "label": "A users table",
+          "code": "| id | name       | email              | created_at          |\n|----|------------|--------------------|---------------------|\n|  1 | Sara Chen  | sara@email.com     | 2024-01-15 09:30:00 |\n|  2 | Alex Kim   | alex@email.com     | 2024-02-20 14:45:00 |\n|  3 | Jamie Diaz | jamie@email.com    | 2024-03-01 11:00:00 |"
+        }
+      ],
+      "explanation": "Every user gets their own row. The columns (id, name, email, created_at) are the same for everyone — this structure is called a \"schema.\" It's like a spreadsheet where every row follows the same format."
+    },
+    {
+      "type": "dragSort",
+      "instruction": "There are two main types of databases. Drag each description to the correct category.",
+      "categories": [
+        {
+          "name": "SQL Database",
+          "description": "Structured, table-based databases"
+        },
+        {
+          "name": "NoSQL Database",
+          "description": "Flexible, document-based databases"
+        }
+      ],
+      "items": [
+        { "text": "Strict tables with rows and columns", "correctCategory": "SQL Database" },
+        { "text": "Flexible JSON-like documents", "correctCategory": "NoSQL Database" },
+        { "text": "PostgreSQL", "correctCategory": "SQL Database" },
+        { "text": "MongoDB", "correctCategory": "NoSQL Database" },
+        { "text": "Fixed schema", "correctCategory": "SQL Database" },
+        { "text": "Dynamic schema", "correctCategory": "NoSQL Database" }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Why do apps need databases?",
+      "options": [
+        "To make the app look prettier",
+        "To store data permanently so it's not lost when the app closes",
+        "To connect to the internet",
+        "To run code faster"
+      ],
+      "correctIndex": 1,
+      "explanation": "Databases store data permanently. Without one, your social media posts, saved files, and account details would all vanish the moment you closed the app or the server restarted."
+    }
+  ],
+  "completionMessage": "You now understand what databases are and why every app needs one. Data goes in, gets organized, and can be retrieved whenever needed. Next, you'll learn how to actually talk to a database using SQL.",
+  "milestone": null,
+  "nextLesson": "4.9"
+}
