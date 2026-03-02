@@ -1,0 +1,80 @@
+{
+  "id": "1.11",
+  "level": 1,
+  "order": 11,
+  "title": "Moving and Renaming",
+  "subtitle": "Move and rename with mv",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "idnex.html": "",
+          "style.css": "",
+          "js": {}
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir", "touch", "rm", "rm -r", "cp", "mv"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "`mv` does two things: move a file to a different location, or rename it. Same command, different use.",
+      "prompt": "Oops — `idnex.html` is a typo. Let's rename it: `mv idnex.html index.html`.",
+      "hint": "Type: mv idnex.html index.html",
+      "validation": {
+        "type": "exactCommand",
+        "value": "mv idnex.html index.html"
+      },
+      "onSuccess": {
+        "message": "Renamed! When the source and destination are in the same folder, `mv` acts as rename."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "`style.css` should be in a `css` folder. Let's create it first.",
+      "prompt": "Create a folder called `css`.",
+      "hint": "Type: mkdir css",
+      "validation": {
+        "type": "exactCommand",
+        "value": "mkdir css"
+      },
+      "onSuccess": {
+        "message": "Folder created.",
+        "highlightExplorer": "/home/user/my-project/css"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now move the CSS file into the new folder.",
+      "prompt": "Move the file: `mv style.css css/style.css`.",
+      "hint": "Type: mv style.css css/style.css",
+      "validation": {
+        "type": "exactCommand",
+        "value": "mv style.css css/style.css"
+      },
+      "onSuccess": {
+        "message": "Moved! Unlike `cp`, the original is gone — it's been relocated. Check the file explorer.",
+        "highlightExplorer": "/home/user/my-project/css/style.css"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Verify the move worked.",
+      "prompt": "List the contents to confirm.",
+      "hint": "Type: ls",
+      "validation": {
+        "type": "exactCommand",
+        "value": "ls"
+      },
+      "onSuccess": {
+        "message": "index.html, css/, js/. The style.css is now inside css/."
+      }
+    }
+  ],
+  "completionMessage": "You can now move and rename files with `mv`. Same command, two uses: rename (same folder) or move (different folder).",
+  "milestone": null,
+  "nextLesson": "1.12"
+}

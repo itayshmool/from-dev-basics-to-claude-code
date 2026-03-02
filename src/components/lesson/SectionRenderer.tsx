@@ -7,13 +7,15 @@ import { InteractiveFileTree } from '../interactive/InteractiveFileTree';
 import { PathBuilder } from '../interactive/PathBuilder';
 import { TerminalPreview } from '../interactive/TerminalPreview';
 import { ProgramSimulator } from '../interactive/ProgramSimulator';
+import { TerminalStep } from '../interactive/TerminalStep';
 
 interface SectionRendererProps {
   section: LessonSection;
   onComplete: () => void;
+  commands?: string[];
 }
 
-export function SectionRenderer({ section, onComplete }: SectionRendererProps) {
+export function SectionRenderer({ section, onComplete, commands }: SectionRendererProps) {
   switch (section.type) {
     case 'narrative':
       return <NarrativeBlock section={section} onContinue={onComplete} />;
@@ -31,6 +33,8 @@ export function SectionRenderer({ section, onComplete }: SectionRendererProps) {
       return <TerminalPreview section={section} onComplete={onComplete} />;
     case 'programSim':
       return <ProgramSimulator section={section} onComplete={onComplete} />;
+    case 'terminalStep':
+      return <TerminalStep section={section} onComplete={onComplete} commands={commands} />;
     default:
       return (
         <div className="text-text-muted text-sm">

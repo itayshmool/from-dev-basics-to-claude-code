@@ -1,0 +1,88 @@
+{
+  "id": "1.4",
+  "level": 1,
+  "order": 4,
+  "title": "Going Back Up",
+  "subtitle": "Navigate up with cd ..",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "documents": {
+          "notes.txt": ""
+        },
+        "photos": {
+          "vacation.jpg": ""
+        },
+        "projects": {
+          "website": {
+            "index.html": ""
+          }
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/documents",
+  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd .."],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "You're inside documents. How do you go back up to your home folder?",
+      "prompt": "Type `cd ..` to go up one folder. `..` always means 'parent folder'.",
+      "hint": "Type: cd ..",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cd .."
+      },
+      "onSuccess": {
+        "message": "You're back in `/home/user`. `cd ..` is like clicking the back button.",
+        "highlightExplorer": "/home/user"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now navigate into `projects`.",
+      "prompt": "Move into the projects folder.",
+      "hint": "Type: cd projects",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cd projects"
+      },
+      "onSuccess": {
+        "message": "Good, you're in projects.",
+        "highlightExplorer": "/home/user/projects"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Keep going — go deeper into `website`.",
+      "prompt": "Move into the website folder.",
+      "hint": "Type: cd website",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cd website"
+      },
+      "onSuccess": {
+        "message": "You're at `/home/user/projects/website`.",
+        "highlightExplorer": "/home/user/projects/website"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Go up two levels to get back home. You can chain it.",
+      "prompt": "Type `cd ../..` to go up two folders at once.",
+      "hint": "Type: cd ../..",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cd ../.."
+      },
+      "onSuccess": {
+        "message": "Back to `/home/user`. Each `..` goes up one level, so `../..` goes up two.",
+        "highlightExplorer": "/home/user"
+      }
+    }
+  ],
+  "completionMessage": "You can now go up with `cd ..` and chain them with `cd ../..`. You're never stuck in a deep folder.",
+  "milestone": null,
+  "nextLesson": "1.5"
+}

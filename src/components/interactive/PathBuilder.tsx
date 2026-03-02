@@ -37,9 +37,9 @@ function PathTreeNode({ name, value, path, depth, onNavigate, activePath }: Path
         style={{ paddingLeft: `${depth * 16 + 10}px` }}
       >
         {isFile ? (
-          <span className="text-sm flex-shrink-0">&#128196;</span>
+          <span className="text-sm flex-shrink-0">{'\u{1F4C4}'}</span>
         ) : (
-          <span className="text-sm flex-shrink-0">{isOnPath ? '&#128194;' : '&#128193;'}</span>
+          <span className="text-sm flex-shrink-0">{isOnPath ? '\u{1F4C2}' : '\u{1F4C1}'}</span>
         )}
         <span className={isTarget ? 'text-purple font-semibold' : isFile ? 'text-text-secondary' : 'text-text-primary font-medium'}>
           {name}

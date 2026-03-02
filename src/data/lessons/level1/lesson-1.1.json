@@ -1,0 +1,58 @@
+{
+  "id": "1.1",
+  "level": 1,
+  "order": 1,
+  "title": "Where Am I?",
+  "subtitle": "Your first command: pwd",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "documents": {
+          "notes.txt": ""
+        },
+        "photos": {
+          "vacation.jpg": ""
+        },
+        "projects": {
+          "website": {
+            "index.html": ""
+          }
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user",
+  "commandsIntroduced": ["pwd"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Your terminal is open. The first thing to do in any terminal: find out where you are.",
+      "prompt": "Type `pwd` and press Enter. pwd = 'print working directory' — it shows your current location.",
+      "hint": "Just type the three letters: pwd",
+      "validation": {
+        "type": "exactCommand",
+        "value": "pwd"
+      },
+      "onSuccess": {
+        "message": "You're at `/home/user` — this is your home folder. Think of it as the 'You Are Here' dot on a mall map."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "You'll use `pwd` whenever you feel lost. It's your compass. Try it again just to build the habit.",
+      "prompt": "Type `pwd` again.",
+      "hint": "Type pwd again",
+      "validation": {
+        "type": "exactCommand",
+        "value": "pwd"
+      },
+      "onSuccess": {
+        "message": "Same answer: `/home/user`. You haven't moved. `pwd` never changes anything — it just tells you where you are."
+      }
+    }
+  ],
+  "completionMessage": "You now know your first command: pwd. Whenever you feel lost, type pwd to find out where you are.",
+  "milestone": null,
+  "nextLesson": "1.2"
+}

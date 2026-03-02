@@ -1,0 +1,72 @@
+{
+  "id": "1.3",
+  "level": 1,
+  "order": 3,
+  "title": "Moving Into Folders",
+  "subtitle": "Navigate with cd",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "documents": {
+          "notes.txt": ""
+        },
+        "photos": {
+          "vacation.jpg": ""
+        },
+        "projects": {
+          "website": {
+            "index.html": ""
+          }
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user",
+  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "You can see three folders. Let's go inside one.",
+      "prompt": "Move into the `documents` folder. Type `cd documents`.",
+      "hint": "Type: cd documents",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cd documents"
+      },
+      "onSuccess": {
+        "message": "Notice your prompt changed to show you're now in ~/documents. `cd` = 'change directory'.",
+        "highlightExplorer": "/home/user/documents"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Good — you're inside documents. Let's see what's here.",
+      "prompt": "Check what's here.",
+      "hint": "Type: ls",
+      "validation": {
+        "type": "exactCommand",
+        "value": "ls"
+      },
+      "onSuccess": {
+        "message": "One file: notes.txt. You navigated to a folder and looked inside — two essential skills."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now confirm your location to build the habit.",
+      "prompt": "Confirm your location.",
+      "hint": "Type: pwd",
+      "validation": {
+        "type": "exactCommand",
+        "value": "pwd"
+      },
+      "onSuccess": {
+        "message": "`/home/user/documents` — exactly where you'd expect."
+      }
+    }
+  ],
+  "completionMessage": "You can now move into folders with `cd`. Combined with `ls` and `pwd`, you can explore any file system.",
+  "milestone": null,
+  "nextLesson": "1.4"
+}

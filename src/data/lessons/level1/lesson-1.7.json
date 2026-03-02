@@ -1,0 +1,80 @@
+{
+  "id": "1.7",
+  "level": 1,
+  "order": 7,
+  "title": "Creating Files",
+  "subtitle": "Make files with touch",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "css": {},
+          "js": {}
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir", "touch"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Folders are created. Now let's add some files.",
+      "prompt": "Create a file called `index.html`. Type `touch index.html`.",
+      "hint": "Type: touch index.html",
+      "validation": {
+        "type": "exactCommand",
+        "value": "touch index.html"
+      },
+      "onSuccess": {
+        "message": "File created! It's empty for now — `touch` creates a blank file.",
+        "highlightExplorer": "/home/user/my-project/index.html"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Check it's there.",
+      "prompt": "List the contents.",
+      "hint": "Type: ls",
+      "validation": {
+        "type": "exactCommand",
+        "value": "ls"
+      },
+      "onSuccess": {
+        "message": "You see: css, js, and index.html. Files and folders together."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "You can create a file inside a subfolder without navigating there first.",
+      "prompt": "Create `style.css` inside the `css` folder: `touch css/style.css`.",
+      "hint": "Type: touch css/style.css",
+      "validation": {
+        "type": "exactCommand",
+        "value": "touch css/style.css"
+      },
+      "onSuccess": {
+        "message": "Created! You didn't even need to `cd` into the folder first. You can use paths with any command.",
+        "highlightExplorer": "/home/user/my-project/css/style.css"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "One more — create a JavaScript file in the js folder.",
+      "prompt": "Create `app.js` inside the `js` folder.",
+      "hint": "Type: touch js/app.js",
+      "validation": {
+        "type": "exactCommand",
+        "value": "touch js/app.js"
+      },
+      "onSuccess": {
+        "message": "Your project is taking shape. Look at the file explorer — it matches what a real web project looks like.",
+        "highlightExplorer": "/home/user/my-project/js/app.js"
+      }
+    }
+  ],
+  "completionMessage": "You can now create files with `touch`. Combined with `mkdir`, you can build any project structure.",
+  "milestone": null,
+  "nextLesson": "1.8"
+}

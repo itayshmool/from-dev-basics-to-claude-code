@@ -75,6 +75,9 @@ export interface TerminalStepSection {
   instruction: string;
   prompt: string;
   hint: string;
+  hints?: string[];
+  freeMode?: boolean;
+  expectError?: boolean;
   validation: {
     type: 'exactCommand' | 'commandStartsWith' | 'outputContains'
       | 'fileExists' | 'fileContains' | 'directoryExists' | 'fsStateMatch';
@@ -112,6 +115,9 @@ export interface Lesson {
   title: string;
   subtitle: string;
   type: 'conceptual' | 'terminal';
+  initialFs?: FileSystemSpec;
+  initialDir?: string;
+  commandsIntroduced?: string[];
   sections: LessonSection[];
   completionMessage?: string;
   milestone?: MilestoneInfo | null;

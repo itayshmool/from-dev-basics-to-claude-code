@@ -1,55 +1,55 @@
 @import "tailwindcss";
 
 @theme {
-  /* Claude-inspired warm neutral palette */
-  --color-bg-primary: #F5F0E8;
-  --color-bg-secondary: #EDE8DF;
-  --color-bg-card: #FFFFFF;
-  --color-bg-elevated: #E8E2D8;
-  --color-bg-terminal: #2D2B28;
-  --color-bg-overlay: rgba(45, 43, 40, 0.5);
+  /* Void palette — deep blacks, cool undertones */
+  --color-bg-primary: #09090B;
+  --color-bg-secondary: #0F0F13;
+  --color-bg-card: #141419;
+  --color-bg-elevated: #1C1C24;
+  --color-bg-terminal: #0A0A0E;
+  --color-bg-overlay: rgba(0, 0, 0, 0.75);
 
-  /* Text — warm darks */
-  --color-text-primary: #1A1714;
-  --color-text-secondary: #5D5750;
-  --color-text-muted: #9C958C;
+  /* Text — sharp whites and silvers */
+  --color-text-primary: #EAEAEC;
+  --color-text-secondary: #8E8E9E;
+  --color-text-muted: #4E4E5C;
 
-  /* Claude accent palette */
-  --color-purple: #C4652A;
-  --color-purple-soft: rgba(196, 101, 42, 0.08);
-  --color-purple-glow: rgba(196, 101, 42, 0.15);
-  --color-green: #2E7D5B;
-  --color-green-soft: rgba(46, 125, 91, 0.08);
-  --color-blue: #4A7FB5;
-  --color-blue-soft: rgba(74, 127, 181, 0.08);
-  --color-yellow: #B8860B;
-  --color-yellow-soft: rgba(184, 134, 11, 0.08);
-  --color-orange: #C4652A;
-  --color-orange-soft: rgba(196, 101, 42, 0.08);
-  --color-red: #C44B4B;
-  --color-red-soft: rgba(196, 75, 75, 0.08);
-  --color-teal: #3B8A8A;
-  --color-teal-soft: rgba(59, 138, 138, 0.08);
+  /* Accent — electric orange (kept as purple for class compat) */
+  --color-purple: #FF6B35;
+  --color-purple-soft: rgba(255, 107, 53, 0.08);
+  --color-purple-glow: rgba(255, 107, 53, 0.15);
+  --color-green: #22C55E;
+  --color-green-soft: rgba(34, 197, 94, 0.08);
+  --color-blue: #3B82F6;
+  --color-blue-soft: rgba(59, 130, 246, 0.08);
+  --color-yellow: #EAB308;
+  --color-yellow-soft: rgba(234, 179, 8, 0.08);
+  --color-orange: #FF6B35;
+  --color-orange-soft: rgba(255, 107, 53, 0.08);
+  --color-red: #EF4444;
+  --color-red-soft: rgba(239, 68, 68, 0.08);
+  --color-teal: #14B8A6;
+  --color-teal-soft: rgba(20, 184, 166, 0.08);
 
   /* System */
-  --color-success: #2E7D5B;
-  --color-error: #C44B4B;
-  --color-warning: #B8860B;
-  --color-accent: #C4652A;
-  --color-border: #DDD7CD;
-  --color-border-strong: #C8C1B5;
+  --color-success: #22C55E;
+  --color-error: #EF4444;
+  --color-warning: #EAB308;
+  --color-accent: #FF6B35;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.12);
 
-  /* Shadows — warm and subtle */
-  --shadow-sm: 0 1px 2px rgba(26, 23, 20, 0.04);
-  --shadow-md: 0 2px 8px rgba(26, 23, 20, 0.06);
-  --shadow-card: 0 1px 3px rgba(26, 23, 20, 0.04), 0 0 0 1px rgba(26, 23, 20, 0.03);
-  --shadow-button: 0 1px 3px rgba(196, 101, 42, 0.15);
-  --shadow-float: 0 8px 24px rgba(26, 23, 20, 0.1);
-  --shadow-glow: none;
+  /* Shadows — deep darks + accent glows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-button: 0 0 20px rgba(255, 107, 53, 0.25);
+  --shadow-float: 0 12px 36px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(255, 107, 53, 0.12);
 
-  /* Fonts */
-  --font-sans: 'Instrument Sans', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  /* Fonts — Monaco identity + system sans body */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  --font-mono: 'Monaco', 'Menlo', 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
 }
 
 * {
@@ -80,15 +80,15 @@ body {
 }
 
 ::selection {
-  background-color: rgba(196, 101, 42, 0.15);
-  color: #1A1714;
+  background-color: rgba(255, 107, 53, 0.25);
+  color: #EAEAEC;
 }
 
-/* Thin scrollbars */
+/* Thin scrollbars — dark */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-border-strong); }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
 
 /* Touch targets */
 @media (pointer: coarse) {
@@ -132,8 +132,8 @@ body {
 }
 
 @keyframes pulse-ring {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(196, 101, 42, 0); }
-  50% { box-shadow: 0 0 0 4px rgba(196, 101, 42, 0.08); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1); }
 }
 
 .animate-fade-in-up {
@@ -164,31 +164,31 @@ body {
   animation: pulse-ring 2s ease-in-out infinite;
 }
 
-/* Lesson surface — same warm palette, white card surface for content */
+/* Lesson surface — slightly shifted dark for lesson context */
 .lesson-surface {
-  --color-bg-primary: #FFFFFF;
-  --color-bg-secondary: #FAF7F2;
-  --color-bg-card: #F5F0E8;
-  --color-bg-elevated: #EDE8DF;
-  --color-text-primary: #1A1714;
-  --color-text-secondary: #5D5750;
-  --color-text-muted: #9C958C;
-  --color-border: #E5E0D6;
-  --color-border-strong: #D5CFC5;
-  --color-purple-soft: rgba(196, 101, 42, 0.06);
-  --color-green-soft: rgba(46, 125, 91, 0.06);
-  --color-blue-soft: rgba(74, 127, 181, 0.06);
-  --color-yellow-soft: rgba(184, 134, 11, 0.06);
-  --color-orange-soft: rgba(196, 101, 42, 0.06);
-  --color-red-soft: rgba(196, 75, 75, 0.06);
-  --color-teal-soft: rgba(59, 138, 138, 0.06);
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.05);
-  --shadow-button: 0 1px 3px rgba(196, 101, 42, 0.2);
-  --shadow-float: 0 6px 20px rgba(0, 0, 0, 0.08);
+  --color-bg-primary: #0C0C10;
+  --color-bg-secondary: #111117;
+  --color-bg-card: #18181F;
+  --color-bg-elevated: #202029;
+  --color-text-primary: #EAEAEC;
+  --color-text-secondary: #8E8E9E;
+  --color-text-muted: #4E4E5C;
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-border-strong: rgba(255, 255, 255, 0.13);
+  --color-purple-soft: rgba(255, 107, 53, 0.06);
+  --color-green-soft: rgba(34, 197, 94, 0.06);
+  --color-blue-soft: rgba(59, 130, 246, 0.06);
+  --color-yellow-soft: rgba(234, 179, 8, 0.06);
+  --color-orange-soft: rgba(255, 107, 53, 0.06);
+  --color-red-soft: rgba(239, 68, 68, 0.06);
+  --color-teal-soft: rgba(20, 184, 166, 0.06);
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 1px 4px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-button: 0 0 24px rgba(255, 107, 53, 0.3);
+  --shadow-float: 0 8px 28px rgba(0, 0, 0, 0.5);
 }
 
-/* Slide transitions for section changes */
+/* Slide transitions */
 @keyframes slide-in-right {
   from { opacity: 0; transform: translateX(30px); }
   to { opacity: 1; transform: translateX(0); }
@@ -226,7 +226,7 @@ body {
   animation: celebration-out 0.3s ease-in forwards;
 }
 
-/* Stagger animation helper */
+/* Stagger */
 @keyframes stagger-in {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
@@ -236,10 +236,10 @@ body {
   animation: stagger-in 0.4s ease-out both;
 }
 
-/* Subtle pulse for current lesson */
+/* Glow pulse for active items */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(196, 101, 42, 0); }
-  50% { box-shadow: 0 0 0 4px rgba(196, 101, 42, 0.06); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.08); }
 }
 
 .animate-glow-pulse {

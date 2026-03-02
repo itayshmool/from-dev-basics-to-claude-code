@@ -1,0 +1,61 @@
+{
+  "id": "1.9",
+  "level": 1,
+  "order": 9,
+  "title": "Deleting Folders",
+  "subtitle": "Remove directories with rm -r",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "",
+          "css": {
+            "style.css": ""
+          },
+          "js": {
+            "app.js": ""
+          },
+          "old-stuff": {
+            "draft1.txt": "",
+            "draft2.txt": ""
+          }
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir", "touch", "rm", "rm -r"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Deleting folders is slightly different — you need to tell `rm` to go 'recursive'.",
+      "prompt": "Try deleting `old-stuff` the same way as a file: `rm old-stuff`.",
+      "hint": "Type: rm old-stuff",
+      "expectError": true,
+      "validation": {
+        "type": "exactCommand",
+        "value": "rm old-stuff"
+      },
+      "onSuccess": {
+        "message": "You got an error: regular `rm` only works on files. That's by design — it prevents accidental folder deletion."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "To delete a folder and everything inside it, add `-r` (recursive).",
+      "prompt": "Type `rm -r old-stuff`.",
+      "hint": "Type: rm -r old-stuff",
+      "validation": {
+        "type": "exactCommand",
+        "value": "rm -r old-stuff"
+      },
+      "onSuccess": {
+        "message": "The folder and all its contents are gone. `-r` means 'go through everything inside, then delete the folder too'."
+      }
+    }
+  ],
+  "completionMessage": "`rm -r` deletes a folder and EVERYTHING inside it. Always double-check the folder name before pressing Enter.",
+  "milestone": null,
+  "nextLesson": "1.10"
+}

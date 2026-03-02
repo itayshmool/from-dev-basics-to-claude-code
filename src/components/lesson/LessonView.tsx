@@ -6,6 +6,7 @@ import { SectionRenderer } from './SectionRenderer';
 import { LessonComplete } from './LessonComplete';
 import { MilestoneScreen } from './MilestoneScreen';
 import { LessonProgressBar } from './LessonProgressBar';
+import { TerminalProvider } from '../../core/terminal/TerminalContext';
 
 interface LessonViewProps {
   lessonId: string;
@@ -86,6 +87,20 @@ export function LessonView({ lessonId, onNavigate, onExitLesson, onLessonStateCh
   }
 
   // Active lesson — light theme, immersive
+  const isTerminalLesson = les.type === 'terminal';
+  const sectionContent = (
+    <div className={`flex-1 overflow-hidden ${isTransitioning ? 'animate-slide-out-left' : 'animate-slide-in-right'}`}>
+      {currentSection && (
+        <SectionRenderer
+          key={`${lessonId}-${sectionIndex}`}
+          section={currentSection}
+          onComplete={handleSectionComplete}
+          commands={les.commandsIntroduced}
+        />
+      )}
+    </div>
+  );
+
   return (
     <div className="lesson-surface h-full flex flex-col bg-bg-primary">
       <LessonProgressBar
@@ -94,16 +109,13 @@ export function LessonView({ lessonId, onNavigate, onExitLesson, onLessonStateCh
         onClose={onExitLesson}
       />
 
-      {/* Section content */}
-      <div className={`flex-1 overflow-hidden ${isTransitioning ? 'animate-slide-out-left' : 'animate-slide-in-right'}`}>
-        {currentSection && (
-          <SectionRenderer
-            key={`${lessonId}-${sectionIndex}`}
-            section={currentSection}
-            onComplete={handleSectionComplete}
-          />
-        )}
-      </div>
+      {isTerminalLesson ? (
+        <TerminalProvider key={lessonId} initialFs={les.initialFs} initialDir={les.initialDir}>
+          {sectionContent}
+        </TerminalProvider>
+      ) : (
+        sectionContent
+      )}
     </div>
   );
 }

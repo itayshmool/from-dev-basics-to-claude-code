@@ -1,0 +1,72 @@
+{
+  "id": "1.5",
+  "level": 1,
+  "order": 5,
+  "title": "Going Home",
+  "subtitle": "Jump to home with cd ~",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "documents": {
+          "notes.txt": ""
+        },
+        "photos": {
+          "vacation.jpg": ""
+        },
+        "projects": {
+          "website": {
+            "index.html": ""
+          }
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/projects/website",
+  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Sometimes you're deep in a folder tree and just want to go home. There's a shortcut.",
+      "prompt": "Check where you are first.",
+      "hint": "Type: pwd",
+      "validation": {
+        "type": "exactCommand",
+        "value": "pwd"
+      },
+      "onSuccess": {
+        "message": "`/home/user/projects/website` — a few levels deep."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now jump straight home, no matter how deep you are.",
+      "prompt": "Type `cd ~` to jump straight home. `~` always means your home folder.",
+      "hint": "Type: cd ~",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cd ~"
+      },
+      "onSuccess": {
+        "message": "You're at `/home/user` — no matter how deep you were, `~` takes you home.",
+        "highlightExplorer": "/home/user"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "You can also just type `cd` with nothing after it. Same result. Let's go back deep first — type `cd projects/website`.",
+      "prompt": "Navigate back to projects/website first.",
+      "hint": "Type: cd projects/website",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cd projects/website"
+      },
+      "onSuccess": {
+        "message": "You're deep again. Now try just `cd` with no arguments — it also takes you home. Both `cd` and `cd ~` are your 'panic button' when you feel lost."
+      }
+    }
+  ],
+  "completionMessage": "Lost? Type `pwd` to see where you are. Type `cd ~` to go home. You can always start over.",
+  "milestone": null,
+  "nextLesson": "1.6"
+}

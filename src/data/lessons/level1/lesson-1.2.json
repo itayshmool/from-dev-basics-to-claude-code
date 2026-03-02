@@ -1,0 +1,71 @@
+{
+  "id": "1.2",
+  "level": 1,
+  "order": 2,
+  "title": "What's Here?",
+  "subtitle": "List files with ls",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "documents": {
+          "notes.txt": ""
+        },
+        "photos": {
+          "vacation.jpg": ""
+        },
+        "projects": {
+          "website": {
+            "index.html": ""
+          }
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user",
+  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Now that you know where you are, let's see what's around you.",
+      "prompt": "Type `ls` to list everything in your current folder. ls = 'list'.",
+      "hint": "Type: ls",
+      "validation": {
+        "type": "exactCommand",
+        "value": "ls"
+      },
+      "onSuccess": {
+        "message": "Three folders: documents, photos, projects. This is exactly what you'd see if you opened this folder in Finder or File Explorer."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Want more detail? Try the long format.",
+      "prompt": "Type `ls -l` (that's a lowercase L, for 'long format').",
+      "hint": "Type: ls -l",
+      "validation": {
+        "type": "exactCommand",
+        "value": "ls -l"
+      },
+      "onSuccess": {
+        "message": "Now you see more info: file sizes, dates, and whether something is a file or folder. The 'd' at the start means directory (folder)."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Some files are hidden (their names start with a dot). Let's reveal them.",
+      "prompt": "Type `ls -a` to see everything, including hidden files.",
+      "hint": "Type: ls -a",
+      "validation": {
+        "type": "exactCommand",
+        "value": "ls -a"
+      },
+      "onSuccess": {
+        "message": "See `.` and `..`? Those are special: `.` means 'this folder' and `..` means 'the folder above'. We'll use `..` soon."
+      }
+    }
+  ],
+  "completionMessage": "You can now see what's in any folder. `ls` for a quick look, `ls -l` for details, `ls -a` to see hidden files.",
+  "milestone": null,
+  "nextLesson": "1.3"
+}

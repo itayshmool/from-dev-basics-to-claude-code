@@ -1,0 +1,84 @@
+{
+  "id": "1.8",
+  "level": 1,
+  "order": 8,
+  "title": "Deleting Files",
+  "subtitle": "Remove files with rm",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "",
+          "old-notes.txt": "",
+          "temp.txt": "",
+          "css": {
+            "style.css": ""
+          },
+          "js": {
+            "app.js": ""
+          }
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir", "touch", "rm"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Sometimes you need to clean up. Let's delete some files we don't need.",
+      "prompt": "List the files first.",
+      "hint": "Type: ls",
+      "validation": {
+        "type": "exactCommand",
+        "value": "ls"
+      },
+      "onSuccess": {
+        "message": "You see index.html, old-notes.txt, temp.txt, css/, js/."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Let's remove the temporary file.",
+      "prompt": "Delete `temp.txt`. Type `rm temp.txt`.",
+      "hint": "Type: rm temp.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "rm temp.txt"
+      },
+      "onSuccess": {
+        "message": "Gone. `rm` = 'remove'. No trash can, no undo — it's just deleted."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Clean up the old notes too.",
+      "prompt": "Delete `old-notes.txt`.",
+      "hint": "Type: rm old-notes.txt",
+      "validation": {
+        "type": "exactCommand",
+        "value": "rm old-notes.txt"
+      },
+      "onSuccess": {
+        "message": "Cleaned up. Use `ls` to confirm."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Verify the cleanup worked.",
+      "prompt": "List the contents to see what's left.",
+      "hint": "Type: ls",
+      "validation": {
+        "type": "exactCommand",
+        "value": "ls"
+      },
+      "onSuccess": {
+        "message": "Just index.html, css/, and js/. Clean. Remember: `rm` is permanent. There's no recycling bin in the terminal."
+      }
+    }
+  ],
+  "completionMessage": "`rm` permanently deletes files. There's no recycling bin in the terminal. In Level 3, you'll learn git, which gives you the power to undo — but for now, be intentional with `rm`.",
+  "milestone": null,
+  "nextLesson": "1.9"
+}

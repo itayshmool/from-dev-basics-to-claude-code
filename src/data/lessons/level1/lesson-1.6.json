@@ -1,0 +1,89 @@
+{
+  "id": "1.6",
+  "level": 1,
+  "order": 6,
+  "title": "Creating Folders",
+  "subtitle": "Make directories with mkdir",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {}
+    }
+  },
+  "initialDir": "/home/user",
+  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Let's build something. First, we need a folder for our project.",
+      "prompt": "Create a folder called `my-project`. Type `mkdir my-project`.",
+      "hint": "Type: mkdir my-project",
+      "validation": {
+        "type": "exactCommand",
+        "value": "mkdir my-project"
+      },
+      "onSuccess": {
+        "message": "Folder created! Check the file explorer — you can see it appeared.",
+        "highlightExplorer": "/home/user/my-project"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Good! Verify it's there.",
+      "prompt": "List the contents to see your new folder.",
+      "hint": "Type: ls",
+      "validation": {
+        "type": "exactCommand",
+        "value": "ls"
+      },
+      "onSuccess": {
+        "message": "There it is: `my-project`. `mkdir` = 'make directory'."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now move into your new folder.",
+      "prompt": "Navigate into my-project.",
+      "hint": "Type: cd my-project",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cd my-project"
+      },
+      "onSuccess": {
+        "message": "You're now inside your project folder.",
+        "highlightExplorer": "/home/user/my-project"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Create a folder inside for CSS files.",
+      "prompt": "Create a folder called `css`.",
+      "hint": "Type: mkdir css",
+      "validation": {
+        "type": "exactCommand",
+        "value": "mkdir css"
+      },
+      "onSuccess": {
+        "message": "First one done.",
+        "highlightExplorer": "/home/user/my-project/css"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now create one more for JavaScript files.",
+      "prompt": "Create a folder called `js`.",
+      "hint": "Type: mkdir js",
+      "validation": {
+        "type": "exactCommand",
+        "value": "mkdir js"
+      },
+      "onSuccess": {
+        "message": "Both created. Check `ls` to see them.",
+        "highlightExplorer": "/home/user/my-project/js"
+      }
+    }
+  ],
+  "completionMessage": "You can now create folders with `mkdir`. Your project is taking shape!",
+  "milestone": null,
+  "nextLesson": "1.7"
+}

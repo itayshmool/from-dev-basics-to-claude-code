@@ -1,0 +1,303 @@
+# Backend Spec: Node/Express + PostgreSQL + Admin Dashboard
+
+## Overview
+
+| Field | Value |
+|-------|-------|
+| Stack | Node.js + Express + TypeScript + PostgreSQL |
+| Auth | JWT (access + refresh tokens) |
+| Admin | React SPA (separate route or separate app) |
+| Hosting | Railway / Render / Fly.io (app + managed Postgres) |
+| ORM | Drizzle ORM (lightweight, TypeScript-native) |
+| Migration tool | Drizzle Kit |
+
+## Why Now vs Later
+
+### Do it AFTER:
+- Level 1 is tested, polished, and stable in production
+- You've confirmed the lesson JSON structure won't change significantly
+- You want at least one of: user accounts, admin editing, analytics, or progress sync across devices
+
+### Don't wait for:
+- All 8 levels to be built — the backend can serve whatever content exists
+- Perfect lesson content — the whole point is making content easier to edit
+
+### Recommended trigger moment:
+**When you start building Level 2.** At that point you'll have two levels of proven content, a stable section type system, and the pain of editing raw JSON files will be real. That's the right time.
+
+---
+
+## Database Schema
+
+### `levels`
+
+| Column | Type | Notes |
+|--------|------|-------|
+| id | SERIAL PRIMARY KEY | |
+| title | VARCHAR(200) | |
+| subtitle | VARCHAR(500) | |
+| order | INTEGER | Display order (0, 1, 2...) |
+| emoji | VARCHAR(10) | Level icon emoji |
+| is_published | BOOLEAN | Hide unpublished levels from students |
+| created_at | TIMESTAMPTZ | |
+| updated_at | TIMESTAMPTZ | |
+
+### `lessons`
+
+| Column | Type | Notes |
+|--------|------|-------|
+| id | VARCHAR(10) PRIMARY KEY | "0.1", "1.12", etc. |
+| level_id | INTEGER REFERENCES levels(id) | |
+| title | VARCHAR(200) | |
+| subtitle | VARCHAR(500) | |
+| type | VARCHAR(20) | "conceptual" or "terminal" |
+| order | INTEGER | Order within level |
+| initial_fs | JSONB | Virtual filesystem spec (nullable, terminal lessons only) |
+| initial_dir | VARCHAR(500) | Starting directory (nullable) |
+| commands_introduced | JSONB | String array of commands |
+| sections | JSONB | Array of section objects — the lesson content |
+| completion_message | TEXT | |
+| milestone | JSONB | Nullable milestone object |
+| next_lesson | VARCHAR(10) | FK to lessons(id), nullable |
+| is_published | BOOLEAN | |
+| created_at | TIMESTAMPTZ | |
+| updated_at | TIMESTAMPTZ | |
+
+### `users`
+
+| Column | Type | Notes |
+|--------|------|-------|
+| id | UUID PRIMARY KEY | gen_random_uuid() |
+| email | VARCHAR(320) UNIQUE | |
+| password_hash | VARCHAR(255) | bcrypt |
+| display_name | VARCHAR(100) | |
+| role | VARCHAR(20) | "student" or "admin" |
+| created_at | TIMESTAMPTZ | |
+
+### `progress`
+
+| Column | Type | Notes |
+|--------|------|-------|
+| id | SERIAL PRIMARY KEY | |
+| user_id | UUID REFERENCES users(id) | |
+| lesson_id | VARCHAR(10) REFERENCES lessons(id) | |
+| section_index | INTEGER | Last completed section |
+| completed | BOOLEAN | |
+| completed_at | TIMESTAMPTZ | Nullable |
+| UNIQUE(user_id, lesson_id) | | One row per user per lesson |
+
+---
+
+## API Endpoints
+
+### Public (no auth)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/levels` | List all published levels with lesson metadata (no sections) |
+| GET | `/api/levels/:id/lessons` | List lessons for a level (no sections) |
+| GET | `/api/lessons/:id` | Full lesson with sections |
+
+### Auth
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/auth/register` | Create account (email, password, displayName) |
+| POST | `/api/auth/login` | Returns access + refresh tokens |
+| POST | `/api/auth/refresh` | Rotate refresh token |
+| POST | `/api/auth/logout` | Invalidate refresh token |
+
+### Student (auth required)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/progress` | Get all progress for current user |
+| PUT | `/api/progress/:lessonId` | Update progress (section_index, completed) |
+
+### Admin (admin role required)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/admin/levels` | List all levels (including unpublished) |
+| POST | `/api/admin/levels` | Create level |
+| PUT | `/api/admin/levels/:id` | Update level |
+| DELETE | `/api/admin/levels/:id` | Delete level (soft delete or cascade check) |
+| GET | `/api/admin/lessons` | List all lessons (with filters) |
+| POST | `/api/admin/lessons` | Create lesson |
+| PUT | `/api/admin/lessons/:id` | Update lesson (full replace of sections JSONB) |
+| DELETE | `/api/admin/lessons/:id` | Delete lesson |
+| POST | `/api/admin/lessons/:id/duplicate` | Clone a lesson |
+| PUT | `/api/admin/lessons/reorder` | Bulk update order fields |
+| GET | `/api/admin/stats` | User count, completion rates, etc. |
+
+---
+
+## Project Structure
+
+```
+server/
+  src/
+    index.ts                  # Express app setup, middleware
+    db/
+      schema.ts               # Drizzle schema definitions
+      migrations/             # Generated by drizzle-kit
+      seed.ts                 # Import existing JSON lessons into DB
+    routes/
+      levels.ts               # Public level/lesson routes
+      auth.ts                 # Register, login, refresh, logout
+      progress.ts             # Student progress routes
+      admin.ts                # Admin CRUD routes
+    middleware/
+      auth.ts                 # JWT verification middleware
+      admin.ts                # Admin role check
+    lib/
+      jwt.ts                  # Token generation/verification
+      password.ts             # bcrypt hash/compare
+  drizzle.config.ts           # Drizzle Kit config
+  package.json
+  tsconfig.json
+```
+
+This lives alongside the existing frontend as a monorepo:
+
+```
+/
+  server/                     # NEW — backend
+  src/                        # Existing frontend
+  specs/
+  package.json                # Frontend package.json (unchanged)
+```
+
+---
+
+## Frontend Changes
+
+### Phase 1: API integration (minimal changes)
+
+Replace static JSON imports with API fetch:
+
+```typescript
+// Before (src/data/levels.ts)
+import lesson01 from './lessons/level0/lesson-0.1.json';
+
+// After
+export async function fetchLevels(): Promise<LevelMeta[]> {
+  const res = await fetch('/api/levels');
+  return res.json();
+}
+
+export async function fetchLesson(id: string): Promise<Lesson> {
+  const res = await fetch(`/api/lessons/${id}`);
+  return res.json();
+}
+```
+
+Add a loading state to `HomeScreen` and `LessonView`. The component interfaces stay the same — only data fetching changes.
+
+### Phase 2: User accounts (optional)
+
+- Add login/register screens
+- Store JWT in memory (not localStorage — use refresh token in httpOnly cookie)
+- Sync progress to server instead of localStorage
+- Keep localStorage as offline fallback
+
+### Phase 3: Admin dashboard
+
+- Separate route (`/admin`) or separate SPA
+- Level list with create/edit/delete/reorder
+- Lesson editor: form fields for metadata + JSON editor for sections
+- Preview button: render lesson in-app without publishing
+- Drag-and-drop section reordering
+- Publish/unpublish toggle
+
+---
+
+## Migration Plan (JSON files to DB)
+
+### Step 1: Seed script
+
+Write `server/src/db/seed.ts` that:
+1. Reads all existing lesson JSON files from `src/data/lessons/`
+2. Reads `LEVELS` from `src/lib/constants.ts`
+3. Inserts into `levels` and `lessons` tables
+4. Maps field names (camelCase to snake_case)
+
+### Step 2: Dual-mode frontend
+
+During migration, support both modes:
+```typescript
+const USE_API = import.meta.env.VITE_USE_API === 'true';
+
+export async function getLevels() {
+  if (USE_API) return fetchLevels();
+  return staticLevels; // existing import
+}
+```
+
+This lets you develop the backend without breaking the current static deployment.
+
+### Step 3: Cut over
+
+Once the API is stable:
+1. Deploy backend
+2. Set `VITE_USE_API=true`
+3. Remove static JSON imports (keep files as backup)
+4. Update GitHub Actions to deploy frontend to Pages + backend to Railway/Render
+
+---
+
+## Auth Strategy Details
+
+### JWT tokens
+- **Access token**: 15 min expiry, stored in memory (JS variable), sent as `Authorization: Bearer <token>`
+- **Refresh token**: 7 day expiry, stored as httpOnly secure cookie, rotated on each use
+- **No localStorage for tokens** — prevents XSS token theft
+
+### Password hashing
+- bcrypt with cost factor 12
+- Minimum password length: 8 characters
+
+### Admin creation
+- First user registered gets admin role (or use a seed script)
+- Subsequent admins created by existing admins via API
+
+---
+
+## Environment Variables
+
+```env
+# Server
+DATABASE_URL=postgresql://user:pass@host:5432/terminal_trainer
+JWT_SECRET=<random-64-char-string>
+JWT_REFRESH_SECRET=<different-random-64-char-string>
+PORT=3001
+CORS_ORIGIN=http://localhost:5173
+
+# Frontend (Vite)
+VITE_API_URL=http://localhost:3001
+VITE_USE_API=true
+```
+
+---
+
+## Hosting Recommendation
+
+| Service | What | Cost |
+|---------|------|------|
+| **Railway** | Express app + PostgreSQL | Free tier: 500 hrs/mo, 1 GB Postgres |
+| **GitHub Pages** | Frontend (keep as-is) | Free |
+
+Alternative: **Render** (free tier has cold starts) or **Fly.io** (generous free tier, slightly more setup).
+
+The frontend stays on GitHub Pages. The backend runs separately. CORS config allows the Pages domain.
+
+---
+
+## What NOT to build yet
+
+- Email verification — add later when you have real users
+- OAuth (Google/GitHub login) — add later as convenience
+- Rate limiting — add when public
+- File uploads (lesson images) — use a CDN/S3 when needed
+- WebSocket for real-time admin collaboration — overkill
+- i18n API — premature

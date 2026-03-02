@@ -1,0 +1,68 @@
+{
+  "id": "1.10",
+  "level": 1,
+  "order": 10,
+  "title": "Copying Files",
+  "subtitle": "Duplicate files with cp",
+  "type": "terminal",
+  "initialFs": {
+    "home": {
+      "user": {
+        "my-project": {
+          "index.html": "",
+          "about.html": "",
+          "css": {},
+          "backup": {}
+        }
+      }
+    }
+  },
+  "initialDir": "/home/user/my-project",
+  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir", "touch", "rm", "rm -r", "cp"],
+  "sections": [
+    {
+      "type": "terminalStep",
+      "instruction": "Sometimes you want to copy a file — keep the original and make a duplicate.",
+      "prompt": "Copy `index.html` to the `backup` folder: `cp index.html backup/index.html`.",
+      "hint": "Type: cp index.html backup/index.html",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cp index.html backup/index.html"
+      },
+      "onSuccess": {
+        "message": "Copied! The original is still here, and a copy is in backup/.",
+        "highlightExplorer": "/home/user/my-project/backup/index.html"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "You can also copy and rename at the same time.",
+      "prompt": "Copy `about.html` to `backup/about-backup.html`.",
+      "hint": "Type: cp about.html backup/about-backup.html",
+      "validation": {
+        "type": "exactCommand",
+        "value": "cp about.html backup/about-backup.html"
+      },
+      "onSuccess": {
+        "message": "The copy has a different name. `cp` always takes two arguments: source and destination.",
+        "highlightExplorer": "/home/user/my-project/backup/about-backup.html"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Verify both copies are in the backup folder.",
+      "prompt": "List the contents of backup.",
+      "hint": "Type: ls backup",
+      "validation": {
+        "type": "exactCommand",
+        "value": "ls backup"
+      },
+      "onSuccess": {
+        "message": "Both files are there. Originals untouched."
+      }
+    }
+  ],
+  "completionMessage": "You can now copy files with `cp`. The original stays in place, and a duplicate appears at the destination.",
+  "milestone": null,
+  "nextLesson": "1.11"
+}

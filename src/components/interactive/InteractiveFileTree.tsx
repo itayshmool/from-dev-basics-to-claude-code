@@ -44,10 +44,10 @@ function TreeNode({ name, value, path, depth, onFileClick, onDirClick }: TreeNod
         style={{ paddingLeft: `${depth * 16 + 10}px` }}
       >
         {isFile ? (
-          <span className="text-sm flex-shrink-0">&#128196;</span>
+          <span className="text-sm flex-shrink-0">{'\u{1F4C4}'}</span>
         ) : (
           <span className="text-sm flex-shrink-0">
-            {expanded ? '&#128194;' : '&#128193;'}
+            {expanded ? '\u{1F4C2}' : '\u{1F4C1}'}
           </span>
         )}
         <span className={isFile ? 'text-text-secondary' : 'text-text-primary font-medium'}>

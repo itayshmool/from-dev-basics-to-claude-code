@@ -157,6 +157,72 @@ export class VirtualFileSystem {
     return node?.type === 'file';
   }
 
+  getNodeType(path: string): 'file' | 'dir' | null {
+    const node = this.getNode(this.resolvePath(path));
+    return node?.type ?? null;
+  }
+
+  copyFile(source: string, dest: string): 'ok' | 'not_found' | 'is_dir' | 'parent_missing' {
+    const srcResolved = this.resolvePath(source);
+    const srcNode = this.getNode(srcResolved);
+    if (!srcNode) return 'not_found';
+    if (srcNode.type !== 'file') return 'is_dir';
+
+    const destResolved = this.resolvePath(dest);
+    const destNode = this.getNode(destResolved);
+
+    let targetPath: string;
+    if (destNode?.type === 'dir') {
+      const fileName = srcResolved.split('/').pop()!;
+      targetPath = destResolved + '/' + fileName;
+    } else {
+      targetPath = destResolved;
+    }
+
+    if (this.createFile(targetPath, (srcNode as FileNode).content)) return 'ok';
+    return 'parent_missing';
+  }
+
+  moveNode(source: string, dest: string): 'ok' | 'not_found' | 'parent_missing' {
+    const srcResolved = this.resolvePath(source);
+    const srcNode = this.getNode(srcResolved);
+    if (!srcNode) return 'not_found';
+
+    const destResolved = this.resolvePath(dest);
+    const destNode = this.getNode(destResolved);
+
+    let targetPath: string;
+    if (destNode?.type === 'dir') {
+      const name = srcResolved.split('/').pop()!;
+      targetPath = destResolved + '/' + name;
+    } else {
+      targetPath = destResolved;
+    }
+
+    if (srcNode.type === 'file') {
+      if (!this.createFile(targetPath, (srcNode as FileNode).content)) return 'parent_missing';
+      this.deleteNode(srcResolved);
+      return 'ok';
+    }
+
+    // For directories: re-attach the node under the new parent
+    const parts = targetPath.split('/').filter(Boolean);
+    const dirName = parts.pop()!;
+    const parentPath = '/' + parts.join('/');
+    const parent = this.getNode(parentPath);
+    if (parent?.type !== 'dir') return 'parent_missing';
+    const srcDir = srcNode as DirNode;
+    const movedDir: DirNode = { type: 'dir', name: dirName, children: srcDir.children };
+    parent.children.set(dirName, movedDir);
+    // Remove source from its parent (without recursive delete since we moved the children ref)
+    const srcParts = srcResolved.split('/').filter(Boolean);
+    const srcName = srcParts.pop()!;
+    const srcParentPath = '/' + srcParts.join('/');
+    const srcParent = this.getNode(srcParentPath);
+    if (srcParent?.type === 'dir') srcParent.children.delete(srcName);
+    return 'ok';
+  }
+
   toJSON(path = '/'): FileSystemSpec {
     const node = this.getNode(path);
     if (!node || node.type === 'file') return {};
