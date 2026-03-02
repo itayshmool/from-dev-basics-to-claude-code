@@ -1,0 +1,104 @@
+{
+  "id": "0.6",
+  "level": 0,
+  "order": 6,
+  "title": "What Is a Terminal?",
+  "subtitle": "A text-based way to talk to your computer",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "A **terminal** is a text-based interface where you type commands to interact with your computer. Instead of clicking icons and menus, you type what you want to do.",
+      "analogy": "Think of your computer as a restaurant. The graphical interface (Finder, Desktop) is like dining in — you look at the menu, point at what you want, a waiter brings it. The terminal is like calling the kitchen directly — you tell the chef exactly what you want using specific words. Same food, different way of ordering.",
+      "keyPoints": [
+        "The terminal does the same things as your graphical interface, just with typing instead of clicking",
+        "Developers use the terminal because: it's faster for many tasks, some tools only work in the terminal, and you can automate repetitive tasks",
+        "On Mac: it's called Terminal.app (built-in). On Windows: PowerShell or Windows Terminal",
+        "The `$` symbol in a terminal is the prompt — it means the terminal is waiting for you to type something"
+      ]
+    },
+    {
+      "type": "terminalPreview",
+      "instruction": "Watch how a terminal works. These three commands show where you are, what's in your current folder, and how to move into another folder.",
+      "lines": [
+        {
+          "type": "command",
+          "text": "pwd",
+          "annotation": "Shows where you are — 'print working directory'"
+        },
+        {
+          "type": "output",
+          "text": "/Users/sara"
+        },
+        {
+          "type": "command",
+          "text": "ls",
+          "annotation": "Lists what's in the current folder — 'list'"
+        },
+        {
+          "type": "output",
+          "text": "Desktop  Documents  Downloads  projects"
+        },
+        {
+          "type": "command",
+          "text": "cd projects",
+          "annotation": "Moves into the projects folder — 'change directory'"
+        },
+        {
+          "type": "output",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What is a terminal?",
+      "options": [
+        "A type of computer screen",
+        "A text-based interface where you type commands to interact with your computer",
+        "A special app for watching videos",
+        "An external device you plug into your computer"
+      ],
+      "correctIndex": 1,
+      "explanation": "The terminal is simply a different way to interact with your computer — through text commands instead of clicking. Everything you can do by clicking, you can do by typing a command."
+    },
+    {
+      "type": "quiz",
+      "question": "What does the $ sign in a terminal mean?",
+      "options": [
+        "It means the command costs money",
+        "It's the prompt — the terminal is waiting for you to type a command",
+        "It means there's an error",
+        "It's a shortcut for the home folder"
+      ],
+      "correctIndex": 1,
+      "explanation": "The $ is called the 'prompt'. It's the terminal saying 'I'm ready — what do you want me to do?' You type your command after the $, then press Enter."
+    },
+    {
+      "type": "quiz",
+      "question": "Why do developers prefer using the terminal?",
+      "options": [
+        "Because graphical interfaces don't work for coding",
+        "Because the terminal is faster for many tasks, and some tools only work in the terminal",
+        "Because the terminal is easier to learn than clicking",
+        "Because the terminal uses less memory"
+      ],
+      "correctIndex": 1,
+      "explanation": "The terminal is powerful because it's fast once you know the commands, some development tools only work in the terminal, and you can combine commands and automate tasks. In the next level, you'll experience this firsthand."
+    }
+  ],
+  "completionMessage": "You now know what a terminal is and why developers use it. In the next level, you'll open a terminal and type real commands. Don't worry — we'll start simple and build up from there.",
+  "milestone": {
+    "title": "Computers Are Not Magic",
+    "summary": [
+      "Files are containers for information, each with a name and type",
+      "Folders organize files and can be nested inside each other",
+      "Paths are addresses that tell you exactly where a file is",
+      "File extensions tell the computer what kind of file it is",
+      "Programs are files with instructions the computer runs",
+      "The terminal is a text-based way to control your computer"
+    ],
+    "nextLevelTeaser": "Next up: Level 1 — Your First 30 Minutes in the Terminal. You'll type real commands and build things. See you there!"
+  },
+  "nextLesson": null
+}

@@ -1,0 +1,56 @@
+{
+  "id": "0.4",
+  "level": 0,
+  "order": 4,
+  "title": "File Types and What's Inside",
+  "subtitle": "Extensions tell the computer what to do with a file",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "The **file extension** (the part after the dot) tells the computer what kind of content is inside a file and what program should open it.",
+      "analogy": "File extensions are like labels on boxes. A box labeled \"FRAGILE — GLASS\" tells you what's inside and how to handle it. A file ending in `.jpg` tells the computer \"this is an image, open it with an image viewer.\"",
+      "keyPoints": [
+        "Text files (`.txt`, `.md`): Plain text, readable by any text editor",
+        "Documents (`.pdf`, `.docx`): Formatted documents",
+        "Images (`.jpg`, `.png`, `.gif`, `.svg`): Visual content",
+        "Code files (`.html`, `.css`, `.js`, `.py`, `.ts`): Instructions for computers",
+        "Data files (`.json`, `.csv`, `.xml`): Structured data",
+        "Config files (`.env`, `.yml`, `.toml`): Settings"
+      ]
+    },
+    {
+      "type": "narrative",
+      "content": "Here's an important secret: **code files are just text files with a specific extension**. You can open any `.js` or `.html` file in a regular text editor and read it. There's nothing magical or encrypted about code.",
+      "tip": "This means you already know how to open and read code files — they're just text. The extension tells the computer how to interpret them."
+    },
+    {
+      "type": "match",
+      "instruction": "Match each file to its category by clicking one on the left, then its match on the right.",
+      "pairs": [
+        { "left": "photo.png", "right": "Image" },
+        { "left": "app.js", "right": "Code" },
+        { "left": "data.json", "right": "Data" },
+        { "left": "readme.md", "right": "Text" },
+        { "left": "config.yml", "right": "Config" }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Your friend sends you \"styles.css\". What does this file contain?",
+      "options": ["An image", "A spreadsheet", "Styling code for a web page", "A video"],
+      "correctIndex": 2,
+      "explanation": "CSS (Cascading Style Sheets) is the language used to style web pages — colors, fonts, layouts. It's a code file, which means it's just text with special syntax."
+    },
+    {
+      "type": "quiz",
+      "question": "Can you open a .js file in a regular text editor?",
+      "options": ["No, you need special software", "Yes — code files are just text files"],
+      "correctIndex": 1,
+      "explanation": "Exactly! Code files are plain text. You can open them in Notepad, TextEdit, or any editor. The .js extension just tells the computer 'this text should be interpreted as JavaScript.'"
+    }
+  ],
+  "completionMessage": "You now understand file types and extensions. The key takeaway: code files are just text files. There's nothing scary about them.",
+  "milestone": null,
+  "nextLesson": "0.5"
+}

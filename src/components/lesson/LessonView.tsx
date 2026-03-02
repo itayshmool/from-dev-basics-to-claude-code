@@ -1,0 +1,113 @@
+import { useLessonEngine } from '../../hooks/useLessonEngine';
+import { useProgress } from '../../hooks/useProgress';
+import { getLessonById, getLevelForLesson } from '../../data/levels';
+import { SectionRenderer } from './SectionRenderer';
+import { LessonComplete } from './LessonComplete';
+import { MilestoneScreen } from './MilestoneScreen';
+
+interface LessonViewProps {
+  lessonId: string;
+  onNavigate: (lessonId: string) => void;
+}
+
+export function LessonView({ lessonId, onNavigate }: LessonViewProps) {
+  const lesson = getLessonById(lessonId);
+  const level = getLevelForLesson(lessonId);
+  const { currentSectionIndex, markLessonComplete, setCurrentLesson, setCurrentSection } = useProgress();
+
+  const engine = useLessonEngine(lesson, currentSectionIndex);
+
+  if (!lesson || !engine || !level) {
+    return (
+      <div className="flex items-center justify-center h-full text-text-muted">
+        Lesson not found.
+      </div>
+    );
+  }
+
+  // Capture non-null refs for use in closures
+  const eng = engine;
+  const les = lesson;
+
+  const currentSection = eng.getCurrentSection();
+  const isComplete = eng.isLessonComplete();
+  const sectionIndex = eng.getCurrentSectionIndex();
+  const totalSections = les.sections.length;
+
+  // Check if this is the last lesson in the level and it's complete — show milestone
+  const isLastLesson = level.lessons[level.lessons.length - 1].id === lessonId;
+  const showMilestone = isComplete && isLastLesson && les.milestone;
+
+  function handleSectionComplete() {
+    eng.advance();
+    const newIndex = eng.getCurrentSectionIndex();
+    setCurrentSection(newIndex);
+
+    if (eng.isLessonComplete()) {
+      markLessonComplete(lessonId, les.level);
+    }
+  }
+
+  function handleNextLesson() {
+    if (les.nextLesson) {
+      setCurrentLesson(les.nextLesson, 0);
+      onNavigate(les.nextLesson);
+    }
+  }
+
+  if (showMilestone && les.milestone) {
+    return <MilestoneScreen milestone={les.milestone} levelId={les.level} />;
+  }
+
+  if (isComplete) {
+    return (
+      <LessonComplete
+        message={les.completionMessage || 'Great work! You completed this lesson.'}
+        onNext={handleNextLesson}
+        hasNext={!!les.nextLesson}
+      />
+    );
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto px-6 py-8">
+      {/* Lesson header */}
+      <div className="mb-8 animate-fade-in-up">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-[10px] font-extrabold uppercase tracking-widest text-lavender bg-lavender-light px-2.5 py-1 rounded-full">
+            Level {les.level}
+          </span>
+          <span className="text-[10px] font-extrabold uppercase tracking-widest text-teal bg-teal-light px-2.5 py-1 rounded-full">
+            Lesson {les.order}
+          </span>
+        </div>
+        <h2 className="text-2xl font-extrabold text-text-primary leading-tight">{les.title}</h2>
+        <p className="text-sm text-text-secondary mt-1">{les.subtitle}</p>
+
+        {/* Section progress */}
+        <div className="flex items-center gap-1.5 mt-5">
+          {Array.from({ length: totalSections }, (_, i) => (
+            <div
+              key={i}
+              className={`h-2 flex-1 rounded-full transition-all ${
+                i < sectionIndex ? 'bg-mint' : i === sectionIndex ? 'bg-lavender animate-glow-pulse' : 'bg-border'
+              }`}
+            />
+          ))}
+          <span className="text-xs font-bold text-text-muted ml-2">
+            {sectionIndex + 1}/{totalSections}
+          </span>
+        </div>
+      </div>
+
+      {/* Current section */}
+      {currentSection && (
+        <SectionRenderer
+          key={`${lessonId}-${sectionIndex}`}
+          section={currentSection}
+          onComplete={handleSectionComplete}
+        />
+      )}
+    </div>
+  );
+}

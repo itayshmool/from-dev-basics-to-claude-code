@@ -1,0 +1,66 @@
+{
+  "id": "0.3",
+  "level": 0,
+  "order": 3,
+  "title": "What Is a File Path?",
+  "subtitle": "The address of every file on your computer",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "A **path** is the address of a file or folder on your computer. Just like a street address tells you where a building is, a file path tells you exactly where a file lives.",
+      "analogy": "A file path is like a street address. Just as \"123 Oak Street, Apartment 4B\" tells you exactly where someone lives, `/Users/sara/Documents/resume.pdf` tells you exactly where a file lives on a computer.",
+      "keyPoints": [
+        "Paths use slashes `/` to separate folder names (on Mac and Linux)",
+        "The path reads left to right, from the outermost folder to the file",
+        "Breaking down `/Users/sara/Documents/resume.pdf`: Users → sara → Documents → resume.pdf",
+        "Special shortcuts: `/` = the very top (root), `~` = your home folder, `..` = one folder up"
+      ]
+    },
+    {
+      "type": "pathBuilder",
+      "instruction": "Navigate through the folders to build the path to resume.pdf. Click each folder to expand it and build the path step by step.",
+      "tree": {
+        "Users": {
+          "sara": {
+            "Desktop": {
+              "notes.txt": "Quick notes"
+            },
+            "Documents": {
+              "resume.pdf": "Sara's resume",
+              "cover-letter.pdf": "Cover letter"
+            },
+            "projects": {
+              "website": {
+                "index.html": "Hello World"
+              }
+            }
+          }
+        }
+      },
+      "targetPath": "/Users/sara/Documents/resume.pdf"
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "Given the path /Users/mike/photos/vacation/beach.jpg — what folder is beach.jpg in?",
+      "answer": "vacation",
+      "caseSensitive": false
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "Given the path /Users/mike/photos/vacation/beach.jpg — what is the file name?",
+      "answer": "beach.jpg",
+      "caseSensitive": false
+    },
+    {
+      "type": "quiz",
+      "question": "If Sara's home folder is /Users/sara, what does the shortcut ~ refer to?",
+      "options": ["/Users", "/Users/sara", "/Users/sara/Desktop", "The root folder /"],
+      "correctIndex": 1,
+      "explanation": "The tilde ~ is a shortcut that always points to your home folder. For Sara, that's /Users/sara. You'll use this shortcut a lot in the terminal."
+    }
+  ],
+  "completionMessage": "You now understand file paths — the addresses that pinpoint exactly where any file or folder lives on a computer. This is one of the most important concepts for working with the terminal.",
+  "milestone": null,
+  "nextLesson": "0.4"
+}

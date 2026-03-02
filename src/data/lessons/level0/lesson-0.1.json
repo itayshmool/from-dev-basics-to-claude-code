@@ -1,0 +1,59 @@
+{
+  "id": "0.1",
+  "level": 0,
+  "order": 1,
+  "title": "What Is a File?",
+  "subtitle": "Everything on your computer is a file",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "A **file** is a container for information stored on your computer. Everything you interact with — photos, documents, songs, apps — is a file.",
+      "analogy": "A file is like a single document in a filing cabinet. It has a name, it contains something (text, an image, music), and it lives somewhere specific.",
+      "keyPoints": [
+        "Everything on your computer is a file: photos, documents, songs, apps",
+        "Files have names: `photo.jpg`, `resume.pdf`, `notes.txt`",
+        "Files have types (extensions): the part after the dot tells the computer what kind of file it is",
+        "Common extensions: `.txt` (text), `.pdf` (document), `.jpg` (image), `.html` (web page), `.js` (JavaScript code)"
+      ]
+    },
+    {
+      "type": "interactiveTree",
+      "instruction": "Click each file to see its name, type, and what kind of content is inside.",
+      "tree": {
+        "examples": {
+          "photo.jpg": "A beautiful sunset over the ocean — this is an image file",
+          "resume.pdf": "Sara's professional resume with work experience and skills",
+          "notes.txt": "Remember to buy groceries\nPick up dry cleaning\nCall dentist",
+          "song.mp3": "Audio file: 3 minutes 45 seconds of music",
+          "index.html": "<html>\n<body>\n  <h1>Hello World</h1>\n</body>\n</html>",
+          "style.css": "body {\n  font-family: sans-serif;\n  color: blue;\n}"
+        }
+      }
+    },
+    {
+      "type": "quiz",
+      "question": "What type of file is \"birthday.jpg\"?",
+      "options": ["A text document", "An image", "A web page", "An audio file"],
+      "correctIndex": 1,
+      "explanation": "The .jpg extension tells us this is an image file. JPG is one of the most common image formats."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "What is the extension of \"report.pdf\"?",
+      "answer": ".pdf",
+      "acceptAlternates": ["pdf"],
+      "caseSensitive": false
+    },
+    {
+      "type": "quiz",
+      "question": "If you see a file ending in .html, what does it contain?",
+      "options": ["An image", "Music", "A web page", "A spreadsheet"],
+      "correctIndex": 2,
+      "explanation": "HTML stands for HyperText Markup Language — it's the code that makes web pages. Every website you visit is built with HTML files."
+    }
+  ],
+  "completionMessage": "You now know what files are — containers for information, each with a name and a type. Next, we'll learn how files are organized into folders.",
+  "milestone": null,
+  "nextLesson": "0.2"
+}

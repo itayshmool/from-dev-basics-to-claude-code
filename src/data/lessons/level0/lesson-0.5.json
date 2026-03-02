@@ -1,0 +1,76 @@
+{
+  "id": "0.5",
+  "level": 0,
+  "order": 5,
+  "title": "What Is a Program?",
+  "subtitle": "A file with instructions the computer follows",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "A **program** is a file that contains instructions the computer can execute (run). Every app on your computer — Chrome, Spotify, Calculator — is a program.",
+      "analogy": "A program is like a recipe. The recipe (code) sits in a file. When you \"run\" it, the computer follows the instructions step by step, just like a chef follows a recipe.",
+      "keyPoints": [
+        "Every app on your computer is a program: Chrome, Spotify, Calculator",
+        "A program starts as code (text in a file) written by a developer",
+        "When you \"run\" a program, the computer reads the instructions and executes them",
+        "When you double-click an app icon, you're telling the computer: \"read this program's files and execute the instructions\""
+      ]
+    },
+    {
+      "type": "programSim",
+      "instruction": "This is a simple program written in plain English. Click \"Run Program\" to watch the computer execute it step by step. When it asks for your name, type it in!",
+      "lines": [
+        "Ask the user for their name",
+        "Save their answer",
+        "Display \"Hello, \" followed by their name",
+        "Wait 1 second",
+        "Display \"Welcome to programming!\""
+      ],
+      "interactions": [
+        {
+          "afterLine": 0,
+          "type": "input",
+          "prompt": "What is your name? "
+        },
+        {
+          "afterLine": 2,
+          "type": "display",
+          "value": "Hello, {input}!"
+        },
+        {
+          "afterLine": 4,
+          "type": "display",
+          "value": "Welcome to programming!"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What is a program?",
+      "options": [
+        "A type of image file",
+        "A file containing instructions that the computer can execute",
+        "A special folder on your computer",
+        "A website you visit in a browser"
+      ],
+      "correctIndex": 1,
+      "explanation": "A program is a file (or set of files) with instructions. When you run it, the computer follows those instructions to do something useful."
+    },
+    {
+      "type": "quiz",
+      "question": "When you double-click the Chrome icon on your desktop, what happens?",
+      "options": [
+        "It downloads Chrome from the internet",
+        "The computer reads Chrome's program files and runs the instructions",
+        "It creates a new file on your desktop",
+        "Nothing happens until you type a URL"
+      ],
+      "correctIndex": 1,
+      "explanation": "Double-clicking an app icon tells the computer to find that program's files, read the instructions, and execute them. That's why there's sometimes a brief loading moment — the computer is reading and starting up the program."
+    }
+  ],
+  "completionMessage": "You now understand what programs are — files with instructions the computer executes. Next, we'll learn about the terminal: a text-based way to give your computer instructions directly.",
+  "milestone": null,
+  "nextLesson": "0.6"
+}

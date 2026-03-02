@@ -1,0 +1,72 @@
+{
+  "id": "0.2",
+  "level": 0,
+  "order": 2,
+  "title": "What Is a Folder?",
+  "subtitle": "Organizing files into directories",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "A **folder** (also called a **directory**) is a container that holds files and other folders. Folders organize your files, just like drawers organize papers in a filing cabinet.",
+      "analogy": "A folder is like a drawer in a filing cabinet. You can put documents (files) in it, and you can put smaller folders inside it — folders within folders within folders. This is called **nesting**.",
+      "keyPoints": [
+        "Folders organize files, just like physical folders organize papers",
+        "Folders can contain files AND other folders (nesting)",
+        "Every computer has a similar basic structure: a home folder for each user, with Desktop, Documents, and Downloads inside it",
+        "Developers organize their code in folders called \"projects\""
+      ]
+    },
+    {
+      "type": "interactiveTree",
+      "instruction": "Explore this typical computer file structure. Click on folders to expand them and see what's inside.",
+      "tree": {
+        "Users": {
+          "sara": {
+            "Desktop": {
+              "notes.txt": "Quick notes from today's meeting",
+              "screenshot.png": "Screenshot of the project design"
+            },
+            "Documents": {
+              "resume.pdf": "Sara's professional resume",
+              "cover-letter.pdf": "Cover letter for the design role"
+            },
+            "Downloads": {
+              "app-installer.dmg": "Downloaded application installer"
+            },
+            "projects": {
+              "my-website": {
+                "index.html": "<html><body>Hello</body></html>",
+                "style.css": "body { color: blue; }"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "quiz",
+      "question": "How many files are directly inside Sara's Desktop folder?",
+      "options": ["1", "2", "3", "4"],
+      "correctIndex": 1,
+      "explanation": "Sara's Desktop contains 2 files: notes.txt and screenshot.png."
+    },
+    {
+      "type": "quiz",
+      "question": "What folder is resume.pdf inside?",
+      "options": ["Desktop", "Documents", "Downloads", "projects"],
+      "correctIndex": 1,
+      "explanation": "resume.pdf is inside Sara's Documents folder."
+    },
+    {
+      "type": "quiz",
+      "question": "Can a folder contain other folders?",
+      "options": ["No, folders can only contain files", "Yes, folders can contain both files and other folders"],
+      "correctIndex": 1,
+      "explanation": "Yes! Folders can contain both files and other folders. This nesting is how computers organize everything. Look at how 'sara' contains 'projects', which contains 'my-website'."
+    }
+  ],
+  "completionMessage": "You now understand folders — containers that organize files and can be nested inside each other. Next, we'll learn about file paths — the addresses that tell you exactly where a file lives.",
+  "milestone": null,
+  "nextLesson": "0.3"
+}
