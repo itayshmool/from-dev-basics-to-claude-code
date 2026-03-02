@@ -40,7 +40,7 @@ function TreeNode({ name, value, path, depth, onFileClick, onDirClick }: TreeNod
     <div>
       <button
         onClick={handleClick}
-        className="flex items-center gap-2 w-full text-left py-2 px-2.5 hover:bg-bg-elevated rounded-xl text-[15px] transition-all active:scale-[0.98]"
+        className="flex items-center gap-2 w-full text-left py-2 px-2.5 hover:bg-bg-elevated rounded-lg text-[15px] transition-all active:scale-[0.98]"
         style={{ paddingLeft: `${depth * 16 + 10}px` }}
       >
         {isFile ? (
@@ -89,7 +89,7 @@ export function InteractiveFileTree({ section, onComplete }: InteractiveFileTree
         </h3>
 
         <div className="flex flex-col gap-3">
-          <div className="bg-bg-card rounded-2xl border border-border p-2 max-h-64 overflow-y-auto">
+          <div className="bg-bg-card rounded-xl border border-border p-2 max-h-64 overflow-y-auto">
             {Object.entries(section.tree).map(([name, value]) => (
               <TreeNode
                 key={name}
@@ -103,9 +103,9 @@ export function InteractiveFileTree({ section, onComplete }: InteractiveFileTree
           </div>
 
           {selectedFile && (
-            <div className="bg-bg-terminal rounded-2xl p-4 max-h-52 overflow-y-auto animate-fade-in-up">
+            <div className="bg-bg-terminal rounded-xl p-4 max-h-52 overflow-y-auto animate-fade-in-up">
               <p className="text-[11px] text-purple font-mono font-medium mb-2">{selectedFile.path}</p>
-              <pre className="text-sm text-[#F0F0F5] font-mono whitespace-pre-wrap leading-relaxed">{selectedFile.content}</pre>
+              <pre className="text-sm text-[#F0ECE4] font-mono whitespace-pre-wrap leading-relaxed">{selectedFile.content}</pre>
             </div>
           )}
         </div>

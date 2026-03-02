@@ -7,7 +7,7 @@ interface LessonCompleteProps {
 
 export function LessonComplete({ message, onNext, onHome, hasNext }: LessonCompleteProps) {
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col bg-bg-primary">
       <div className="flex-1 flex flex-col items-center justify-center text-center px-6 animate-pop-in">
         <div className="w-20 h-20 rounded-full bg-green-soft flex items-center justify-center mb-6">
           <span className="text-4xl">&#127881;</span>
@@ -21,7 +21,7 @@ export function LessonComplete({ message, onNext, onHome, hasNext }: LessonCompl
           {hasNext && (
             <button
               onClick={onNext}
-              className="w-full px-5 py-3.5 bg-purple text-white rounded-2xl text-[15px] font-semibold transition-all active:scale-[0.98]"
+              className="w-full px-5 py-3.5 bg-purple text-white rounded-xl text-[15px] font-semibold transition-all active:scale-[0.98]"
               style={{ boxShadow: 'var(--shadow-button)' }}
             >
               Next Lesson
@@ -29,7 +29,7 @@ export function LessonComplete({ message, onNext, onHome, hasNext }: LessonCompl
           )}
           <button
             onClick={onHome}
-            className="w-full px-5 py-3.5 bg-bg-card text-text-secondary border border-border rounded-2xl text-[15px] font-medium transition-all active:scale-[0.98]"
+            className="w-full px-5 py-3.5 bg-bg-card text-text-secondary border border-border rounded-xl text-[15px] font-medium transition-all active:scale-[0.98]"
           >
             Back to Home
           </button>

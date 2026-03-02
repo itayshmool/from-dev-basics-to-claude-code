@@ -66,13 +66,13 @@ export function FillInBlank({ section, onComplete }: FillInBlankProps) {
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && !submitted && value.trim() && checkAnswer()}
             disabled={canContinue}
-            className="w-full px-4 py-3.5 bg-bg-card border-2 border-border rounded-2xl text-text-primary font-mono text-[15px] font-medium focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition-all placeholder:text-text-muted placeholder:font-sans placeholder:font-normal"
+            className="w-full px-4 py-3.5 bg-bg-card border-2 border-border rounded-xl text-text-primary font-mono text-[15px] font-medium focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition-all placeholder:text-text-muted placeholder:font-sans placeholder:font-normal"
             placeholder="Type your answer..."
             autoFocus
           />
 
           {submitted && (
-            <div className={`rounded-2xl px-4 py-4 text-[15px] animate-pop-in ${
+            <div className={`rounded-xl px-4 py-4 text-[15px] animate-pop-in ${
               isCorrect ? 'bg-green-soft' : 'bg-red-soft'
             }`}>
               <p className="text-text-primary">

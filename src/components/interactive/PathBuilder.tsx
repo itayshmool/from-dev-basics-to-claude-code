@@ -31,7 +31,7 @@ function PathTreeNode({ name, value, path, depth, onNavigate, activePath }: Path
       <button
         onClick={() => onNavigate(path, isFile)}
         className={`
-          flex items-center gap-2 w-full text-left py-2 px-2.5 rounded-xl text-[15px] transition-all active:scale-[0.98]
+          flex items-center gap-2 w-full text-left py-2 px-2.5 rounded-lg text-[15px] transition-all active:scale-[0.98]
           ${isTarget ? 'bg-purple-soft ring-1 ring-purple/20' : isOnPath ? 'bg-purple-soft/40' : 'hover:bg-bg-elevated'}
         `}
         style={{ paddingLeft: `${depth * 16 + 10}px` }}
@@ -92,22 +92,22 @@ export function PathBuilder({ section, onComplete }: PathBuilderProps) {
           </h3>
 
           {/* Path display */}
-          <div className="bg-bg-terminal rounded-2xl px-4 py-3.5 font-mono text-[15px] min-h-[48px] flex items-center overflow-x-auto">
+          <div className="bg-bg-terminal rounded-xl px-4 py-3.5 font-mono text-[15px] min-h-[48px] flex items-center overflow-x-auto">
             {currentPath ? (
-              <span className="text-yellow font-medium whitespace-nowrap">
+              <span className="text-[#D4A843] font-medium whitespace-nowrap">
                 /{segments.map((seg, i) => (
                   <span key={i}>
-                    {seg}{i < segments.length - 1 && <span className="text-[#6B6B85]">/</span>}
+                    {seg}{i < segments.length - 1 && <span className="text-[#7A756C]">/</span>}
                   </span>
                 ))}
               </span>
             ) : (
-              <span className="text-[#6B6B85] text-sm">Click through folders to build the path...</span>
+              <span className="text-[#7A756C] text-sm">Click through folders to build the path...</span>
             )}
           </div>
 
           {/* Tree */}
-          <div className="bg-bg-card rounded-2xl border border-border p-2 max-h-56 overflow-y-auto">
+          <div className="bg-bg-card rounded-xl border border-border p-2 max-h-56 overflow-y-auto">
             {Object.entries(section.tree).map(([name, value]) => (
               <PathTreeNode
                 key={name}
@@ -122,7 +122,7 @@ export function PathBuilder({ section, onComplete }: PathBuilderProps) {
           </div>
 
           {isComplete && (
-            <div className="bg-green-soft rounded-2xl px-4 py-4 text-[15px] animate-pop-in">
+            <div className="bg-green-soft rounded-xl px-4 py-4 text-[15px] animate-pop-in">
               <p className="font-medium text-text-primary">
                 Correct! <code className="px-1.5 py-0.5 bg-bg-card rounded-md font-mono text-purple">{section.targetPath}</code>
               </p>

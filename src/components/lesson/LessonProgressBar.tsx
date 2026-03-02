@@ -11,7 +11,7 @@ export function LessonProgressBar({ current, total, onClose }: LessonProgressBar
     <div className="flex-shrink-0 flex items-center gap-3 px-4 py-3 md:px-6">
       <button
         onClick={onClose}
-        className="w-8 h-8 flex items-center justify-center rounded-full text-text-muted hover:text-text-primary hover:bg-bg-card transition-colors flex-shrink-0"
+        className="w-8 h-8 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-card transition-colors flex-shrink-0"
         aria-label="Close lesson"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -19,7 +19,7 @@ export function LessonProgressBar({ current, total, onClose }: LessonProgressBar
         </svg>
       </button>
 
-      <div className="flex-1 h-2 bg-bg-card rounded-full overflow-hidden">
+      <div className="flex-1 h-1.5 bg-bg-card rounded-full overflow-hidden">
         <div
           className="h-full bg-purple rounded-full transition-all duration-500 ease-out"
           style={{ width: `${pct}%` }}

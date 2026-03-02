@@ -26,12 +26,12 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
       <div className="max-w-lg mx-auto px-5 py-8 md:py-12 safe-bottom">
         {/* Hero */}
         <div className="mb-10 animate-stagger-in">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-2xl bg-purple flex items-center justify-center" style={{ boxShadow: 'var(--shadow-glow)' }}>
-              <span className="text-white text-lg font-bold font-mono">&gt;_</span>
+          <div className="flex items-center gap-3.5 mb-4">
+            <div className="w-11 h-11 rounded-xl bg-purple flex items-center justify-center">
+              <span className="text-white text-base font-bold font-mono">&gt;_</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-text-primary tracking-tight">Terminal Trainer</h1>
+              <h1 className="text-[22px] font-bold text-text-primary tracking-tight">Terminal Trainer</h1>
               <p className="text-sm text-text-muted">Learn the command line from zero</p>
             </div>
           </div>
@@ -72,7 +72,7 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
                 {/* Progress bar for this level */}
                 {isLevelAvailable && (
                   <div className="flex items-center gap-2 mb-3 ml-9">
-                    <div className="flex-1 h-1.5 bg-bg-card rounded-full overflow-hidden">
+                    <div className="flex-1 h-1.5 bg-bg-elevated rounded-full overflow-hidden">
                       <div
                         className="h-full bg-purple rounded-full transition-all duration-500"
                         style={{ width: `${pct}%` }}
@@ -96,12 +96,13 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
                           onClick={() => canAccess && onSelectLesson(lesson.id)}
                           disabled={!canAccess}
                           className={`
-                            w-full text-left px-4 py-3.5 rounded-2xl flex items-center gap-3 transition-all
-                            ${isCurrent ? 'bg-purple-soft border border-purple/20 animate-glow-pulse' : ''}
+                            w-full text-left px-4 py-3.5 rounded-xl flex items-center gap-3 transition-all
+                            ${isCurrent ? 'bg-bg-card border border-purple/20 animate-glow-pulse' : ''}
                             ${isDone && !isCurrent ? 'bg-bg-card border border-transparent' : ''}
                             ${!canAccess ? 'opacity-35 cursor-not-allowed' : 'active:scale-[0.98]'}
                             ${!isCurrent && !isDone && canAccess ? 'bg-bg-card border border-transparent hover:border-border' : ''}
                           `}
+                          style={isCurrent ? { boxShadow: 'var(--shadow-card)' } : undefined}
                         >
                           {/* Status icon */}
                           <span className="flex-shrink-0">
@@ -152,7 +153,7 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
                     })}
                   </div>
                 ) : (
-                  <div className="ml-4 px-4 py-3 bg-bg-card rounded-2xl border border-border">
+                  <div className="ml-4 px-4 py-3 bg-bg-card rounded-xl border border-border">
                     <p className="text-sm text-text-muted italic">Coming soon</p>
                   </div>
                 )}

@@ -98,7 +98,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
                     onClick={() => handleLeftClick(left)}
                     disabled={isMatched}
                     className={`
-                      w-full text-left px-3.5 py-3 rounded-2xl border-2 text-[15px] font-medium transition-all leading-snug active:scale-[0.98]
+                      w-full text-left px-3.5 py-3 rounded-xl border-2 text-[15px] font-medium transition-all leading-snug active:scale-[0.98]
                       ${isMatched ? colorMap[color] : ''}
                       ${isSelected ? 'border-purple bg-purple-soft text-purple' : ''}
                       ${isWrong ? 'border-red bg-red-soft text-red animate-shake' : ''}
@@ -123,7 +123,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
                     onClick={() => handleRightClick(right)}
                     disabled={isMatched || !selectedLeft}
                     className={`
-                      w-full text-left px-3.5 py-3 rounded-2xl border-2 text-[15px] font-medium transition-all leading-snug active:scale-[0.98]
+                      w-full text-left px-3.5 py-3 rounded-xl border-2 text-[15px] font-medium transition-all leading-snug active:scale-[0.98]
                       ${isMatched ? colorMap[color] : ''}
                       ${isWrong ? 'border-red bg-red-soft text-red animate-shake' : ''}
                       ${!isMatched && !isWrong && selectedLeft ? 'border-border bg-bg-card text-text-primary' : ''}
@@ -138,7 +138,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
           </div>
 
           {allMatched && (
-            <div className="bg-green-soft rounded-2xl px-4 py-4 text-[15px] animate-pop-in">
+            <div className="bg-green-soft rounded-xl px-4 py-4 text-[15px] animate-pop-in">
               <p className="font-medium text-text-primary">All matched correctly!</p>
             </div>
           )}

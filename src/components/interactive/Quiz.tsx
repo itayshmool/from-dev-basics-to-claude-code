@@ -73,9 +73,9 @@ export function Quiz({ section, onComplete }: QuizProps) {
                   key={i}
                   onClick={() => !submitted && setSelected(i)}
                   disabled={submitted}
-                  className={`w-full text-left px-4 py-3.5 rounded-2xl text-[15px] transition-all flex items-center gap-3.5 active:scale-[0.98] ${style}`}
+                  className={`w-full text-left px-4 py-3.5 rounded-xl text-[15px] transition-all flex items-center gap-3.5 active:scale-[0.98] ${style}`}
                 >
-                  <span className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                  <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 ${
                     showResult && isThisCorrect ? 'bg-green text-white' :
                     showResult && isSelected && !isThisCorrect ? 'bg-red text-white' :
                     isSelected ? 'bg-purple text-white' :
@@ -96,7 +96,7 @@ export function Quiz({ section, onComplete }: QuizProps) {
           </div>
 
           {submitted && (
-            <div className={`rounded-2xl px-4 py-4 text-[15px] animate-pop-in ${
+            <div className={`rounded-xl px-4 py-4 text-[15px] animate-pop-in ${
               isCorrect ? 'bg-green-soft' : 'bg-red-soft'
             }`}>
               <p className="text-text-primary leading-relaxed">

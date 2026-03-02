@@ -24,12 +24,12 @@ export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
 
       {/* Bottom-fixed CTA bar */}
       {(cta || secondaryCta) && (
-        <div className="flex-shrink-0 border-t border-border bg-bg-primary px-5 py-4 safe-bottom md:px-8">
+        <div className="flex-shrink-0 border-t border-border/50 bg-bg-primary px-5 py-4 safe-bottom md:px-8">
           <div className="max-w-lg mx-auto flex gap-3">
             {secondaryCta && (
               <button
                 onClick={secondaryCta.onClick}
-                className="flex-1 px-5 py-3.5 bg-bg-card text-text-primary border border-border rounded-2xl text-[15px] font-semibold active:scale-[0.98] transition-all"
+                className="flex-1 px-5 py-3.5 bg-bg-card text-text-primary border border-border rounded-xl text-[15px] font-semibold active:scale-[0.98] transition-all"
               >
                 {secondaryCta.label}
               </button>
@@ -38,7 +38,7 @@ export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
               <button
                 onClick={cta.onClick}
                 disabled={cta.disabled}
-                className="flex-1 px-5 py-3.5 bg-purple text-white rounded-2xl text-[15px] font-semibold transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex-1 px-5 py-3.5 bg-purple text-white rounded-xl text-[15px] font-semibold transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
                 style={!cta.disabled ? { boxShadow: 'var(--shadow-button)' } : undefined}
               >
                 {cta.label}

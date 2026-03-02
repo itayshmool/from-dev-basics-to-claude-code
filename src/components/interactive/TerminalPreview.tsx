@@ -65,14 +65,14 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
         </p>
 
         {/* Terminal */}
-        <div className="rounded-2xl overflow-hidden border border-[#353650]" style={{ boxShadow: '0 4px 14px rgba(0,0,0,0.3)' }}>
-          <div className="bg-[#222338] px-3.5 py-2.5 flex items-center gap-1.5">
+        <div className="rounded-xl overflow-hidden border border-[#3D3A36]" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+          <div className="bg-[#38352F] px-3.5 py-2.5 flex items-center gap-1.5">
             <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-red" />
-              <div className="w-3 h-3 rounded-full bg-yellow" />
-              <div className="w-3 h-3 rounded-full bg-green" />
+              <div className="w-3 h-3 rounded-full bg-[#E85B4A]" />
+              <div className="w-3 h-3 rounded-full bg-[#D4A843]" />
+              <div className="w-3 h-3 rounded-full bg-[#4DA656]" />
             </div>
-            <span className="text-[#6B6B85] text-[11px] font-mono ml-2">terminal</span>
+            <span className="text-[#7A756C] text-[11px] font-mono ml-2">terminal</span>
           </div>
 
           <div
@@ -83,24 +83,24 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
               <div key={i} className="leading-relaxed">
                 {line.type === 'command' ? (
                   <div className="whitespace-nowrap">
-                    <span className="text-green font-medium">$ </span>
-                    <span className="text-[#F0F0F5]">{line.text}</span>
+                    <span className="text-[#6ABF69] font-medium">$ </span>
+                    <span className="text-[#F0ECE4]">{line.text}</span>
                   </div>
                 ) : (
-                  <div className="text-[#9D9DB5] pl-3 whitespace-pre-wrap">{line.text}</div>
+                  <div className="text-[#A8A196] pl-3 whitespace-pre-wrap">{line.text}</div>
                 )}
               </div>
             ))}
 
             {!allDone && currentLine?.type === 'command' && (
               <div className="leading-relaxed whitespace-nowrap">
-                <span className="text-green font-medium">$ </span>
-                <span className="text-[#F0F0F5]">{currentText}</span>
-                {isTyping && <span className="animate-pulse text-yellow font-bold">|</span>}
+                <span className="text-[#6ABF69] font-medium">$ </span>
+                <span className="text-[#F0ECE4]">{currentText}</span>
+                {isTyping && <span className="animate-pulse text-[#D4A843] font-bold">|</span>}
               </div>
             )}
             {!allDone && currentLine?.type === 'output' && visibleLines > 0 && (
-              <div className="text-[#9D9DB5] pl-3 leading-relaxed">{currentText}</div>
+              <div className="text-[#A8A196] pl-3 leading-relaxed">{currentText}</div>
             )}
           </div>
         </div>
@@ -109,7 +109,7 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
         {completedLines.filter((l) => l.annotation).length > 0 && (
           <div className="space-y-2">
             {completedLines.filter((l) => l.annotation).map((line, i) => (
-              <div key={i} className="bg-blue-soft rounded-2xl px-4 py-3.5 animate-fade-in-up">
+              <div key={i} className="bg-blue-soft rounded-xl px-4 py-3.5 animate-fade-in-up">
                 <div className="flex items-start gap-2.5">
                   <span className="text-sm flex-shrink-0 mt-0.5">&#128172;</span>
                   <div className="min-w-0">
