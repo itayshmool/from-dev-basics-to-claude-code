@@ -64,19 +64,19 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
   return (
     <div className="space-y-3 animate-fade-in-up">
       <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-coral mb-1">Step-through program</p>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-orange mb-1">Step-through program</p>
         <p className="text-sm text-text-secondary">{section.instruction}</p>
       </div>
 
       {/* Code */}
-      <div className="rounded-xl overflow-hidden border border-[#3D3B65]" style={{ boxShadow: 'var(--shadow-md)' }}>
-        <div className="bg-[#1E1C40] px-3 py-2 flex items-center gap-1.5">
+      <div className="rounded-xl overflow-hidden border border-border" style={{ boxShadow: 'var(--shadow-md)' }}>
+        <div className="bg-bg-elevated px-3 py-2 flex items-center gap-1.5">
           <div className="flex gap-1">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#FF6B6B]" />
-            <div className="w-2.5 h-2.5 rounded-full bg-[#F6C542]" />
-            <div className="w-2.5 h-2.5 rounded-full bg-[#48BB78]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-red" />
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow" />
+            <div className="w-2.5 h-2.5 rounded-full bg-green" />
           </div>
-          <span className="text-[#A599E9] text-[10px] font-mono ml-1.5">program.py</span>
+          <span className="text-text-muted text-[10px] font-mono ml-1.5">program.py</span>
         </div>
         <div className="bg-bg-terminal p-3 font-mono text-[13px] overflow-x-auto">
           {section.lines.map((line, i) => (
@@ -84,14 +84,14 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
               key={i}
               className={`
                 px-2 py-0.5 rounded transition-all flex items-center gap-2
-                ${i === currentLine ? 'bg-[#F6C542]/15 ring-1 ring-[#F6C542]/30' : ''}
+                ${i === currentLine ? 'bg-yellow/10 ring-1 ring-yellow/30' : ''}
               `}
             >
-              <span className="text-[#A599E9] w-4 text-right text-[10px] font-medium flex-shrink-0">{i + 1}</span>
+              <span className="text-text-muted w-4 text-right text-[10px] font-medium flex-shrink-0">{i + 1}</span>
               <span className={`whitespace-nowrap ${
-                i === currentLine ? 'text-[#F6C542] font-medium' :
-                i < currentLine ? 'text-[#E0DFF5]' :
-                'text-[#A599E9]/30'
+                i === currentLine ? 'text-yellow font-medium' :
+                i < currentLine ? 'text-text-primary' :
+                'text-text-muted/30'
               }`}>
                 {line}
               </span>
@@ -102,23 +102,23 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
 
       {/* Output */}
       {(outputs.length > 0 || waitingForInput) && (
-        <div className="rounded-xl overflow-hidden border border-[#3D3B65]">
-          <div className="bg-[#1E1C40] px-3 py-1.5">
-            <span className="text-[#A599E9] text-[10px] font-mono">output</span>
+        <div className="rounded-xl overflow-hidden border border-border">
+          <div className="bg-bg-elevated px-3 py-1.5">
+            <span className="text-text-muted text-[10px] font-mono">output</span>
           </div>
           <div className="bg-bg-terminal p-3 font-mono text-[13px]">
             {outputs.map((output, i) => (
-              <div key={i} className="text-[#E0DFF5] leading-relaxed">{output}</div>
+              <div key={i} className="text-text-primary leading-relaxed">{output}</div>
             ))}
             {waitingForInput && pendingInteraction && (
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-[#F6C542] font-medium">{pendingInteraction.prompt || '>'}</span>
+                <span className="text-yellow font-medium">{pendingInteraction.prompt || '>'}</span>
                 <input
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleInputSubmit()}
-                  className="flex-1 bg-transparent text-[#E0DFF5] outline-none caret-[#F6C542] min-w-0"
+                  className="flex-1 bg-transparent text-text-primary outline-none caret-yellow min-w-0"
                   autoFocus
                 />
               </div>
@@ -132,8 +132,8 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
         {!isStarted && (
           <button
             onClick={handleStep}
-            className="w-full md:w-auto px-6 py-3 bg-coral text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
-            style={{ boxShadow: '0 1px 3px rgba(245,101,101,0.2), 0 4px 12px rgba(245,101,101,0.15)' }}
+            className="w-full md:w-auto px-6 py-3 bg-orange text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
+            style={{ boxShadow: '0 2px 8px rgba(255, 156, 110, 0.3)' }}
           >
             &#9654; Run Program
           </button>
@@ -142,7 +142,7 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
         {isStarted && !isFinished && !waitingForInput && (
           <button
             onClick={handleStep}
-            className="w-full md:w-auto px-6 py-3 bg-lavender text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
+            className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
             style={{ boxShadow: 'var(--shadow-button)' }}
           >
             Next Step &rarr;
@@ -153,7 +153,7 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
           <button
             onClick={handleInputSubmit}
             disabled={!inputValue.trim()}
-            className="w-full md:w-auto px-6 py-3 bg-lavender text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
             style={inputValue.trim() ? { boxShadow: 'var(--shadow-button)' } : undefined}
           >
             Submit
@@ -163,7 +163,7 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
         {isFinished && (
           <button
             onClick={onComplete}
-            className="w-full md:w-auto px-6 py-3 bg-lavender text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
+            className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
             style={{ boxShadow: 'var(--shadow-button)' }}
           >
             Continue &rarr;

@@ -25,7 +25,7 @@ function App() {
 
   return (
     <div className="h-full flex flex-col bg-bg-primary">
-      {/* Desktop header — hidden on mobile */}
+      {/* Desktop header */}
       <div className="hidden md:block">
         <Header currentLevel={currentLevel?.id ?? 0} />
       </div>
@@ -40,7 +40,7 @@ function App() {
         </div>
 
         {/* Main content */}
-        <main className="flex-1 overflow-y-auto bg-dots">
+        <main className="flex-1 overflow-y-auto">
           <LessonView
             key={activeLessonId}
             lessonId={activeLessonId}

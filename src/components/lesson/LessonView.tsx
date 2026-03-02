@@ -71,24 +71,24 @@ export function LessonView({ lessonId, onNavigate }: LessonViewProps) {
     <div className="max-w-2xl mx-auto px-4 py-5 md:px-6 md:py-8 pb-4">
       {/* Lesson header */}
       <div className="mb-5 md:mb-7 animate-fade-in-up">
-        <div className="flex items-center gap-1.5 mb-1.5">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-lavender bg-lavender-light px-2 py-0.5 rounded-full">
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-purple bg-purple-soft px-2 py-0.5 rounded-full">
             Level {les.level}
           </span>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-teal bg-teal-light px-2 py-0.5 rounded-full">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-teal bg-teal-soft px-2 py-0.5 rounded-full">
             Lesson {les.order}
           </span>
         </div>
         <h2 className="text-lg md:text-xl font-bold text-text-primary leading-snug">{les.title}</h2>
         <p className="text-sm text-text-secondary mt-0.5">{les.subtitle}</p>
 
-        {/* Section progress */}
+        {/* Progress bar */}
         <div className="flex items-center gap-1 mt-4">
           {Array.from({ length: totalSections }, (_, i) => (
             <div
               key={i}
               className={`h-1.5 flex-1 rounded-full transition-all ${
-                i < sectionIndex ? 'bg-mint' : i === sectionIndex ? 'bg-lavender animate-glow-pulse' : 'bg-border'
+                i < sectionIndex ? 'bg-green' : i === sectionIndex ? 'bg-purple animate-pulse-ring' : 'bg-border'
               }`}
             />
           ))}

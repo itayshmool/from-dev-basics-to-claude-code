@@ -29,7 +29,7 @@ export function Quiz({ section, onComplete }: QuizProps) {
   return (
     <div className="space-y-3 animate-fade-in-up">
       <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-lavender mb-1">Question</p>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-purple mb-1">Question</p>
         <p className="text-[15px] font-semibold text-text-primary leading-snug">
           {section.question}
         </p>
@@ -42,9 +42,9 @@ export function Quiz({ section, onComplete }: QuizProps) {
           const isThisCorrect = i === section.correctIndex;
 
           let style = 'border border-border bg-bg-card';
-          if (isSelected && !showResult) style = 'border-2 border-lavender bg-lavender-light';
-          if (showResult && isThisCorrect) style = 'border-2 border-mint bg-mint-light';
-          if (showResult && isSelected && !isThisCorrect) style = 'border-2 border-coral bg-coral-light animate-shake';
+          if (isSelected && !showResult) style = 'border-2 border-purple bg-purple-soft';
+          if (showResult && isThisCorrect) style = 'border-2 border-green bg-green-soft';
+          if (showResult && isSelected && !isThisCorrect) style = 'border-2 border-red bg-red-soft animate-shake';
           if (showResult && !isSelected && !isThisCorrect) style = 'border border-border bg-bg-card opacity-40';
 
           return (
@@ -55,16 +55,16 @@ export function Quiz({ section, onComplete }: QuizProps) {
               className={`w-full text-left px-3.5 py-3 rounded-xl text-sm transition-all flex items-center gap-3 active:scale-[0.98] ${style}`}
             >
               <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                showResult && isThisCorrect ? 'bg-mint text-white' :
-                showResult && isSelected && !isThisCorrect ? 'bg-coral text-white' :
-                isSelected ? 'bg-lavender text-white' :
-                'bg-bg-secondary text-text-muted'
+                showResult && isThisCorrect ? 'bg-green text-white' :
+                showResult && isSelected && !isThisCorrect ? 'bg-red text-white' :
+                isSelected ? 'bg-purple text-white' :
+                'bg-bg-elevated text-text-muted'
               }`}>
                 {showResult && isThisCorrect ? '\u2713' : showResult && isSelected && !isThisCorrect ? '\u2717' : LABELS[i]}
               </span>
               <span className={`font-medium leading-snug ${
-                showResult && isThisCorrect ? 'text-mint' :
-                showResult && isSelected && !isThisCorrect ? 'text-coral' :
+                showResult && isThisCorrect ? 'text-green' :
+                showResult && isSelected && !isThisCorrect ? 'text-red' :
                 'text-text-primary'
               }`}>
                 {option}
@@ -76,7 +76,7 @@ export function Quiz({ section, onComplete }: QuizProps) {
 
       {submitted && (
         <div className={`rounded-xl px-4 py-3.5 text-sm animate-pop-in ${
-          isCorrect ? 'bg-mint-light border border-mint/15' : 'bg-coral-light border border-coral/15'
+          isCorrect ? 'bg-green-soft border border-green/15' : 'bg-red-soft border border-red/15'
         }`}>
           <p className="text-text-primary leading-relaxed">
             {isCorrect
@@ -94,7 +94,7 @@ export function Quiz({ section, onComplete }: QuizProps) {
           <button
             onClick={handleSubmit}
             disabled={selected === null}
-            className="w-full md:w-auto px-6 py-3 bg-lavender text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
             style={selected !== null ? { boxShadow: 'var(--shadow-button)' } : undefined}
           >
             Check Answer
@@ -113,7 +113,7 @@ export function Quiz({ section, onComplete }: QuizProps) {
         {submitted && (isCorrect || attempts >= 2) && (
           <button
             onClick={onComplete}
-            className="w-full md:w-auto px-6 py-3 bg-lavender text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
+            className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
             style={{ boxShadow: 'var(--shadow-button)' }}
           >
             Continue &rarr;

@@ -59,15 +59,15 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
         <p className="text-sm text-text-secondary">{section.instruction}</p>
       </div>
 
-      {/* Terminal window */}
-      <div className="rounded-xl overflow-hidden border border-[#3D3B65]" style={{ boxShadow: 'var(--shadow-md)' }}>
-        <div className="bg-[#1E1C40] px-3 py-2 flex items-center gap-1.5">
+      {/* Terminal */}
+      <div className="rounded-xl overflow-hidden border border-border" style={{ boxShadow: 'var(--shadow-md)' }}>
+        <div className="bg-bg-elevated px-3 py-2 flex items-center gap-1.5">
           <div className="flex gap-1">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#FF6B6B]" />
-            <div className="w-2.5 h-2.5 rounded-full bg-[#F6C542]" />
-            <div className="w-2.5 h-2.5 rounded-full bg-[#48BB78]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-red" />
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow" />
+            <div className="w-2.5 h-2.5 rounded-full bg-green" />
           </div>
-          <span className="text-[#A599E9] text-[10px] font-mono ml-1.5">terminal</span>
+          <span className="text-text-muted text-[10px] font-mono ml-1.5">terminal</span>
         </div>
 
         <div
@@ -78,24 +78,24 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
             <div key={i} className="leading-relaxed">
               {line.type === 'command' ? (
                 <div className="whitespace-nowrap">
-                  <span className="text-[#48BB78] font-medium">$ </span>
-                  <span className="text-[#E0DFF5]">{line.text}</span>
+                  <span className="text-green font-medium">$ </span>
+                  <span className="text-text-primary">{line.text}</span>
                 </div>
               ) : (
-                <div className="text-[#A599E9] pl-3 whitespace-pre-wrap">{line.text}</div>
+                <div className="text-text-muted pl-3 whitespace-pre-wrap">{line.text}</div>
               )}
             </div>
           ))}
 
           {!allDone && currentLine?.type === 'command' && (
             <div className="leading-relaxed whitespace-nowrap">
-              <span className="text-[#48BB78] font-medium">$ </span>
-              <span className="text-[#E0DFF5]">{currentText}</span>
-              {isTyping && <span className="animate-pulse text-[#F6C542] font-bold">|</span>}
+              <span className="text-green font-medium">$ </span>
+              <span className="text-text-primary">{currentText}</span>
+              {isTyping && <span className="animate-pulse text-yellow font-bold">|</span>}
             </div>
           )}
           {!allDone && currentLine?.type === 'output' && visibleLines > 0 && (
-            <div className="text-[#A599E9] pl-3 leading-relaxed">{currentText}</div>
+            <div className="text-text-muted pl-3 leading-relaxed">{currentText}</div>
           )}
         </div>
       </div>
@@ -104,12 +104,12 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
       {completedLines.filter((l) => l.annotation).length > 0 && (
         <div className="space-y-2">
           {completedLines.filter((l) => l.annotation).map((line, i) => (
-            <div key={i} className="bg-sky-light border border-sky/15 rounded-xl px-3.5 py-3 animate-fade-in-up">
+            <div key={i} className="bg-blue-soft border border-blue/15 rounded-xl px-3.5 py-3 animate-fade-in-up">
               <div className="flex items-start gap-2.5">
                 <span className="text-sm flex-shrink-0 mt-0.5">&#128172;</span>
                 <div className="min-w-0">
                   {line.type === 'command' && (
-                    <code className="text-[11px] font-mono font-medium text-lavender bg-lavender-light px-1 py-0.5 rounded inline-block mb-1">
+                    <code className="text-[11px] font-mono font-medium text-purple bg-purple-soft px-1 py-0.5 rounded inline-block mb-1">
                       $ {line.text}
                     </code>
                   )}
@@ -124,7 +124,7 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
       {allDone && (
         <button
           onClick={onComplete}
-          className="w-full md:w-auto px-6 py-3 bg-lavender text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
+          className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
           style={{ boxShadow: 'var(--shadow-button)' }}
         >
           Continue &rarr;

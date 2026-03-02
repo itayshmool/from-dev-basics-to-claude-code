@@ -13,9 +13,9 @@ export function Header({ currentLevel }: HeaderProps) {
   const pct = Math.round((completed / total) * 100);
 
   return (
-    <header className="flex items-center justify-between px-5 py-2.5 bg-bg-card border-b border-border" style={{ boxShadow: 'var(--shadow-xs)' }}>
+    <header className="flex items-center justify-between px-5 py-3 bg-bg-secondary border-b border-border">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-lavender flex items-center justify-center" style={{ boxShadow: 'var(--shadow-button)' }}>
+        <div className="w-9 h-9 rounded-xl bg-purple flex items-center justify-center" style={{ boxShadow: 'var(--shadow-button)' }}>
           <span className="text-white text-sm font-bold leading-none">&gt;_</span>
         </div>
         <div>
@@ -26,15 +26,15 @@ export function Header({ currentLevel }: HeaderProps) {
         </div>
       </div>
 
-      <div className="flex items-center gap-2.5">
-        <span className="text-xs font-semibold text-text-secondary">{completed}/{total}</span>
-        <div className="w-20 h-2 bg-bg-secondary rounded-full overflow-hidden">
+      <div className="flex items-center gap-3">
+        <span className="text-xs font-medium text-text-muted">{completed}/{total}</span>
+        <div className="w-24 h-2 bg-bg-primary rounded-full overflow-hidden">
           <div
-            className="h-full bg-lavender rounded-full transition-all duration-700 ease-out"
+            className="h-full bg-purple rounded-full transition-all duration-700 ease-out"
             style={{ width: `${pct}%` }}
           />
         </div>
-        <span className="text-xs font-bold text-lavender">{pct}%</span>
+        <span className="text-xs font-bold text-purple">{pct}%</span>
       </div>
     </header>
   );

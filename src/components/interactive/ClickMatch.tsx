@@ -6,7 +6,7 @@ interface ClickMatchProps {
   onComplete: () => void;
 }
 
-const PAIR_COLORS = ['coral', 'teal', 'lavender', 'sky', 'mint'] as const;
+const PAIR_COLORS = ['purple', 'teal', 'blue', 'orange', 'green'] as const;
 
 export function ClickMatch({ section, onComplete }: ClickMatchProps) {
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
@@ -53,22 +53,21 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
   }
 
   const colorMap: Record<string, string> = {
-    coral: 'bg-coral-light border-coral/30 text-coral',
-    teal: 'bg-teal-light border-teal/30 text-teal',
-    lavender: 'bg-lavender-light border-lavender/30 text-lavender',
-    sky: 'bg-sky-light border-sky/30 text-sky',
-    mint: 'bg-mint-light border-mint/30 text-mint',
+    purple: 'bg-purple-soft border-purple/30 text-purple',
+    teal: 'bg-teal-soft border-teal/30 text-teal',
+    blue: 'bg-blue-soft border-blue/30 text-blue',
+    orange: 'bg-orange-soft border-orange/30 text-orange',
+    green: 'bg-green-soft border-green/30 text-green',
   };
 
   return (
     <div className="space-y-3 animate-fade-in-up">
       <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-lavender mb-1">Match the pairs</p>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-purple mb-1">Match the pairs</p>
         <p className="text-sm text-text-secondary">{section.instruction}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-2 md:gap-3">
-        {/* Left column */}
         <div className="space-y-1.5">
           {section.pairs.map(({ left }) => {
             const isMatched = matchedLefts.has(left);
@@ -84,8 +83,8 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
                 className={`
                   w-full text-left px-3 py-2.5 rounded-xl border text-sm font-medium transition-all leading-snug active:scale-[0.98]
                   ${isMatched ? colorMap[color] : ''}
-                  ${isSelected ? 'border-lavender bg-lavender-light text-lavender ring-2 ring-lavender/15' : ''}
-                  ${isWrong ? 'border-coral bg-coral-light text-coral animate-shake' : ''}
+                  ${isSelected ? 'border-purple bg-purple-soft text-purple ring-2 ring-purple/15' : ''}
+                  ${isWrong ? 'border-red bg-red-soft text-red animate-shake' : ''}
                   ${!isMatched && !isSelected && !isWrong ? 'border-border bg-bg-card text-text-primary' : ''}
                 `}
               >
@@ -95,7 +94,6 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
           })}
         </div>
 
-        {/* Right column */}
         <div className="space-y-1.5">
           {shuffledRight.map((right) => {
             const isMatched = matchedRights.has(right);
@@ -110,7 +108,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
                 className={`
                   w-full text-left px-3 py-2.5 rounded-xl border text-sm font-medium transition-all leading-snug active:scale-[0.98]
                   ${isMatched ? colorMap[color] : ''}
-                  ${isWrong ? 'border-coral bg-coral-light text-coral animate-shake' : ''}
+                  ${isWrong ? 'border-red bg-red-soft text-red animate-shake' : ''}
                   ${!isMatched && !isWrong && selectedLeft ? 'border-border bg-bg-card text-text-primary' : ''}
                   ${!isMatched && !isWrong && !selectedLeft ? 'border-border bg-bg-card text-text-muted' : ''}
                 `}
@@ -124,12 +122,12 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
 
       {allMatched && (
         <div className="space-y-3 animate-pop-in">
-          <div className="bg-mint-light border border-mint/15 rounded-xl px-4 py-3.5 text-sm">
+          <div className="bg-green-soft border border-green/15 rounded-xl px-4 py-3.5 text-sm">
             <p className="font-medium text-text-primary">All matched correctly!</p>
           </div>
           <button
             onClick={onComplete}
-            className="w-full md:w-auto px-6 py-3 bg-lavender text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
+            className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
             style={{ boxShadow: 'var(--shadow-button)' }}
           >
             Continue &rarr;

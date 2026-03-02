@@ -30,7 +30,7 @@ function PathTreeNode({ name, value, path, depth, onNavigate, activePath }: Path
         onClick={() => onNavigate(path, isFile)}
         className={`
           flex items-center gap-2 w-full text-left py-1.5 px-2 rounded-lg text-sm transition-all active:scale-[0.98]
-          ${isTarget ? 'bg-lavender-light ring-1 ring-lavender/20' : isOnPath ? 'bg-lavender-light/40' : 'hover:bg-bg-secondary'}
+          ${isTarget ? 'bg-purple-soft ring-1 ring-purple/20' : isOnPath ? 'bg-purple-soft/40' : 'hover:bg-bg-elevated'}
         `}
         style={{ paddingLeft: `${depth * 16 + 8}px` }}
       >
@@ -39,7 +39,7 @@ function PathTreeNode({ name, value, path, depth, onNavigate, activePath }: Path
         ) : (
           <span className="text-sm flex-shrink-0">{isOnPath ? '&#128194;' : '&#128193;'}</span>
         )}
-        <span className={isTarget ? 'text-lavender font-semibold' : isFile ? 'text-text-secondary' : 'text-text-primary font-medium'}>
+        <span className={isTarget ? 'text-purple font-semibold' : isFile ? 'text-text-secondary' : 'text-text-primary font-medium'}>
           {name}
         </span>
       </button>
@@ -75,22 +75,22 @@ export function PathBuilder({ section, onComplete }: PathBuilderProps) {
   return (
     <div className="space-y-3 animate-fade-in-up">
       <div className="bg-bg-card rounded-xl p-4 border border-border" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <p className="text-[10px] font-bold uppercase tracking-wider text-sky mb-1">Build the path</p>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-blue mb-1">Build the path</p>
         <p className="text-sm text-text-secondary">{section.instruction}</p>
       </div>
 
       {/* Path display */}
       <div className="bg-bg-terminal rounded-xl px-4 py-3 font-mono text-sm min-h-[44px] flex items-center overflow-x-auto">
         {currentPath ? (
-          <span className="text-[#F6C542] font-medium whitespace-nowrap">
+          <span className="text-yellow font-medium whitespace-nowrap">
             /{segments.map((seg, i) => (
               <span key={i}>
-                {seg}{i < segments.length - 1 && <span className="text-[#A599E9]">/</span>}
+                {seg}{i < segments.length - 1 && <span className="text-text-muted">/</span>}
               </span>
             ))}
           </span>
         ) : (
-          <span className="text-[#A599E9] text-xs">Click through folders to build the path...</span>
+          <span className="text-text-muted text-xs">Click through folders to build the path...</span>
         )}
       </div>
 
@@ -111,14 +111,14 @@ export function PathBuilder({ section, onComplete }: PathBuilderProps) {
 
       {isComplete && (
         <div className="space-y-3 animate-pop-in">
-          <div className="bg-mint-light border border-mint/15 rounded-xl px-4 py-3.5 text-sm">
+          <div className="bg-green-soft border border-green/15 rounded-xl px-4 py-3.5 text-sm">
             <p className="font-medium text-text-primary">
-              Correct! <code className="px-1 py-0.5 bg-bg-card rounded font-mono text-lavender">{section.targetPath}</code>
+              Correct! <code className="px-1 py-0.5 bg-bg-card rounded font-mono text-purple">{section.targetPath}</code>
             </p>
           </div>
           <button
             onClick={onComplete}
-            className="w-full md:w-auto px-6 py-3 bg-lavender text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
+            className="w-full md:w-auto px-6 py-3 bg-purple text-white rounded-xl text-sm font-semibold hover:brightness-110 transition-all active:scale-[0.98]"
             style={{ boxShadow: 'var(--shadow-button)' }}
           >
             Continue &rarr;
