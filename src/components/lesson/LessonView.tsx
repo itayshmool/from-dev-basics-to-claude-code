@@ -70,7 +70,7 @@ export function LessonView({ lessonId, onNavigate, onExitLesson, onLessonStateCh
 
   // Milestone screen — dark theme, full screen
   if (showMilestone && les.milestone) {
-    return <MilestoneScreen milestone={les.milestone} levelId={les.level} />;
+    return <MilestoneScreen milestone={les.milestone} levelId={les.level} onContinue={onExitLesson} />;
   }
 
   // Lesson complete — dark theme, full screen
@@ -79,6 +79,7 @@ export function LessonView({ lessonId, onNavigate, onExitLesson, onLessonStateCh
       <LessonComplete
         message={les.completionMessage || 'Great work! You completed this lesson.'}
         onNext={handleNextLesson}
+        onHome={onExitLesson}
         hasNext={!!les.nextLesson}
       />
     );

@@ -1,10 +1,11 @@
 interface LessonCompleteProps {
   message: string;
   onNext: () => void;
+  onHome: () => void;
   hasNext: boolean;
 }
 
-export function LessonComplete({ message, onNext, hasNext }: LessonCompleteProps) {
+export function LessonComplete({ message, onNext, onHome, hasNext }: LessonCompleteProps) {
   return (
     <div className="h-full flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-center text-center px-6 animate-pop-in">
@@ -15,9 +16,9 @@ export function LessonComplete({ message, onNext, hasNext }: LessonCompleteProps
         <p className="text-[15px] text-text-secondary max-w-sm leading-relaxed">{message}</p>
       </div>
 
-      {hasNext && (
-        <div className="flex-shrink-0 px-5 py-4 safe-bottom md:px-8">
-          <div className="max-w-lg mx-auto">
+      <div className="flex-shrink-0 px-5 py-4 safe-bottom md:px-8">
+        <div className="max-w-lg mx-auto space-y-2.5">
+          {hasNext && (
             <button
               onClick={onNext}
               className="w-full px-5 py-3.5 bg-purple text-white rounded-2xl text-[15px] font-semibold transition-all active:scale-[0.98]"
@@ -25,9 +26,15 @@ export function LessonComplete({ message, onNext, hasNext }: LessonCompleteProps
             >
               Next Lesson
             </button>
-          </div>
+          )}
+          <button
+            onClick={onHome}
+            className="w-full px-5 py-3.5 bg-bg-card text-text-secondary border border-border rounded-2xl text-[15px] font-medium transition-all active:scale-[0.98]"
+          >
+            Back to Home
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 }

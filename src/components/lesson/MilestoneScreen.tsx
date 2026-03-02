@@ -58,7 +58,7 @@ export function MilestoneScreen({ milestone, levelId, onContinue }: MilestoneScr
               className="w-full px-5 py-3.5 bg-purple text-white rounded-2xl text-[15px] font-semibold transition-all active:scale-[0.98]"
               style={{ boxShadow: 'var(--shadow-button)' }}
             >
-              Continue
+              Back to Home
             </button>
           </div>
         </div>
