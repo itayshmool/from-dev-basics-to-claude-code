@@ -4,6 +4,7 @@ import { LessonView } from './components/lesson/LessonView';
 import { LoginScreen } from './components/auth/LoginScreen';
 import { RegisterScreen } from './components/auth/RegisterScreen';
 import { AdminGuard } from './components/admin/AdminGuard';
+import { AdminLoginScreen } from './components/admin/AdminLoginScreen';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { AdminStudentList } from './components/admin/AdminStudentList';
@@ -19,6 +20,7 @@ function App() {
         <Route path="/lesson/:lessonId" element={<LessonView />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/admin/login" element={<AdminLoginScreen />} />
         <Route path="/admin" element={<AdminGuard />}>
           <Route element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />

@@ -13,7 +13,7 @@ export function AdminGuard() {
   }
 
   if (!user || user.role !== 'admin') {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return <Outlet />;
