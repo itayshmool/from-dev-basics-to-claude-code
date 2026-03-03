@@ -1,48 +1,34 @@
-import { useState, useCallback } from 'react';
-import { LessonView } from './components/lesson/LessonView';
+import { Routes, Route } from 'react-router-dom';
 import { HomeScreen } from './components/home/HomeScreen';
-import { useProgress } from './hooks/useProgress';
+import { LessonView } from './components/lesson/LessonView';
+import { LoginScreen } from './components/auth/LoginScreen';
+import { RegisterScreen } from './components/auth/RegisterScreen';
+import { AdminGuard } from './components/admin/AdminGuard';
+import { AdminLayout } from './components/admin/AdminLayout';
+import { AdminDashboard } from './components/admin/AdminDashboard';
+import { AdminStudentList } from './components/admin/AdminStudentList';
+import { AdminLevelList } from './components/admin/AdminLevelList';
+import { AdminLessonList } from './components/admin/AdminLessonList';
+import { AdminLessonEditor } from './components/admin/AdminLessonEditor';
 
 function App() {
-  const { currentLessonId, setCurrentLesson } = useProgress();
-  const [activeLessonId, setActiveLessonId] = useState(currentLessonId || '0.1');
-  const [isInLesson, setIsInLesson] = useState(true);
-
-  const handleSelectLesson = useCallback((lessonId: string) => {
-    setActiveLessonId(lessonId);
-    setCurrentLesson(lessonId, 0);
-    setIsInLesson(true);
-  }, [setCurrentLesson]);
-
-  const handleNavigate = useCallback((lessonId: string) => {
-    setActiveLessonId(lessonId);
-    setIsInLesson(true);
-  }, []);
-
-  const handleExitLesson = useCallback(() => {
-    setIsInLesson(false);
-  }, []);
-
-  const handleLessonStateChange = useCallback((inLesson: boolean) => {
-    setIsInLesson(inLesson);
-  }, []);
-
   return (
     <div className="h-full bg-bg-primary">
-      {isInLesson ? (
-        <LessonView
-          key={activeLessonId}
-          lessonId={activeLessonId}
-          onNavigate={handleNavigate}
-          onExitLesson={handleExitLesson}
-          onLessonStateChange={handleLessonStateChange}
-        />
-      ) : (
-        <HomeScreen
-          currentLessonId={activeLessonId}
-          onSelectLesson={handleSelectLesson}
-        />
-      )}
+      <Routes>
+        <Route path="/" element={<HomeScreen />} />
+        <Route path="/lesson/:lessonId" element={<LessonView />} />
+        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/admin" element={<AdminGuard />}>
+          <Route element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="students" element={<AdminStudentList />} />
+            <Route path="levels" element={<AdminLevelList />} />
+            <Route path="lessons" element={<AdminLessonList />} />
+            <Route path="lessons/:id" element={<AdminLessonEditor />} />
+          </Route>
+        </Route>
+      </Routes>
     </div>
   );
 }

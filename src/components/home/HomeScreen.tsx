@@ -1,11 +1,8 @@
+import { useNavigate, Link } from 'react-router-dom';
 import { levels } from '../../data/levels';
 import { useProgress } from '../../hooks/useProgress';
+import { useAuth } from '../../contexts/AuthContext';
 import { LEVELS } from '../../lib/constants';
-
-interface HomeScreenProps {
-  currentLessonId: string;
-  onSelectLesson: (lessonId: string) => void;
-}
 
 const LEVEL_EMOJI: Record<number, string> = {
   0: '\u{1F4BB}', // laptop
@@ -18,8 +15,10 @@ const LEVEL_EMOJI: Record<number, string> = {
   7: '\u{1F680}', // rocket
 };
 
-export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps) {
+export function HomeScreen() {
+  const navigate = useNavigate();
   const { isLessonComplete, completedLessons, getLevelCompletedCount } = useProgress();
+  const { user, logout } = useAuth();
 
   const totalLessons = LEVELS.reduce((sum, l) => sum + l.lessonCount, 0);
   const totalCompleted = completedLessons.length;
@@ -43,13 +42,37 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
             >
               <span className="text-purple text-base md:text-lg font-bold font-mono">&gt;_</span>
             </div>
-            <div>
+            <div className="flex-1">
               <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-text-primary tracking-tight font-mono">
                 Terminal Trainer
               </h1>
               <p className="text-xs md:text-sm lg:text-base text-text-muted mt-0.5">
                 Learn the command line from zero
               </p>
+            </div>
+
+            {/* Auth section */}
+            <div className="flex items-center gap-3">
+              {user ? (
+                <>
+                  <span className="text-xs font-mono text-text-muted hidden md:inline">
+                    {user.displayName}
+                  </span>
+                  <button
+                    onClick={() => logout()}
+                    className="text-xs font-mono text-text-muted hover:text-text-primary transition-colors"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className="text-xs font-mono text-purple hover:underline"
+                >
+                  Log in
+                </Link>
+              )}
             </div>
           </div>
 
@@ -119,19 +142,16 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
                 {isLevelAvailable && levelData ? (
                   <div className="space-y-0.5">
                     {levelData.lessons.map((lesson) => {
-                      const isCurrent = lesson.id === currentLessonId;
                       const isDone = isLessonComplete(lesson.id);
-                      const canAccess = isDone || isCurrent || isLessonAccessible();
 
                       return (
                         <button
                           key={lesson.id}
-                          onClick={() => canAccess && onSelectLesson(lesson.id)}
-                          disabled={!canAccess}
+                          onClick={() => navigate(`/lesson/${lesson.id}`)}
                           className={`
                             w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3 transition-all
-                            ${isCurrent ? 'bg-purple-soft border border-purple/15 animate-glow-pulse' : 'border border-transparent'}
-                            ${!canAccess ? 'opacity-30 cursor-not-allowed' : 'hover:bg-bg-elevated/50 active:scale-[0.98]'}
+                            border border-transparent
+                            hover:bg-bg-elevated/50 active:scale-[0.98]
                           `}
                         >
                           {/* Status indicator */}
@@ -142,19 +162,9 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
                                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                 </svg>
                               </span>
-                            ) : isCurrent ? (
-                              <span className="w-5 h-5 rounded-full bg-purple-soft flex items-center justify-center">
-                                <span className="w-1.5 h-1.5 rounded-full bg-purple" />
-                              </span>
-                            ) : canAccess ? (
+                            ) : (
                               <span className="w-5 h-5 rounded-full bg-bg-elevated flex items-center justify-center">
                                 <span className="w-1.5 h-1.5 rounded-full bg-text-muted" />
-                              </span>
-                            ) : (
-                              <span className="w-5 h-5 flex items-center justify-center">
-                                <svg className="w-3 h-3 text-text-muted" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                                </svg>
                               </span>
                             )}
                           </span>
@@ -162,10 +172,7 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
                           {/* Text */}
                           <div className="min-w-0 flex-1">
                             <p className={`text-[13px] lg:text-[15px] font-medium truncate ${
-                              isCurrent ? 'text-purple' :
-                              isDone ? 'text-text-secondary' :
-                              canAccess ? 'text-text-primary' :
-                              'text-text-muted'
+                              isDone ? 'text-text-secondary' : 'text-text-primary'
                             }`}>
                               {lesson.title}
                             </p>
@@ -173,7 +180,7 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
                           </div>
 
                           {/* Arrow */}
-                          {canAccess && !isDone && (
+                          {!isDone && (
                             <svg className="w-3.5 h-3.5 text-text-muted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
@@ -194,8 +201,4 @@ export function HomeScreen({ currentLessonId, onSelectLesson }: HomeScreenProps)
       </div>
     </div>
   );
-}
-
-function isLessonAccessible(): boolean {
-  return true;
 }
