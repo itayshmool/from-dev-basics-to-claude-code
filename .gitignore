@@ -14,7 +14,6 @@ dist-ssr
 
 # Server
 server/.env
-server/drizzle/
 
 # Editor directories and files
 .vscode/*
