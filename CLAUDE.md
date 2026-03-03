@@ -1,59 +1,74 @@
 # Terminal Trainer — Project Context
 
 ## What This Is
-An interactive web app teaching non-technical people how to use the terminal. Built with React 18 + TypeScript + Vite + Tailwind CSS v4. Deployed to GitHub Pages via GitHub Actions.
+An interactive web app teaching non-technical people how to use the terminal. 102 lessons across 8 levels.
+
+**Frontend:** React 18 + TypeScript + Vite + Tailwind CSS v4 → GitHub Pages
+**Backend:** Node.js + Express + TypeScript + PostgreSQL + Drizzle ORM → Render
 
 **Live:** https://itayshmool.github.io/from-dev-basics-to-claude-code/
+**API:** https://terminal-trainer-api.onrender.com
 
 ## Current State
 
 ### Implemented
-- **Level 0** ("Computers Are Not Magic"): 6 lessons fully built and playable
-- **Level 1** ("Your First 30 Minutes in the Terminal"): 12 terminal lessons with virtual filesystem, command parser, and interactive terminal UI
-- **UX**: Immersive full-screen lessons (Mimo-inspired), no navigation chrome during lessons
-- **Theme**: Dark terminal-noir aesthetic — void black palette (#09090B), electric orange accent (#FF6B35), Monaco font identity, system sans-serif body text
-- **Home screen**: Lesson picker dashboard with 3-column grid (xl), overall progress indicator, ambient glow effect
+- **All 8 levels** (0–7): 102 lessons fully built and playable
 - **9 interactive components**: NarrativeBlock, Quiz, FillInBlank, ClickMatch, InteractiveFileTree, PathBuilder, TerminalPreview, ProgramSimulator, TerminalStep
 - **Terminal infrastructure**: Virtual filesystem (VFS), command parser, Terminal UI, FileExplorer sidebar, CommandReferenceBar
-- **Lesson infrastructure**: LessonStep (shared wrapper with glassmorphism bottom CTA), LessonProgressBar, CelebrationOverlay, slide transitions
-- **Progress**: localStorage persistence via useProgress hook
+- **Backend**: Express API, PostgreSQL, JWT auth, progress tracking, admin CRUD
+- **Auth**: Student login/register, dedicated admin login at `/admin/login`
+- **Admin dashboard**: Stats, student list, level/lesson management, lesson editor
+- **Dual-mode frontend**: Works with API (progress synced to DB) or without (localStorage fallback)
+- **Deployment**: GitHub Pages (frontend) + Render (backend + PostgreSQL), auto-deploy on push to `main`
+- **Theme**: Dark terminal-noir aesthetic — void black palette (#09090B), electric orange accent (#FF6B35), Monaco font identity
 
 ### Not Yet Implemented
-- Levels 2-7 content (specs exist in `specs/LEVEL_*_SPEC.md`)
 - Real terminal/sandbox (xterm.js, WebContainers) — Level 1 uses in-memory VFS
-- User accounts, analytics, i18n
+- Analytics, i18n
 
 ## Architecture
-- `App.tsx` — toggles between `HomeScreen` and `LessonView` via `isInLesson` state
-- `LessonView.tsx` — orchestrates lesson flow, wraps content in `.lesson-surface` class for lesson context
-- `SectionRenderer.tsx` — routes section types to the correct interactive component
-- `LessonStep.tsx` — shared layout wrapper: scrollable content area + bottom-fixed CTA button
-- `TerminalStep.tsx` — full-width terminal workspace: instruction + terminal + file explorer sidebar
+- `App.tsx` — React Router: `/` home, `/lesson/:id`, `/login`, `/register`, `/admin/login`, `/admin/*`
+- `AdminGuard.tsx` — redirects to `/admin/login` if not authenticated as admin
+- `AuthContext.tsx` — manages user state, token refresh, login/register/logout
+- `dataService.ts` — dual-mode: fetches from API or static JSON based on `VITE_USE_API`
+- `LessonView.tsx` — orchestrates lesson flow
+- `SectionRenderer.tsx` — routes section types to interactive components
 - Theme defined in `src/index.css` via CSS custom properties in `@theme` block
-- `.lesson-surface` class overrides theme tokens for lesson context (slightly shifted dark tones)
 
 ## Key Files
 - `src/index.css` — all theme tokens, animations, and `.lesson-surface` override
-- `src/data/levels.ts` — lesson content for Level 0
-- `src/data/lessons/level1/` — JSON lesson files for Level 1 (12 lessons)
+- `src/contexts/AuthContext.tsx` — auth state provider
+- `src/services/api.ts` — API client with auto token refresh
+- `src/data/lessons/level{0-7}/` — 102 lesson JSON files
 - `src/core/lesson/types.ts` — section type definitions
-- `src/core/lesson/engine.ts` — lesson state machine
-- `src/core/terminal/` — TerminalContext, CommandParser for Level 1+ terminal lessons
-- `src/core/vfs/VirtualFileSystem.ts` — in-memory virtual filesystem
-- `src/lib/constants.ts` — LEVELS array (metadata for all 8 levels)
-- `specs/APP_SPEC.md` — full application specification
+- `src/core/terminal/` — TerminalContext, CommandParser
+- `server/src/index.ts` — Express entry point
+- `server/src/db/schema.ts` — Drizzle table definitions (levels, lessons, users, progress)
+- `server/src/db/seed.ts` — seeds DB from lesson JSONs
+- `server/drizzle/` — committed migration SQL files
+- `specs/DEPLOYMENT_SPEC.md` — full deployment architecture
 
 ## Dev Commands
 ```bash
-npm run dev       # Start dev server
+npm run dev       # Start frontend dev server
 npm run build     # TypeScript check + production build
+
+cd server
+npm run dev       # Start backend with hot reload
+npm run build     # Compile TypeScript
+npm run db:migrate  # Apply migrations
+npm run db:seed     # Seed database
 ```
 
 ## Deployment
-Push to `main` → GitHub Actions auto-builds and deploys to GitHub Pages.
+- **Frontend:** Push to `main` → GitHub Actions → GitHub Pages
+- **Backend:** Push to `main` → Render auto-builds, migrates, seeds, restarts
+- GitHub repo variables: `VITE_USE_API=true`, `VITE_API_URL=https://terminal-trainer-api.onrender.com`
+- See `specs/DEPLOYMENT_SPEC.md` for full details
 
 ## Important Notes
 - The `--color-purple` CSS variable is actually electric orange (#FF6B35), not purple. This naming was kept from the original theme to avoid renaming every class reference. All `bg-purple`, `text-purple` etc. render as orange.
 - Terminal/code blocks use hardcoded warm dark colors (#2D2B28 background, #38352F titlebar, #F0ECE4 text, #6ABF69 prompt green, #D4A843 highlight gold) — not theme tokens.
 - The app uses a dark theme throughout. The `--font-mono` (Monaco) is used as the identity font for headings, labels, and code. `--font-sans` (system SF Pro) is used for body text.
-- Old layout components (Header.tsx, Sidebar.tsx, MobileNav.tsx) still exist in `src/components/layout/` but are unused and tree-shaken from the build.
+- Render free tier: service sleeps after 15min inactivity, ~30s cold start. Free Postgres expires after 30 days.
+- Auth cookies use `sameSite: 'none'` for cross-origin (GitHub Pages → Render).

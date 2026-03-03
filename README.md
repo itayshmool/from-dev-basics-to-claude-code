@@ -6,37 +6,57 @@ An interactive web app that teaches non-technical people how to use the terminal
 
 ## What It Does
 
-Terminal Trainer takes beginners through a structured curriculum of interactive lessons. Each lesson uses a mix of narrative explanations, quizzes, fill-in-the-blank exercises, click-to-match games, file tree exploration, path building, terminal previews with animated typing, and program step-through simulators.
+Terminal Trainer takes beginners through a structured curriculum of 102 interactive lessons across 8 levels. Each lesson uses a mix of narrative explanations, quizzes, fill-in-the-blank exercises, click-to-match games, file tree exploration, path building, terminal previews with animated typing, and program step-through simulators.
 
 ## Curriculum
 
-| Level | Title | Status |
-|-------|-------|--------|
-| 0 | Computers Are Not Magic | Implemented (6 lessons) |
-| 1 | Your First 30 Minutes in the Terminal | Spec ready |
-| 2 | Reading and Writing Files | Spec ready |
-| 3 | Your Code Has a History | Spec ready |
-| 4 | How Software Actually Works | Spec ready |
-| 5 | Building With Real Tools | Spec ready |
-| 6 | Claude Code — Your AI Pair Programmer | Spec ready |
-| 7 | Junior Developer Patterns | Spec ready |
+| Level | Title | Lessons |
+|-------|-------|---------|
+| 0 | Computers Are Not Magic | 6 |
+| 1 | Your First 30 Minutes in the Terminal | 12 |
+| 2 | Reading and Writing Files | 15 |
+| 3 | Your Code Has a History | 15 |
+| 4 | How Software Actually Works | 15 |
+| 5 | Building With Real Tools | 15 |
+| 6 | Claude Code — Your AI Pair Programmer | 12 |
+| 7 | Junior Developer Patterns | 12 |
 
 ## Tech Stack
 
+### Frontend
 - **Framework:** React 18 + TypeScript
 - **Build:** Vite
 - **Styling:** Tailwind CSS v4 with CSS custom properties
-- **Font:** Instrument Sans (body) + JetBrains Mono (code)
-- **Progress:** localStorage
+- **Routing:** React Router 7
 - **Hosting:** GitHub Pages (auto-deploy via GitHub Actions)
+
+### Backend
+- **Server:** Node.js + Express + TypeScript
+- **Database:** PostgreSQL with Drizzle ORM
+- **Auth:** JWT access/refresh tokens, bcrypt passwords
+- **Hosting:** Render (web service + managed PostgreSQL, Frankfurt)
+
+## Architecture
+
+```
+GitHub Pages (CDN)          Render (Frankfurt)
+┌─────────────────┐        ┌──────────────────┐
+│  React SPA      │──API──▶│  Express Server   │
+│  Static assets  │        │  PostgreSQL       │
+└─────────────────┘        └──────────────────┘
+```
+
+The frontend works in dual mode:
+- **With backend:** Lessons from API, progress synced to database, user auth
+- **Without backend:** Lessons from bundled JSON, progress in localStorage
 
 ## Design
 
-Claude-inspired warm neutral palette:
-- Cream background (`#F5F0E8`), white lesson surface
-- Terracotta accent (`#C4652A`)
+Dark terminal-noir aesthetic:
+- Void black background (`#09090B`), electric orange accent (`#FF6B35`)
+- Monaco font identity for headings/code, system sans-serif for body
 - Warm dark terminals (`#2D2B28`)
-- Subtle shadows, no glows, `rounded-xl` corners
+- Ambient glow effects, glassmorphism CTA bars
 
 The UX follows an immersive lesson model:
 - Full-screen lessons with no navigation chrome
@@ -45,55 +65,93 @@ The UX follows an immersive lesson model:
 - Slide transitions between sections
 - Celebration overlay on correct answers
 
+## URLs
+
+| Page | URL |
+|------|-----|
+| Home | https://itayshmool.github.io/from-dev-basics-to-claude-code/ |
+| Student login | https://itayshmool.github.io/from-dev-basics-to-claude-code/login |
+| Student register | https://itayshmool.github.io/from-dev-basics-to-claude-code/register |
+| Admin login | https://itayshmool.github.io/from-dev-basics-to-claude-code/admin/login |
+| Admin dashboard | https://itayshmool.github.io/from-dev-basics-to-claude-code/admin |
+| API health | https://terminal-trainer-api.onrender.com/api/health |
+
 ## Project Structure
 
 ```
 src/
-  App.tsx                          # Root — toggles HomeScreen / LessonView
+  App.tsx                          # React Router routes
   index.css                        # Theme tokens + animations
+  contexts/
+    AuthContext.tsx                 # Auth state provider
+  services/
+    api.ts                         # API client with token refresh
+    authService.ts                 # Login/register/refresh/logout
+    dataService.ts                 # Dual-mode data loading
+    progressService.ts             # Progress sync
   components/
-    home/
-      HomeScreen.tsx               # Lesson picker dashboard
+    home/HomeScreen.tsx            # Lesson picker dashboard
+    auth/
+      LoginScreen.tsx              # Student login
+      RegisterScreen.tsx           # Student registration
+    admin/
+      AdminLoginScreen.tsx         # Admin login (separate)
+      AdminGuard.tsx               # Role-based route protection
+      AdminLayout.tsx              # Admin sidebar + layout
+      AdminDashboard.tsx           # Stats overview
+      AdminStudentList.tsx         # Student management
+      AdminLevelList.tsx           # Level management
+      AdminLessonList.tsx          # Lesson management
+      AdminLessonEditor.tsx        # Lesson JSON editor
     lesson/
       LessonView.tsx               # Lesson orchestrator
-      LessonStep.tsx               # Shared layout: scrollable content + fixed CTA
-      LessonProgressBar.tsx        # Thin progress bar + close button
-      LessonComplete.tsx           # End-of-lesson screen
-      MilestoneScreen.tsx          # End-of-level celebration
-      CelebrationOverlay.tsx       # "Correct!" overlay
-      SectionRenderer.tsx          # Routes sections to interactive components
-    interactive/
-      NarrativeBlock.tsx           # Story/explanation sections
-      Quiz.tsx                     # Multiple choice
-      FillInBlank.tsx              # Type the answer
-      ClickMatch.tsx               # Match pairs
-      InteractiveFileTree.tsx      # Explorable file tree
-      PathBuilder.tsx              # Navigate to build a path
-      TerminalPreview.tsx          # Animated terminal demo
-      ProgramSimulator.tsx         # Step-through code execution
-  core/lesson/
-    types.ts                       # Section type definitions
-    engine.ts                      # Lesson state machine
+      LessonStep.tsx               # Shared layout: content + fixed CTA
+      SectionRenderer.tsx          # Routes sections to components
+    interactive/                   # 9 interactive component types
+  core/
+    lesson/                        # Lesson engine + types
+    terminal/                      # VFS, command parser, terminal context
   data/
-    levels.ts                      # Level + lesson content
-  hooks/
-    useLessonEngine.ts             # React hook for engine
-    useProgress.ts                 # Progress persistence
-  lib/
-    constants.ts                   # Level metadata
+    lessons/level{0-7}/            # 102 lesson JSON files
+
+server/
+  src/
+    index.ts                       # Express entry point
+    db/schema.ts                   # Drizzle table definitions
+    db/migrate.ts                  # Migration runner
+    db/seed.ts                     # Seeds DB from lesson JSONs
+    routes/                        # API route handlers
+    middleware/                    # Auth + error handling
+  drizzle/                         # Migration SQL files
+
 specs/
-  APP_SPEC.md                      # Full application spec
-  LEVEL_0_SPEC.md - LEVEL_7_SPEC.md  # Per-level curriculum specs
+  APP_SPEC.md                      # Application specification
+  BACKEND_SPEC.md                  # Backend specification
+  DEPLOYMENT_SPEC.md               # Deployment architecture
+  LEVEL_0_SPEC.md - LEVEL_7_SPEC.md
 ```
 
 ## Development
 
 ```bash
+# Frontend
 npm install
-npm run dev       # Start dev server
-npm run build     # TypeScript check + production build
+npm run dev          # Start dev server (localhost:5173)
+npm run build        # TypeScript check + production build
+
+# Backend
+cd server
+npm install
+npm run dev          # Start server with hot reload (localhost:3001)
+npm run build        # Compile TypeScript
+npm run db:generate  # Generate migration SQL from schema
+npm run db:migrate   # Apply migrations
+npm run db:seed      # Seed levels, lessons, admin user
 ```
 
 ## Deployment
 
-Push to `main` triggers GitHub Actions which builds and deploys to GitHub Pages.
+- **Frontend:** Push to `main` → GitHub Actions builds and deploys to GitHub Pages
+- **Backend:** Push to `main` → Render auto-builds, runs migrations + seed, restarts
+
+See `specs/DEPLOYMENT_SPEC.md` for full deployment architecture.
