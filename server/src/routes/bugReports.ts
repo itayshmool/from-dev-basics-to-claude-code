@@ -144,11 +144,8 @@ bugReportsRouter.post('/', requireAuth, asyncHandler(async (req, res) => {
     throw new AppError(400, 'Invalid bug report data.');
   }
 
-  // Verify Turnstile CAPTCHA (before rate limit so failures don't count)
-  if (process.env.TURNSTILE_SECRET_KEY) {
-    if (!parsed.data.turnstileToken) {
-      throw new AppError(400, 'CAPTCHA verification required.');
-    }
+  // Verify Turnstile CAPTCHA if token provided (before rate limit so failures don't count)
+  if (process.env.TURNSTILE_SECRET_KEY && parsed.data.turnstileToken) {
     const ip = (req.headers['x-forwarded-for'] as string | undefined) || req.socket.remoteAddress;
     const valid = await verifyTurnstile(parsed.data.turnstileToken, ip);
     if (!valid) {
