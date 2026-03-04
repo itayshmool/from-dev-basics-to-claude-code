@@ -92,7 +92,7 @@ export function AdminLayout() {
       </aside>
 
       {/* Content */}
-      <main className="flex-1 overflow-y-auto p-5 md:p-8 lg:p-10">
+      <main className="flex-1 min-w-0 overflow-y-auto p-5 md:p-8 lg:p-10">
         <Outlet />
       </main>
     </div>
