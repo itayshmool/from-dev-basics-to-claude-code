@@ -22,6 +22,7 @@ import { DashboardGuard } from './components/dashboard/DashboardGuard';
 import { DashboardLayout } from './components/dashboard/DashboardLayout';
 import { DashboardProfile } from './components/dashboard/DashboardProfile';
 import { DashboardSettings } from './components/dashboard/DashboardSettings';
+import { DashboardStats } from './components/dashboard/DashboardStats';
 
 function App() {
   useEffect(() => {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardGuard />}>
           <Route element={<DashboardLayout />}>
             <Route index element={<DashboardProfile />} />
+            <Route path="stats" element={<DashboardStats />} />
             <Route path="settings" element={<DashboardSettings />} />
           </Route>
         </Route>

@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, desc, sql, asc } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db/index.js';
-import { progress } from '../db/schema.js';
+import { progress, lessons, levels } from '../db/schema.js';
 import { requireAuth } from '../middleware/auth.js';
 import { AppError } from '../middleware/errorHandler.js';
 
@@ -21,6 +21,119 @@ progressRouter.get('/', async (req, res) => {
     .where(eq(progress.userId, req.user!.userId));
 
   res.json(rows);
+});
+
+// GET /api/progress/stats — aggregated stats for current user
+// IMPORTANT: must be before /:lessonId to avoid matching "stats" as a lessonId
+progressRouter.get('/stats', async (req, res) => {
+  const userId = req.user!.userId;
+
+  // Completed lessons with timestamps
+  const completedRows = await db.select({
+    lessonId: progress.lessonId,
+    completedAt: progress.completedAt,
+  }).from(progress)
+    .where(and(eq(progress.userId, userId), eq(progress.completed, true)))
+    .orderBy(desc(progress.completedAt));
+
+  const totalCompleted = completedRows.length;
+
+  // Total lessons count
+  const [totalRow] = await db.select({
+    count: sql<number>`count(*)::int`,
+  }).from(lessons).where(eq(lessons.isPublished, true));
+  const totalLessons = totalRow.count;
+
+  const completionPercent = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
+
+  // Streak calculation: consecutive calendar days with completions
+  const completionDates = new Set(
+    completedRows
+      .filter(r => r.completedAt)
+      .map(r => new Date(r.completedAt!).toISOString().slice(0, 10))
+  );
+
+  let currentStreak = 0;
+  let longestStreak = 0;
+  let streak = 0;
+  const today = new Date();
+
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const dateStr = d.toISOString().slice(0, 10);
+
+    if (completionDates.has(dateStr)) {
+      streak++;
+      if (i <= 1 || currentStreak > 0) {
+        currentStreak = streak;
+      }
+      longestStreak = Math.max(longestStreak, streak);
+    } else {
+      if (i === 0) continue; // Today might not have a completion yet
+      if (currentStreak === 0 && streak === 0) continue;
+      streak = 0;
+    }
+  }
+
+  // Level breakdown
+  const levelRows = await db.select({
+    levelId: levels.id,
+    title: levels.title,
+    emoji: levels.emoji,
+  }).from(levels).orderBy(asc(levels.order));
+
+  const lessonCounts = await db.select({
+    levelId: lessons.levelId,
+    count: sql<number>`count(*)::int`,
+  }).from(lessons)
+    .where(eq(lessons.isPublished, true))
+    .groupBy(lessons.levelId);
+
+  const countMap = new Map(lessonCounts.map(r => [r.levelId, r.count]));
+
+  // Count completed per level
+  const completedLessonIds = new Set(completedRows.map(r => r.lessonId));
+  const allLessons = await db.select({
+    id: lessons.id,
+    levelId: lessons.levelId,
+  }).from(lessons).where(eq(lessons.isPublished, true));
+
+  const completedPerLevel = new Map<number, number>();
+  for (const l of allLessons) {
+    if (completedLessonIds.has(l.id)) {
+      completedPerLevel.set(l.levelId, (completedPerLevel.get(l.levelId) || 0) + 1);
+    }
+  }
+
+  const levelBreakdown = levelRows.map(lv => ({
+    level: lv.levelId,
+    title: lv.title,
+    emoji: lv.emoji,
+    completed: completedPerLevel.get(lv.levelId) || 0,
+    total: countMap.get(lv.levelId) || 0,
+  }));
+
+  // Recent activity (last 10 with lesson titles)
+  const lessonTitles = new Map(
+    (await db.select({ id: lessons.id, title: lessons.title }).from(lessons)).map(l => [l.id, l.title])
+  );
+
+  const recentActivity = completedRows.slice(0, 10).map(r => ({
+    lessonId: r.lessonId,
+    lessonTitle: lessonTitles.get(r.lessonId) || r.lessonId,
+    completedAt: r.completedAt,
+  }));
+
+  res.json({
+    totalCompleted,
+    totalLessons,
+    completionPercent,
+    currentStreak,
+    longestStreak,
+    levelBreakdown,
+    recentActivity,
+  });
 });
 
 const updateSchema = z.object({
