@@ -18,6 +18,10 @@ import { AdminLessonPreview } from './components/admin/AdminLessonPreview';
 import { AdminThemeEditor } from './components/admin/AdminThemeEditor';
 import { AdminContentValidator } from './components/admin/AdminContentValidator';
 import { AdminAnalytics } from './components/admin/AdminAnalytics';
+import { DashboardGuard } from './components/dashboard/DashboardGuard';
+import { DashboardLayout } from './components/dashboard/DashboardLayout';
+import { DashboardProfile } from './components/dashboard/DashboardProfile';
+import { DashboardSettings } from './components/dashboard/DashboardSettings';
 
 function App() {
   useEffect(() => {
@@ -31,6 +35,12 @@ function App() {
         <Route path="/lesson/:lessonId" element={<LessonView />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/dashboard" element={<DashboardGuard />}>
+          <Route element={<DashboardLayout />}>
+            <Route index element={<DashboardProfile />} />
+            <Route path="settings" element={<DashboardSettings />} />
+          </Route>
+        </Route>
         <Route path="/admin/login" element={<AdminLoginScreen />} />
         <Route path="/admin" element={<AdminGuard />}>
           <Route element={<AdminLayout />}>

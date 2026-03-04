@@ -72,9 +72,12 @@ export function HomeScreen() {
               </button>
               {user ? (
                 <>
-                  <span className="text-xs font-mono text-text-muted hidden md:inline">
+                  <Link
+                    to="/dashboard"
+                    className="text-xs font-mono text-purple hover:underline hidden md:inline"
+                  >
                     {user.displayName}
-                  </span>
+                  </Link>
                   <button
                     onClick={() => logout()}
                     className="text-xs font-mono text-text-muted hover:text-text-primary transition-colors"

@@ -6,6 +6,7 @@ import { users } from '../db/schema.js';
 import { hashPassword, verifyPassword } from '../lib/password.js';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../lib/jwt.js';
 import { AppError } from '../middleware/errorHandler.js';
+import { requireAuth } from '../middleware/auth.js';
 
 export const authRouter = Router();
 
@@ -146,5 +147,72 @@ authRouter.post('/refresh', async (req, res) => {
 // POST /api/auth/logout
 authRouter.post('/logout', (_req, res) => {
   res.clearCookie(REFRESH_COOKIE, { path: '/api/auth' });
+  res.json({ ok: true });
+});
+
+// GET /api/auth/me — full profile with createdAt
+authRouter.get('/me', requireAuth, async (req, res) => {
+  const [user] = await db.select({
+    id: users.id,
+    username: users.username,
+    displayName: users.displayName,
+    role: users.role,
+    createdAt: users.createdAt,
+  }).from(users)
+    .where(eq(users.id, req.user!.userId))
+    .limit(1);
+
+  if (!user) throw new AppError(404, 'User not found');
+  res.json(user);
+});
+
+// PUT /api/auth/profile — update display name
+const profileSchema = z.object({
+  displayName: z.string().min(1).max(100),
+});
+
+authRouter.put('/profile', requireAuth, async (req, res) => {
+  const parsed = profileSchema.safeParse(req.body);
+  if (!parsed.success) throw new AppError(400, 'Invalid display name');
+
+  const [user] = await db.update(users)
+    .set({ displayName: parsed.data.displayName })
+    .where(eq(users.id, req.user!.userId))
+    .returning({
+      id: users.id,
+      username: users.username,
+      displayName: users.displayName,
+      role: users.role,
+    });
+
+  if (!user) throw new AppError(404, 'User not found');
+  res.json(user);
+});
+
+// PUT /api/auth/password — change password
+const passwordSchema = z.object({
+  currentPassword: z.string(),
+  newPassword: z.string().min(8),
+});
+
+authRouter.put('/password', requireAuth, async (req, res) => {
+  const parsed = passwordSchema.safeParse(req.body);
+  if (!parsed.success) throw new AppError(400, 'Invalid input. New password must be at least 8 characters.');
+
+  const [user] = await db.select()
+    .from(users)
+    .where(eq(users.id, req.user!.userId))
+    .limit(1);
+
+  if (!user) throw new AppError(404, 'User not found');
+
+  const valid = await verifyPassword(parsed.data.currentPassword, user.passwordHash);
+  if (!valid) throw new AppError(401, 'Current password is incorrect');
+
+  const newHash = await hashPassword(parsed.data.newPassword);
+  await db.update(users)
+    .set({ passwordHash: newHash })
+    .where(eq(users.id, user.id));
+
   res.json({ ok: true });
 });
