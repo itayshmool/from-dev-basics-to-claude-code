@@ -99,7 +99,7 @@ export function BugReportModal({ isOpen, onClose, context }: BugReportModalProps
     .join('\n');
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4">
+    <div className="bug-report-overlay fixed inset-0 z-50 flex items-start justify-center pt-16 px-4">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-bg-overlay" onClick={handleClose} />
 

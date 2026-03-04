@@ -252,6 +252,24 @@ body {
   --shadow-button: 0 0 24px rgba(255, 107, 53, 0.18);
 }
 
+/* Bug report modal: reset to root theme (escapes .lesson-surface scope) */
+.bug-report-overlay {
+  --color-bg-card: #18181F;
+  --color-bg-elevated: #1C1C24;
+  --color-text-primary: #EAEAEC;
+  --color-text-secondary: #8E8E9E;
+  --color-text-muted: #78788A;
+  --color-border: rgba(255, 255, 255, 0.07);
+}
+[data-theme="light"] .bug-report-overlay {
+  --color-bg-card: #FFFFFF;
+  --color-bg-elevated: #EDECEA;
+  --color-text-primary: #1A1A1B;
+  --color-text-secondary: #5C5C61;
+  --color-text-muted: #737380;
+  --color-border: rgba(0, 0, 0, 0.08);
+}
+
 [data-theme="light"] ::selection {
   background-color: rgba(255, 107, 53, 0.20);
   color: #1A1A1B;
