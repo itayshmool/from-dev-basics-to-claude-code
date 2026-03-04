@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction, RequestHandler } from 'express';
 
 export class AppError extends Error {
   constructor(
@@ -8,6 +8,15 @@ export class AppError extends Error {
     super(message);
     this.name = 'AppError';
   }
+}
+
+/** Wrap an async route handler so thrown errors reach the Express error handler */
+export function asyncHandler(
+  fn: (req: Request, res: Response, next: NextFunction) => Promise<void>,
+): RequestHandler {
+  return (req, res, next) => {
+    fn(req, res, next).catch(next);
+  };
 }
 
 export function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction) {

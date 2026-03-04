@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { eq } from 'drizzle-orm';
 import { requireAuth } from '../middleware/auth.js';
-import { AppError } from '../middleware/errorHandler.js';
+import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { db } from '../db/index.js';
 import { users } from '../db/schema.js';
 
@@ -133,7 +133,7 @@ function formatIssueBody(data: z.infer<typeof bugReportSchema>, user: { id: stri
   return lines.join('\n');
 }
 
-bugReportsRouter.post('/', requireAuth, async (req, res) => {
+bugReportsRouter.post('/', requireAuth, asyncHandler(async (req, res) => {
   const githubToken = process.env.GITHUB_PAT;
   if (!githubToken) {
     throw new AppError(503, 'Bug reporting is not configured on this server.');
@@ -196,4 +196,4 @@ bugReportsRouter.post('/', requireAuth, async (req, res) => {
     issueNumber: issue.number,
     issueUrl: issue.html_url,
   });
-});
+}));
