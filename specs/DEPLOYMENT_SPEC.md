@@ -25,12 +25,12 @@
 
 | Resource | URL |
 |----------|-----|
-| Frontend (home) | https://terminal-trainer-83vj.onrender.com |
-| Student login | https://terminal-trainer-83vj.onrender.com/login |
-| Student register | https://terminal-trainer-83vj.onrender.com/register |
-| User dashboard | https://terminal-trainer-83vj.onrender.com/dashboard |
-| Admin login | https://terminal-trainer-83vj.onrender.com/admin/login |
-| Admin dashboard | https://terminal-trainer-83vj.onrender.com/admin |
+| Frontend (home) | https://zero2claude.dev |
+| Student login | https://zero2claude.dev/login |
+| Student register | https://zero2claude.dev/register |
+| User dashboard | https://zero2claude.dev/dashboard |
+| Admin login | https://zero2claude.dev/admin/login |
+| Admin dashboard | https://zero2claude.dev/admin |
 | API health check | https://terminal-trainer-api.onrender.com/api/health |
 | Render dashboard (frontend) | https://dashboard.render.com/static/srv-d6kak0kr85hc739icnug |
 | Render dashboard (backend) | https://dashboard.render.com/web/srv-d6jbmbp4tr6s739ccvcg |
@@ -88,7 +88,7 @@ Render rewrite rule: `/* → /index.html` (configured in dashboard Redirects/Rew
 | `JWT_SECRET` | 64-char hex string for access token signing |
 | `JWT_REFRESH_SECRET` | 64-char hex string for refresh token signing |
 | `PORT` | `3001` |
-| `CORS_ORIGIN` | `https://terminal-trainer-83vj.onrender.com,https://terminal-trainer-api.onrender.com` |
+| `CORS_ORIGIN` | `https://zero2claude.dev,https://www.zero2claude.dev,https://terminal-trainer-83vj.onrender.com,https://terminal-trainer-api.onrender.com` |
 | `ADMIN_PASSWORD` | Used by seed script to create the admin user |
 | `GITHUB_PAT` | GitHub Personal Access Token with `repo` scope (for bug report → GitHub Issues) |
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret key (server-side verification) |

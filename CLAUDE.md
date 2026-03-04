@@ -6,7 +6,7 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 **Frontend:** React 18 + TypeScript + Vite + Tailwind CSS v4 → Render Static Site
 **Backend:** Node.js + Express + TypeScript + PostgreSQL + Drizzle ORM → Render
 
-**Live:** https://terminal-trainer-83vj.onrender.com
+**Live:** https://zero2claude.dev
 **API:** https://terminal-trainer-api.onrender.com
 
 ## Current State
