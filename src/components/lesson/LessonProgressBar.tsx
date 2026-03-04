@@ -8,9 +8,10 @@ interface LessonProgressBarProps {
   canGoBack?: boolean;
   lessonTitle?: string;
   lessonId?: string;
+  onReportBug?: () => void;
 }
 
-export function LessonProgressBar({ current, total, onClose, onBack, canGoBack, lessonTitle, lessonId }: LessonProgressBarProps) {
+export function LessonProgressBar({ current, total, onClose, onBack, canGoBack, lessonTitle, lessonId, onReportBug }: LessonProgressBarProps) {
   const { theme, toggle: toggleTheme } = useTheme();
   const pct = total > 0 ? (current / total) * 100 : 0;
 
@@ -50,6 +51,19 @@ export function LessonProgressBar({ current, total, onClose, onBack, canGoBack, 
         <span className="text-[11px] font-mono font-semibold text-text-muted tabular-nums flex-shrink-0">
           {current + 1}/{total}
         </span>
+
+        {onReportBug && (
+          <button
+            onClick={onReportBug}
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors flex-shrink-0"
+            aria-label="Report a bug"
+            title="Report a bug"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M5.07 19H19a2 2 0 001.75-2.97l-7-12a2 2 0 00-3.5 0l-7 12A2 2 0 005.07 19z" />
+            </svg>
+          </button>
+        )}
 
         <button
           onClick={toggleTheme}

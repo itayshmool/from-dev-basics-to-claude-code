@@ -9,10 +9,48 @@ import { SectionRenderer } from './SectionRenderer';
 import { LessonComplete } from './LessonComplete';
 import { MilestoneScreen } from './MilestoneScreen';
 import { LessonProgressBar } from './LessonProgressBar';
-import { TerminalProvider } from '../../core/terminal/TerminalContext';
+import { BugReportModal, type BugReportContext } from './BugReportModal';
+import { TerminalProvider, useTerminal } from '../../core/terminal/TerminalContext';
 import { pushCompletion } from '../../services/progressSync';
 import { useAchievements } from '../../contexts/AchievementContext';
 import { apiFetch } from '../../services/api';
+
+/** Renders BugReportModal inside TerminalProvider scope so it can access terminal context */
+function TerminalBugReport({
+  isOpen,
+  onClose,
+  lessonId,
+  lessonTitle,
+  sectionIndex,
+  totalSections,
+  currentSection,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  lessonId: string;
+  lessonTitle: string;
+  sectionIndex: number;
+  totalSections: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  currentSection: any;
+}) {
+  const { history, vfs, lastCommand } = useTerminal();
+
+  const context: BugReportContext = {
+    lessonId,
+    lessonTitle,
+    sectionIndex,
+    totalSections,
+    instruction: currentSection?.instruction || currentSection?.prompt,
+    validation: currentSection?.validation,
+    terminalHistory: history.slice(-30).map((l) => ({ type: l.type, text: l.text })),
+    lastCommand,
+    vfsState: vfs.toJSON('/'),
+    cwd: vfs.getCwd(),
+  };
+
+  return <BugReportModal isOpen={isOpen} onClose={onClose} context={context} />;
+}
 
 export function LessonView() {
   const { lessonId } = useParams<{ lessonId: string }>();
@@ -24,6 +62,7 @@ export function LessonView() {
   const { checkForNewAchievements } = useAchievements();
 
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showBugReport, setShowBugReport] = useState(false);
 
   // Dev-time content validation
   useEffect(() => {
@@ -189,14 +228,37 @@ export function LessonView() {
         canGoBack={sectionIndex > 0}
         lessonTitle={les.title}
         lessonId={les.id}
+        onReportBug={import.meta.env.VITE_USE_API === 'true' ? () => setShowBugReport(true) : undefined}
       />
 
       {isTerminalLesson ? (
         <TerminalProvider key={lessonId} initialFs={les.initialFs} initialDir={les.initialDir}>
           {sectionContent}
+          <TerminalBugReport
+            isOpen={showBugReport}
+            onClose={() => setShowBugReport(false)}
+            lessonId={lessonId}
+            lessonTitle={les.title}
+            sectionIndex={sectionIndex}
+            totalSections={totalSections}
+            currentSection={currentSection}
+          />
         </TerminalProvider>
       ) : (
-        sectionContent
+        <>
+          {sectionContent}
+          <BugReportModal
+            isOpen={showBugReport}
+            onClose={() => setShowBugReport(false)}
+            context={{
+              lessonId,
+              lessonTitle: les.title,
+              sectionIndex,
+              totalSections,
+              instruction: currentSection?.type === 'narrative' ? undefined : (currentSection as { instruction?: string })?.instruction,
+            }}
+          />
+        </>
       )}
     </div>
   );

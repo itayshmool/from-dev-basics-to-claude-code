@@ -6,6 +6,7 @@ import { levelsRouter, lessonsRouter } from './routes/levels.js';
 import { authRouter } from './routes/auth.js';
 import { progressRouter } from './routes/progress.js';
 import { adminRouter } from './routes/admin.js';
+import { bugReportsRouter } from './routes/bugReports.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { eq } from 'drizzle-orm';
 import { db } from './db/index.js';
@@ -41,6 +42,7 @@ app.use('/api/lessons', lessonsRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/progress', progressRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/bug-reports', bugReportsRouter);
 
 // Error handler (must be last)
 app.use(errorHandler);
