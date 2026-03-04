@@ -84,6 +84,8 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
             {section.instruction}
           </h3>
 
+          <p className="text-xs text-text-muted tabular-nums">{matched.length}/{section.pairs.length} matched</p>
+
           <div className="grid grid-cols-2 gap-2.5">
             <div className="space-y-2">
               {section.pairs.map(({ left }) => {

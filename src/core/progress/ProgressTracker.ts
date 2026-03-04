@@ -1,11 +1,14 @@
 import { STORAGE_KEY } from '../../lib/constants';
 import type { ProgressState } from './types';
 
+const PROGRESS_VERSION = 1;
+
 const DEFAULT_STATE: ProgressState = {
   completedLessons: [],
   currentLessonId: '0.1',
   currentSectionIndex: 0,
   levelProgress: {},
+  version: PROGRESS_VERSION,
 };
 
 export class ProgressTracker {
@@ -19,7 +22,14 @@ export class ProgressTracker {
   private load(): ProgressState {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        const parsed = JSON.parse(raw) as ProgressState;
+        if (parsed.version !== PROGRESS_VERSION) {
+          // Schema migration: preserve completed lessons but reset current position
+          return { ...DEFAULT_STATE, completedLessons: parsed.completedLessons ?? [], levelProgress: parsed.levelProgress ?? {} };
+        }
+        return parsed;
+      }
     } catch {
       // corrupt data, reset
     }

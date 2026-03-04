@@ -16,7 +16,7 @@ export function LessonComplete({ message, onNext, onHome, hasNext }: LessonCompl
         <p className="text-[15px] text-text-secondary max-w-sm leading-relaxed">{message}</p>
       </div>
 
-      <div className="flex-shrink-0 px-5 py-4 safe-bottom md:px-8">
+      <div className="flex-shrink-0 px-5 py-4 safe-bottom md:px-8 animate-fade-in-up" style={{ animationDelay: '800ms', animationFillMode: 'backwards' }}>
         <div className="max-w-lg mx-auto space-y-2.5">
           {hasNext && (
             <button

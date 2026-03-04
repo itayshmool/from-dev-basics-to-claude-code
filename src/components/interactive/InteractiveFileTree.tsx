@@ -55,7 +55,7 @@ function TreeNode({ name, value, path, depth, onFileClick, onDirClick }: TreeNod
         </span>
         {!isFile && (
           <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-bg-elevated text-text-muted ml-auto">
-            {childCount}
+            {childCount} {childCount === 1 ? 'item' : 'items'}
           </span>
         )}
       </button>

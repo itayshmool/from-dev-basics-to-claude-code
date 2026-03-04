@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import type { QuizSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
@@ -15,6 +15,7 @@ export function Quiz({ section, onComplete }: QuizProps) {
   const [submitted, setSubmitted] = useState(false);
   const [attempts, setAttempts] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
+  const explanationRef = useRef<HTMLDivElement>(null);
 
   const isCorrect = selected === section.correctIndex;
   const canContinue = submitted && (isCorrect || attempts >= 2);
@@ -36,6 +37,12 @@ export function Quiz({ section, onComplete }: QuizProps) {
   const handleCelebrationDone = useCallback(() => {
     setShowCelebration(false);
   }, []);
+
+  useEffect(() => {
+    if (submitted) {
+      setTimeout(() => explanationRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+    }
+  }, [submitted]);
 
   const cta = canContinue
     ? { label: 'Continue', onClick: onComplete }
@@ -96,7 +103,7 @@ export function Quiz({ section, onComplete }: QuizProps) {
           </div>
 
           {submitted && (
-            <div className={`rounded-xl px-4 py-4 text-[15px] animate-pop-in ${
+            <div ref={explanationRef} className={`rounded-xl px-4 py-4 text-[15px] animate-pop-in ${
               isCorrect ? 'bg-green-soft' : 'bg-red-soft'
             }`}>
               <p className="text-text-primary leading-relaxed">

@@ -19,7 +19,7 @@
     },
     {
       "type": "interactiveTree",
-      "instruction": "Explore this typical computer file structure. Click on folders to expand them and see what's inside.",
+      "instruction": "Explore this typical computer file structure. Click on folders to expand them and see what\u2019s inside. Make sure to expand Sara\u2019s Desktop folder \u2014 you\u2019ll need to know what\u2019s in it!",
       "tree": {
         "Users": {
           "sara": {

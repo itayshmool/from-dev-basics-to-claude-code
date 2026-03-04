@@ -17,7 +17,7 @@ const LEVEL_EMOJI: Record<number, string> = {
 
 export function HomeScreen() {
   const navigate = useNavigate();
-  const { isLessonComplete, completedLessons, getLevelCompletedCount } = useProgress();
+  const { isLessonComplete, completedLessons, getLevelCompletedCount, currentSectionIndex, currentLessonId } = useProgress();
   const { user, logout } = useAuth();
 
   const totalLessons = LEVELS.reduce((sum, l) => sum + l.lessonCount, 0);
@@ -143,6 +143,7 @@ export function HomeScreen() {
                   <div className="space-y-0.5">
                     {levelData.lessons.map((lesson) => {
                       const isDone = isLessonComplete(lesson.id);
+                      const isCurrent = lesson.id === currentLessonId;
 
                       return (
                         <button
@@ -177,6 +178,17 @@ export function HomeScreen() {
                               {lesson.title}
                             </p>
                             <p className="text-[11px] lg:text-xs text-text-muted truncate">{lesson.subtitle}</p>
+                            {isCurrent && !isDone && currentSectionIndex > 0 && lesson.sections.length > 0 && (
+                              <div className="flex items-center gap-2 mt-1.5">
+                                <div className="flex-1 h-1 bg-bg-elevated rounded-full overflow-hidden max-w-[100px]">
+                                  <div
+                                    className="h-full bg-purple rounded-full transition-all duration-300"
+                                    style={{ width: `${(currentSectionIndex / lesson.sections.length) * 100}%` }}
+                                  />
+                                </div>
+                                <span className="text-[10px] text-text-muted tabular-nums">{currentSectionIndex}/{lesson.sections.length}</span>
+                              </div>
+                            )}
                           </div>
 
                           {/* Arrow */}

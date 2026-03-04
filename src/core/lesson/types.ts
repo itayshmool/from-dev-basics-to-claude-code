@@ -32,6 +32,7 @@ export interface FillInBlankSection {
   answer: string;
   acceptAlternates?: string[];
   caseSensitive?: boolean;
+  hintDetail?: string;
 }
 
 export interface InteractiveTreeSection {
@@ -78,6 +79,14 @@ export interface TerminalStepSection {
   hints?: string[];
   freeMode?: boolean;
   expectError?: boolean;
+  /** Initial working directory shown in prompt and used by pwd */
+  initialDirectory?: string;
+  /** Initial file system state for the virtual FS — must sync with file tree panel */
+  fileSystemState?: FileSystemSpec;
+  /** When true, only valid commands are accepted as correct — errors trigger retry */
+  strictValidation?: boolean;
+  /** Context message shown when resuming a lesson mid-progress */
+  contextMessage?: string;
   validation: {
     type: 'exactCommand' | 'commandStartsWith' | 'outputContains'
       | 'fileExists' | 'fileContains' | 'directoryExists' | 'fsStateMatch';
@@ -160,6 +169,13 @@ export interface PromptTemplateSection {
   expectedResult?: string;
 }
 
+/**
+ * Checklist section for self-assessment checklists (Levels 5-7).
+ * Implementation notes:
+ * - Each item MUST use role="checkbox" + aria-checked for accessibility
+ * - Toggle logic should use a Set and guard against multi-toggle per render cycle
+ * - Hint buttons must meet 44x44px minimum touch target
+ */
 export interface ChecklistSection {
   type: 'checklist';
   instruction: string;

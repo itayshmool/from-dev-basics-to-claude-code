@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import type { FillInBlankSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
@@ -14,6 +14,13 @@ export function FillInBlank({ section, onComplete }: FillInBlankProps) {
   const [isCorrect, setIsCorrect] = useState(false);
   const [attempts, setAttempts] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
+  const explanationRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (submitted) {
+      setTimeout(() => explanationRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+    }
+  }, [submitted]);
 
   function checkAnswer() {
     const normalize = (s: string) => section.caseSensitive ? s.trim() : s.trim().toLowerCase();
@@ -72,7 +79,7 @@ export function FillInBlank({ section, onComplete }: FillInBlankProps) {
           />
 
           {submitted && (
-            <div className={`rounded-xl px-4 py-4 text-[15px] animate-pop-in ${
+            <div ref={explanationRef} className={`rounded-xl px-4 py-4 text-[15px] animate-pop-in ${
               isCorrect ? 'bg-green-soft' : 'bg-red-soft'
             }`}>
               <p className="text-text-primary">

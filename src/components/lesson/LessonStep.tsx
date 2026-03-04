@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useEffect } from 'react';
 
 interface CtaAction {
   label: string;
@@ -13,6 +13,17 @@ interface LessonStepProps {
 }
 
 export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Enter' && cta && !cta.disabled) {
+        e.preventDefault();
+        cta.onClick();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [cta]);
+
   return (
     <div className="flex flex-col h-full">
       {/* Scrollable content */}

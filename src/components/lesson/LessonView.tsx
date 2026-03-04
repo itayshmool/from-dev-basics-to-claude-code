@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLessonEngine } from '../../hooks/useLessonEngine';
+import { validateLesson } from '../../core/lesson/LessonEngine';
 import { useProgress } from '../../hooks/useProgress';
 import { getLessonById, getLevelForLesson } from '../../data/levels';
+import { LEVELS } from '../../lib/constants';
 import { SectionRenderer } from './SectionRenderer';
 import { LessonComplete } from './LessonComplete';
 import { MilestoneScreen } from './MilestoneScreen';
@@ -20,6 +22,14 @@ export function LessonView() {
 
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Dev-time content validation
+  useEffect(() => {
+    if (import.meta.env.DEV && lesson) {
+      const warnings = validateLesson(lesson);
+      warnings.forEach(w => console.warn(`[LessonValidation] ${w}`));
+    }
+  }, [lesson]);
+
   const isComplete = engine?.isLessonComplete() ?? false;
   const isLastLesson = level ? level.lessons[level.lessons.length - 1].id === lessonId : false;
   const showMilestone = isComplete && isLastLesson && lesson?.milestone;
@@ -31,6 +41,21 @@ export function LessonView() {
       setCurrentLesson(lessonId, 0);
     }
   }, [lessonId, setCurrentLesson]);
+
+  const handleExitLesson = useCallback(() => {
+    navigate('/');
+  }, [navigate]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        handleExitLesson();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleExitLesson]);
 
   if (!lesson || !engine || !level || !lessonId) {
     return (
@@ -62,20 +87,49 @@ export function LessonView() {
     }, 200);
   }
 
+  function handleGoBack() {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      eng.goBack();
+      const newIndex = eng.getCurrentSectionIndex();
+      setCurrentSection(newIndex);
+      setIsTransitioning(false);
+    }, 200);
+  }
+
   function handleNextLesson() {
-    if (les.nextLesson) {
+    if (les.nextLesson && getLessonById(les.nextLesson)) {
       setCurrentLesson(les.nextLesson, 0);
       navigate(`/lesson/${les.nextLesson}`);
     }
   }
 
-  function handleExitLesson() {
-    navigate('/');
+  function handleNextLevel() {
+    const nextLevelId = les.level + 1;
+    const nextLevelFirstLessonId = `${nextLevelId}.1`;
+    const nextLesson = getLessonById(nextLevelFirstLessonId);
+    if (nextLesson) {
+      setCurrentLesson(nextLevelFirstLessonId, 0);
+      navigate(`/lesson/${nextLevelFirstLessonId}`);
+    }
   }
+
+  // Derive next level info for milestone screen
+  const nextLevelMeta = LEVELS.find(l => l.id === les.level + 1);
+  const nextLevelFirstLesson = getLessonById(`${les.level + 1}.1`);
+  const hasNextLevel = !!nextLevelMeta && !!nextLevelFirstLesson;
 
   // Milestone screen
   if (showMilestone && les.milestone) {
-    return <MilestoneScreen milestone={les.milestone} levelId={les.level} onContinue={handleExitLesson} />;
+    return (
+      <MilestoneScreen
+        milestone={les.milestone}
+        levelId={les.level}
+        onContinue={handleExitLesson}
+        onNextLevel={hasNextLevel ? handleNextLevel : undefined}
+        nextLevelTitle={nextLevelMeta?.title}
+      />
+    );
   }
 
   // Lesson complete
@@ -85,7 +139,7 @@ export function LessonView() {
         message={les.completionMessage || 'Great work! You completed this lesson.'}
         onNext={handleNextLesson}
         onHome={handleExitLesson}
-        hasNext={!!les.nextLesson}
+        hasNext={!!les.nextLesson && !!getLessonById(les.nextLesson)}
       />
     );
   }
@@ -111,6 +165,10 @@ export function LessonView() {
         current={sectionIndex}
         total={totalSections}
         onClose={handleExitLesson}
+        onBack={handleGoBack}
+        canGoBack={sectionIndex > 0}
+        lessonTitle={les.title}
+        lessonId={les.id}
       />
 
       {isTerminalLesson ? (

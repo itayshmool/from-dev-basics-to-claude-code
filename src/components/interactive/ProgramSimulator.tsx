@@ -14,23 +14,25 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
   const [userInputs, setUserInputs] = useState<Record<number, string>>({});
   const [waitingForInput, setWaitingForInput] = useState(false);
   const [pendingInteraction, setPendingInteraction] = useState<(typeof section.interactions)[0] | null>(null);
+  const [processedInteractions, setProcessedInteractions] = useState<Set<number>>(new Set());
 
   const isFinished = currentLine >= section.lines.length && !waitingForInput;
   const isStarted = currentLine >= 0;
 
   function processInteractionsAfterLine(lineIndex: number) {
-    const interaction = section.interactions.find((i) => i.afterLine === lineIndex);
-    if (interaction) {
-      if (interaction.type === 'input') {
-        setWaitingForInput(true);
-        setPendingInteraction(interaction);
-      } else if (interaction.type === 'display') {
-        let text = interaction.value || '';
-        Object.entries(userInputs).forEach(([, val]) => {
-          text = text.replace('{input}', val);
-        });
-        setOutputs((prev) => [...prev, text]);
-      }
+    const interactionIndex = section.interactions.findIndex((i) => i.afterLine === lineIndex);
+    if (interactionIndex === -1 || processedInteractions.has(interactionIndex)) return;
+    const interaction = section.interactions[interactionIndex];
+    setProcessedInteractions((prev) => new Set(prev).add(interactionIndex));
+    if (interaction.type === 'input') {
+      setWaitingForInput(true);
+      setPendingInteraction(interaction);
+    } else if (interaction.type === 'display') {
+      let text = interaction.value || '';
+      Object.entries(userInputs).forEach(([, val]) => {
+        text = text.replace('{input}', val);
+      });
+      setOutputs((prev) => [...prev, text]);
     }
   }
 
@@ -52,11 +54,12 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
     setPendingInteraction(null);
     setInputValue('');
 
-    const displayAfter = section.interactions.find(
+    const displayIndex = section.interactions.findIndex(
       (i) => i.type === 'display' && i.afterLine > (pendingInteraction?.afterLine ?? -1)
     );
-    if (displayAfter) {
-      let text = displayAfter.value || '';
+    if (displayIndex !== -1 && !processedInteractions.has(displayIndex)) {
+      setProcessedInteractions((prev) => new Set(prev).add(displayIndex));
+      let text = section.interactions[displayIndex].value || '';
       text = text.replace('{input}', val);
       setOutputs((prev) => [...prev, text]);
     }

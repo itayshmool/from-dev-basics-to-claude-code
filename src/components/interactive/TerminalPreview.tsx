@@ -53,9 +53,15 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
 
   const completedLines = section.lines.slice(0, visibleLines);
 
+  function skipToEnd() {
+    setVisibleLines(section.lines.length);
+    setTypingIndex(0);
+    setCurrentText('');
+  }
+
   const cta = allDone
     ? { label: 'Continue', onClick: onComplete }
-    : undefined;
+    : { label: 'Skip', onClick: skipToEnd };
 
   return (
     <LessonStep cta={cta}>

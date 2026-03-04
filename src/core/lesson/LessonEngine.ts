@@ -2,6 +2,22 @@ import type { Lesson, LessonSection, QuizSection, FillInBlankSection, MatchSecti
 
 export type ValidationResult = { valid: boolean; message?: string };
 
+/** Validates lesson content for common issues. Returns array of warning messages. */
+export function validateLesson(lesson: Lesson): string[] {
+  const warnings: string[] = [];
+  if (lesson.sections.length === 0) {
+    warnings.push(`Lesson ${lesson.id} has no sections (will appear blank)`);
+  }
+  lesson.sections.forEach((section, i) => {
+    if (section.type === 'quiz') {
+      if (section.correctIndex < 0 || section.correctIndex >= section.options.length) {
+        warnings.push(`Lesson ${lesson.id} section ${i}: correctIndex ${section.correctIndex} is out of range (${section.options.length} options)`);
+      }
+    }
+  });
+  return warnings;
+}
+
 export class LessonEngine {
   private lesson: Lesson;
   private sectionIndex: number;
@@ -60,6 +76,13 @@ export class LessonEngine {
     if (this.sectionIndex < this.lesson.sections.length) {
       this.sectionCompleted[this.sectionIndex] = true;
       this.sectionIndex++;
+      this.notify();
+    }
+  }
+
+  goBack(): void {
+    if (this.sectionIndex > 0) {
+      this.sectionIndex--;
       this.notify();
     }
   }

@@ -4,9 +4,11 @@ interface MilestoneScreenProps {
   milestone: MilestoneInfo;
   levelId: number;
   onContinue?: () => void;
+  onNextLevel?: () => void;
+  nextLevelTitle?: string;
 }
 
-export function MilestoneScreen({ milestone, levelId, onContinue }: MilestoneScreenProps) {
+export function MilestoneScreen({ milestone, levelId, onContinue, onNextLevel, nextLevelTitle }: MilestoneScreenProps) {
   return (
     <div className="h-full flex flex-col bg-bg-primary">
       <div className="flex-1 overflow-y-auto px-5 py-8 md:px-8">
@@ -50,19 +52,32 @@ export function MilestoneScreen({ milestone, levelId, onContinue }: MilestoneScr
         </div>
       </div>
 
-      {onContinue && (
-        <div className="flex-shrink-0 px-5 py-4 safe-bottom md:px-8">
-          <div className="max-w-lg mx-auto">
+      <div className="flex-shrink-0 px-5 py-4 safe-bottom md:px-8">
+        <div className="max-w-lg mx-auto space-y-2.5">
+          {onNextLevel && nextLevelTitle && (
             <button
-              onClick={onContinue}
+              onClick={onNextLevel}
               className="w-full px-5 py-3.5 bg-purple text-white rounded-xl text-[15px] font-semibold transition-all active:scale-[0.98]"
               style={{ boxShadow: 'var(--shadow-button)' }}
             >
+              Start {nextLevelTitle}
+            </button>
+          )}
+          {onContinue && (
+            <button
+              onClick={onContinue}
+              className={`w-full px-5 py-3.5 rounded-xl text-[15px] font-medium transition-all active:scale-[0.98] ${
+                onNextLevel
+                  ? 'bg-bg-card text-text-secondary border border-border'
+                  : 'bg-purple text-white font-semibold'
+              }`}
+              style={!onNextLevel ? { boxShadow: 'var(--shadow-button)' } : undefined}
+            >
               Back to Home
             </button>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
