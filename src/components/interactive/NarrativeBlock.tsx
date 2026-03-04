@@ -23,7 +23,7 @@ export function NarrativeBlock({ section, onContinue }: NarrativeBlockProps) {
   return (
     <LessonStep cta={{ label: 'Continue', onClick: onContinue }}>
       <div className="space-y-5">
-        <p className="text-[17px] leading-relaxed text-text-secondary">
+        <p className="text-lg leading-relaxed text-text-primary">
           {renderInlineMarkdown(section.content)}
         </p>
 
@@ -43,7 +43,7 @@ export function NarrativeBlock({ section, onContinue }: NarrativeBlockProps) {
 
         {section.keyPoints && section.keyPoints.length > 0 && (
           <div className="space-y-3">
-            <p className="text-xs font-semibold text-text-muted">Key points</p>
+            <p className="text-sm font-semibold text-text-secondary">Key points</p>
             <ul className="space-y-2.5">
               {section.keyPoints.map((point, i) => (
                 <li key={i} className="flex items-start gap-3 text-[15px] text-text-secondary animate-slide-in" style={{ animationDelay: `${i * 60}ms` }}>

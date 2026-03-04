@@ -114,7 +114,7 @@ export function TerminalStep({ section, onComplete, commands = [] }: TerminalSte
 
   return (
     <div className="h-full flex flex-col w-full">
-      {showCelebration && <CelebrationOverlay onDone={handleCelebrationDone} />}
+      {showCelebration && <CelebrationOverlay onDone={handleCelebrationDone} message="Nice!" />}
 
       {/* Instruction + command reference */}
       <div className="px-6 md:px-8 lg:px-12 xl:px-16 pt-5 pb-3 space-y-3 flex-shrink-0">

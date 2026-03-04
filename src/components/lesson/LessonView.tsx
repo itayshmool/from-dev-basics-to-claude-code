@@ -227,8 +227,8 @@ export function LessonView() {
         onBack={handleGoBack}
         canGoBack={sectionIndex > 0}
         lessonTitle={les.title}
-        lessonId={les.id}
         onReportBug={import.meta.env.VITE_USE_API === 'true' ? () => setShowBugReport(true) : undefined}
+        sectionType={currentSection?.type}
       />
 
       {isTerminalLesson ? (

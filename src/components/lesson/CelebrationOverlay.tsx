@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 
 interface CelebrationOverlayProps {
   onDone: () => void;
+  message?: string;
 }
 
-export function CelebrationOverlay({ onDone }: CelebrationOverlayProps) {
+export function CelebrationOverlay({ onDone, message = 'Correct!' }: CelebrationOverlayProps) {
   const [phase, setPhase] = useState<'in' | 'out'>('in');
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export function CelebrationOverlay({ onDone }: CelebrationOverlayProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <p className="text-2xl font-bold text-green">Correct!</p>
+        <p className="text-2xl font-bold text-green">{message}</p>
       </div>
     </div>
   );

@@ -116,7 +116,7 @@ export function DragSort({ section, onComplete }: DragSortProps) {
 
   return (
     <>
-      {showCelebration && <CelebrationOverlay onDone={() => setShowCelebration(false)} />}
+      {showCelebration && <CelebrationOverlay onDone={() => setShowCelebration(false)} message="Nailed it!" />}
       <LessonStep cta={cta}>
         <div className="space-y-5">
           {/* Instruction */}

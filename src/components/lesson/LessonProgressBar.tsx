@@ -1,4 +1,20 @@
-import { useTheme } from '../../hooks/useTheme';
+const SECTION_TYPE_LABELS: Record<string, { icon: string; label: string }> = {
+  narrative: { icon: '\u{1F4D6}', label: 'Read' },
+  quiz: { icon: '\u{2753}', label: 'Quiz' },
+  fillInBlank: { icon: '\u{270F}\u{FE0F}', label: 'Fill in' },
+  match: { icon: '\u{1F5B1}\u{FE0F}', label: 'Match' },
+  terminalStep: { icon: '\u{1F4BB}', label: 'Terminal' },
+  terminalPreview: { icon: '\u{1F4BB}', label: 'Terminal' },
+  interactiveTree: { icon: '\u{1F4C2}', label: 'Explore' },
+  pathBuilder: { icon: '\u{1F6E4}\u{FE0F}', label: 'Build' },
+  codeExample: { icon: '\u{1F4DD}', label: 'Code' },
+  dragSort: { icon: '\u{1F500}', label: 'Sort' },
+  programSim: { icon: '\u{25B6}\u{FE0F}', label: 'Simulate' },
+  stepThrough: { icon: '\u{1F463}', label: 'Step through' },
+  guideStep: { icon: '\u{1F6E0}\u{FE0F}', label: 'Setup' },
+  promptTemplate: { icon: '\u{1F4AC}', label: 'Prompt' },
+  checklist: { icon: '\u{2705}', label: 'Checklist' },
+};
 
 interface LessonProgressBarProps {
   current: number;
@@ -7,12 +23,11 @@ interface LessonProgressBarProps {
   onBack?: () => void;
   canGoBack?: boolean;
   lessonTitle?: string;
-  lessonId?: string;
   onReportBug?: () => void;
+  sectionType?: string;
 }
 
-export function LessonProgressBar({ current, total, onClose, onBack, canGoBack, lessonTitle, lessonId, onReportBug }: LessonProgressBarProps) {
-  const { theme, toggle: toggleTheme } = useTheme();
+export function LessonProgressBar({ current, total, onClose, onBack, canGoBack, lessonTitle, onReportBug, sectionType }: LessonProgressBarProps) {
   const pct = total > 0 ? (current / total) * 100 : 0;
 
   return (
@@ -41,14 +56,14 @@ export function LessonProgressBar({ current, total, onClose, onBack, canGoBack, 
           </button>
         )}
 
-        <div className="flex-1 h-1 bg-bg-elevated rounded-full overflow-hidden">
+        <div className="flex-1 h-2 bg-bg-elevated rounded-full overflow-hidden">
           <div
             className="h-full bg-purple rounded-full transition-all duration-500 ease-out"
-            style={{ width: `${pct}%` }}
+            style={{ width: `${pct}%`, boxShadow: pct > 0 ? '0 0 8px rgba(255, 107, 53, 0.3)' : undefined }}
           />
         </div>
 
-        <span className="text-[11px] font-mono font-semibold text-text-muted tabular-nums flex-shrink-0">
+        <span className="text-xs font-mono font-semibold text-text-muted tabular-nums flex-shrink-0">
           {current + 1}/{total}
         </span>
 
@@ -65,29 +80,22 @@ export function LessonProgressBar({ current, total, onClose, onBack, canGoBack, 
           </button>
         )}
 
-        <button
-          onClick={toggleTheme}
-          className="w-8 h-8 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors flex-shrink-0"
-          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-        >
-          {theme === 'dark' ? (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          ) : (
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-            </svg>
-          )}
-        </button>
       </div>
 
-      {/* Lesson title */}
-      {lessonTitle && (
-        <p className="text-xs text-text-muted text-center mt-1.5 truncate">
-          {lessonId ? `${lessonId}: ` : ''}{lessonTitle}
-        </p>
-      )}
+      {/* Lesson title + section type indicator */}
+      <div className="flex items-center justify-center gap-2 mt-1.5">
+        {sectionType && SECTION_TYPE_LABELS[sectionType] && (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-bg-elevated text-[10px] font-mono font-medium text-text-secondary flex-shrink-0">
+            <span>{SECTION_TYPE_LABELS[sectionType].icon}</span>
+            {SECTION_TYPE_LABELS[sectionType].label}
+          </span>
+        )}
+        {lessonTitle && (
+          <p className="text-xs text-text-muted truncate">
+            {lessonTitle}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

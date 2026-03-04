@@ -84,7 +84,7 @@ export function PathBuilder({ section, onComplete }: PathBuilderProps) {
 
   return (
     <>
-      {showCelebration && <CelebrationOverlay onDone={() => setShowCelebration(false)} />}
+      {showCelebration && <CelebrationOverlay onDone={() => setShowCelebration(false)} message="Well done!" />}
       <LessonStep cta={cta}>
         <div className="space-y-4">
           <h3 className="text-xl font-bold text-text-primary leading-snug">

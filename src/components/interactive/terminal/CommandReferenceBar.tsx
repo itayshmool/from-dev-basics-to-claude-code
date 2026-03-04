@@ -54,18 +54,20 @@ export function CommandReferenceBar({ commands }: CommandReferenceBarProps) {
   if (commands.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-      {commands.map((cmd) => (
-        <div
-          key={cmd}
-          className="flex-shrink-0 flex items-center gap-1.5 bg-bg-elevated rounded-lg px-2.5 py-1.5 border border-border"
-        >
-          <code className="text-[11px] font-mono font-semibold text-purple">{cmd}</code>
-          {COMMAND_DESCRIPTIONS[cmd] && (
-            <span className="text-[10px] text-text-muted">{COMMAND_DESCRIPTIONS[cmd]}</span>
-          )}
-        </div>
-      ))}
+    <div className="relative">
+      <div className="flex flex-wrap gap-2 overflow-x-auto pb-1.5 scrollbar-none">
+        {commands.map((cmd) => (
+          <div
+            key={cmd}
+            className="flex-shrink-0 flex items-center gap-2 bg-bg-elevated rounded-lg px-3 py-2 border border-border"
+          >
+            <code className="text-xs font-mono font-semibold text-purple">{cmd}</code>
+            {COMMAND_DESCRIPTIONS[cmd] && (
+              <span className="text-[11px] text-text-muted">{COMMAND_DESCRIPTIONS[cmd]}</span>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -136,14 +136,13 @@ export function HomeScreen() {
           </Link>
         )}
 
-        {/* Level cards */}
+        {/* Available level cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
-          {LEVELS.map((levelMeta, levelIdx) => {
-            const levelData = levels.find(l => l.id === levelMeta.id);
+          {LEVELS.filter(lm => levels.find(l => l.id === lm.id) != null).map((levelMeta, levelIdx) => {
+            const levelData = levels.find(l => l.id === levelMeta.id)!;
             const completedCount = getLevelCompletedCount(levelMeta.id);
             const totalCount = levelMeta.lessonCount;
             const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
-            const isLevelAvailable = levelData != null;
             const allLevelComplete = completedCount >= totalCount;
 
             return (
@@ -169,90 +168,111 @@ export function HomeScreen() {
                 </div>
 
                 {/* Progress bar */}
-                {isLevelAvailable && (
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex-1 h-1 bg-bg-elevated rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-purple rounded-full transition-all duration-500"
-                        style={{ width: `${pct}%` }}
-                      />
-                    </div>
-                    <span className="text-[10px] lg:text-xs font-mono font-semibold text-text-muted tabular-nums">{completedCount}/{totalCount}</span>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="flex-1 h-1 bg-bg-elevated rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-purple rounded-full transition-all duration-500"
+                      style={{ width: `${pct}%` }}
+                    />
                   </div>
-                )}
+                  <span className="text-[10px] lg:text-xs font-mono font-semibold text-text-muted tabular-nums">{completedCount}/{totalCount}</span>
+                </div>
 
                 {/* Lessons */}
-                {isLevelAvailable && levelData ? (
-                  <div className="space-y-0.5">
-                    {levelData.lessons.map((lesson) => {
-                      const isDone = isLessonComplete(lesson.id);
-                      const isCurrent = lesson.id === currentLessonId;
+                <div className="space-y-0.5">
+                  {levelData.lessons.map((lesson) => {
+                    const isDone = isLessonComplete(lesson.id);
+                    const isCurrent = lesson.id === currentLessonId;
 
-                      return (
-                        <button
-                          key={lesson.id}
-                          onClick={() => navigate(`/lesson/${lesson.id}`)}
-                          className={`
-                            w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3 transition-all
-                            border border-transparent
-                            hover:bg-bg-elevated/50 active:scale-[0.98]
-                          `}
-                        >
-                          {/* Status indicator */}
-                          <span className="flex-shrink-0">
-                            {isDone ? (
-                              <span className="w-5 h-5 rounded-full bg-green-soft flex items-center justify-center">
-                                <svg className="w-3 h-3 text-green" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                              </span>
-                            ) : (
-                              <span className="w-5 h-5 rounded-full bg-bg-elevated flex items-center justify-center">
-                                <span className="w-1.5 h-1.5 rounded-full bg-text-muted" />
-                              </span>
-                            )}
-                          </span>
-
-                          {/* Text */}
-                          <div className="min-w-0 flex-1">
-                            <p className={`text-[13px] lg:text-[15px] font-medium truncate ${
-                              isDone ? 'text-text-secondary' : 'text-text-primary'
-                            }`}>
-                              {lesson.title}
-                            </p>
-                            <p className="text-[11px] lg:text-xs text-text-muted truncate">{lesson.subtitle}</p>
-                            {isCurrent && !isDone && currentSectionIndex > 0 && lesson.sections.length > 0 && (
-                              <div className="flex items-center gap-2 mt-1.5">
-                                <div className="flex-1 h-1 bg-bg-elevated rounded-full overflow-hidden max-w-[100px]">
-                                  <div
-                                    className="h-full bg-purple rounded-full transition-all duration-300"
-                                    style={{ width: `${(currentSectionIndex / lesson.sections.length) * 100}%` }}
-                                  />
-                                </div>
-                                <span className="text-[10px] text-text-muted tabular-nums">{currentSectionIndex}/{lesson.sections.length}</span>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Arrow */}
-                          {!isDone && (
-                            <svg className="w-3.5 h-3.5 text-text-muted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
+                    return (
+                      <button
+                        key={lesson.id}
+                        onClick={() => navigate(`/lesson/${lesson.id}`)}
+                        className={`
+                          w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3 transition-all
+                          border border-transparent
+                          hover:bg-bg-elevated/50 active:scale-[0.98]
+                        `}
+                      >
+                        {/* Status indicator */}
+                        <span className="flex-shrink-0">
+                          {isDone ? (
+                            <span className="w-5 h-5 rounded-full bg-green-soft flex items-center justify-center">
+                              <svg className="w-3 h-3 text-green" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                              </svg>
+                            </span>
+                          ) : (
+                            <span className="w-5 h-5 rounded-full bg-bg-elevated flex items-center justify-center">
+                              <span className="w-1.5 h-1.5 rounded-full bg-text-muted" />
+                            </span>
                           )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="px-3 py-2.5 rounded-lg bg-bg-elevated/30">
-                    <p className="text-xs text-text-muted font-mono">Coming soon</p>
-                  </div>
-                )}
+                        </span>
+
+                        {/* Text */}
+                        <div className="min-w-0 flex-1">
+                          <p className={`text-[13px] lg:text-[15px] font-medium truncate ${
+                            isDone ? 'text-text-secondary' : 'text-text-primary'
+                          }`}>
+                            {lesson.title}
+                          </p>
+                          <p className="text-[11px] lg:text-xs text-text-muted truncate">{lesson.subtitle}</p>
+                          {isCurrent && !isDone && currentSectionIndex > 0 && lesson.sections.length > 0 && (
+                            <div className="flex items-center gap-2 mt-1.5">
+                              <div className="flex-1 h-1 bg-bg-elevated rounded-full overflow-hidden max-w-[100px]">
+                                <div
+                                  className="h-full bg-purple rounded-full transition-all duration-300"
+                                  style={{ width: `${(currentSectionIndex / lesson.sections.length) * 100}%` }}
+                                />
+                              </div>
+                              <span className="text-[10px] text-text-muted tabular-nums">{currentSectionIndex}/{lesson.sections.length}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Arrow */}
+                        {!isDone && (
+                          <svg className="w-3.5 h-3.5 text-text-muted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             );
           })}
         </div>
+
+        {/* Coming next — compact roadmap for locked levels */}
+        {LEVELS.filter(lm => levels.find(l => l.id === lm.id) == null).length > 0 && (
+          <div className="mt-10 lg:mt-14 animate-stagger-in" style={{ animationDelay: '400ms' }}>
+            <h3 className="text-sm font-mono font-semibold text-text-muted mb-4 flex items-center gap-2">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+              </svg>
+              What&apos;s next
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              {LEVELS.filter(lm => levels.find(l => l.id === lm.id) == null).map((levelMeta) => (
+                <div
+                  key={levelMeta.id}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl bg-bg-card/50 border border-border/50 opacity-60"
+                >
+                  <span className="text-base">{LEVEL_EMOJI[levelMeta.id] ?? '\u{1F4DA}'}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-mono font-medium text-text-secondary truncate">{levelMeta.title}</p>
+                    <p className="text-[10px] text-text-muted truncate">{levelMeta.subtitle}</p>
+                  </div>
+                  <svg className="w-4 h-4 text-text-muted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

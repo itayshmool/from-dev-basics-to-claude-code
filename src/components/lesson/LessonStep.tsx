@@ -35,7 +35,7 @@ export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
 
       {/* Bottom-fixed CTA bar */}
       {(cta || secondaryCta) && (
-        <div className="flex-shrink-0 border-t border-border bg-bg-primary/80 backdrop-blur-sm py-4 safe-bottom" style={{ paddingLeft: 'clamp(24px, 4vw, 112px)', paddingRight: 'clamp(24px, 4vw, 112px)' }}>
+        <div className="flex-shrink-0 border-t border-border-strong bg-bg-primary/90 backdrop-blur-sm py-5 safe-bottom" style={{ paddingLeft: 'clamp(24px, 4vw, 112px)', paddingRight: 'clamp(24px, 4vw, 112px)', boxShadow: '0 -8px 24px rgba(0, 0, 0, 0.3)' }}>
           <div className="max-w-3xl mx-auto flex gap-3">
             {secondaryCta && (
               <button
