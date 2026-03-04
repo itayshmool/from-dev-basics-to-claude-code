@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { fetchAndApplyTheme } from './utils/theme';
 import { HomeScreen } from './components/home/HomeScreen';
 import { LessonView } from './components/lesson/LessonView';
 import { LoginScreen } from './components/auth/LoginScreen';
@@ -18,6 +20,10 @@ import { AdminContentValidator } from './components/admin/AdminContentValidator'
 import { AdminAnalytics } from './components/admin/AdminAnalytics';
 
 function App() {
+  useEffect(() => {
+    fetchAndApplyTheme();
+  }, []);
+
   return (
     <div className="h-full bg-bg-primary">
       <Routes>

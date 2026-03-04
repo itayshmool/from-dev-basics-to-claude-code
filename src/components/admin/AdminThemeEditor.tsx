@@ -1,39 +1,53 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { apiFetch } from '../../services/api';
+import { applyTheme, clearTheme, type ThemeOverrides } from '../../utils/theme';
 
-interface ModeSettings {
-  textMuted: string;
-  mobileFontSize: number;
-  desktopFontSize: number;
+interface TokenDef {
+  key: string;
+  label: string;
+  group: string;
 }
 
-interface ThemeSettings {
-  dark: ModeSettings;
-  light: ModeSettings;
-}
+const EDITABLE_TOKENS: TokenDef[] = [
+  { key: '--color-bg-primary', label: 'Background Primary', group: 'Backgrounds' },
+  { key: '--color-bg-secondary', label: 'Background Secondary', group: 'Backgrounds' },
+  { key: '--color-bg-card', label: 'Card Background', group: 'Backgrounds' },
+  { key: '--color-bg-elevated', label: 'Elevated Background', group: 'Backgrounds' },
+  { key: '--color-text-primary', label: 'Text Primary', group: 'Text' },
+  { key: '--color-text-secondary', label: 'Text Secondary', group: 'Text' },
+  { key: '--color-text-muted', label: 'Text Muted', group: 'Text' },
+  { key: '--color-purple', label: 'Accent (Orange)', group: 'Accent' },
+  { key: '--color-green', label: 'Green / Success', group: 'Accent' },
+  { key: '--color-blue', label: 'Blue', group: 'Accent' },
+  { key: '--color-yellow', label: 'Yellow / Warning', group: 'Accent' },
+  { key: '--color-red', label: 'Red / Error', group: 'Accent' },
+  { key: '--color-border', label: 'Border', group: 'System' },
+  { key: '--color-border-strong', label: 'Border Strong', group: 'System' },
+];
 
-const DEFAULT_SETTINGS: ThemeSettings = {
-  dark: {
-    textMuted: '#78788A',
-    mobileFontSize: 11,
-    desktopFontSize: 13,
-  },
-  light: {
-    textMuted: '#737380',
-    mobileFontSize: 11,
-    desktopFontSize: 13,
-  },
+const CSS_DEFAULTS: ThemeOverrides = {
+  '--color-bg-primary': '#09090B',
+  '--color-bg-secondary': '#0F0F13',
+  '--color-bg-card': '#141419',
+  '--color-bg-elevated': '#1C1C24',
+  '--color-text-primary': '#EAEAEC',
+  '--color-text-secondary': '#8E8E9E',
+  '--color-text-muted': '#78788A',
+  '--color-purple': '#FF6B35',
+  '--color-green': '#22C55E',
+  '--color-blue': '#3B82F6',
+  '--color-yellow': '#EAB308',
+  '--color-red': '#EF4444',
+  '--color-border': 'rgba(255, 255, 255, 0.06)',
+  '--color-border-strong': 'rgba(255, 255, 255, 0.12)',
 };
 
-const DARK_BG = '#09090B';
-const DARK_TEXT_PRIMARY = '#EAEAEC';
-const LIGHT_BG = '#FAFAF8';
-const LIGHT_TEXT_PRIMARY = '#1A1A1B';
-const ACCENT_COLOR = '#FF6B35';
-
 function luminance(hex: string): number {
-  const r = parseInt(hex.slice(1, 3), 16) / 255;
-  const g = parseInt(hex.slice(3, 5), 16) / 255;
-  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const match = hex.match(/^#([0-9A-Fa-f]{6})$/);
+  if (!match) return 0;
+  const r = parseInt(match[1].slice(0, 2), 16) / 255;
+  const g = parseInt(match[1].slice(2, 4), 16) / 255;
+  const b = parseInt(match[1].slice(4, 6), 16) / 255;
   const lin = (c: number) =>
     c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
@@ -45,384 +59,291 @@ function contrastRatio(fg: string, bg: string): number {
   return (L1 + 0.05) / (L2 + 0.05);
 }
 
-function getContrastBadge(ratio: number): { label: string; color: string; bgColor: string } {
-  if (ratio >= 4.5) {
-    return { label: 'AAA', color: '#22C55E', bgColor: 'rgba(34, 197, 94, 0.15)' };
-  }
-  if (ratio >= 3) {
-    return { label: 'AA', color: '#EAB308', bgColor: 'rgba(234, 179, 8, 0.15)' };
-  }
-  return { label: 'Fail', color: '#EF4444', bgColor: 'rgba(239, 68, 68, 0.15)' };
-}
+function ContrastBadge({ fg, bg }: { fg: string; bg: string }) {
+  const isHex = /^#[0-9A-Fa-f]{6}$/.test(fg) && /^#[0-9A-Fa-f]{6}$/.test(bg);
+  if (!isHex) return null;
 
-function generateCSS(settings: ThemeSettings): string {
-  return `/* Dark mode text-muted override */
-@theme {
-  --color-text-muted: ${settings.dark.textMuted};
-}
-
-/* Light mode text-muted override */
-[data-theme="light"] {
-  --color-text-muted: ${settings.light.textMuted};
-}
-
-/* Font size utilities (if needed) */
-.text-muted-mobile { font-size: ${settings.dark.mobileFontSize}px; }
-.text-muted-desktop { font-size: ${settings.dark.desktopFontSize}px; }
-`;
-}
-
-interface PreviewCardProps {
-  mode: 'dark' | 'light';
-  label: string;
-  bgColor: string;
-  textPrimary: string;
-  textMuted: string;
-  fontSize: number;
-}
-
-function PreviewCard({ mode, label, bgColor, textPrimary, textMuted, fontSize }: PreviewCardProps) {
-  const cardBg = mode === 'dark' ? '#141419' : '#FFFFFF';
-  const borderColor = mode === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)';
-  const progressBg = mode === 'dark' ? '#1C1C24' : '#EDECEA';
+  const ratio = contrastRatio(fg, bg);
+  const label = ratio >= 4.5 ? 'AAA' : ratio >= 3 ? 'AA' : 'Fail';
+  const color = ratio >= 4.5 ? '#22C55E' : ratio >= 3 ? '#EAB308' : '#EF4444';
 
   return (
-    <div
-      style={{
-        backgroundColor: bgColor,
-        borderRadius: 12,
-        padding: 16,
-        flex: 1,
-        minWidth: 200,
-      }}
+    <span
+      className="ml-2 text-[10px] font-mono font-bold px-1.5 py-0.5 rounded"
+      style={{ color, backgroundColor: `${color}22` }}
     >
-      <p
-        style={{
-          fontSize: 10,
-          fontFamily: 'Monaco, monospace',
-          color: textMuted,
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-          marginBottom: 12,
-        }}
-      >
-        {label}
-      </p>
-
-      {/* Simulated Level Card */}
-      <div
-        style={{
-          backgroundColor: cardBg,
-          border: `1px solid ${borderColor}`,
-          borderRadius: 12,
-          padding: 16,
-        }}
-      >
-        {/* Level Header */}
-        <div style={{ marginBottom: 12 }}>
-          <p
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-              color: textPrimary,
-              fontFamily: 'Monaco, monospace',
-              marginBottom: 4,
-            }}
-          >
-            Level 0: Computers Are Not Magic
-          </p>
-          <p
-            style={{
-              fontSize: fontSize,
-              color: textMuted,
-              fontFamily: '-apple-system, sans-serif',
-            }}
-          >
-            Understanding the basics before the terminal
-          </p>
-        </div>
-
-        {/* Progress Bar */}
-        <div style={{ marginBottom: 16 }}>
-          <div
-            style={{
-              height: 4,
-              backgroundColor: progressBg,
-              borderRadius: 999,
-              overflow: 'hidden',
-              marginBottom: 4,
-            }}
-          >
-            <div
-              style={{
-                width: '66%',
-                height: '100%',
-                backgroundColor: ACCENT_COLOR,
-                borderRadius: 999,
-              }}
-            />
-          </div>
-          <p
-            style={{
-              fontSize: fontSize,
-              color: textMuted,
-              fontFamily: 'Monaco, monospace',
-            }}
-          >
-            4/6 lessons
-          </p>
-        </div>
-
-        {/* Lesson Rows */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {[
-            { title: '1. What is a Computer?', sub: 'The basics of computing' },
-            { title: '2. Files and Folders', sub: 'Organizing your data' },
-            { title: '3. Programs', sub: 'How software works' },
-          ].map((lesson, i) => (
-            <div
-              key={i}
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '8px 0',
-                borderTop: i === 0 ? 'none' : `1px solid ${borderColor}`,
-              }}
-            >
-              <div>
-                <p
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 500,
-                    color: textPrimary,
-                    fontFamily: '-apple-system, sans-serif',
-                    marginBottom: 2,
-                  }}
-                >
-                  {lesson.title}
-                </p>
-                <p
-                  style={{
-                    fontSize: fontSize,
-                    color: textMuted,
-                    fontFamily: '-apple-system, sans-serif',
-                  }}
-                >
-                  {lesson.sub}
-                </p>
-              </div>
-              {i < 2 && (
-                <span style={{ color: '#22C55E', fontSize: 14 }}>
-                  ✓
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Coming Soon Label */}
-        <div
-          style={{
-            marginTop: 12,
-            padding: '6px 10px',
-            backgroundColor: progressBg,
-            borderRadius: 6,
-            display: 'inline-block',
-          }}
-        >
-          <p
-            style={{
-              fontSize: fontSize,
-              color: textMuted,
-              fontFamily: 'Monaco, monospace',
-            }}
-          >
-            Coming soon
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-interface ModeEditorProps {
-  mode: 'dark' | 'light';
-  settings: ModeSettings;
-  onChange: (settings: ModeSettings) => void;
-  bgColor: string;
-  textPrimary: string;
-}
-
-function ModeEditor({ mode, settings, onChange, bgColor, textPrimary }: ModeEditorProps) {
-  const contrast = contrastRatio(settings.textMuted, bgColor);
-  const badge = getContrastBadge(contrast);
-
-  return (
-    <div className="bg-bg-card rounded-xl border border-border p-6">
-      <h2 className="text-sm font-semibold text-text-primary font-mono mb-6 capitalize">
-        {mode} Mode
-      </h2>
-
-      {/* Color Picker Section */}
-      <div className="mb-6">
-        <label className="block text-[10px] font-mono text-text-muted uppercase tracking-wider mb-2">
-          text-muted color
-        </label>
-        <div className="flex items-center gap-3">
-          <input
-            type="color"
-            value={settings.textMuted}
-            onChange={(e) => onChange({ ...settings, textMuted: e.target.value })}
-            className="w-10 h-10 rounded-lg border border-border cursor-pointer bg-transparent"
-          />
-          <input
-            type="text"
-            value={settings.textMuted.toUpperCase()}
-            onChange={(e) => {
-              const val = e.target.value;
-              if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
-                onChange({ ...settings, textMuted: val });
-              }
-            }}
-            className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 font-mono text-sm text-text-primary"
-            placeholder="#000000"
-          />
-          <div
-            style={{
-              backgroundColor: badge.bgColor,
-              color: badge.color,
-              padding: '4px 8px',
-              borderRadius: 6,
-              fontSize: 10,
-              fontWeight: 700,
-              fontFamily: 'Monaco, monospace',
-            }}
-          >
-            {contrast.toFixed(2)}:1 {badge.label}
-          </div>
-        </div>
-      </div>
-
-      {/* Font Size Sliders */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div>
-          <label className="block text-[10px] font-mono text-text-muted uppercase tracking-wider mb-2">
-            Mobile Font Size: {settings.mobileFontSize}px
-          </label>
-          <input
-            type="range"
-            min={9}
-            max={18}
-            value={settings.mobileFontSize}
-            onChange={(e) =>
-              onChange({ ...settings, mobileFontSize: parseInt(e.target.value, 10) })
-            }
-            className="w-full accent-purple"
-          />
-        </div>
-        <div>
-          <label className="block text-[10px] font-mono text-text-muted uppercase tracking-wider mb-2">
-            Desktop Font Size: {settings.desktopFontSize}px
-          </label>
-          <input
-            type="range"
-            min={9}
-            max={18}
-            value={settings.desktopFontSize}
-            onChange={(e) =>
-              onChange({ ...settings, desktopFontSize: parseInt(e.target.value, 10) })
-            }
-            className="w-full accent-purple"
-          />
-        </div>
-      </div>
-
-      {/* Preview Cards */}
-      <div className="flex gap-4">
-        <PreviewCard
-          mode={mode}
-          label="Mobile Preview"
-          bgColor={bgColor}
-          textPrimary={textPrimary}
-          textMuted={settings.textMuted}
-          fontSize={settings.mobileFontSize}
-        />
-        <PreviewCard
-          mode={mode}
-          label="Desktop Preview"
-          bgColor={bgColor}
-          textPrimary={textPrimary}
-          textMuted={settings.textMuted}
-          fontSize={settings.desktopFontSize}
-        />
-      </div>
-    </div>
+      {ratio.toFixed(1)}:1 {label}
+    </span>
   );
 }
 
 export function AdminThemeEditor() {
-  const [settings, setSettings] = useState<ThemeSettings>(DEFAULT_SETTINGS);
-  const [copied, setCopied] = useState(false);
+  const [overrides, setOverrides] = useState<ThemeOverrides>({});
+  const [savedOverrides, setSavedOverrides] = useState<ThemeOverrides>({});
+  const [saving, setSaving] = useState(false);
+  const [status, setStatus] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  function handleCopyCSS(): void {
-    const css = generateCSS(settings);
-    navigator.clipboard.writeText(css).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+  // Load saved theme from API
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await apiFetch('/api/admin/settings/theme');
+        if (res.ok) {
+          const data = await res.json();
+          const saved = data.value as ThemeOverrides;
+          setOverrides(saved);
+          setSavedOverrides(saved);
+        }
+      } catch {
+        // No saved theme yet
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  // Live preview: apply overrides as they change
+  useEffect(() => {
+    if (Object.keys(overrides).length > 0) {
+      applyTheme(overrides);
+    }
+  }, [overrides]);
+
+  const getValue = useCallback(
+    (key: string) => overrides[key] || CSS_DEFAULTS[key] || '',
+    [overrides],
+  );
+
+  const handleChange = (key: string, value: string) => {
+    setOverrides((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const hasChanges = JSON.stringify(overrides) !== JSON.stringify(savedOverrides);
+
+  async function handleSave() {
+    setSaving(true);
+    setStatus(null);
+    try {
+      const res = await apiFetch('/api/admin/settings/theme', {
+        method: 'PUT',
+        body: JSON.stringify({ value: overrides }),
+      });
+      if (!res.ok) throw new Error('Save failed');
+      setSavedOverrides(overrides);
+      setStatus('Saved! All users will see the new theme.');
+    } catch {
+      setStatus('Failed to save. Check your connection.');
+    } finally {
+      setSaving(false);
+    }
   }
 
-  function handleReset(): void {
-    setSettings(DEFAULT_SETTINGS);
+  async function handleReset() {
+    // Remove custom theme from DB
+    setSaving(true);
+    try {
+      await apiFetch('/api/admin/settings/theme', { method: 'DELETE' });
+      clearTheme(Object.keys(overrides));
+      setOverrides({});
+      setSavedOverrides({});
+      setStatus('Reset to defaults. Custom theme removed.');
+    } catch {
+      setStatus('Failed to reset.');
+    } finally {
+      setSaving(false);
+    }
   }
+
+  if (loading) {
+    return <p className="text-text-muted text-sm font-mono animate-pulse">Loading theme...</p>;
+  }
+
+  const groups = [...new Set(EDITABLE_TOKENS.map((t) => t.group))];
 
   return (
     <div>
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-semibold text-text-primary font-mono">Theme Editor</h1>
+        <div>
+          <h1 className="text-xl font-semibold text-text-primary font-mono">Theme Editor</h1>
+          <p className="text-xs text-text-muted font-mono mt-1">
+            Changes preview live. Click Save to apply globally for all users.
+          </p>
+        </div>
         <div className="flex gap-2">
           <button
             onClick={handleReset}
-            className="px-4 py-2 text-sm font-mono text-text-muted bg-bg-elevated border border-border rounded-lg hover:bg-bg-card transition-colors"
+            disabled={saving}
+            className="px-4 py-2 text-sm font-mono text-text-muted bg-bg-elevated border border-border rounded-lg hover:bg-bg-card transition-colors disabled:opacity-50"
           >
-            Reset
+            Reset to Defaults
           </button>
           <button
-            onClick={handleCopyCSS}
-            className="px-4 py-2 text-sm font-mono text-white bg-purple rounded-lg hover:opacity-90 transition-opacity"
+            onClick={handleSave}
+            disabled={saving || !hasChanges}
+            className="px-4 py-2 text-sm font-mono text-white bg-purple rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
           >
-            {copied ? 'Copied!' : 'Copy CSS'}
+            {saving ? 'Saving...' : 'Save & Apply'}
           </button>
         </div>
       </div>
 
-      <div className="space-y-6">
-        <ModeEditor
-          mode="dark"
-          settings={settings.dark}
-          onChange={(dark) => setSettings({ ...settings, dark })}
-          bgColor={DARK_BG}
-          textPrimary={DARK_TEXT_PRIMARY}
-        />
+      {/* Status message */}
+      {status && (
+        <div className="mb-4 px-4 py-2 rounded-lg bg-bg-elevated border border-border text-sm font-mono text-text-secondary">
+          {status}
+        </div>
+      )}
 
-        <ModeEditor
-          mode="light"
-          settings={settings.light}
-          onChange={(light) => setSettings({ ...settings, light })}
-          bgColor={LIGHT_BG}
-          textPrimary={LIGHT_TEXT_PRIMARY}
-        />
+      {/* Token groups */}
+      <div className="space-y-6">
+        {groups.map((group) => (
+          <div key={group} className="bg-bg-card rounded-xl border border-border p-6">
+            <h2 className="text-sm font-semibold text-text-primary font-mono mb-4">{group}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {EDITABLE_TOKENS.filter((t) => t.group === group).map((token) => {
+                const val = getValue(token.key);
+                const isColor = /^#[0-9A-Fa-f]{6}$/.test(val);
+                const isTextToken = token.key.startsWith('--color-text-');
+                const bgForContrast = getValue('--color-bg-primary');
+
+                return (
+                  <div key={token.key}>
+                    <label className="flex items-center text-[10px] font-mono text-text-muted uppercase tracking-wider mb-2">
+                      {token.label}
+                      {isTextToken && <ContrastBadge fg={val} bg={bgForContrast} />}
+                    </label>
+                    <div className="flex items-center gap-2">
+                      {isColor && (
+                        <input
+                          type="color"
+                          value={val}
+                          onChange={(e) => handleChange(token.key, e.target.value)}
+                          className="w-9 h-9 rounded-lg border border-border cursor-pointer bg-transparent shrink-0"
+                        />
+                      )}
+                      <input
+                        type="text"
+                        value={val}
+                        onChange={(e) => handleChange(token.key, e.target.value)}
+                        className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 font-mono text-xs text-text-primary focus:border-purple focus:outline-none"
+                      />
+                      {overrides[token.key] && (
+                        <button
+                          onClick={() => {
+                            const next = { ...overrides };
+                            delete next[token.key];
+                            setOverrides(next);
+                            document.documentElement.style.removeProperty(token.key);
+                          }}
+                          className="text-[10px] font-mono text-text-muted hover:text-text-primary shrink-0"
+                          title="Reset to default"
+                        >
+                          undo
+                        </button>
+                      )}
+                    </div>
+                    <p className="text-[9px] font-mono text-text-muted mt-1 opacity-60">
+                      {token.key}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* CSS Preview */}
+      {/* Live Preview */}
       <div className="mt-6 bg-bg-card rounded-xl border border-border p-6">
-        <h2 className="text-sm font-semibold text-text-primary font-mono mb-4">
-          Generated CSS
-        </h2>
-        <pre className="bg-bg-elevated rounded-lg p-4 overflow-x-auto text-xs font-mono text-text-secondary">
-          {generateCSS(settings)}
-        </pre>
+        <h2 className="text-sm font-semibold text-text-primary font-mono mb-4">Live Preview</h2>
+        <div
+          className="rounded-xl p-6"
+          style={{ backgroundColor: getValue('--color-bg-primary') }}
+        >
+          <div
+            className="rounded-lg p-4 mb-3"
+            style={{
+              backgroundColor: getValue('--color-bg-card'),
+              border: `1px solid ${getValue('--color-border')}`,
+            }}
+          >
+            <p
+              style={{
+                color: getValue('--color-text-primary'),
+                fontFamily: 'Monaco, monospace',
+                fontSize: 14,
+                fontWeight: 600,
+                marginBottom: 4,
+              }}
+            >
+              Level 0: Computers Are Not Magic
+            </p>
+            <p
+              style={{
+                color: getValue('--color-text-muted'),
+                fontFamily: '-apple-system, sans-serif',
+                fontSize: 12,
+              }}
+            >
+              Understanding the basics before the terminal
+            </p>
+
+            {/* Progress bar */}
+            <div className="mt-3 mb-2">
+              <div
+                className="h-1 rounded-full overflow-hidden"
+                style={{ backgroundColor: getValue('--color-bg-elevated') }}
+              >
+                <div
+                  className="h-full rounded-full"
+                  style={{ width: '66%', backgroundColor: getValue('--color-purple') }}
+                />
+              </div>
+              <p
+                className="mt-1"
+                style={{
+                  color: getValue('--color-text-muted'),
+                  fontFamily: 'Monaco, monospace',
+                  fontSize: 10,
+                }}
+              >
+                4/6 lessons
+              </p>
+            </div>
+
+            {/* Sample items */}
+            {['What is a Computer?', 'Files and Folders'].map((title, i) => (
+              <div
+                key={i}
+                className="flex justify-between items-center py-2"
+                style={{
+                  borderTop: i > 0 ? `1px solid ${getValue('--color-border')}` : 'none',
+                }}
+              >
+                <span
+                  style={{
+                    color: getValue('--color-text-secondary'),
+                    fontFamily: '-apple-system, sans-serif',
+                    fontSize: 12,
+                  }}
+                >
+                  {title}
+                </span>
+                <span style={{ color: getValue('--color-green'), fontSize: 13 }}>&#10003;</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Accent button preview */}
+          <button
+            className="px-4 py-2 rounded-lg text-white text-sm font-mono"
+            style={{ backgroundColor: getValue('--color-purple') }}
+          >
+            Continue
+          </button>
+        </div>
       </div>
     </div>
   );

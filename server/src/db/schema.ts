@@ -60,3 +60,9 @@ export const progress = pgTable('progress', {
 }, (table) => ({
   userLessonUnique: unique('progress_user_lesson_unique').on(table.userId, table.lessonId),
 }));
+
+export const siteSettings = pgTable('site_settings', {
+  key: varchar('key', { length: 100 }).primaryKey(),
+  value: jsonb('value').notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});

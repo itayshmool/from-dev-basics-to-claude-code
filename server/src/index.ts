@@ -7,6 +7,9 @@ import { authRouter } from './routes/auth.js';
 import { progressRouter } from './routes/progress.js';
 import { adminRouter } from './routes/admin.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { eq } from 'drizzle-orm';
+import { db } from './db/index.js';
+import { siteSettings } from './db/schema.js';
 
 const app = express();
 
@@ -23,6 +26,13 @@ app.use(cookieParser());
 // Health check
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
+});
+
+// Public settings (no auth required)
+app.get('/api/settings/theme', async (_req, res) => {
+  const [row] = await db.select().from(siteSettings)
+    .where(eq(siteSettings.key, 'theme'));
+  res.json(row ? row.value : null);
 });
 
 // Routes

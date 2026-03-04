@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { eq, sql, desc, asc, and, gte } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db/index.js';
-import { levels, lessons, users, progress } from '../db/schema.js';
+import { levels, lessons, users, progress, siteSettings } from '../db/schema.js';
 import { requireAuth, requireAdmin } from '../middleware/auth.js';
 import { AppError } from '../middleware/errorHandler.js';
 
@@ -256,5 +256,36 @@ adminRouter.put('/lessons/reorder', async (req, res) => {
       .where(eq(lessons.id, lessonIds[i]));
   }
 
+  res.json({ ok: true });
+});
+
+// GET /api/admin/settings/:key
+adminRouter.get('/settings/:key', async (req, res) => {
+  const [row] = await db.select().from(siteSettings)
+    .where(eq(siteSettings.key, req.params.key));
+
+  if (!row) throw new AppError(404, 'Setting not found');
+  res.json(row);
+});
+
+// PUT /api/admin/settings/:key
+adminRouter.put('/settings/:key', async (req, res) => {
+  const { value } = req.body;
+  if (value === undefined) throw new AppError(400, 'value required');
+
+  const [row] = await db.insert(siteSettings)
+    .values({ key: req.params.key, value, updatedAt: new Date() })
+    .onConflictDoUpdate({
+      target: siteSettings.key,
+      set: { value, updatedAt: new Date() },
+    })
+    .returning();
+
+  res.json(row);
+});
+
+// DELETE /api/admin/settings/:key
+adminRouter.delete('/settings/:key', async (req, res) => {
+  await db.delete(siteSettings).where(eq(siteSettings.key, req.params.key));
   res.json({ ok: true });
 });

@@ -8,6 +8,13 @@
       "when": 1772534032626,
       "tag": "0000_outgoing_gunslinger",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1772629109192,
+      "tag": "0001_funny_gideon",
+      "breakpoints": true
     }
   ]
 }
