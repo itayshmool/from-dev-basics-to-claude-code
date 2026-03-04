@@ -263,7 +263,7 @@ export function BugReportModal({ isOpen, onClose, context }: BugReportModalProps
               <div className="flex justify-end pt-1">
                 <button
                   onClick={handleSubmit}
-                  disabled={!description.trim() || submitting || onCooldown || (!!siteKey && !turnstileToken)}
+                  disabled={!description.trim() || submitting || onCooldown || (!!siteKey && !turnstileToken && !turnstileError)}
                   className="px-4 py-2 text-sm font-mono text-white bg-purple rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
                 >
                   {submitting ? 'Submitting...' : 'Submit Report'}
