@@ -5,6 +5,7 @@ import { db } from '../db/index.js';
 import { progress, lessons, levels } from '../db/schema.js';
 import { requireAuth } from '../middleware/auth.js';
 import { AppError } from '../middleware/errorHandler.js';
+import { ACHIEVEMENTS, type AchievementContext } from '../lib/achievements.js';
 
 export const progressRouter = Router();
 
@@ -133,6 +134,127 @@ progressRouter.get('/stats', async (req, res) => {
     longestStreak,
     levelBreakdown,
     recentActivity,
+  });
+});
+
+// GET /api/progress/achievements — computed achievements for current user
+progressRouter.get('/achievements', async (req, res) => {
+  const userId = req.user!.userId;
+
+  const completedRows = await db.select({
+    lessonId: progress.lessonId,
+    completedAt: progress.completedAt,
+  }).from(progress)
+    .where(and(eq(progress.userId, userId), eq(progress.completed, true)))
+    .orderBy(desc(progress.completedAt));
+
+  const allLessons = await db.select({
+    id: lessons.id,
+    levelId: lessons.levelId,
+  }).from(lessons).where(eq(lessons.isPublished, true));
+
+  const [totalRow] = await db.select({
+    count: sql<number>`count(*)::int`,
+  }).from(lessons).where(eq(lessons.isPublished, true));
+
+  const completedLessonIds = new Set(completedRows.map(r => r.lessonId));
+
+  // Per-level counts
+  const completedPerLevel = new Map<number, number>();
+  const totalPerLevel = new Map<number, number>();
+  for (const l of allLessons) {
+    totalPerLevel.set(l.levelId, (totalPerLevel.get(l.levelId) || 0) + 1);
+    if (completedLessonIds.has(l.id)) {
+      completedPerLevel.set(l.levelId, (completedPerLevel.get(l.levelId) || 0) + 1);
+    }
+  }
+
+  // Date-based stats
+  const completionTimestamps = completedRows.map(r => r.completedAt?.toISOString() ?? null);
+  const completionDates = [...new Set(
+    completedRows
+      .filter(r => r.completedAt)
+      .map(r => r.completedAt!.toISOString().slice(0, 10))
+  )].sort().reverse();
+
+  const completionsPerDay = new Map<string, number>();
+  for (const r of completedRows) {
+    if (r.completedAt) {
+      const d = r.completedAt.toISOString().slice(0, 10);
+      completionsPerDay.set(d, (completionsPerDay.get(d) || 0) + 1);
+    }
+  }
+
+  // Streak
+  const dateSet = new Set(completionDates);
+  let currentStreak = 0;
+  let longestStreak = 0;
+  let streak = 0;
+  const today = new Date();
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    if (dateSet.has(ds)) {
+      streak++;
+      if (i <= 1 || currentStreak > 0) currentStreak = streak;
+      longestStreak = Math.max(longestStreak, streak);
+    } else {
+      if (i === 0) continue;
+      if (currentStreak === 0 && streak === 0) continue;
+      streak = 0;
+    }
+  }
+
+  const ctx: AchievementContext = {
+    totalCompleted: completedRows.length,
+    totalLessons: totalRow.count,
+    completedLessonIds,
+    completedPerLevel,
+    totalPerLevel,
+    completionDates,
+    completionTimestamps,
+    currentStreak,
+    longestStreak,
+    completionsPerDay,
+  };
+
+  const earned: { id: string; title: string; description: string; icon: string; category: string; earnedAt: string | null }[] = [];
+  const available: { id: string; title: string; description: string; icon: string; category: string; progress: number }[] = [];
+
+  for (const ach of ACHIEVEMENTS) {
+    if (ach.check(ctx)) {
+      // For earnedAt, use the earliest timestamp that could satisfy the condition
+      // Simplified: use the Nth completion timestamp based on achievement type
+      let earnedAt: string | null = null;
+      if (completionTimestamps.length > 0) {
+        earnedAt = completionTimestamps[completionTimestamps.length - 1] ?? completionTimestamps[0];
+      }
+      earned.push({
+        id: ach.id,
+        title: ach.title,
+        description: ach.description,
+        icon: ach.icon,
+        category: ach.category,
+        earnedAt,
+      });
+    } else {
+      available.push({
+        id: ach.id,
+        title: ach.title,
+        description: ach.description,
+        icon: ach.icon,
+        category: ach.category,
+        progress: ach.progress ? ach.progress(ctx) : 0,
+      });
+    }
+  }
+
+  res.json({
+    earned,
+    available,
+    totalEarned: earned.length,
+    totalAvailable: ACHIEVEMENTS.length,
   });
 });
 

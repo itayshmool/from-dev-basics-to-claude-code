@@ -23,6 +23,8 @@ import { DashboardLayout } from './components/dashboard/DashboardLayout';
 import { DashboardProfile } from './components/dashboard/DashboardProfile';
 import { DashboardSettings } from './components/dashboard/DashboardSettings';
 import { DashboardStats } from './components/dashboard/DashboardStats';
+import { DashboardAchievements } from './components/dashboard/DashboardAchievements';
+import { AchievementProvider } from './contexts/AchievementContext';
 
 function App() {
   useEffect(() => {
@@ -30,6 +32,7 @@ function App() {
   }, []);
 
   return (
+    <AchievementProvider>
     <div className="h-full bg-bg-primary">
       <Routes>
         <Route path="/" element={<HomeScreen />} />
@@ -40,6 +43,7 @@ function App() {
           <Route element={<DashboardLayout />}>
             <Route index element={<DashboardProfile />} />
             <Route path="stats" element={<DashboardStats />} />
+            <Route path="achievements" element={<DashboardAchievements />} />
             <Route path="settings" element={<DashboardSettings />} />
           </Route>
         </Route>
@@ -60,6 +64,7 @@ function App() {
         </Route>
       </Routes>
     </div>
+    </AchievementProvider>
   );
 }
 

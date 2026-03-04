@@ -11,6 +11,8 @@ import { MilestoneScreen } from './MilestoneScreen';
 import { LessonProgressBar } from './LessonProgressBar';
 import { TerminalProvider } from '../../core/terminal/TerminalContext';
 import { pushCompletion } from '../../services/progressSync';
+import { useAchievements } from '../../contexts/AchievementContext';
+import { apiFetch } from '../../services/api';
 
 export function LessonView() {
   const { lessonId } = useParams<{ lessonId: string }>();
@@ -19,6 +21,7 @@ export function LessonView() {
   const level = lessonId ? getLevelForLesson(lessonId) : null;
   const { currentSectionIndex, markLessonComplete, setCurrentLesson, setCurrentSection } = useProgress();
   const engine = useLessonEngine(lesson, currentSectionIndex);
+  const { checkForNewAchievements } = useAchievements();
 
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -74,14 +77,31 @@ export function LessonView() {
 
   function handleSectionComplete() {
     setIsTransitioning(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       eng.advance();
       const newIndex = eng.getCurrentSectionIndex();
       setCurrentSection(newIndex);
 
       if (eng.isLessonComplete()) {
+        // Snapshot current achievements before marking complete
+        const beforeIds: string[] = [];
+        if (import.meta.env.VITE_USE_API === 'true') {
+          try {
+            const snap = await apiFetch('/api/progress/achievements');
+            if (snap.ok) {
+              const d = await snap.json();
+              beforeIds.push(...d.earned.map((a: { id: string }) => a.id));
+            }
+          } catch { /* ignore */ }
+        }
+
         markLessonComplete(lessonId!, les.level);
-        pushCompletion(lessonId!, totalSections - 1);
+        await pushCompletion(lessonId!, totalSections - 1);
+
+        // Check for newly earned achievements
+        if (import.meta.env.VITE_USE_API === 'true') {
+          checkForNewAchievements(beforeIds);
+        }
       }
       setIsTransitioning(false);
     }, 200);
