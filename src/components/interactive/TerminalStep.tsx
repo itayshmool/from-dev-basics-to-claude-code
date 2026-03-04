@@ -65,12 +65,19 @@ export function TerminalStep({ section, onComplete, commands = [] }: TerminalSte
   const [highlightPath, setHighlightPath] = useState<string | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [hintIndex, setHintIndex] = useState(0);
+  const [cwd, setCwd] = useState(vfs.getCwd());
 
   const isFreeMode = section.freeMode ?? false;
   const hints = section.hints ?? [];
 
-  const handleCommand = useCallback((command: string, output: string, _isError: boolean) => {
+  const handleCommand = useCallback((command: string, output: string, isError: boolean) => {
+    // Always update cwd after any command (fixes file tree not updating after cd)
+    setCwd(vfs.getCwd());
+
     if (validated) return;
+
+    // Skip validation on error commands unless the section expects an error
+    if (isError && !section.expectError) return;
 
     const isValid = checkValidation(section.validation, command, output, vfs);
 
@@ -111,6 +118,11 @@ export function TerminalStep({ section, onComplete, commands = [] }: TerminalSte
 
       {/* Instruction + command reference */}
       <div className="px-6 md:px-8 lg:px-12 xl:px-16 pt-5 pb-3 space-y-3 flex-shrink-0">
+        {section.contextMessage && (
+          <div className="bg-blue-soft rounded-lg px-4 py-3 max-w-3xl border border-blue/10">
+            <p className="text-[13px] text-text-secondary leading-relaxed">{section.contextMessage}</p>
+          </div>
+        )}
         <div className="text-[15px] lg:text-[17px] text-text-secondary leading-relaxed whitespace-pre-line max-w-3xl">
           {section.instruction.split('`').map((part, i) =>
             i % 2 === 0 ? part : (
@@ -153,7 +165,7 @@ export function TerminalStep({ section, onComplete, commands = [] }: TerminalSte
             <FileExplorer
               key={fsVersion}
               tree={tree}
-              cwd={vfs.getCwd()}
+              cwd={cwd}
               homePath={vfs.getHome()}
               highlightPath={highlightPath}
             />
@@ -214,7 +226,7 @@ export function TerminalStep({ section, onComplete, commands = [] }: TerminalSte
               className="flex-1 bg-purple text-white font-semibold py-3 rounded-lg text-[14px] lg:text-[16px] transition-all active:scale-[0.98] hover:brightness-110"
               style={{ boxShadow: 'var(--shadow-button)' }}
             >
-              Check
+              Verify
             </button>
           </>
         ) : (

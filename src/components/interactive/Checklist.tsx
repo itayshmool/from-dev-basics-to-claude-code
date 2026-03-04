@@ -64,7 +64,7 @@ export function Checklist({ section, onComplete }: ChecklistProps) {
 
             return (
               <div
-                key={i}
+                key={item.text}
                 className={`rounded-lg border transition-all ${
                   isChecked
                     ? 'border-purple/30 bg-purple-soft/30'
@@ -72,11 +72,13 @@ export function Checklist({ section, onComplete }: ChecklistProps) {
                 }`}
               >
                 <button
-                  onClick={() => toggleCheck(i)}
+                  onClick={(e) => { e.stopPropagation(); toggleCheck(i); }}
                   className="w-full flex items-start gap-3 px-4 py-3.5 text-left"
                 >
                   {/* Custom checkbox */}
                   <span
+                    role="checkbox"
+                    aria-checked={isChecked}
                     className={`w-5 h-5 rounded flex-shrink-0 flex items-center justify-center mt-0.5 transition-all ${
                       isChecked
                         ? 'bg-purple border-2 border-purple'
@@ -106,7 +108,7 @@ export function Checklist({ section, onComplete }: ChecklistProps) {
                         e.stopPropagation();
                         toggleHint(i);
                       }}
-                      className="text-[12px] font-mono text-text-muted hover:text-purple transition-colors"
+                      className="min-h-[44px] min-w-[44px] text-[12px] font-mono text-text-muted hover:text-purple transition-colors"
                     >
                       {hintExpanded ? 'hide hint' : 'show hint'}
                     </button>

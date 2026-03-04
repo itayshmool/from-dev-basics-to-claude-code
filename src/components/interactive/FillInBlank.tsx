@@ -92,6 +92,14 @@ export function FillInBlank({ section, onComplete }: FillInBlankProps) {
               </p>
             </div>
           )}
+
+          {submitted && !isCorrect && section.hintDetail && (
+            <div className="bg-yellow-soft rounded-lg px-4 py-3 border border-yellow/10 animate-fade-in-up">
+              <p className="text-[13px] text-text-secondary leading-relaxed">
+                <span className="font-semibold text-yellow font-mono">hint:</span> {section.hintDetail}
+              </p>
+            </div>
+          )}
         </div>
       </LessonStep>
     </>

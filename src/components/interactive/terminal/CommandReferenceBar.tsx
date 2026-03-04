@@ -54,7 +54,7 @@ export function CommandReferenceBar({ commands }: CommandReferenceBarProps) {
   if (commands.length === 0) return null;
 
   return (
-    <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+    <div className="flex flex-wrap gap-1.5 overflow-x-auto pb-1 scrollbar-none">
       {commands.map((cmd) => (
         <div
           key={cmd}

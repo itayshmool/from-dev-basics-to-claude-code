@@ -81,8 +81,11 @@ export function GuideStep({ section, onComplete }: GuideStepProps) {
   };
 
   const getSecondaryCta = () => {
-    if (section.confirmationType === 'success_or_error' && section.troubleshooting && !showTroubleshooting) {
-      return { label: 'I got an error', onClick: () => setShowTroubleshooting(true) };
+    if (section.confirmationType === 'success_or_error' && section.troubleshooting) {
+      return {
+        label: showTroubleshooting ? 'Hide troubleshooting' : 'I got an error',
+        onClick: () => setShowTroubleshooting(prev => !prev),
+      };
     }
     return undefined;
   };
