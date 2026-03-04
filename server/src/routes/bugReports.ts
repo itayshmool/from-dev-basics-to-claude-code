@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import { z } from 'zod';
+import { eq } from 'drizzle-orm';
 import { requireAuth } from '../middleware/auth.js';
 import { AppError } from '../middleware/errorHandler.js';
+import { db } from '../db/index.js';
+import { users } from '../db/schema.js';
 
 export const bugReportsRouter = Router();
 
@@ -9,11 +12,11 @@ const GITHUB_OWNER = 'itayshmool';
 const GITHUB_REPO = 'from-dev-basics-to-claude-code';
 
 // In-memory rate limiting: userId -> timestamps[]
-const reportTimestamps = new Map<number, number[]>();
+const reportTimestamps = new Map<string, number[]>();
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
 const RATE_LIMIT_MAX = 5;
 
-function checkRateLimit(userId: number): void {
+function checkRateLimit(userId: string): void {
   const now = Date.now();
   const timestamps = (reportTimestamps.get(userId) || []).filter(
     (t) => now - t < RATE_LIMIT_WINDOW,
@@ -46,7 +49,7 @@ const bugReportSchema = z.object({
   themeMode: z.string().optional(),
 });
 
-function formatIssueBody(data: z.infer<typeof bugReportSchema>, user: { id: number; username: string }): string {
+function formatIssueBody(data: z.infer<typeof bugReportSchema>, user: { id: string; username: string }): string {
   const lines: string[] = [];
 
   lines.push('## Student Bug Report\n');
@@ -118,11 +121,16 @@ bugReportsRouter.post('/', requireAuth, async (req, res) => {
     throw new AppError(400, 'Invalid bug report data.');
   }
 
-  checkRateLimit(req.user!.id);
+  const userId = req.user!.userId;
+  checkRateLimit(userId);
+
+  const [user] = await db.select({ id: users.id, username: users.username })
+    .from(users).where(eq(users.id, userId)).limit(1);
+  if (!user) throw new AppError(401, 'User not found');
 
   const body = formatIssueBody(parsed.data, {
-    id: req.user!.id,
-    username: req.user!.username,
+    id: user.id,
+    username: user.username,
   });
 
   const title = `[Student Report] Lesson ${parsed.data.lessonId}: ${parsed.data.description.slice(0, 80)}`;
