@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useTerminal } from '../../../core/terminal/TerminalContext';
 import { executeCommand } from '../../../core/terminal/CommandParser';
 
@@ -16,6 +16,7 @@ export function Terminal({ onCommandExecuted, disabled }: TerminalProps) {
   const { vfs, history, addToHistory, clearHistory, setLastCommand, commandHistory, bumpFsVersion, envVars, git } = useTerminal();
   const [input, setInput] = useState('');
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const tabState = useRef<{ partial: string; matches: string[]; index: number } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +51,83 @@ export function Terminal({ onCommandExecuted, disabled }: TerminalProps) {
     onCommandExecuted(cmd, result.output, result.isError);
   }
 
+  const getCompletions = useCallback((currentInput: string): { prefix: string; matches: string[] } => {
+    // Split input into tokens, find the last token as the partial path
+    const trimmed = currentInput;
+    const lastSpaceIdx = trimmed.lastIndexOf(' ');
+    const partial = lastSpaceIdx === -1 ? trimmed : trimmed.slice(lastSpaceIdx + 1);
+
+    if (!partial) return { prefix: '', matches: [] };
+
+    // Determine the directory to list and the name prefix to match
+    const lastSlashIdx = partial.lastIndexOf('/');
+    let dirPath: string;
+    let namePrefix: string;
+
+    if (lastSlashIdx === -1) {
+      // No slash — complete in cwd
+      dirPath = '.';
+      namePrefix = partial;
+    } else {
+      // Has slash — complete inside the directory portion
+      dirPath = partial.slice(0, lastSlashIdx) || '/';
+      namePrefix = partial.slice(lastSlashIdx + 1);
+    }
+
+    const entries = vfs.listDir(dirPath);
+    if (!entries) return { prefix: partial, matches: [] };
+
+    const matches = entries
+      .filter(e => e.name.startsWith(namePrefix))
+      .map(e => e.name + (e.type === 'dir' ? '/' : ''));
+
+    return { prefix: partial, matches };
+  }, [vfs]);
+
+  function handleTab(e: React.KeyboardEvent) {
+    e.preventDefault();
+
+    const currentInput = input;
+    const lastSpaceIdx = currentInput.lastIndexOf(' ');
+    const partial = lastSpaceIdx === -1 ? currentInput : currentInput.slice(lastSpaceIdx + 1);
+    const inputPrefix = lastSpaceIdx === -1 ? '' : currentInput.slice(0, lastSpaceIdx + 1);
+
+    // If we're already cycling through completions for the same partial
+    if (tabState.current && tabState.current.partial === partial && tabState.current.matches.length > 1) {
+      tabState.current.index = (tabState.current.index + 1) % tabState.current.matches.length;
+      const match = tabState.current.matches[tabState.current.index];
+      const lastSlashIdx = partial.lastIndexOf('/');
+      const base = lastSlashIdx === -1 ? '' : partial.slice(0, lastSlashIdx + 1);
+      setInput(inputPrefix + base + match);
+      return;
+    }
+
+    // Fresh completion
+    const { matches } = getCompletions(currentInput);
+    if (matches.length === 0) return;
+
+    const lastSlashIdx = partial.lastIndexOf('/');
+    const base = lastSlashIdx === -1 ? '' : partial.slice(0, lastSlashIdx + 1);
+
+    if (matches.length === 1) {
+      setInput(inputPrefix + base + matches[0]);
+      tabState.current = null;
+    } else {
+      // Start cycling
+      tabState.current = { partial, matches, index: 0 };
+      setInput(inputPrefix + base + matches[0]);
+    }
+  }
+
   function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Tab') {
+      handleTab(e);
+      return;
+    }
+
+    // Any non-Tab key resets tab completion state
+    tabState.current = null;
+
     if (e.key === 'Enter') {
       e.preventDefault();
       handleSubmit();
