@@ -12,7 +12,7 @@
   /* Text — sharp whites and silvers */
   --color-text-primary: #EAEAEC;
   --color-text-secondary: #8E8E9E;
-  --color-text-muted: #4E4E5C;
+  --color-text-muted: #78788A;
 
   /* Accent — electric orange (kept as purple for class compat) */
   --color-purple: #FF6B35;
@@ -172,7 +172,7 @@ body {
   --color-bg-elevated: #202029;
   --color-text-primary: #EAEAEC;
   --color-text-secondary: #8E8E9E;
-  --color-text-muted: #4E4E5C;
+  --color-text-muted: #78788A;
   --color-border: rgba(255, 255, 255, 0.07);
   --color-border-strong: rgba(255, 255, 255, 0.13);
   --color-purple-soft: rgba(255, 107, 53, 0.06);
@@ -199,7 +199,7 @@ body {
 
   --color-text-primary: #1A1A1B;
   --color-text-secondary: #5C5C61;
-  --color-text-muted: #9C9CA3;
+  --color-text-muted: #737380;
 
   --color-border: rgba(0, 0, 0, 0.08);
   --color-border-strong: rgba(0, 0, 0, 0.15);

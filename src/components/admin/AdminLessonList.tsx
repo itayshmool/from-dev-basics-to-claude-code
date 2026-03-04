@@ -31,6 +31,26 @@ export function AdminLessonList() {
       .catch(err => setError(err.message));
   }, [filterLevel]);
 
+  async function handleDuplicate(lesson: AdminLesson) {
+    const newId = prompt(`Enter new ID for the copy of "${lesson.id}":`, `${lesson.id}-copy`);
+    if (!newId) return;
+    try {
+      const res = await apiFetch(`/api/admin/lessons/${lesson.id}/duplicate`, {
+        method: 'POST',
+        body: JSON.stringify({ newId }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.error || 'Duplicate failed');
+        return;
+      }
+      const newLesson = await res.json();
+      setLessons(prev => [...prev, newLesson]);
+    } catch {
+      alert('Duplicate failed');
+    }
+  }
+
   async function togglePublished(lesson: AdminLesson) {
     const res = await apiFetch(`/api/admin/lessons/${lesson.id}`, {
       method: 'PUT',
@@ -97,7 +117,14 @@ export function AdminLessonList() {
                       {l.isPublished ? 'Yes' : 'No'}
                     </button>
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-4 py-3 text-right flex items-center justify-end gap-2">
+                    <button
+                      onClick={() => handleDuplicate(l)}
+                      className="text-xs text-text-muted font-mono hover:text-text-primary transition-colors"
+                      title="Duplicate lesson"
+                    >
+                      Copy
+                    </button>
                     <Link
                       to={`/admin/lessons/${l.id}`}
                       className="text-xs text-purple font-mono hover:underline"

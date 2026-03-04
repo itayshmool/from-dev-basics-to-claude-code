@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../../services/api';
+import { LEVELS } from '../../lib/constants';
 
 interface Student {
   id: string;
@@ -10,9 +12,13 @@ interface Student {
   lessonsCompleted: number;
 }
 
+const totalLessons = LEVELS.reduce((sum, l) => sum + l.lessonCount, 0);
+
 export function AdminStudentList() {
+  const navigate = useNavigate();
   const [students, setStudents] = useState<Student[]>([]);
   const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<'createdAt' | 'lessonsCompleted'>('createdAt');
 
   useEffect(() => {
@@ -25,7 +31,12 @@ export function AdminStudentList() {
       .catch(err => setError(err.message));
   }, []);
 
-  const sorted = [...students].sort((a, b) => {
+  const filtered = students.filter(s =>
+    !search || s.username.toLowerCase().includes(search.toLowerCase()) ||
+    s.displayName.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const sorted = [...filtered].sort((a, b) => {
     if (sortBy === 'lessonsCompleted') return b.lessonsCompleted - a.lessonsCompleted;
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
@@ -34,8 +45,16 @@ export function AdminStudentList() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 gap-3">
         <h1 className="text-xl font-semibold text-text-primary font-mono">Students</h1>
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="text-xs bg-bg-elevated border border-border rounded-lg px-3 py-1.5 text-text-primary w-40"
+          />
         <select
           value={sortBy}
           onChange={e => setSortBy(e.target.value as typeof sortBy)}
@@ -44,6 +63,7 @@ export function AdminStudentList() {
           <option value="createdAt">Newest</option>
           <option value="lessonsCompleted">Most progress</option>
         </select>
+        </div>
       </div>
 
       {students.length === 0 ? (
@@ -61,7 +81,7 @@ export function AdminStudentList() {
             </thead>
             <tbody>
               {sorted.map(s => (
-                <tr key={s.id} className="border-b border-border/50 last:border-0 hover:bg-bg-elevated/30">
+                <tr key={s.id} onClick={() => navigate(`/admin/students/${s.id}`)} className="border-b border-border/50 last:border-0 hover:bg-bg-elevated/30 cursor-pointer">
                   <td className="px-4 py-3 font-mono text-text-primary">{s.username}</td>
                   <td className="px-4 py-3 text-text-secondary hidden md:table-cell">{s.displayName}</td>
                   <td className="px-4 py-3 text-text-muted hidden md:table-cell">
@@ -69,7 +89,7 @@ export function AdminStudentList() {
                   </td>
                   <td className="px-4 py-3 text-right font-mono">
                     <span className="text-purple font-semibold">{s.lessonsCompleted}</span>
-                    <span className="text-text-muted">/102</span>
+                    <span className="text-text-muted">/{totalLessons}</span>
                   </td>
                 </tr>
               ))}

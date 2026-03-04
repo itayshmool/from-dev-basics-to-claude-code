@@ -37,7 +37,7 @@ adminRouter.get('/stats', async (_req, res) => {
     levelId: row.levelId,
     levelTitle: row.levelTitle,
     completions: row.completions,
-    totalPossible: totalStudents.count * (0), // calculated below
+    totalPossible: 0,
   }));
 
   // Get lesson counts per level for totalPossible

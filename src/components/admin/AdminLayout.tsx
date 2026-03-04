@@ -1,11 +1,17 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
-const NAV_ITEMS = [
+const CONTENT_NAV = [
   { to: '/admin', label: 'Dashboard', end: true },
   { to: '/admin/students', label: 'Students', end: false },
   { to: '/admin/levels', label: 'Levels', end: false },
   { to: '/admin/lessons', label: 'Lessons', end: false },
+];
+
+const TOOLS_NAV = [
+  { to: '/admin/theme', label: 'Theme Editor', end: false },
+  { to: '/admin/validate', label: 'Validator', end: false },
+  { to: '/admin/analytics', label: 'Analytics', end: false },
 ];
 
 export function AdminLayout() {
@@ -33,7 +39,27 @@ export function AdminLayout() {
           </div>
 
           <nav className="flex md:flex-col gap-1 overflow-x-auto md:overflow-x-visible">
-            {NAV_ITEMS.map(item => (
+            {CONTENT_NAV.map(item => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                className={({ isActive }) => `
+                  px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors
+                  ${isActive
+                    ? 'bg-purple-soft text-purple'
+                    : 'text-text-muted hover:text-text-primary hover:bg-bg-elevated'
+                  }
+                `}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+
+            <div className="hidden md:block my-2 border-t border-border" />
+            <p className="hidden md:block px-3 pt-1 pb-1 text-[10px] font-mono text-text-muted uppercase tracking-wider">Tools</p>
+
+            {TOOLS_NAV.map(item => (
               <NavLink
                 key={item.to}
                 to={item.to}

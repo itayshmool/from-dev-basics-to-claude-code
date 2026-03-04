@@ -30,7 +30,10 @@ export function AdminLessonEditor() {
   useEffect(() => {
     if (!id) return;
     apiFetch(`/api/admin/lessons?levelId=`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to load lesson');
+        return res.json();
+      })
       .then((all: LessonData[]) => {
         const found = all.find(l => l.id === id);
         if (found) {

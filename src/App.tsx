@@ -11,6 +11,11 @@ import { AdminStudentList } from './components/admin/AdminStudentList';
 import { AdminLevelList } from './components/admin/AdminLevelList';
 import { AdminLessonList } from './components/admin/AdminLessonList';
 import { AdminLessonEditor } from './components/admin/AdminLessonEditor';
+import { AdminStudentDetail } from './components/admin/AdminStudentDetail';
+import { AdminLessonPreview } from './components/admin/AdminLessonPreview';
+import { AdminThemeEditor } from './components/admin/AdminThemeEditor';
+import { AdminContentValidator } from './components/admin/AdminContentValidator';
+import { AdminAnalytics } from './components/admin/AdminAnalytics';
 
 function App() {
   return (
@@ -25,9 +30,14 @@ function App() {
           <Route element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="students" element={<AdminStudentList />} />
+            <Route path="students/:id" element={<AdminStudentDetail />} />
             <Route path="levels" element={<AdminLevelList />} />
             <Route path="lessons" element={<AdminLessonList />} />
             <Route path="lessons/:id" element={<AdminLessonEditor />} />
+            <Route path="lessons/:id/preview" element={<AdminLessonPreview />} />
+            <Route path="theme" element={<AdminThemeEditor />} />
+            <Route path="validate" element={<AdminContentValidator />} />
+            <Route path="analytics" element={<AdminAnalytics />} />
           </Route>
         </Route>
       </Routes>
