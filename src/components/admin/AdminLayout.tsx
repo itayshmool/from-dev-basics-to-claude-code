@@ -27,7 +27,7 @@ export function AdminLayout() {
     <div className="h-full w-full overflow-hidden flex flex-col md:flex-row bg-bg-primary">
       {/* Sidebar */}
       <aside className="w-full md:w-56 lg:w-64 bg-bg-card border-b md:border-b-0 md:border-r border-border flex-shrink-0">
-        <div style={{ padding: '24px', paddingLeft: '28px' }}>
+        <div style={{ padding: '16px 16px 16px 20px' }} className="md:!p-6 md:!pl-8">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-8 h-8 rounded-lg bg-purple-soft flex items-center justify-center">
               <span className="text-purple text-xs font-bold font-mono">&gt;_</span>

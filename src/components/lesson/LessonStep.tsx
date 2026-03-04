@@ -27,7 +27,7 @@ export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
   return (
     <div className="flex flex-col h-full">
       {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto px-6 pt-6 pb-8 md:px-12 lg:px-20 xl:px-28">
+      <div className="flex-1 overflow-y-auto pt-6 pb-8" style={{ paddingLeft: 'clamp(24px, 4vw, 112px)', paddingRight: 'clamp(24px, 4vw, 112px)' }}>
         <div className="max-w-3xl mx-auto">
           {children}
         </div>
@@ -35,7 +35,7 @@ export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
 
       {/* Bottom-fixed CTA bar */}
       {(cta || secondaryCta) && (
-        <div className="flex-shrink-0 border-t border-border bg-bg-primary/80 backdrop-blur-sm px-6 py-4 safe-bottom md:px-12 lg:px-20 xl:px-28">
+        <div className="flex-shrink-0 border-t border-border bg-bg-primary/80 backdrop-blur-sm py-4 safe-bottom" style={{ paddingLeft: 'clamp(24px, 4vw, 112px)', paddingRight: 'clamp(24px, 4vw, 112px)' }}>
           <div className="max-w-3xl mx-auto flex gap-3">
             {secondaryCta && (
               <button
