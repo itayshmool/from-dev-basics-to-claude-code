@@ -54,6 +54,8 @@
   /* Font sizes — overridable via admin theme editor */
   --font-size-body: 16px;
   --font-size-mono: 14px;
+  --font-size-body-mobile: 15px;
+  --font-size-mono-mobile: 13px;
 }
 
 * {
@@ -78,6 +80,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
   overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  body {
+    font-size: var(--font-size-body-mobile);
+  }
 }
 
 #root {

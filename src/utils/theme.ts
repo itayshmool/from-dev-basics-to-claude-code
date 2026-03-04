@@ -11,6 +11,8 @@ export interface DualThemeData {
 // In-memory cache so we can re-apply on mode toggle
 let cachedTheme: DualThemeData | null = null;
 
+const MOBILE_STYLE_ID = 'admin-theme-mobile';
+
 function getCurrentMode(): 'light' | 'dark' {
   return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
 }
@@ -37,6 +39,26 @@ export function clearTheme(keys: string[]): void {
   for (const key of keys) {
     root.style.removeProperty(key);
   }
+  // Also remove injected mobile style
+  document.getElementById(MOBILE_STYLE_ID)?.remove();
+}
+
+/** Inject a <style> tag for mobile font-size overrides (media queries can't be inline). */
+function applyMobileFontSizes(shared: ThemeOverrides): void {
+  const bodyMobile = shared['--font-size-body-mobile'];
+  const monoMobile = shared['--font-size-mono-mobile'];
+  if (!bodyMobile && !monoMobile) return;
+
+  let existing = document.getElementById(MOBILE_STYLE_ID) as HTMLStyleElement | null;
+  if (!existing) {
+    existing = document.createElement('style');
+    existing.id = MOBILE_STYLE_ID;
+    document.head.appendChild(existing);
+  }
+
+  const rules: string[] = [];
+  if (bodyMobile) rules.push(`font-size: ${bodyMobile};`);
+  existing.textContent = `@media (max-width: 767px) { :root { ${rules.join(' ')} } }`;
 }
 
 function applyForMode(mode: 'light' | 'dark', data: DualThemeData): void {
@@ -51,8 +73,12 @@ function applyForMode(mode: 'light' | 'dark', data: DualThemeData): void {
   const modeOverrides = data[mode] || {};
   applyTheme(modeOverrides);
 
-  // Apply shared keys (font sizes, etc.)
-  applyTheme(extractSharedKeys(data));
+  // Apply shared keys (font sizes for desktop, etc.)
+  const shared = extractSharedKeys(data);
+  applyTheme(shared);
+
+  // Inject mobile font-size media query
+  applyMobileFontSizes(shared);
 }
 
 /** Re-apply cached admin theme for the given mode. Call after toggling data-theme. */

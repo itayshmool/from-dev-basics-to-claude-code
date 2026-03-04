@@ -64,6 +64,8 @@ const LIGHT_DEFAULTS: ThemeOverrides = {
 const FONT_SIZE_DEFAULTS = {
   '--font-size-body': '16',
   '--font-size-mono': '14',
+  '--font-size-body-mobile': '15',
+  '--font-size-mono-mobile': '13',
 };
 
 /* ─── Contrast helpers ─── */
@@ -113,6 +115,8 @@ interface DualState {
 interface FontState {
   '--font-size-body': string;
   '--font-size-mono': string;
+  '--font-size-body-mobile': string;
+  '--font-size-mono-mobile': string;
 }
 
 /* ─── Preview card ─── */
@@ -311,6 +315,8 @@ export function AdminThemeEditor() {
               const fonts: FontState = {
                 '--font-size-body': saved['--font-size-body'] || FONT_SIZE_DEFAULTS['--font-size-body'],
                 '--font-size-mono': saved['--font-size-mono'] || FONT_SIZE_DEFAULTS['--font-size-mono'],
+                '--font-size-body-mobile': saved['--font-size-body-mobile'] || FONT_SIZE_DEFAULTS['--font-size-body-mobile'],
+                '--font-size-mono-mobile': saved['--font-size-mono-mobile'] || FONT_SIZE_DEFAULTS['--font-size-mono-mobile'],
               };
               setFontSizes(fonts);
               setSavedFontSizes(fonts);
@@ -342,6 +348,8 @@ export function AdminThemeEditor() {
     applyTheme({
       '--font-size-body': `${fontSizes['--font-size-body']}px`,
       '--font-size-mono': `${fontSizes['--font-size-mono']}px`,
+      '--font-size-body-mobile': `${fontSizes['--font-size-body-mobile']}px`,
+      '--font-size-mono-mobile': `${fontSizes['--font-size-mono-mobile']}px`,
     });
   }, [overrides, fontSizes]);
 
@@ -381,6 +389,8 @@ export function AdminThemeEditor() {
         ...overrides,
         '--font-size-body': fontSizes['--font-size-body'],
         '--font-size-mono': fontSizes['--font-size-mono'],
+        '--font-size-body-mobile': fontSizes['--font-size-body-mobile'],
+        '--font-size-mono-mobile': fontSizes['--font-size-mono-mobile'],
       };
       const res = await apiFetch('/api/admin/settings/theme', {
         method: 'PUT',
@@ -407,6 +417,8 @@ export function AdminThemeEditor() {
         ...Object.keys(overrides.light),
         '--font-size-body',
         '--font-size-mono',
+        '--font-size-body-mobile',
+        '--font-size-mono-mobile',
       ];
       clearTheme(allKeys);
       setOverrides({ dark: {}, light: {} });
@@ -465,54 +477,106 @@ export function AdminThemeEditor() {
       {/* Typography */}
       <div className="bg-bg-card rounded-xl border border-border p-6 mb-6">
         <h2 className="text-sm font-semibold text-text-primary font-mono mb-4">Typography</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        {/* Desktop / Mobile columns */}
+        <div className="grid grid-cols-2 gap-6 mb-3">
+          <p className="text-[10px] font-mono text-text-muted uppercase tracking-wider">
+            Desktop
+          </p>
+          <p className="text-[10px] font-mono text-text-muted uppercase tracking-wider">
+            Mobile (&lt;768px)
+          </p>
+        </div>
+
+        <div className="space-y-4">
           {([
-            { key: '--font-size-body' as const, label: 'Body Font Size', min: 12, max: 22 },
-            { key: '--font-size-mono' as const, label: 'Code Font Size', min: 10, max: 20 },
-          ] as const).map(({ key, label, min, max }) => (
-            <div key={key}>
-              <label className="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-2 block">
-                {label}
-              </label>
-              <div className="flex items-center gap-3">
-                <input
-                  type="range"
-                  min={min}
-                  max={max}
-                  value={fontSizes[key]}
-                  onChange={(e) =>
-                    setFontSizes((prev) => ({ ...prev, [key]: e.target.value }))
-                  }
-                  className="flex-1 accent-purple"
-                />
-                <div className="flex items-center gap-1">
+            {
+              label: 'Body Font Size',
+              desktop: '--font-size-body' as keyof FontState,
+              mobile: '--font-size-body-mobile' as keyof FontState,
+              min: 12,
+              max: 22,
+            },
+            {
+              label: 'Code Font Size',
+              desktop: '--font-size-mono' as keyof FontState,
+              mobile: '--font-size-mono-mobile' as keyof FontState,
+              min: 10,
+              max: 20,
+            },
+          ]).map(({ label, desktop, mobile, min, max }) => (
+            <div key={desktop}>
+              <p className="text-[10px] font-mono text-text-muted mb-1.5">{label}</p>
+              <div className="grid grid-cols-2 gap-6">
+                {/* Desktop */}
+                <div className="flex items-center gap-2">
+                  <input
+                    type="range"
+                    min={min}
+                    max={max}
+                    value={fontSizes[desktop]}
+                    onChange={(e) =>
+                      setFontSizes((prev) => ({ ...prev, [desktop]: e.target.value }))
+                    }
+                    className="flex-1 accent-purple"
+                  />
                   <input
                     type="number"
                     min={min}
                     max={max}
-                    value={fontSizes[key]}
+                    value={fontSizes[desktop]}
                     onChange={(e) =>
-                      setFontSizes((prev) => ({ ...prev, [key]: e.target.value }))
+                      setFontSizes((prev) => ({ ...prev, [desktop]: e.target.value }))
                     }
                     className="w-14 bg-bg-elevated border border-border rounded-lg px-2 py-1.5 font-mono text-xs text-text-primary text-center focus:border-purple focus:outline-none"
                   />
                   <span className="text-[10px] font-mono text-text-muted">px</span>
+                  {fontSizes[desktop] !== FONT_SIZE_DEFAULTS[desktop] && (
+                    <button
+                      onClick={() =>
+                        setFontSizes((prev) => ({ ...prev, [desktop]: FONT_SIZE_DEFAULTS[desktop] }))
+                      }
+                      className="text-[9px] font-mono text-text-muted hover:text-text-primary"
+                    >
+                      undo
+                    </button>
+                  )}
                 </div>
-                {fontSizes[key] !== FONT_SIZE_DEFAULTS[key] && (
-                  <button
-                    onClick={() =>
-                      setFontSizes((prev) => ({
-                        ...prev,
-                        [key]: FONT_SIZE_DEFAULTS[key],
-                      }))
+                {/* Mobile */}
+                <div className="flex items-center gap-2">
+                  <input
+                    type="range"
+                    min={min}
+                    max={max}
+                    value={fontSizes[mobile]}
+                    onChange={(e) =>
+                      setFontSizes((prev) => ({ ...prev, [mobile]: e.target.value }))
                     }
-                    className="text-[9px] font-mono text-text-muted hover:text-text-primary"
-                  >
-                    undo
-                  </button>
-                )}
+                    className="flex-1 accent-purple"
+                  />
+                  <input
+                    type="number"
+                    min={min}
+                    max={max}
+                    value={fontSizes[mobile]}
+                    onChange={(e) =>
+                      setFontSizes((prev) => ({ ...prev, [mobile]: e.target.value }))
+                    }
+                    className="w-14 bg-bg-elevated border border-border rounded-lg px-2 py-1.5 font-mono text-xs text-text-primary text-center focus:border-purple focus:outline-none"
+                  />
+                  <span className="text-[10px] font-mono text-text-muted">px</span>
+                  {fontSizes[mobile] !== FONT_SIZE_DEFAULTS[mobile] && (
+                    <button
+                      onClick={() =>
+                        setFontSizes((prev) => ({ ...prev, [mobile]: FONT_SIZE_DEFAULTS[mobile] }))
+                      }
+                      className="text-[9px] font-mono text-text-muted hover:text-text-primary"
+                    >
+                      undo
+                    </button>
+                  )}
+                </div>
               </div>
-              <p className="text-[9px] font-mono text-text-muted mt-1 opacity-60">{key}</p>
             </div>
           ))}
         </div>
