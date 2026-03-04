@@ -71,7 +71,7 @@ adminRouter.get('/users', async (_req, res) => {
     createdAt: users.createdAt,
     lessonsCompleted: sql<number>`(
       select count(*) from progress
-      where progress.user_id = ${users.id} and progress.completed = true
+      where progress.user_id = "users"."id" and progress.completed = true
     )::int`,
   }).from(users)
     .orderBy(desc(users.createdAt));
