@@ -92,8 +92,10 @@ export function AdminLayout() {
       </aside>
 
       {/* Content */}
-      <main className="flex-1 min-w-0 overflow-y-auto p-5 md:p-8 lg:p-10">
-        <Outlet />
+      <main className="flex-1 min-w-0 overflow-x-hidden overflow-y-auto p-5 md:p-8 lg:p-10">
+        <div className="max-w-5xl">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
