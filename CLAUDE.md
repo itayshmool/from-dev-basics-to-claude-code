@@ -3,10 +3,10 @@
 ## What This Is
 An interactive web app teaching non-technical people how to use the terminal. 102 lessons across 8 levels.
 
-**Frontend:** React 18 + TypeScript + Vite + Tailwind CSS v4 → GitHub Pages
+**Frontend:** React 18 + TypeScript + Vite + Tailwind CSS v4 → Render Static Site
 **Backend:** Node.js + Express + TypeScript + PostgreSQL + Drizzle ORM → Render
 
-**Live:** https://itayshmool.github.io/from-dev-basics-to-claude-code/
+**Live:** https://terminal-trainer-83vj.onrender.com
 **API:** https://terminal-trainer-api.onrender.com
 
 ## Current State
@@ -22,7 +22,7 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 - **Achievement system**: 16 achievements (milestones, level mastery, streaks, speed) computed server-side, toast notifications on unlock
 - **Theme system**: Admin theme editor with runtime CSS variable overrides persisted via `site_settings` table, applied globally on page load
 - **Dual-mode frontend**: Works with API (progress synced to DB) or without (localStorage fallback)
-- **Deployment**: GitHub Pages (frontend) + Render (backend + PostgreSQL), auto-deploy on push to `main`
+- **Deployment**: Render (frontend static site + backend web service + PostgreSQL), auto-deploy on push to `main`
 - **Theme**: Dark terminal-noir aesthetic — void black palette (#09090B), electric orange accent (#FF6B35), Monaco font identity
 
 ### Not Yet Implemented
@@ -72,9 +72,10 @@ npm run db:seed     # Seed database
 ```
 
 ## Deployment
-- **Frontend:** Push to `main` → GitHub Actions → GitHub Pages
+- **Frontend:** Push to `main` → Render auto-builds static site, serves via CDN
 - **Backend:** Push to `main` → Render auto-builds, migrates, seeds, restarts
-- GitHub repo variables: `VITE_USE_API=true`, `VITE_API_URL=https://terminal-trainer-api.onrender.com`
+- Frontend env vars set on Render static site: `VITE_USE_API=true`, `VITE_API_URL`, `VITE_TURNSTILE_SITE_KEY`
+- SPA routing: Render rewrite rule `/* → /index.html`
 - See `specs/DEPLOYMENT_SPEC.md` for full details
 
 ## Important Notes
@@ -82,4 +83,5 @@ npm run db:seed     # Seed database
 - Terminal/code blocks use hardcoded warm dark colors (#2D2B28 background, #38352F titlebar, #F0ECE4 text, #6ABF69 prompt green, #D4A843 highlight gold) — not theme tokens.
 - The app uses a dark theme throughout. The `--font-mono` (Monaco) is used as the identity font for headings, labels, and code. `--font-sans` (system SF Pro) is used for body text.
 - Render free tier: service sleeps after 15min inactivity, ~30s cold start. Free Postgres expires after 30 days.
-- Auth cookies use `sameSite: 'none'` for cross-origin (GitHub Pages → Render).
+- Auth cookies use `sameSite: 'none'` for cross-origin (Render static site → Render API, different subdomains).
+- Repo is private. Bug reports create GitHub Issues via server-side `GITHUB_PAT` (unaffected by repo visibility).
