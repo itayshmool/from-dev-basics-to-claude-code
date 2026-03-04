@@ -188,6 +188,65 @@ body {
   --shadow-float: 0 8px 28px rgba(0, 0, 0, 0.5);
 }
 
+/* Light mode overrides */
+[data-theme="light"] {
+  --color-bg-primary: #FAFAF8;
+  --color-bg-secondary: #F3F1EE;
+  --color-bg-card: #FFFFFF;
+  --color-bg-elevated: #EDECEA;
+  --color-bg-terminal: #0A0A0E;
+  --color-bg-overlay: rgba(0, 0, 0, 0.4);
+
+  --color-text-primary: #1A1A1B;
+  --color-text-secondary: #5C5C61;
+  --color-text-muted: #9C9CA3;
+
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.15);
+
+  --color-purple-soft: rgba(255, 107, 53, 0.10);
+  --color-purple-glow: rgba(255, 107, 53, 0.20);
+  --color-green-soft: rgba(34, 197, 94, 0.10);
+  --color-blue-soft: rgba(59, 130, 246, 0.10);
+  --color-yellow-soft: rgba(234, 179, 8, 0.10);
+  --color-orange-soft: rgba(255, 107, 53, 0.10);
+  --color-red-soft: rgba(239, 68, 68, 0.10);
+  --color-teal-soft: rgba(20, 184, 166, 0.10);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-button: 0 0 20px rgba(255, 107, 53, 0.15);
+  --shadow-float: 0 12px 36px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 20px rgba(255, 107, 53, 0.08);
+}
+
+[data-theme="light"] .lesson-surface {
+  --color-bg-primary: #F5F3F0;
+  --color-bg-secondary: #EFEDEA;
+  --color-bg-card: #FFFFFF;
+  --color-bg-elevated: #E8E6E3;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.14);
+  --color-purple-soft: rgba(255, 107, 53, 0.08);
+  --color-green-soft: rgba(34, 197, 94, 0.08);
+  --color-blue-soft: rgba(59, 130, 246, 0.08);
+  --color-yellow-soft: rgba(234, 179, 8, 0.08);
+  --color-orange-soft: rgba(255, 107, 53, 0.08);
+  --color-red-soft: rgba(239, 68, 68, 0.08);
+  --color-teal-soft: rgba(20, 184, 166, 0.08);
+  --shadow-card: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-button: 0 0 24px rgba(255, 107, 53, 0.18);
+}
+
+[data-theme="light"] ::selection {
+  background-color: rgba(255, 107, 53, 0.20);
+  color: #1A1A1B;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); }
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.2); }
+
 /* Slide transitions */
 @keyframes slide-in-right {
   from { opacity: 0; transform: translateX(30px); }
