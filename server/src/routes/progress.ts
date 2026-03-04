@@ -258,6 +258,103 @@ progressRouter.get('/achievements', async (req, res) => {
   });
 });
 
+// GET /api/progress/continue — smart continue data
+progressRouter.get('/continue', async (req, res) => {
+  const userId = req.user!.userId;
+
+  // All progress rows
+  const allProgress = await db.select({
+    lessonId: progress.lessonId,
+    sectionIndex: progress.sectionIndex,
+    completed: progress.completed,
+    completedAt: progress.completedAt,
+  }).from(progress)
+    .where(eq(progress.userId, userId));
+
+  const completedRows = allProgress.filter(r => r.completed);
+  const completedIds = new Set(completedRows.map(r => r.lessonId));
+  const inProgressRows = allProgress.filter(r => !r.completed);
+
+  // All published lessons ordered
+  const allLessons = await db.select({
+    id: lessons.id,
+    title: lessons.title,
+    levelId: lessons.levelId,
+    order: lessons.order,
+  }).from(lessons)
+    .where(eq(lessons.isPublished, true))
+    .orderBy(asc(lessons.levelId), asc(lessons.order));
+
+  const totalLessons = allLessons.length;
+  const totalCompleted = completedIds.size;
+  const completionPercent = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
+
+  // Level titles
+  const levelRows = await db.select({
+    id: levels.id,
+    title: levels.title,
+    emoji: levels.emoji,
+  }).from(levels);
+  const levelMap = new Map(levelRows.map(l => [l.id, l]));
+
+  // In-progress lesson (most recent by sectionIndex > 0, not completed)
+  let continueLesson: { lessonId: string; title: string; levelTitle: string; sectionIndex: number } | null = null;
+  if (inProgressRows.length > 0) {
+    // Pick the one with highest sectionIndex (furthest along)
+    const best = inProgressRows.sort((a, b) => b.sectionIndex - a.sectionIndex)[0];
+    const lessonData = allLessons.find(l => l.id === best.lessonId);
+    if (lessonData) {
+      const lv = levelMap.get(lessonData.levelId);
+      continueLesson = {
+        lessonId: best.lessonId,
+        title: lessonData.title,
+        levelTitle: lv ? `${lv.emoji} ${lv.title}` : `Level ${lessonData.levelId}`,
+        sectionIndex: best.sectionIndex,
+      };
+    }
+  }
+
+  // Next recommended lesson (first uncompleted, not in progress)
+  let nextLesson: { lessonId: string; title: string; levelTitle: string } | null = null;
+  const inProgressIds = new Set(inProgressRows.map(r => r.lessonId));
+  for (const l of allLessons) {
+    if (!completedIds.has(l.id) && !inProgressIds.has(l.id)) {
+      const lv = levelMap.get(l.levelId);
+      nextLesson = {
+        lessonId: l.id,
+        title: l.title,
+        levelTitle: lv ? `${lv.emoji} ${lv.title}` : `Level ${l.levelId}`,
+      };
+      break;
+    }
+  }
+
+  // Lessons per day pace (based on last 30 days)
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const recentCompletions = completedRows.filter(
+    r => r.completedAt && new Date(r.completedAt) >= thirtyDaysAgo
+  );
+  const activeDays = new Set(
+    recentCompletions.map(r => new Date(r.completedAt!).toISOString().slice(0, 10))
+  ).size;
+  const lessonsPerDay = activeDays > 0 ? +(recentCompletions.length / activeDays).toFixed(1) : 0;
+
+  // Estimated days to complete
+  const remaining = totalLessons - totalCompleted;
+  const estimatedDays = lessonsPerDay > 0 ? Math.ceil(remaining / lessonsPerDay) : null;
+
+  res.json({
+    continueLesson,
+    nextLesson,
+    lessonsPerDay,
+    estimatedDays,
+    totalCompleted,
+    totalLessons,
+    completionPercent,
+  });
+});
+
 const updateSchema = z.object({
   sectionIndex: z.number().int().min(0),
   completed: z.boolean(),

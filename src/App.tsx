@@ -20,6 +20,7 @@ import { AdminContentValidator } from './components/admin/AdminContentValidator'
 import { AdminAnalytics } from './components/admin/AdminAnalytics';
 import { DashboardGuard } from './components/dashboard/DashboardGuard';
 import { DashboardLayout } from './components/dashboard/DashboardLayout';
+import { DashboardOverview } from './components/dashboard/DashboardOverview';
 import { DashboardProfile } from './components/dashboard/DashboardProfile';
 import { DashboardSettings } from './components/dashboard/DashboardSettings';
 import { DashboardStats } from './components/dashboard/DashboardStats';
@@ -41,9 +42,10 @@ function App() {
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/dashboard" element={<DashboardGuard />}>
           <Route element={<DashboardLayout />}>
-            <Route index element={<DashboardProfile />} />
+            <Route index element={<DashboardOverview />} />
             <Route path="stats" element={<DashboardStats />} />
             <Route path="achievements" element={<DashboardAchievements />} />
+            <Route path="profile" element={<DashboardProfile />} />
             <Route path="settings" element={<DashboardSettings />} />
           </Route>
         </Route>

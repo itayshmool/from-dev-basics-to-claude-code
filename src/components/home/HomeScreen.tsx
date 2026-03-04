@@ -113,6 +113,29 @@ export function HomeScreen() {
           )}
         </div>
 
+        {/* Continue Learning banner for logged-in users with progress */}
+        {user && currentLessonId && (
+          <Link
+            to={`/lesson/${currentLessonId}`}
+            className="block mb-6 lg:mb-8 bg-bg-card border border-purple/20 rounded-xl p-4 md:p-5 hover:border-purple/40 transition-colors group"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-lg bg-purple-soft border border-purple/20 flex items-center justify-center flex-shrink-0">
+                <span className="text-purple font-mono font-bold text-sm">&gt;</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-mono text-purple uppercase tracking-wider">Continue learning</p>
+                <p className="text-sm font-mono font-medium text-text-primary group-hover:text-purple transition-colors truncate">
+                  Lesson {currentLessonId}
+                </p>
+              </div>
+              <span className="text-xs font-mono text-purple bg-purple-soft px-2 py-1 rounded hidden sm:inline">
+                Resume &rarr;
+              </span>
+            </div>
+          </Link>
+        )}
+
         {/* Level cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
           {LEVELS.map((levelMeta, levelIdx) => {

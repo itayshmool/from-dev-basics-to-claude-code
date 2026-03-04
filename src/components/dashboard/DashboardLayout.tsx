@@ -2,9 +2,10 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 const NAV_ITEMS = [
-  { to: '/dashboard', label: 'Profile', end: true },
+  { to: '/dashboard', label: 'Overview', end: true },
   { to: '/dashboard/stats', label: 'Stats', end: false },
   { to: '/dashboard/achievements', label: 'Achievements', end: false },
+  { to: '/dashboard/profile', label: 'Profile', end: false },
   { to: '/dashboard/settings', label: 'Settings', end: false },
 ];
 
