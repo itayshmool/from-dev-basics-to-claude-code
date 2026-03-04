@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../../services/api';
+import { useAuth } from '../../contexts/AuthContext';
 import { LEVELS } from '../../lib/constants';
 
 interface Student {
@@ -16,6 +17,7 @@ const totalLessons = LEVELS.reduce((sum, l) => sum + l.lessonCount, 0);
 
 export function AdminStudentList() {
   const navigate = useNavigate();
+  const { startImpersonation } = useAuth();
   const [students, setStudents] = useState<Student[]>([]);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
@@ -77,6 +79,7 @@ export function AdminStudentList() {
                 <th className="text-left px-4 py-3 text-[10px] font-mono text-text-muted uppercase tracking-wider hidden md:table-cell">Display Name</th>
                 <th className="text-left px-4 py-3 text-[10px] font-mono text-text-muted uppercase tracking-wider hidden md:table-cell">Joined</th>
                 <th className="text-right px-4 py-3 text-[10px] font-mono text-text-muted uppercase tracking-wider">Completed</th>
+                <th className="px-4 py-3 text-[10px] font-mono text-text-muted uppercase tracking-wider w-10"></th>
               </tr>
             </thead>
             <tbody>
@@ -90,6 +93,21 @@ export function AdminStudentList() {
                   <td className="px-4 py-3 text-right font-mono">
                     <span className="text-purple font-semibold">{s.lessonsCompleted}</span>
                     <span className="text-text-muted">/{totalLessons}</span>
+                  </td>
+                  <td className="px-4 py-3 text-center">
+                    {s.role === 'student' && (
+                      <button
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          await startImpersonation(s.id);
+                          navigate('/');
+                        }}
+                        className="text-[10px] font-mono px-2 py-1 rounded bg-amber-600/20 text-amber-500 hover:bg-amber-600/30 transition-colors"
+                        title={`View as ${s.username}`}
+                      >
+                        Impersonate
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

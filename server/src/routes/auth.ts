@@ -6,7 +6,7 @@ import { users } from '../db/schema.js';
 import { hashPassword, verifyPassword } from '../lib/password.js';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../lib/jwt.js';
 import { AppError } from '../middleware/errorHandler.js';
-import { requireAuth } from '../middleware/auth.js';
+import { requireAuth, blockIfImpersonating } from '../middleware/auth.js';
 
 export const authRouter = Router();
 
@@ -195,7 +195,7 @@ const passwordSchema = z.object({
   newPassword: z.string().min(8),
 });
 
-authRouter.put('/password', requireAuth, async (req, res) => {
+authRouter.put('/password', requireAuth, blockIfImpersonating, async (req, res) => {
   const parsed = passwordSchema.safeParse(req.body);
   if (!parsed.success) throw new AppError(400, 'Invalid input. New password must be at least 8 characters.');
 

@@ -26,6 +26,7 @@ import { DashboardSettings } from './components/dashboard/DashboardSettings';
 import { DashboardStats } from './components/dashboard/DashboardStats';
 import { DashboardAchievements } from './components/dashboard/DashboardAchievements';
 import { AchievementProvider } from './contexts/AchievementContext';
+import { ImpersonationBanner } from './components/layout/ImpersonationBanner';
 
 function App() {
   useEffect(() => {
@@ -34,6 +35,7 @@ function App() {
 
   return (
     <AchievementProvider>
+    <ImpersonationBanner />
     <div className="h-full bg-bg-primary">
       <Routes>
         <Route path="/" element={<HomeScreen />} />

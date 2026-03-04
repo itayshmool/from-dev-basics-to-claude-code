@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useRef, type ReactNode } from 'react';
 import type { User } from '../services/authService';
 import * as authService from '../services/authService';
+import { setAccessToken, getAccessToken } from '../services/api';
 import { pullProgress } from '../services/progressSync';
 
 const USE_API = import.meta.env.VITE_USE_API === 'true';
@@ -8,10 +9,13 @@ const USE_API = import.meta.env.VITE_USE_API === 'true';
 interface AuthContextValue {
   user: User | null;
   isLoading: boolean;
+  impersonating: User | null;
   login: (username: string, password: string) => Promise<void>;
   register: (username: string, password: string, displayName: string) => Promise<void>;
   logout: () => Promise<void>;
   updateUser: (updates: Partial<User>) => void;
+  startImpersonation: (userId: string) => Promise<void>;
+  stopImpersonation: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -19,6 +23,8 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(USE_API);
+  const [impersonating, setImpersonating] = useState<User | null>(null);
+  const savedAdminSession = useRef<{ token: string; user: User } | null>(null);
 
   // Try to restore session on mount
   useEffect(() => {
@@ -54,8 +60,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(prev => prev ? { ...prev, ...updates } : null);
   }, []);
 
+  const startImpersonation = useCallback(async (userId: string) => {
+    const currentToken = getAccessToken();
+    if (!currentToken || !user) throw new Error('Must be logged in');
+
+    savedAdminSession.current = { token: currentToken, user };
+
+    const data = await authService.impersonate(userId);
+    setAccessToken(data.accessToken);
+    setUser(data.user);
+    setImpersonating(data.user);
+    await pullProgress();
+  }, [user]);
+
+  const stopImpersonation = useCallback(() => {
+    const saved = savedAdminSession.current;
+    if (!saved) return;
+
+    setAccessToken(saved.token);
+    setUser(saved.user);
+    setImpersonating(null);
+    savedAdminSession.current = null;
+    pullProgress();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, register, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, isLoading, impersonating, login, register, logout, updateUser, startImpersonation, stopImpersonation }}>
       {children}
     </AuthContext.Provider>
   );

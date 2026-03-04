@@ -65,3 +65,12 @@ export async function logout(): Promise<void> {
   await apiFetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
   setAccessToken(null);
 }
+
+export async function impersonate(userId: string): Promise<{ user: User; accessToken: string }> {
+  const res = await apiFetch(`/api/admin/impersonate/${userId}`, { method: 'POST' });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({ error: 'Impersonation failed' }));
+    throw new Error(data.error || 'Impersonation failed');
+  }
+  return res.json();
+}

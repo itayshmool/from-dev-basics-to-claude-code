@@ -5,6 +5,7 @@ import { db } from '../db/index.js';
 import { levels, lessons, users, progress, siteSettings } from '../db/schema.js';
 import { requireAuth, requireAdmin } from '../middleware/auth.js';
 import { AppError } from '../middleware/errorHandler.js';
+import { signAccessToken } from '../lib/jwt.js';
 
 export const adminRouter = Router();
 
@@ -282,6 +283,32 @@ adminRouter.put('/settings/:key', async (req, res) => {
     .returning();
 
   res.json(row);
+});
+
+// POST /api/admin/impersonate/:userId
+adminRouter.post('/impersonate/:userId', async (req, res) => {
+  const [target] = await db.select({
+    id: users.id,
+    username: users.username,
+    displayName: users.displayName,
+    role: users.role,
+  }).from(users)
+    .where(eq(users.id, req.params.userId))
+    .limit(1);
+
+  if (!target) throw new AppError(404, 'User not found');
+  if (target.role !== 'student') throw new AppError(400, 'Can only impersonate students');
+
+  const accessToken = signAccessToken({
+    userId: target.id,
+    role: 'student',
+    impersonatedBy: req.user!.userId,
+  });
+
+  res.json({
+    accessToken,
+    user: { id: target.id, username: target.username, displayName: target.displayName, role: target.role },
+  });
 });
 
 // DELETE /api/admin/settings/:key

@@ -4,6 +4,7 @@ import { env } from './env.js';
 export interface TokenPayload {
   userId: string;
   role: string;
+  impersonatedBy?: string;
 }
 
 export function signAccessToken(payload: TokenPayload): string {
