@@ -1,7 +1,7 @@
 # Feature Spec: Admin Impersonation
 
 ## Overview
-Admins can impersonate any student to see exactly their experience — progress, lessons, dashboard. The session is read-write (admin can advance through lessons as the student). A persistent banner indicates impersonation is active with a one-click exit.
+Admins can impersonate any student to see exactly their experience — progress, lessons, dashboard. The admin can interact normally (advance through lessons, complete sections) but **no changes are persisted** to the database. The student's data remains untouched. A persistent banner indicates impersonation is active with a one-click exit.
 
 ## User Flow
 
@@ -44,7 +44,8 @@ A `blockIfImpersonating` middleware checks `req.user.impersonatedBy` and returns
 - `PUT /api/auth/password` — prevent password changes
 - `POST /api/bug-reports` — prevent filing issues as the student
 
-All other routes (progress, achievements, lessons) work normally — they read/write using the student's userId from the token.
+### Read-Only Progress
+`PUT /api/progress/:lessonId` detects `req.user.impersonatedBy` and returns a success response **without writing to the database**. This means the admin can navigate lessons and complete sections normally in the UI, but the student's actual progress is never modified. Read endpoints (GET progress, stats, achievements) work normally — they show the student's real data.
 
 ## Frontend
 

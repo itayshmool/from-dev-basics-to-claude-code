@@ -371,6 +371,12 @@ progressRouter.put('/:lessonId', async (req, res) => {
   const { lessonId } = req.params;
   const userId = req.user!.userId;
 
+  // When impersonating, return success without persisting
+  if (req.user!.impersonatedBy) {
+    res.json({ lessonId, sectionIndex, completed });
+    return;
+  }
+
   // Upsert: insert or update
   const [existing] = await db.select({ id: progress.id })
     .from(progress)
