@@ -24,7 +24,7 @@ export function AdminLayout() {
   }
 
   return (
-    <div className="h-full flex flex-col md:flex-row bg-bg-primary">
+    <div className="h-full w-full overflow-hidden flex flex-col md:flex-row bg-bg-primary">
       {/* Sidebar */}
       <aside className="w-full md:w-56 lg:w-64 bg-bg-card border-b md:border-b-0 md:border-r border-border flex-shrink-0">
         <div className="p-4 md:p-5">
