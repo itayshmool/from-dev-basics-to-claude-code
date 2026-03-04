@@ -59,9 +59,23 @@ export function useTurnstile(
 ) {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  // Track when the container DOM element becomes available
+  const [containerReady, setContainerReady] = useState(false);
   const widgetIdRef = useRef<string | null>(null);
   const optionsRef = useRef(options);
   optionsRef.current = options;
+
+  // Poll for container availability since refs don't trigger re-renders
+  useEffect(() => {
+    if (containerRef.current) {
+      setContainerReady(true);
+      return;
+    }
+    const id = requestAnimationFrame(() => {
+      if (containerRef.current) setContainerReady(true);
+    });
+    return () => cancelAnimationFrame(id);
+  });
 
   useEffect(() => {
     if (!options.siteKey || !containerRef.current) {
@@ -103,7 +117,7 @@ export function useTurnstile(
         widgetIdRef.current = null;
       }
     };
-  }, [options.siteKey, containerRef]);
+  }, [options.siteKey, containerRef, containerReady]);
 
   const reset = useCallback(() => {
     if (widgetIdRef.current && window.turnstile) {
