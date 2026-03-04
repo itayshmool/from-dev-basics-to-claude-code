@@ -53,9 +53,7 @@
 
   /* Font sizes — overridable via admin theme editor */
   --font-size-body: 16px;
-  --font-size-mono: 14px;
   --font-size-body-mobile: 15px;
-  --font-size-mono-mobile: 13px;
 }
 
 * {

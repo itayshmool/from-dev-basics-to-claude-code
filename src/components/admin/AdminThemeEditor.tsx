@@ -63,9 +63,7 @@ const LIGHT_DEFAULTS: ThemeOverrides = {
 
 const FONT_SIZE_DEFAULTS = {
   '--font-size-body': '16',
-  '--font-size-mono': '14',
   '--font-size-body-mobile': '15',
-  '--font-size-mono-mobile': '13',
 };
 
 /* ─── Contrast helpers ─── */
@@ -114,9 +112,7 @@ interface DualState {
 
 interface FontState {
   '--font-size-body': string;
-  '--font-size-mono': string;
   '--font-size-body-mobile': string;
-  '--font-size-mono-mobile': string;
 }
 
 /* ─── Preview card ─── */
@@ -125,12 +121,10 @@ function PreviewCard({
   mode,
   getVal,
   bodySize,
-  monoSize,
 }: {
   mode: 'dark' | 'light';
   getVal: (key: string) => string;
   bodySize: string;
-  monoSize: string;
 }) {
   return (
     <div className="flex-1 min-w-0">
@@ -149,7 +143,7 @@ function PreviewCard({
             style={{
               color: getVal('--color-text-primary'),
               fontFamily: 'Monaco, monospace',
-              fontSize: `${monoSize}px`,
+              fontSize: '14px',
               fontWeight: 600,
               marginBottom: 4,
             }}
@@ -314,9 +308,7 @@ export function AdminThemeEditor() {
 
               const fonts: FontState = {
                 '--font-size-body': saved['--font-size-body'] || FONT_SIZE_DEFAULTS['--font-size-body'],
-                '--font-size-mono': saved['--font-size-mono'] || FONT_SIZE_DEFAULTS['--font-size-mono'],
                 '--font-size-body-mobile': saved['--font-size-body-mobile'] || FONT_SIZE_DEFAULTS['--font-size-body-mobile'],
-                '--font-size-mono-mobile': saved['--font-size-mono-mobile'] || FONT_SIZE_DEFAULTS['--font-size-mono-mobile'],
               };
               setFontSizes(fonts);
               setSavedFontSizes(fonts);
@@ -347,9 +339,7 @@ export function AdminThemeEditor() {
     // Apply font sizes globally
     applyTheme({
       '--font-size-body': `${fontSizes['--font-size-body']}px`,
-      '--font-size-mono': `${fontSizes['--font-size-mono']}px`,
       '--font-size-body-mobile': `${fontSizes['--font-size-body-mobile']}px`,
-      '--font-size-mono-mobile': `${fontSizes['--font-size-mono-mobile']}px`,
     });
   }, [overrides, fontSizes]);
 
@@ -388,9 +378,7 @@ export function AdminThemeEditor() {
       const payload = {
         ...overrides,
         '--font-size-body': fontSizes['--font-size-body'],
-        '--font-size-mono': fontSizes['--font-size-mono'],
         '--font-size-body-mobile': fontSizes['--font-size-body-mobile'],
-        '--font-size-mono-mobile': fontSizes['--font-size-mono-mobile'],
       };
       const res = await apiFetch('/api/admin/settings/theme', {
         method: 'PUT',
@@ -416,9 +404,7 @@ export function AdminThemeEditor() {
         ...Object.keys(overrides.dark),
         ...Object.keys(overrides.light),
         '--font-size-body',
-        '--font-size-mono',
         '--font-size-body-mobile',
-        '--font-size-mono-mobile',
       ];
       clearTheme(allKeys);
       setOverrides({ dark: {}, light: {} });
@@ -496,13 +482,6 @@ export function AdminThemeEditor() {
               mobile: '--font-size-body-mobile' as keyof FontState,
               min: 12,
               max: 22,
-            },
-            {
-              label: 'Code Font Size',
-              desktop: '--font-size-mono' as keyof FontState,
-              mobile: '--font-size-mono-mobile' as keyof FontState,
-              min: 10,
-              max: 20,
             },
           ]).map(({ label, desktop, mobile, min, max }) => (
             <div key={desktop}>
@@ -647,13 +626,11 @@ export function AdminThemeEditor() {
             mode="dark"
             getVal={(key) => getVal('dark', key)}
             bodySize={fontSizes['--font-size-body']}
-            monoSize={fontSizes['--font-size-mono']}
           />
           <PreviewCard
             mode="light"
             getVal={(key) => getVal('light', key)}
             bodySize={fontSizes['--font-size-body']}
-            monoSize={fontSizes['--font-size-mono']}
           />
         </div>
       </div>

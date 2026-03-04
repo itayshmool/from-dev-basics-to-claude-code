@@ -56,9 +56,10 @@ function applyMobileFontSizes(shared: ThemeOverrides): void {
     document.head.appendChild(existing);
   }
 
-  const rules: string[] = [];
-  if (bodyMobile) rules.push(`font-size: ${bodyMobile};`);
-  existing.textContent = `@media (max-width: 767px) { :root { ${rules.join(' ')} } }`;
+  const vars: string[] = [];
+  if (bodyMobile) vars.push(`--font-size-body-mobile: ${bodyMobile};`);
+  if (monoMobile) vars.push(`--font-size-mono-mobile: ${monoMobile};`);
+  existing.textContent = `@media (max-width: 767px) { :root { ${vars.join(' ')} } }`;
 }
 
 function applyForMode(mode: 'light' | 'dark', data: DualThemeData): void {
