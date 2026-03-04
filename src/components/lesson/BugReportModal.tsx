@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { apiFetch } from '../../services/api';
+import { useTurnstile } from '../../hooks/useTurnstile';
 
 export interface BugReportContext {
   lessonId: string;
@@ -44,6 +45,20 @@ export function BugReportModal({ isOpen, onClose, context }: BugReportModalProps
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{ issueNumber: number; issueUrl: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<HTMLDivElement>(null);
+
+  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
+
+  const { isLoading: turnstileLoading, isError: turnstileError, reset: resetTurnstile } = useTurnstile(
+    turnstileRef,
+    {
+      siteKey: siteKey || '',
+      onVerify: (token) => setTurnstileToken(token),
+      onError: () => setTurnstileToken(null),
+      onExpire: () => setTurnstileToken(null),
+    },
+  );
 
   if (!isOpen) return null;
 
@@ -65,6 +80,7 @@ export function BugReportModal({ isOpen, onClose, context }: BugReportModalProps
           browser: navigator.userAgent,
           screenSize: `${window.innerWidth}x${window.innerHeight}`,
           themeMode: document.documentElement.getAttribute('data-theme') || 'dark',
+          turnstileToken: turnstileToken || undefined,
         }),
       });
 
@@ -76,8 +92,12 @@ export function BugReportModal({ isOpen, onClose, context }: BugReportModalProps
       const data = await res.json();
       setResult(data);
       setCooldown(context.lessonId);
+      setTurnstileToken(null);
+      resetTurnstile();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit report.');
+      setTurnstileToken(null);
+      resetTurnstile();
     } finally {
       setSubmitting(false);
     }
@@ -89,6 +109,7 @@ export function BugReportModal({ isOpen, onClose, context }: BugReportModalProps
     setShowDetails(false);
     setResult(null);
     setError(null);
+    setTurnstileToken(null);
     onClose();
   }
 
@@ -183,6 +204,19 @@ export function BugReportModal({ isOpen, onClose, context }: BugReportModalProps
                 />
               </div>
 
+              {/* Turnstile CAPTCHA */}
+              {siteKey && (
+                <div>
+                  <div ref={turnstileRef} />
+                  {turnstileLoading && (
+                    <p className="text-[10px] font-mono text-text-muted mt-1">Loading verification...</p>
+                  )}
+                  {turnstileError && (
+                    <p className="text-[10px] font-mono text-red mt-1">Verification failed to load. You can still submit.</p>
+                  )}
+                </div>
+              )}
+
               {/* Collapsible details */}
               <div>
                 <button
@@ -229,7 +263,7 @@ export function BugReportModal({ isOpen, onClose, context }: BugReportModalProps
               <div className="flex justify-end pt-1">
                 <button
                   onClick={handleSubmit}
-                  disabled={!description.trim() || submitting || onCooldown}
+                  disabled={!description.trim() || submitting || onCooldown || (!!siteKey && !turnstileToken)}
                   className="px-4 py-2 text-sm font-mono text-white bg-purple rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
                 >
                   {submitting ? 'Submitting...' : 'Submit Report'}

@@ -47,7 +47,30 @@ const bugReportSchema = z.object({
   browser: z.string().optional(),
   screenSize: z.string().optional(),
   themeMode: z.string().optional(),
+  turnstileToken: z.string().optional(),
 });
+
+async function verifyTurnstile(token: string, ip: string | undefined): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+
+  const form = new URLSearchParams();
+  form.append('secret', secret);
+  form.append('response', token);
+  if (ip) form.append('remoteip', ip);
+
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: form.toString(),
+  });
+
+  const data = await res.json() as { success: boolean; 'error-codes'?: string[] };
+  if (!data.success) {
+    console.warn('Turnstile verification failed:', data['error-codes']);
+  }
+  return data.success;
+}
 
 function formatIssueBody(data: z.infer<typeof bugReportSchema>, user: { id: string; username: string }): string {
   const lines: string[] = [];
@@ -119,6 +142,18 @@ bugReportsRouter.post('/', requireAuth, async (req, res) => {
   const parsed = bugReportSchema.safeParse(req.body);
   if (!parsed.success) {
     throw new AppError(400, 'Invalid bug report data.');
+  }
+
+  // Verify Turnstile CAPTCHA (before rate limit so failures don't count)
+  if (process.env.TURNSTILE_SECRET_KEY) {
+    if (!parsed.data.turnstileToken) {
+      throw new AppError(400, 'CAPTCHA verification required.');
+    }
+    const ip = (req.headers['x-forwarded-for'] as string | undefined) || req.socket.remoteAddress;
+    const valid = await verifyTurnstile(parsed.data.turnstileToken, ip);
+    if (!valid) {
+      throw new AppError(403, 'CAPTCHA verification failed. Please try again.');
+    }
   }
 
   const userId = req.user!.userId;
