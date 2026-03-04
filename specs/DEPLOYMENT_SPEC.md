@@ -1,4 +1,4 @@
-# Deployment Spec: Terminal Trainer
+# Deployment Spec: From Zero to Claude Code
 
 ## Architecture Overview
 

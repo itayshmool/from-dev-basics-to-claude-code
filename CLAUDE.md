@@ -1,4 +1,4 @@
-# Terminal Trainer — Project Context
+# From Zero to Claude Code — Project Context
 
 ## What This Is
 An interactive web app teaching non-technical people how to use the terminal. 102 lessons across 8 levels.

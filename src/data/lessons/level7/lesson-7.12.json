@@ -63,7 +63,7 @@
       "content": "You're not pretending to be a developer. **You are one.** Junior, but real. Every senior developer you meet was once exactly where you are \u2014 staring at a terminal for the first time, wondering if they'd ever understand any of this.\n\nYou understood it. You built things. You deployed them to the internet.\n\nAnd with Claude Code as your pair programmer, you can build anything you can describe. You don't need to memorize every API or know every framework. You need to understand the fundamentals \u2014 and you do \u2014 and know how to ask for help effectively \u2014 and you do that too.\n\nThe only thing left to do: **go build something.**"
     }
   ],
-  "completionMessage": "You've completed the entire Terminal Trainer course. From 'what's a terminal?' to deploying live web applications with a professional workflow. You are a developer. Now go build something amazing.",
+  "completionMessage": "You've completed the entire From Zero to Claude Code course. From 'what's a terminal?' to deploying live web applications with a professional workflow. You are a developer. Now go build something amazing.",
   "milestone": {
     "title": "All Levels Complete!",
     "summary": [

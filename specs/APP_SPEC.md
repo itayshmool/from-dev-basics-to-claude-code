@@ -1,8 +1,8 @@
-# Terminal Trainer — Application Specification
+# From Zero to Claude Code — Application Specification
 
 ## Overview
 
-Terminal Trainer is a free, interactive, text-based web application that takes non-technical people from zero computer science knowledge to junior developer capability, using Claude Code as the primary development tool.
+From Zero to Claude Code is a free, interactive, text-based web application that takes non-technical people from zero computer science knowledge to junior developer capability, using Claude Code as the primary development tool.
 
 ## Mission
 

@@ -1,5 +1,6 @@
 import { LEVELS } from '../../lib/constants';
 import { useProgress } from '../../hooks/useProgress';
+import { ClaudeIcon } from '../icons/ClaudeIcon';
 
 interface HeaderProps {
   currentLevel: number;
@@ -16,10 +17,10 @@ export function Header({ currentLevel }: HeaderProps) {
     <header className="flex items-center justify-between px-5 py-3 bg-bg-secondary border-b border-border">
       <div className="flex items-center gap-3">
         <div className="w-9 h-9 rounded-xl bg-purple flex items-center justify-center" style={{ boxShadow: 'var(--shadow-button)' }}>
-          <span className="text-white text-sm font-bold leading-none">&gt;_</span>
+          <ClaudeIcon className="w-5 h-5 text-white" />
         </div>
         <div>
-          <h1 className="text-sm font-bold text-text-primary leading-tight">Terminal Trainer</h1>
+          <h1 className="text-sm font-bold text-text-primary leading-tight">From Zero to Claude Code</h1>
           <p className="text-xs text-text-muted">
             Level {currentLevel} &middot; {levelInfo?.title}
           </p>

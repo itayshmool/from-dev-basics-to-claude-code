@@ -4,6 +4,7 @@ import { useProgress } from '../../hooks/useProgress';
 import { useTheme } from '../../hooks/useTheme';
 import { useAuth } from '../../contexts/AuthContext';
 import { LEVELS } from '../../lib/constants';
+import { ClaudeIcon } from '../icons/ClaudeIcon';
 
 const LEVEL_EMOJI: Record<number, string> = {
   0: '\u{1F4BB}', // laptop
@@ -42,11 +43,11 @@ export function HomeScreen() {
               className="w-11 h-11 md:w-12 md:h-12 rounded-lg bg-purple-soft border border-purple/20 flex items-center justify-center flex-shrink-0"
               style={{ boxShadow: 'var(--shadow-glow)' }}
             >
-              <span className="text-purple text-base md:text-lg font-bold font-mono">&gt;_</span>
+              <ClaudeIcon className="w-6 h-6 md:w-7 md:h-7 text-purple" />
             </div>
             <div className="flex-1">
               <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-text-primary tracking-tight font-mono">
-                Terminal Trainer
+                From Zero to Claude Code
               </h1>
               <p className="text-xs md:text-sm lg:text-base text-text-muted mt-0.5">
                 Learn the command line from zero

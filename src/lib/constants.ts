@@ -9,5 +9,5 @@ export const LEVELS = [
   { id: 7, title: 'Junior Developer Patterns', subtitle: 'Debug, deploy, and work like a professional', lessonCount: 12, mvp: false },
 ] as const;
 
-export const APP_NAME = 'Terminal Trainer';
+export const APP_NAME = 'From Zero to Claude Code';
 export const STORAGE_KEY = 'terminal-trainer-progress';

@@ -1,13 +1,13 @@
-# Terminal Trainer
+# From Zero to Claude Code
 
 An interactive web app that teaches non-technical people how to use the terminal — from absolute zero to working knowledge.
 
-**Live:** https://itayshmool.github.io/from-dev-basics-to-claude-code/
+**Live:** https://zero2claude.dev
 **API:** https://terminal-trainer-api.onrender.com
 
 ## What It Does
 
-Terminal Trainer takes beginners through a structured curriculum of 102 interactive lessons across 8 levels. Each lesson uses a mix of narrative explanations, quizzes, fill-in-the-blank exercises, click-to-match games, file tree exploration, path building, terminal previews with animated typing, and program step-through simulators.
+From Zero to Claude Code takes beginners through a structured curriculum of 102 interactive lessons across 8 levels. Each lesson uses a mix of narrative explanations, quizzes, fill-in-the-blank exercises, click-to-match games, file tree exploration, path building, terminal previews with animated typing, and program step-through simulators.
 
 ### For Students
 - **102 interactive lessons** with 9 component types

@@ -1,4 +1,4 @@
-# Backend Spec: Terminal Trainer Server
+# Backend Spec: From Zero to Claude Code Server
 
 ## Overview
 
