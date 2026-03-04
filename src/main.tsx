@@ -7,7 +7,7 @@ import App from './App'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename="/from-dev-basics-to-claude-code/">
+    <BrowserRouter basename="/">
       <AuthProvider>
         <App />
       </AuthProvider>
