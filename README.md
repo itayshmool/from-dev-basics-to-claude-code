@@ -3,23 +3,37 @@
 An interactive web app that teaches non-technical people how to use the terminal — from absolute zero to working knowledge.
 
 **Live:** https://itayshmool.github.io/from-dev-basics-to-claude-code/
+**API:** https://terminal-trainer-api.onrender.com
 
 ## What It Does
 
 Terminal Trainer takes beginners through a structured curriculum of 102 interactive lessons across 8 levels. Each lesson uses a mix of narrative explanations, quizzes, fill-in-the-blank exercises, click-to-match games, file tree exploration, path building, terminal previews with animated typing, and program step-through simulators.
 
+### For Students
+- **102 interactive lessons** with 9 component types
+- **Virtual terminal** with in-memory filesystem, command parser, and file explorer sidebar
+- **User dashboard** (`/dashboard`) — overview with smart continue, progress stats & streaks, 16 achievements, profile management
+- **Achievement system** — milestones, level mastery, streak badges, speed achievements with toast notifications
+- **Smart continue** — picks up where you left off with pace tracking and estimated completion
+
+### For Admins
+- **Admin dashboard** (`/admin`) — student management, level/lesson CRUD, lesson editor with live preview
+- **Theme editor** — runtime CSS variable overrides persisted via API, applied globally to all users
+- **Content validator** — structural checks across all 102 lessons
+- **Analytics** — completion funnels, drop-off analysis, weekly trends
+
 ## Curriculum
 
-| Level | Title | Lessons |
-|-------|-------|---------|
-| 0 | Computers Are Not Magic | 6 |
-| 1 | Your First 30 Minutes in the Terminal | 12 |
-| 2 | Reading and Writing Files | 15 |
-| 3 | Your Code Has a History | 15 |
-| 4 | How Software Actually Works | 15 |
-| 5 | Building With Real Tools | 15 |
-| 6 | Claude Code — Your AI Pair Programmer | 12 |
-| 7 | Junior Developer Patterns | 12 |
+| Level | Title | Lessons | Type |
+|-------|-------|---------|------|
+| 0 | Computers Are Not Magic | 6 | Conceptual |
+| 1 | Your First 30 Minutes in the Terminal | 12 | Terminal sandbox |
+| 2 | Reading and Writing Files | 12 | Terminal sandbox |
+| 3 | Your Code Has a History | 16 | Terminal sandbox |
+| 4 | How Software Actually Works | 14 | Conceptual + interactive |
+| 5 | Building With Real Tools | 15 | Guided hands-on |
+| 6 | Claude Code — Your AI Pair Programmer | 15 | Guided hands-on |
+| 7 | Junior Developer Patterns | 12 | Guided hands-on |
 
 ## Tech Stack
 
@@ -72,6 +86,7 @@ The UX follows an immersive lesson model:
 | Home | https://itayshmool.github.io/from-dev-basics-to-claude-code/ |
 | Student login | https://itayshmool.github.io/from-dev-basics-to-claude-code/login |
 | Student register | https://itayshmool.github.io/from-dev-basics-to-claude-code/register |
+| User dashboard | https://itayshmool.github.io/from-dev-basics-to-claude-code/dashboard |
 | Admin login | https://itayshmool.github.io/from-dev-basics-to-claude-code/admin/login |
 | Admin dashboard | https://itayshmool.github.io/from-dev-basics-to-claude-code/admin |
 | API health | https://terminal-trainer-api.onrender.com/api/health |
@@ -84,6 +99,7 @@ src/
   index.css                        # Theme tokens + animations
   contexts/
     AuthContext.tsx                 # Auth state provider
+    AchievementContext.tsx          # Achievement toast queue
   services/
     api.ts                         # API client with token refresh
     authService.ts                 # Login/register/refresh/logout
@@ -94,6 +110,14 @@ src/
     auth/
       LoginScreen.tsx              # Student login
       RegisterScreen.tsx           # Student registration
+    dashboard/
+      DashboardGuard.tsx           # Auth gate (redirect if not logged in)
+      DashboardLayout.tsx          # Sidebar + layout
+      DashboardOverview.tsx        # Smart continue, pace stats
+      DashboardStats.tsx           # Progress stats, streaks, activity
+      DashboardAchievements.tsx    # Trophy case (16 achievements)
+      DashboardProfile.tsx         # View/edit profile
+      DashboardSettings.tsx        # Change password
     admin/
       AdminLoginScreen.tsx         # Admin login (separate)
       AdminGuard.tsx               # Role-based route protection
@@ -103,6 +127,11 @@ src/
       AdminLevelList.tsx           # Level management
       AdminLessonList.tsx          # Lesson management
       AdminLessonEditor.tsx        # Lesson JSON editor
+      AdminThemeEditor.tsx         # Live theme editor with API persistence
+      AdminContentValidator.tsx    # Lesson structure validator
+      AdminAnalytics.tsx           # Engagement analytics
+    ui/
+      AchievementToast.tsx         # Floating achievement notification
     lesson/
       LessonView.tsx               # Lesson orchestrator
       LessonStep.tsx               # Shared layout: content + fixed CTA
@@ -122,12 +151,16 @@ server/
     db/seed.ts                     # Seeds DB from lesson JSONs
     routes/                        # API route handlers
     middleware/                    # Auth + error handling
+    lib/
+      achievements.ts              # Achievement registry (16 achievements)
   drizzle/                         # Migration SQL files
 
 specs/
   APP_SPEC.md                      # Application specification
   BACKEND_SPEC.md                  # Backend specification
   DEPLOYMENT_SPEC.md               # Deployment architecture
+  ADMIN_DASHBOARD_SPEC.md          # Admin dashboard expansion spec
+  USER_DASHBOARD_SPEC.md           # User dashboard spec (4 phases)
   LEVEL_0_SPEC.md - LEVEL_7_SPEC.md
 ```
 

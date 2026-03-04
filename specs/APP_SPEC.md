@@ -71,18 +71,30 @@ Levels 0, 1, and 2 only. Approximately 30 lessons.
 | File System | In-memory virtual FS (custom) | No server needed, instant feedback, safe sandbox |
 | Command Parser | Custom (TypeScript) | Supports the exact commands needed per level, nothing more |
 | Lesson Engine | Custom (TypeScript) | Loads lesson JSON, validates actions, tracks progress |
-| Progress Storage | localStorage | No backend needed for MVP |
+| Progress Storage | PostgreSQL + localStorage fallback | Cloud sync when logged in, localStorage for guests |
 | Build Tool | Vite | Fast dev server, optimized builds |
-| Hosting | Vercel or Render (static) | Free tier, zero config |
+| Backend | Node.js + Express + TypeScript | API server on Render |
+| Database | PostgreSQL + Drizzle ORM | Managed on Render |
+| Auth | JWT (access + refresh tokens) | Username/password, cross-origin cookies |
+| Frontend Hosting | GitHub Pages | CDN-served globally |
+| Backend Hosting | Render | Auto-deploy on push to main |
 
-### Future Architecture (Post-MVP)
+### Implemented (Post-MVP)
+
+| Component | Technology | Status |
+|-----------|-----------|--------|
+| User Accounts | Custom JWT auth (username/password) | Implemented |
+| Database | PostgreSQL + Drizzle ORM | Implemented |
+| API Server | Node.js + Express + TypeScript | Implemented |
+| Admin Dashboard | React SPA at `/admin` | Implemented |
+| User Dashboard | React SPA at `/dashboard` with stats, achievements, smart continue | Implemented |
+| Theme System | Runtime CSS overrides via admin, persisted in DB | Implemented |
+
+### Not Yet Implemented
 
 | Component | Technology | When |
 |-----------|-----------|------|
 | Terminal Backend | WebContainers (StackBlitz) | Level 3+ (git requires real shell) |
-| User Accounts | Auth provider (Clerk/Auth0) | When progress sync across devices is needed |
-| Database | PostgreSQL | When user accounts exist |
-| API Server | Node.js / Express | When user accounts exist |
 | Analytics | PostHog or similar | When understanding user drop-off matters |
 
 ## Application Layout
@@ -318,13 +330,12 @@ Validation modes:
 - No IE support
 - Mobile browsers: functional but not primary target
 
-## Future Considerations (Not In MVP)
+## Future Considerations
 
-- User accounts and cloud progress sync
 - Leaderboards / community features
 - Multiple language support (i18n)
-- Content authoring tool (for creating lessons without editing JSON)
 - Embedded video explanations for conceptual lessons
 - AI-powered hint system (Claude generates contextual hints)
 - Lesson branching (different paths based on student performance)
 - Platform-specific tracks (Mac vs Windows diverge at Level 5+)
+- Real terminal/sandbox (xterm.js, WebContainers) for Levels 3+

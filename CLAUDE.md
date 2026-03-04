@@ -17,7 +17,10 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 - **Terminal infrastructure**: Virtual filesystem (VFS), command parser, Terminal UI, FileExplorer sidebar, CommandReferenceBar
 - **Backend**: Express API, PostgreSQL, JWT auth, progress tracking, admin CRUD
 - **Auth**: Student login/register, dedicated admin login at `/admin/login`
-- **Admin dashboard**: Stats, student list, level/lesson management, lesson editor
+- **Admin dashboard**: Stats, student list, level/lesson management, lesson editor, theme editor, content validator, analytics
+- **User dashboard** (`/dashboard`): Overview with smart continue, progress stats & streaks, 16 achievements with toast notifications, profile management, password change
+- **Achievement system**: 16 achievements (milestones, level mastery, streaks, speed) computed server-side, toast notifications on unlock
+- **Theme system**: Admin theme editor with runtime CSS variable overrides persisted via `site_settings` table, applied globally on page load
 - **Dual-mode frontend**: Works with API (progress synced to DB) or without (localStorage fallback)
 - **Deployment**: GitHub Pages (frontend) + Render (backend + PostgreSQL), auto-deploy on push to `main`
 - **Theme**: Dark terminal-noir aesthetic — void black palette (#09090B), electric orange accent (#FF6B35), Monaco font identity
@@ -27,26 +30,34 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 - Analytics, i18n
 
 ## Architecture
-- `App.tsx` — React Router: `/` home, `/lesson/:id`, `/login`, `/register`, `/admin/login`, `/admin/*`
+- `App.tsx` — React Router: `/` home, `/lesson/:id`, `/login`, `/register`, `/dashboard/*`, `/admin/login`, `/admin/*`
+- `DashboardGuard.tsx` — redirects to `/login` if not authenticated (any role)
 - `AdminGuard.tsx` — redirects to `/admin/login` if not authenticated as admin
 - `AuthContext.tsx` — manages user state, token refresh, login/register/logout
+- `AchievementContext.tsx` — manages achievement toast queue, provides `checkForNewAchievements()`
 - `dataService.ts` — dual-mode: fetches from API or static JSON based on `VITE_USE_API`
-- `LessonView.tsx` — orchestrates lesson flow
+- `LessonView.tsx` — orchestrates lesson flow, triggers achievement check on lesson completion
 - `SectionRenderer.tsx` — routes section types to interactive components
-- Theme defined in `src/index.css` via CSS custom properties in `@theme` block
+- Theme defined in `src/index.css` via CSS custom properties in `@theme` block, overridable at runtime via admin theme editor
 
 ## Key Files
 - `src/index.css` — all theme tokens, animations, and `.lesson-surface` override
 - `src/contexts/AuthContext.tsx` — auth state provider
+- `src/contexts/AchievementContext.tsx` — achievement toast queue
 - `src/services/api.ts` — API client with auto token refresh
+- `src/utils/theme.ts` — runtime theme application (fetches from API, applies CSS vars)
 - `src/data/lessons/level{0-7}/` — 102 lesson JSON files
 - `src/core/lesson/types.ts` — section type definitions
 - `src/core/terminal/` — TerminalContext, CommandParser
+- `src/components/dashboard/` — user dashboard (Overview, Stats, Achievements, Profile, Settings)
 - `server/src/index.ts` — Express entry point
-- `server/src/db/schema.ts` — Drizzle table definitions (levels, lessons, users, progress)
+- `server/src/db/schema.ts` — Drizzle table definitions (levels, lessons, users, progress, site_settings)
 - `server/src/db/seed.ts` — seeds DB from lesson JSONs
+- `server/src/lib/achievements.ts` — achievement registry (16 achievements)
+- `server/src/routes/progress.ts` — progress, stats, achievements, smart continue endpoints
 - `server/drizzle/` — committed migration SQL files
 - `specs/DEPLOYMENT_SPEC.md` — full deployment architecture
+- `specs/USER_DASHBOARD_SPEC.md` — user dashboard spec (complete)
 
 ## Dev Commands
 ```bash

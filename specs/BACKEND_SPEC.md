@@ -12,22 +12,20 @@
 | Frontend hosting | GitHub Pages (unchanged) |
 | Admin | `/admin` route inside the existing React SPA |
 
-## Current State (What Exists)
+## Current State (Implemented)
 
-- **102 lessons** across 8 levels (0–7), all stored as static JSON files in `src/data/lessons/`
+- **102 lessons** across 8 levels (0–7), stored as JSON files in `src/data/lessons/` and seeded into PostgreSQL
 - **15 section types**: narrative, quiz, fillInBlank, match, interactiveTree, pathBuilder, terminalPreview, programSim, terminalStep, codeExample, dragSort, stepThrough, guideStep, promptTemplate, checklist
 - **3 lesson types**: `conceptual` (Level 0, 4), `terminal` (Level 1–3), `guide` (Level 5–7)
-- **Progress**: localStorage via `ProgressTracker` singleton + `useSyncExternalStore`
-- **No auth, no server, no database** — everything is client-side
-- **Deployed** to GitHub Pages via GitHub Actions (`npm run build` → `dist/` → Pages)
-
-## What This Backend Adds
-
-1. **User accounts** — students register with username/password, progress persists across devices
-2. **Server-side progress tracking** — per-student lesson completion stored in PostgreSQL
-3. **Admin dashboard** — view student progress, manage lessons, see analytics
-4. **API-served content** — lessons loaded from database instead of static JSON imports
-5. **Dual-mode frontend** — works with or without backend (static fallback for GitHub Pages)
+- **User accounts** — students register with username/password, progress persists across devices
+- **Server-side progress tracking** — per-student lesson completion stored in PostgreSQL
+- **Admin dashboard** — student management, level/lesson CRUD, theme editor, content validator, analytics
+- **User dashboard** — overview with smart continue, progress stats & streaks, 16 achievements, profile management
+- **Achievement system** — 16 achievements computed server-side from progress data (no separate table)
+- **Theme system** — admin-configurable runtime CSS overrides persisted in `site_settings` table
+- **API-served content** — lessons loaded from database instead of static JSON imports
+- **Dual-mode frontend** — works with or without backend (static fallback for GitHub Pages)
+- **Deployed** — GitHub Pages (frontend) + Render (backend + PostgreSQL), auto-deploy on push to `main`
 
 ---
 
@@ -261,12 +259,23 @@
 - `401` — invalid credentials
 - `409` — username already taken
 
-### Student (auth required)
+### User Profile (auth required)
+
+| Method | Path | Request | Response |
+|--------|------|---------|----------|
+| GET | `/api/auth/me` | — | Full profile with `createdAt` |
+| PUT | `/api/auth/profile` | `{ displayName }` | Updated user object |
+| PUT | `/api/auth/password` | `{ currentPassword, newPassword }` | `{ ok: true }` or 401 |
+
+### Student Progress (auth required)
 
 | Method | Path | Request | Response |
 |--------|------|---------|----------|
 | GET | `/api/progress` | — | `ProgressEntry[]` for current user |
 | PUT | `/api/progress/:lessonId` | `{ sectionIndex, completed }` | Updated `ProgressEntry` |
+| GET | `/api/progress/stats` | — | Aggregated stats, streaks, level breakdown, activity |
+| GET | `/api/progress/achievements` | — | Computed earned + available badges (16 total) |
+| GET | `/api/progress/continue` | — | Smart continue: in-progress lesson, next recommendation, pace, ETA |
 
 **GET /api/progress response:**
 ```json

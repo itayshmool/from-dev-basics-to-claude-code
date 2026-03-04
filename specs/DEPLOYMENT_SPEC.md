@@ -24,6 +24,7 @@
 | Frontend (home) | https://itayshmool.github.io/from-dev-basics-to-claude-code/ |
 | Student login | https://itayshmool.github.io/from-dev-basics-to-claude-code/login |
 | Student register | https://itayshmool.github.io/from-dev-basics-to-claude-code/register |
+| User dashboard | https://itayshmool.github.io/from-dev-basics-to-claude-code/dashboard |
 | Admin login | https://itayshmool.github.io/from-dev-basics-to-claude-code/admin/login |
 | Admin dashboard | https://itayshmool.github.io/from-dev-basics-to-claude-code/admin |
 | API health check | https://terminal-trainer-api.onrender.com/api/health |
@@ -87,11 +88,12 @@ The frontend works with or without the backend:
 | `ADMIN_PASSWORD` | Used by seed script to create the admin user |
 
 ### Database Schema
-4 tables managed by Drizzle ORM:
+5 tables managed by Drizzle ORM:
 - **levels** — 8 levels with title, subtitle, emoji, publish status
 - **lessons** — 102 lessons with sections (JSONB), filesystem specs, metadata
 - **users** — username/password (bcrypt), role (`student` or `admin`)
 - **progress** — per-user per-lesson section index, completion status
+- **site_settings** — key-value store for admin-configurable settings (e.g., theme overrides)
 
 Migration files committed in `server/drizzle/`. Migrations run automatically during each build.
 
@@ -143,15 +145,16 @@ server/
       index.ts            # DB connection singleton
     routes/
       levels.ts           # GET /api/levels, GET /api/lessons/:id
-      auth.ts             # POST /api/auth/{login,register,refresh,logout}
-      progress.ts         # GET/PUT /api/progress
-      admin.ts            # Admin CRUD endpoints
+      auth.ts             # POST /api/auth/{login,register,refresh,logout}, GET /me, PUT /profile, PUT /password
+      progress.ts         # GET/PUT /api/progress, GET /stats, GET /achievements, GET /continue
+      admin.ts            # Admin CRUD endpoints + site settings
     middleware/
       auth.ts             # JWT verification middleware
       errorHandler.ts     # Global error handler
     lib/
       env.ts              # Zod-validated environment config
       password.ts         # bcrypt helpers
+      achievements.ts     # Achievement registry (16 achievements)
   drizzle/                # Migration SQL files (committed)
   drizzle.config.ts       # Drizzle Kit config
   tsconfig.json
