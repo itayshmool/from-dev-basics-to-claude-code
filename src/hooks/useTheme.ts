@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { reapplyThemeForMode } from '../utils/theme';
 
 type Theme = 'light' | 'dark';
 
@@ -17,6 +18,7 @@ export function useTheme() {
     }
     localStorage.setItem('theme', t);
     setThemeState(t);
+    reapplyThemeForMode(t);
   }, []);
 
   const toggle = useCallback(() => {
