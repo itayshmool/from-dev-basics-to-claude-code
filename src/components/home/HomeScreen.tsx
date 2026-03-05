@@ -75,7 +75,7 @@ export function HomeScreen() {
         style={{ background: 'rgba(255, 107, 53, 0.03)', filter: 'blur(100px)' }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-5 py-6 sm:px-6 md:px-10 md:py-12 lg:px-14 xl:px-20 safe-bottom">
+      <div className="relative max-w-6xl mx-auto px-5 py-6 sm:px-6 md:px-10 md:py-12 lg:px-14 xl:px-16 safe-bottom">
         {/* Hero */}
         <div className="mb-12 md:mb-16 animate-stagger-in">
           <div className="flex items-center gap-2 sm:gap-4 mb-4">
@@ -115,18 +115,25 @@ export function HomeScreen() {
 
               {user ? (
                 <>
-                  {/* Desktop: text links */}
+                  {/* Desktop: dashboard button + logout icon */}
                   <Link
                     to="/dashboard"
-                    className="text-xs font-mono text-purple hover:underline hidden md:inline"
+                    className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg-elevated/60 border border-border hover:border-purple/30 hover:bg-bg-elevated transition-colors"
                   >
-                    {user.displayName}
+                    <svg className="w-3.5 h-3.5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <span className="text-xs font-mono text-text-primary">{user.displayName}</span>
                   </Link>
                   <button
                     onClick={() => logout()}
-                    className="text-xs font-mono text-text-muted hover:text-text-primary transition-colors hidden md:inline"
+                    className="hidden md:flex w-9 h-9 items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
+                    aria-label="Logout"
+                    title="Logout"
                   >
-                    Logout
+                    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
                   </button>
 
                   {/* Mobile: hamburger menu */}
