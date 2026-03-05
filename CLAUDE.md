@@ -18,7 +18,10 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 - **Backend**: Express API, PostgreSQL, JWT auth, progress tracking, admin CRUD
 - **Auth**: Student login/register, dedicated admin login at `/admin/login`
 - **Admin dashboard**: Stats, student list, level/lesson management, lesson editor, theme editor, content validator, analytics
-- **User dashboard** (`/dashboard`): Overview with smart continue, progress stats & streaks, 16 achievements with toast notifications, profile management, password change
+- **User dashboard** (`/dashboard`): Overview with smart continue, progress stats & streaks, 16 achievements with toast notifications, profile management (image upload, email, display name), password change
+- **Collapsible dashboard sidebar**: Desktop arrow-toggle between full and icon-only mode (persisted to localStorage); mobile hamburger menu with slide-out drawer
+- **Collapsible home screen modules**: Level cards collapsed by default showing only header + progress; click to expand lessons; auto-expands current lesson's level
+- **Profile image upload**: Client-side resize to 200x200, stored as base64 in PostgreSQL; camera overlay on avatar hover, remove button
 - **Achievement system**: 16 achievements (milestones, level mastery, streaks, speed) computed server-side, toast notifications on unlock
 - **Theme system**: Admin theme editor with runtime CSS variable overrides persisted via `site_settings` table, applied globally on page load
 - **Dual-mode frontend**: Works with API (progress synced to DB) or without (localStorage fallback)
@@ -49,9 +52,12 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 - `src/data/lessons/level{0-7}/` — 102 lesson JSON files
 - `src/core/lesson/types.ts` — section type definitions
 - `src/core/terminal/` — TerminalContext, CommandParser
-- `src/components/dashboard/` — user dashboard (Overview, Stats, Achievements, Profile, Settings)
+- `src/components/dashboard/DashboardLayout.tsx` — dashboard shell: mobile hamburger/drawer + desktop sidebar orchestration
+- `src/components/dashboard/DashboardSidebar.tsx` — extracted desktop sidebar with collapse toggle and nav icons
+- `src/components/dashboard/DashboardProfile.tsx` — profile page with image upload, email, display name editing
 - `server/src/index.ts` — Express entry point
-- `server/src/db/schema.ts` — Drizzle table definitions (levels, lessons, users, progress, site_settings)
+- `server/src/db/schema.ts` — Drizzle table definitions (levels, lessons, users with email/profileImage, progress, site_settings)
+- `server/src/routes/auth.ts` — auth endpoints including profile image upload (base64) and email update
 - `server/src/db/seed.ts` — seeds DB from lesson JSONs
 - `server/src/lib/achievements.ts` — achievement registry (16 achievements)
 - `server/src/routes/progress.ts` — progress, stats, achievements, smart continue endpoints
@@ -85,3 +91,5 @@ npm run db:seed     # Seed database
 - Render free tier: service sleeps after 15min inactivity, ~30s cold start. Free Postgres expires after 30 days.
 - Auth cookies use `sameSite: 'none'` for cross-origin (Render static site → Render API, different subdomains).
 - Repo is private. Bug reports create GitHub Issues via server-side `GITHUB_PAT` (unaffected by repo visibility).
+- Profile images are stored as base64 data URIs in the `profile_image` text column (users table). Client resizes to 200x200 before upload. Express body limit is 5mb.
+- Dashboard sidebar state (collapsed/expanded) is persisted to `localStorage` key `dashboard-sidebar-collapsed`.

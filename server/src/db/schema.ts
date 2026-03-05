@@ -47,6 +47,8 @@ export const users = pgTable('users', {
   passwordHash: varchar('password_hash', { length: 255 }).notNull(),
   displayName: varchar('display_name', { length: 100 }).notNull(),
   role: varchar('role', { length: 20 }).notNull().default('student'),
+  email: varchar('email', { length: 255 }),
+  profileImage: text('profile_image'),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
 

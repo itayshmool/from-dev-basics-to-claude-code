@@ -150,13 +150,15 @@ authRouter.post('/logout', (_req, res) => {
   res.json({ ok: true });
 });
 
-// GET /api/auth/me — full profile with createdAt
+// GET /api/auth/me — full profile with createdAt, email, profileImage
 authRouter.get('/me', requireAuth, async (req, res) => {
   const [user] = await db.select({
     id: users.id,
     username: users.username,
     displayName: users.displayName,
     role: users.role,
+    email: users.email,
+    profileImage: users.profileImage,
     createdAt: users.createdAt,
   }).from(users)
     .where(eq(users.id, req.user!.userId))
@@ -166,27 +168,80 @@ authRouter.get('/me', requireAuth, async (req, res) => {
   res.json(user);
 });
 
-// PUT /api/auth/profile — update display name
+// PUT /api/auth/profile — update display name and/or email
 const profileSchema = z.object({
-  displayName: z.string().min(1).max(100),
+  displayName: z.string().min(1).max(100).optional(),
+  email: z.string().email().max(255).nullable().optional(),
 });
 
 authRouter.put('/profile', requireAuth, async (req, res) => {
   const parsed = profileSchema.safeParse(req.body);
-  if (!parsed.success) throw new AppError(400, 'Invalid display name');
+  if (!parsed.success) throw new AppError(400, parsed.error.issues.map(i => i.message).join(', '));
+
+  const updates: Record<string, unknown> = {};
+  if (parsed.data.displayName !== undefined) updates.displayName = parsed.data.displayName;
+  if (parsed.data.email !== undefined) updates.email = parsed.data.email;
+
+  if (Object.keys(updates).length === 0) throw new AppError(400, 'No updates provided');
 
   const [user] = await db.update(users)
-    .set({ displayName: parsed.data.displayName })
+    .set(updates)
     .where(eq(users.id, req.user!.userId))
     .returning({
       id: users.id,
       username: users.username,
       displayName: users.displayName,
+      email: users.email,
       role: users.role,
     });
 
   if (!user) throw new AppError(404, 'User not found');
   res.json(user);
+});
+
+// PUT /api/auth/profile-image — upload profile image as base64
+const profileImageSchema = z.object({
+  image: z.string().max(5_000_000),
+});
+
+authRouter.put('/profile-image', requireAuth, blockIfImpersonating, async (req, res) => {
+  const parsed = profileImageSchema.safeParse(req.body);
+  if (!parsed.success) throw new AppError(400, 'Invalid image data');
+
+  const { image } = parsed.data;
+
+  // Validate it's a data URI with allowed mime type
+  const dataUriMatch = image.match(/^data:image\/(jpeg|png|gif|webp);base64,/);
+  if (!dataUriMatch) {
+    throw new AppError(400, 'Image must be a base64-encoded JPEG, PNG, GIF, or WebP');
+  }
+
+  // Check decoded size (base64 is ~4/3 of original)
+  const base64Part = image.split(',')[1];
+  const estimatedBytes = (base64Part.length * 3) / 4;
+  if (estimatedBytes > 2 * 1024 * 1024) {
+    throw new AppError(400, 'Image must be under 2MB');
+  }
+
+  const [user] = await db.update(users)
+    .set({ profileImage: image })
+    .where(eq(users.id, req.user!.userId))
+    .returning({
+      id: users.id,
+      profileImage: users.profileImage,
+    });
+
+  if (!user) throw new AppError(404, 'User not found');
+  res.json({ profileImage: user.profileImage });
+});
+
+// DELETE /api/auth/profile-image — remove profile image
+authRouter.delete('/profile-image', requireAuth, blockIfImpersonating, async (req, res) => {
+  await db.update(users)
+    .set({ profileImage: null })
+    .where(eq(users.id, req.user!.userId));
+
+  res.json({ ok: true });
 });
 
 // PUT /api/auth/password — change password

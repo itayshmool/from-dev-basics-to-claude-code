@@ -15,6 +15,13 @@
       "when": 1772629109192,
       "tag": "0001_funny_gideon",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1772696723145,
+      "tag": "0002_previous_stranger",
+      "breakpoints": true
     }
   ]
 }
