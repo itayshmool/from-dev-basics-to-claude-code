@@ -2,9 +2,9 @@ import { Router } from 'express';
 import { eq, sql, desc, asc, and, gte } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db/index.js';
-import { levels, lessons, users, progress, siteSettings } from '../db/schema.js';
+import { levels, lessons, users, progress, siteSettings, palettes } from '../db/schema.js';
 import { requireAuth, requireAdmin } from '../middleware/auth.js';
-import { AppError } from '../middleware/errorHandler.js';
+import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { signAccessToken } from '../lib/jwt.js';
 
 export const adminRouter = Router();
@@ -316,3 +316,118 @@ adminRouter.delete('/settings/:key', async (req, res) => {
   await db.delete(siteSettings).where(eq(siteSettings.key, req.params.key));
   res.json({ ok: true });
 });
+
+// ─── Palette management ───
+
+const paletteSchema = z.object({
+  name: z.string().min(1).max(100),
+  slug: z.string().min(1).max(50).regex(/^[a-z0-9-]+$/),
+  colors: z.object({
+    dark: z.record(z.string(), z.string()),
+    light: z.record(z.string(), z.string()),
+  }),
+  isDefault: z.boolean().optional(),
+  isActive: z.boolean().optional(),
+  order: z.number().int().optional(),
+});
+
+// GET /api/admin/palettes — all palettes including inactive
+adminRouter.get('/palettes', asyncHandler(async (_req, res) => {
+  const rows = await db.select().from(palettes).orderBy(asc(palettes.order));
+  res.json(rows);
+}));
+
+// POST /api/admin/palettes — create palette
+adminRouter.post('/palettes', asyncHandler(async (req, res) => {
+  const parsed = paletteSchema.safeParse(req.body);
+  if (!parsed.success) throw new AppError(400, 'Invalid palette data');
+
+  // Check slug uniqueness
+  const [existing] = await db.select({ id: palettes.id })
+    .from(palettes).where(eq(palettes.slug, parsed.data.slug)).limit(1);
+  if (existing) throw new AppError(409, 'A palette with this slug already exists');
+
+  const [row] = await db.insert(palettes).values({
+    name: parsed.data.name,
+    slug: parsed.data.slug,
+    colors: parsed.data.colors,
+    isDefault: parsed.data.isDefault ?? false,
+    isActive: parsed.data.isActive ?? true,
+    order: parsed.data.order ?? 0,
+  }).returning();
+
+  res.status(201).json(row);
+}));
+
+// PUT /api/admin/palettes/:id — update palette
+adminRouter.put('/palettes/reorder', asyncHandler(async (req, res) => {
+  const { items } = req.body as { items: { id: string; order: number }[] };
+  if (!Array.isArray(items)) throw new AppError(400, 'items array required');
+
+  for (const item of items) {
+    await db.update(palettes)
+      .set({ order: item.order })
+      .where(eq(palettes.id, item.id));
+  }
+
+  res.json({ ok: true });
+}));
+
+adminRouter.put('/palettes/:id', asyncHandler(async (req, res) => {
+  const parsed = paletteSchema.partial().safeParse(req.body);
+  if (!parsed.success) throw new AppError(400, 'Invalid palette data');
+
+  // If changing slug, check uniqueness
+  if (parsed.data.slug) {
+    const [existing] = await db.select({ id: palettes.id })
+      .from(palettes)
+      .where(and(eq(palettes.slug, parsed.data.slug), sql`${palettes.id} != ${req.params.id}`))
+      .limit(1);
+    if (existing) throw new AppError(409, 'A palette with this slug already exists');
+  }
+
+  const [row] = await db.update(palettes)
+    .set(parsed.data)
+    .where(eq(palettes.id, req.params.id))
+    .returning();
+
+  if (!row) throw new AppError(404, 'Palette not found');
+  res.json(row);
+}));
+
+// DELETE /api/admin/palettes/:id — delete palette
+adminRouter.delete('/palettes/:id', asyncHandler(async (req, res) => {
+  // Block deletion of default palette
+  const [palette] = await db.select({ id: palettes.id, isDefault: palettes.isDefault })
+    .from(palettes).where(eq(palettes.id, req.params.id)).limit(1);
+
+  if (!palette) throw new AppError(404, 'Palette not found');
+  if (palette.isDefault) throw new AppError(400, 'Cannot delete the default palette');
+
+  // Check if any users have this palette selected — reset them to null
+  await db.update(users)
+    .set({ paletteId: null })
+    .where(eq(users.paletteId, req.params.id));
+
+  await db.delete(palettes).where(eq(palettes.id, req.params.id));
+  res.json({ ok: true });
+}));
+
+// PUT /api/admin/palettes/:id/default — set as default
+adminRouter.put('/palettes/:id/default', asyncHandler(async (req, res) => {
+  const [palette] = await db.select({ id: palettes.id })
+    .from(palettes).where(eq(palettes.id, req.params.id)).limit(1);
+
+  if (!palette) throw new AppError(404, 'Palette not found');
+
+  // Unset all other defaults
+  await db.update(palettes).set({ isDefault: false }).where(eq(palettes.isDefault, true));
+
+  // Set new default
+  const [row] = await db.update(palettes)
+    .set({ isDefault: true })
+    .where(eq(palettes.id, req.params.id))
+    .returning();
+
+  res.json(row);
+}));
