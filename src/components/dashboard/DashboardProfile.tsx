@@ -271,48 +271,54 @@ export function DashboardProfile() {
             )}
           </div>
           <div className="flex-1 min-w-0">
-            {editing ? (
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 font-mono text-sm text-text-primary focus:border-purple focus:outline-none"
-                  maxLength={100}
-                  autoFocus
-                />
-                <button
-                  onClick={handleSave}
-                  disabled={saving || !displayName.trim()}
-                  className="px-3 py-2 text-sm font-mono text-white bg-purple rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
-                >
-                  {saving ? 'Saving...' : 'Save'}
-                </button>
-                <button
-                  onClick={() => {
-                    setEditing(false);
-                    setDisplayName(profile.displayName);
-                  }}
-                  className="px-3 py-2 text-sm font-mono text-text-muted hover:text-text-primary transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-3">
-                <h2 className="text-lg font-semibold text-text-primary font-mono">
-                  {profile.displayName}
-                </h2>
-                <button
-                  onClick={() => setEditing(true)}
-                  className="text-xs font-mono text-purple hover:underline"
-                >
-                  Edit
-                </button>
-              </div>
-            )}
-            <p className="text-sm text-text-muted mt-1">@{profile.username}</p>
+            <p className="text-sm text-text-muted">@{profile.username}</p>
           </div>
+        </div>
+
+        {/* Full Name */}
+        <div className="mb-6">
+          <p className="text-[10px] font-mono text-text-muted uppercase tracking-wider mb-1">Full Name</p>
+          {editing ? (
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 font-mono text-sm text-text-primary focus:border-purple focus:outline-none"
+                maxLength={100}
+                placeholder="Your full name"
+                autoFocus
+              />
+              <button
+                onClick={handleSave}
+                disabled={saving || !displayName.trim()}
+                className="px-3 py-2 text-sm font-mono text-white bg-purple rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
+                {saving ? 'Saving...' : 'Save'}
+              </button>
+              <button
+                onClick={() => {
+                  setEditing(false);
+                  setDisplayName(profile.displayName);
+                }}
+                className="px-3 py-2 text-sm font-mono text-text-muted hover:text-text-primary transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-mono text-text-primary">
+                {profile.displayName}
+              </span>
+              <button
+                onClick={() => setEditing(true)}
+                className="text-xs font-mono text-purple hover:underline"
+              >
+                Edit
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Email */}
