@@ -13,7 +13,7 @@ export function AchievementBadge({ icon, title, description, earned, earnedAt, p
       className={`rounded-xl border p-4 transition-all ${
         earned
           ? 'bg-bg-card border-purple/20 shadow-glow'
-          : 'bg-bg-elevated border-border opacity-50'
+          : 'bg-bg-elevated border-border opacity-70'
       }`}
     >
       <div className="flex items-start gap-3">
@@ -22,7 +22,7 @@ export function AchievementBadge({ icon, title, description, earned, earnedAt, p
             earned ? 'bg-purple-soft' : 'bg-bg-card'
           }`}
         >
-          {earned ? icon : '\u{1F512}'}
+          {icon}
         </div>
         <div className="flex-1 min-w-0">
           <p className={`text-sm font-mono font-medium ${earned ? 'text-text-primary' : 'text-text-muted'}`}>

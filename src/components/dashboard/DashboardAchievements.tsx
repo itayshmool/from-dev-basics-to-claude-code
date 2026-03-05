@@ -83,11 +83,11 @@ export function DashboardAchievements() {
         </div>
       )}
 
-      {/* Available / Locked */}
+      {/* In Progress */}
       {data.available.length > 0 && (
         <div>
           <h2 className="text-sm font-semibold text-text-primary font-mono mb-3">
-            Locked ({data.available.length})
+            In Progress ({data.available.length})
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {data.available.map(a => (
