@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { levels } from '../../data/levels';
 import { useProgress } from '../../hooks/useProgress';
@@ -25,6 +25,20 @@ export function HomeScreen() {
   const { theme, toggle: toggleTheme } = useTheme();
 
   const [expandedLevels, setExpandedLevels] = useState<Set<number>>(new Set());
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close mobile menu on outside click
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [mobileMenuOpen]);
 
   // Auto-expand the level containing the current lesson on mount
   useEffect(() => {
@@ -61,18 +75,18 @@ export function HomeScreen() {
         style={{ background: 'rgba(255, 107, 53, 0.03)', filter: 'blur(100px)' }}
       />
 
-      <div className="relative max-w-[1400px] mx-auto px-5 py-8 md:px-10 md:py-12 lg:px-16 xl:px-20 safe-bottom">
+      <div className="relative max-w-[1400px] mx-auto px-4 py-6 sm:px-5 md:px-10 md:py-12 lg:px-16 xl:px-20 safe-bottom">
         {/* Hero */}
         <div className="mb-12 md:mb-16 animate-stagger-in">
-          <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-2 sm:gap-4 mb-4">
             <div
-              className="w-11 h-11 md:w-12 md:h-12 rounded-lg bg-purple-soft border border-purple/20 flex items-center justify-center flex-shrink-0"
+              className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg bg-purple-soft border border-purple/20 flex items-center justify-center flex-shrink-0"
               style={{ boxShadow: 'var(--shadow-glow)' }}
             >
               <ClaudeIcon className="w-6 h-6 md:w-7 md:h-7 text-purple" />
             </div>
-            <div className="flex-1">
-              <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-text-primary tracking-tight font-mono">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-text-primary tracking-tight font-mono">
                 From Zero to Claude Code
               </h1>
               <p className="text-xs md:text-sm lg:text-base text-text-muted mt-0.5">
@@ -81,7 +95,8 @@ export function HomeScreen() {
             </div>
 
             {/* Theme toggle + Auth section */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 md:gap-3 flex-shrink-0">
+              {/* Theme toggle */}
               <button
                 onClick={toggleTheme}
                 className="w-9 h-9 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
@@ -97,8 +112,10 @@ export function HomeScreen() {
                   </svg>
                 )}
               </button>
+
               {user ? (
                 <>
+                  {/* Desktop: text links */}
                   <Link
                     to="/dashboard"
                     className="text-xs font-mono text-purple hover:underline hidden md:inline"
@@ -107,10 +124,54 @@ export function HomeScreen() {
                   </Link>
                   <button
                     onClick={() => logout()}
-                    className="text-xs font-mono text-text-muted hover:text-text-primary transition-colors"
+                    className="text-xs font-mono text-text-muted hover:text-text-primary transition-colors hidden md:inline"
                   >
                     Logout
                   </button>
+
+                  {/* Mobile: hamburger menu */}
+                  <div className="relative md:hidden" ref={menuRef}>
+                    <button
+                      onClick={() => setMobileMenuOpen(v => !v)}
+                      className="w-9 h-9 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
+                      aria-label="Menu"
+                    >
+                      {mobileMenuOpen ? (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                      )}
+                    </button>
+
+                    {/* Dropdown menu */}
+                    {mobileMenuOpen && (
+                      <div className="absolute right-0 top-11 w-48 bg-bg-card border border-border rounded-xl shadow-lg py-1 z-50 animate-fade-in">
+                        <Link
+                          to="/dashboard"
+                          className="flex items-center gap-3 px-4 py-3 text-sm font-mono text-text-primary hover:bg-bg-elevated transition-colors"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                          Dashboard
+                        </Link>
+                        <button
+                          onClick={() => { logout(); setMobileMenuOpen(false); }}
+                          className="flex items-center gap-3 w-full text-left px-4 py-3 text-sm font-mono text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>
+                          Logout
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </>
               ) : (
                 <Link
