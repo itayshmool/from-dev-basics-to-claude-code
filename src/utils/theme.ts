@@ -8,10 +8,22 @@ export interface DualThemeData {
   [key: `--${string}`]: string;
 }
 
-// In-memory cache so we can re-apply on mode toggle
+export interface Palette {
+  id: string;
+  name: string;
+  slug: string;
+  colors: { dark: ThemeOverrides; light: ThemeOverrides };
+  isDefault: boolean;
+  order: number;
+}
+
+// In-memory caches
 let cachedTheme: DualThemeData | null = null;
+let cachedPalettes: Palette[] | null = null;
+let cachedActivePalette: Palette | null = null;
 
 const MOBILE_STYLE_ID = 'admin-theme-mobile';
+const PALETTE_STORAGE_KEY = 'palette-slug';
 
 function getCurrentMode(): 'light' | 'dark' {
   return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
@@ -62,30 +74,128 @@ function applyMobileFontSizes(shared: ThemeOverrides): void {
   existing.textContent = `@media (max-width: 767px) { :root { ${vars.join(' ')} } }`;
 }
 
-function applyForMode(mode: 'light' | 'dark', data: DualThemeData): void {
-  // Clear any previously applied color overrides from both modes
-  const allColorKeys = new Set([
-    ...Object.keys(data.dark || {}),
-    ...Object.keys(data.light || {}),
+/** Clear all palette-applied CSS vars */
+function clearPaletteOverrides(): void {
+  if (!cachedActivePalette) return;
+  const allKeys = new Set([
+    ...Object.keys(cachedActivePalette.colors.dark || {}),
+    ...Object.keys(cachedActivePalette.colors.light || {}),
   ]);
-  clearTheme([...allColorKeys]);
+  const root = document.documentElement;
+  for (const key of allKeys) {
+    root.style.removeProperty(key);
+  }
+}
 
-  // Apply the active mode's color overrides
+/** Apply palette colors for the given mode */
+function applyPaletteForMode(mode: 'light' | 'dark', palette: Palette): void {
+  const modeColors = palette.colors[mode] || {};
+  applyTheme(modeColors);
+}
+
+function applyAdminForMode(mode: 'light' | 'dark', data: DualThemeData): void {
   const modeOverrides = data[mode] || {};
   applyTheme(modeOverrides);
 
-  // Apply shared keys (font sizes for desktop, etc.)
   const shared = extractSharedKeys(data);
   applyTheme(shared);
-
-  // Inject mobile font-size media query
   applyMobileFontSizes(shared);
 }
 
-/** Re-apply cached admin theme for the given mode. Call after toggling data-theme. */
+/** Full apply: palette first, then admin overrides on top */
+function applyAll(mode: 'light' | 'dark'): void {
+  // 1. Clear any previous palette overrides
+  clearPaletteOverrides();
+
+  // 2. Apply palette
+  if (cachedActivePalette) {
+    applyPaletteForMode(mode, cachedActivePalette);
+  }
+
+  // 3. Admin overrides layer on top (admin always wins)
+  if (cachedTheme) {
+    applyAdminForMode(mode, cachedTheme);
+  }
+}
+
+/** Re-apply cached theme + palette for the given mode. Call after toggling data-theme. */
 export function reapplyThemeForMode(mode: 'light' | 'dark'): void {
-  if (!cachedTheme) return;
-  applyForMode(mode, cachedTheme);
+  applyAll(mode);
+}
+
+/** Fetch palettes from API and cache them */
+export async function fetchPalettes(): Promise<Palette[]> {
+  if (cachedPalettes) return cachedPalettes;
+  if (!import.meta.env.VITE_USE_API) return [];
+
+  try {
+    const res = await fetch(`${API_URL}/api/palettes`);
+    if (!res.ok) return [];
+    const data: Palette[] = await res.json();
+    cachedPalettes = data;
+    return data;
+  } catch {
+    return [];
+  }
+}
+
+/** Get cached palettes (no fetch) */
+export function getCachedPalettes(): Palette[] {
+  return cachedPalettes || [];
+}
+
+/** Set the active palette and apply it */
+export function setActivePalette(palette: Palette | null): void {
+  clearPaletteOverrides(); // Clear old palette before switching
+  cachedActivePalette = palette;
+  applyAll(getCurrentMode());
+
+  // Persist slug to localStorage as fallback
+  try {
+    if (palette) {
+      localStorage.setItem(PALETTE_STORAGE_KEY, palette.slug);
+    } else {
+      localStorage.removeItem(PALETTE_STORAGE_KEY);
+    }
+  } catch { /* noop */ }
+}
+
+/** Get the stored palette slug from localStorage */
+export function getStoredPaletteSlug(): string | null {
+  try {
+    return localStorage.getItem(PALETTE_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/** Select palette by ID (from user record) or slug (from localStorage) */
+export function selectPalette(paletteId?: string | null): void {
+  if (!cachedPalettes || cachedPalettes.length === 0) return;
+
+  let palette: Palette | undefined;
+
+  if (paletteId) {
+    palette = cachedPalettes.find(p => p.id === paletteId);
+  }
+
+  if (!palette) {
+    const storedSlug = getStoredPaletteSlug();
+    if (storedSlug) {
+      palette = cachedPalettes.find(p => p.slug === storedSlug);
+    }
+  }
+
+  if (!palette) {
+    palette = cachedPalettes.find(p => p.isDefault);
+  }
+
+  cachedActivePalette = palette || null;
+}
+
+/** Get the currently active palette */
+export function getActivePalette(): Palette | null {
+  return cachedActivePalette;
 }
 
 /** Normalize legacy flat shape or new dual shape into DualThemeData */
@@ -126,18 +236,30 @@ function extractSharedFromRaw(obj: Record<string, unknown>): Record<string, stri
   return shared;
 }
 
-export async function fetchAndApplyTheme(): Promise<void> {
+export async function fetchAndApplyTheme(paletteId?: string | null): Promise<void> {
   if (!import.meta.env.VITE_USE_API) return;
 
   try {
-    const res = await fetch(`${API_URL}/api/settings/theme`);
-    if (!res.ok) return;
-    const raw = await res.json();
-    const data = normalize(raw);
-    if (!data) return;
+    // Fetch palettes and admin theme in parallel
+    const [palettesResult, themeRes] = await Promise.all([
+      fetchPalettes(),
+      fetch(`${API_URL}/api/settings/theme`),
+    ]);
 
-    cachedTheme = data;
-    applyForMode(getCurrentMode(), data);
+    // Select and cache the active palette
+    if (palettesResult.length > 0) {
+      selectPalette(paletteId);
+    }
+
+    // Cache admin theme
+    if (themeRes.ok) {
+      const raw = await themeRes.json();
+      const data = normalize(raw);
+      cachedTheme = data;
+    }
+
+    // Apply everything
+    applyAll(getCurrentMode());
   } catch {
     // API unavailable — use CSS defaults
   }

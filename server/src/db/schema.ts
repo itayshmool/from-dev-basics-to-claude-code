@@ -41,6 +41,17 @@ export const lessons = pgTable('lessons', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
+export const palettes = pgTable('palettes', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: varchar('name', { length: 100 }).notNull(),
+  slug: varchar('slug', { length: 50 }).notNull().unique(),
+  colors: jsonb('colors').notNull(),
+  isDefault: boolean('is_default').notNull().default(false),
+  isActive: boolean('is_active').notNull().default(true),
+  order: integer('order').notNull().default(0),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+});
+
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
   username: varchar('username', { length: 100 }).notNull().unique(),
@@ -49,6 +60,7 @@ export const users = pgTable('users', {
   role: varchar('role', { length: 20 }).notNull().default('student'),
   email: varchar('email', { length: 255 }),
   profileImage: text('profile_image'),
+  paletteId: uuid('palette_id').references(() => palettes.id, { onDelete: 'set null' }),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
 

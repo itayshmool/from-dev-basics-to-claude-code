@@ -3,6 +3,7 @@ import type { User } from '../services/authService';
 import * as authService from '../services/authService';
 import { setAccessToken, getAccessToken } from '../services/api';
 import { pullProgress } from '../services/progressSync';
+import { selectPalette, reapplyThemeForMode } from '../utils/theme';
 
 const USE_API = import.meta.env.VITE_USE_API === 'true';
 
@@ -33,6 +34,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     authService.refreshSession().then(async (u) => {
       if (u) {
         setUser(u);
+        // Apply user's palette preference
+        selectPalette(u.paletteId);
+        reapplyThemeForMode(
+          document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'
+        );
         await pullProgress();
       }
       setIsLoading(false);
@@ -42,6 +48,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (username: string, password: string) => {
     const u = await authService.login(username, password);
     setUser(u);
+    selectPalette(u.paletteId);
+    reapplyThemeForMode(
+      document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark'
+    );
     await pullProgress();
   }, []);
 

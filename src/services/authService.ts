@@ -7,6 +7,7 @@ export interface User {
   role: string;
   email?: string | null;
   profileImage?: string | null;
+  paletteId?: string | null;
 }
 
 interface AuthResponse {

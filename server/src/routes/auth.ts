@@ -2,10 +2,10 @@ import { Router } from 'express';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db/index.js';
-import { users } from '../db/schema.js';
+import { users, palettes } from '../db/schema.js';
 import { hashPassword, verifyPassword } from '../lib/password.js';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../lib/jwt.js';
-import { AppError } from '../middleware/errorHandler.js';
+import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { requireAuth, blockIfImpersonating } from '../middleware/auth.js';
 
 export const authRouter = Router();
@@ -31,7 +31,7 @@ const loginSchema = z.object({
 });
 
 // POST /api/auth/register
-authRouter.post('/register', async (req, res) => {
+authRouter.post('/register', asyncHandler(async (req, res) => {
   const parsed = registerSchema.safeParse(req.body);
   if (!parsed.success) {
     throw new AppError(400, parsed.error.issues.map(i => i.message).join(', '));
@@ -61,6 +61,7 @@ authRouter.post('/register', async (req, res) => {
     username: users.username,
     displayName: users.displayName,
     role: users.role,
+    paletteId: users.paletteId,
   });
 
   const payload = { userId: user.id, role: user.role };
@@ -69,13 +70,13 @@ authRouter.post('/register', async (req, res) => {
 
   res.cookie(REFRESH_COOKIE, refreshToken, COOKIE_OPTIONS);
   res.status(201).json({
-    user: { id: user.id, username: user.username, displayName: user.displayName, role: user.role },
+    user: { id: user.id, username: user.username, displayName: user.displayName, role: user.role, paletteId: user.paletteId },
     accessToken,
   });
-});
+}));
 
 // POST /api/auth/login
-authRouter.post('/login', async (req, res) => {
+authRouter.post('/login', asyncHandler(async (req, res) => {
   const parsed = loginSchema.safeParse(req.body);
   if (!parsed.success) {
     throw new AppError(400, 'Username and password required');
@@ -98,13 +99,13 @@ authRouter.post('/login', async (req, res) => {
 
   res.cookie(REFRESH_COOKIE, refreshToken, COOKIE_OPTIONS);
   res.json({
-    user: { id: user.id, username: user.username, displayName: user.displayName, role: user.role },
+    user: { id: user.id, username: user.username, displayName: user.displayName, role: user.role, paletteId: user.paletteId },
     accessToken,
   });
-});
+}));
 
 // POST /api/auth/refresh
-authRouter.post('/refresh', async (req, res) => {
+authRouter.post('/refresh', asyncHandler(async (req, res) => {
   const token = req.cookies?.[REFRESH_COOKIE];
   if (!token) {
     throw new AppError(401, 'No refresh token');
@@ -124,6 +125,7 @@ authRouter.post('/refresh', async (req, res) => {
     username: users.username,
     displayName: users.displayName,
     role: users.role,
+    paletteId: users.paletteId,
   }).from(users)
     .where(eq(users.id, payload.userId))
     .limit(1);
@@ -139,10 +141,10 @@ authRouter.post('/refresh', async (req, res) => {
 
   res.cookie(REFRESH_COOKIE, refreshToken, COOKIE_OPTIONS);
   res.json({
-    user: { id: user.id, username: user.username, displayName: user.displayName, role: user.role },
+    user: { id: user.id, username: user.username, displayName: user.displayName, role: user.role, paletteId: user.paletteId },
     accessToken,
   });
-});
+}));
 
 // POST /api/auth/logout
 authRouter.post('/logout', (_req, res) => {
@@ -151,7 +153,7 @@ authRouter.post('/logout', (_req, res) => {
 });
 
 // GET /api/auth/me — full profile with createdAt, email, profileImage
-authRouter.get('/me', requireAuth, async (req, res) => {
+authRouter.get('/me', requireAuth, asyncHandler(async (req, res) => {
   const [user] = await db.select({
     id: users.id,
     username: users.username,
@@ -159,6 +161,7 @@ authRouter.get('/me', requireAuth, async (req, res) => {
     role: users.role,
     email: users.email,
     profileImage: users.profileImage,
+    paletteId: users.paletteId,
     createdAt: users.createdAt,
   }).from(users)
     .where(eq(users.id, req.user!.userId))
@@ -166,7 +169,7 @@ authRouter.get('/me', requireAuth, async (req, res) => {
 
   if (!user) throw new AppError(404, 'User not found');
   res.json(user);
-});
+}));
 
 // PUT /api/auth/profile — update display name and/or email
 const profileSchema = z.object({
@@ -174,7 +177,7 @@ const profileSchema = z.object({
   email: z.string().email().max(255).nullable().optional(),
 });
 
-authRouter.put('/profile', requireAuth, async (req, res) => {
+authRouter.put('/profile', requireAuth, asyncHandler(async (req, res) => {
   const parsed = profileSchema.safeParse(req.body);
   if (!parsed.success) throw new AppError(400, parsed.error.issues.map(i => i.message).join(', '));
 
@@ -197,14 +200,14 @@ authRouter.put('/profile', requireAuth, async (req, res) => {
 
   if (!user) throw new AppError(404, 'User not found');
   res.json(user);
-});
+}));
 
 // PUT /api/auth/profile-image — upload profile image as base64
 const profileImageSchema = z.object({
   image: z.string().max(5_000_000),
 });
 
-authRouter.put('/profile-image', requireAuth, blockIfImpersonating, async (req, res) => {
+authRouter.put('/profile-image', requireAuth, blockIfImpersonating, asyncHandler(async (req, res) => {
   const parsed = profileImageSchema.safeParse(req.body);
   if (!parsed.success) throw new AppError(400, 'Invalid image data');
 
@@ -233,16 +236,51 @@ authRouter.put('/profile-image', requireAuth, blockIfImpersonating, async (req, 
 
   if (!user) throw new AppError(404, 'User not found');
   res.json({ profileImage: user.profileImage });
-});
+}));
 
 // DELETE /api/auth/profile-image — remove profile image
-authRouter.delete('/profile-image', requireAuth, blockIfImpersonating, async (req, res) => {
+authRouter.delete('/profile-image', requireAuth, blockIfImpersonating, asyncHandler(async (req, res) => {
   await db.update(users)
     .set({ profileImage: null })
     .where(eq(users.id, req.user!.userId));
 
   res.json({ ok: true });
+}));
+
+// PUT /api/auth/palette — set user's palette preference
+const paletteSchema = z.object({
+  paletteId: z.string().uuid(),
 });
+
+authRouter.put('/palette', requireAuth, asyncHandler(async (req, res) => {
+  const parsed = paletteSchema.safeParse(req.body);
+  if (!parsed.success) throw new AppError(400, 'Invalid palette ID');
+
+  // Verify palette exists and is active
+  const [palette] = await db.select({ id: palettes.id })
+    .from(palettes)
+    .where(eq(palettes.id, parsed.data.paletteId))
+    .limit(1);
+
+  if (!palette) throw new AppError(404, 'Palette not found');
+
+  const [user] = await db.update(users)
+    .set({ paletteId: parsed.data.paletteId })
+    .where(eq(users.id, req.user!.userId))
+    .returning({ paletteId: users.paletteId });
+
+  if (!user) throw new AppError(404, 'User not found');
+  res.json({ paletteId: user.paletteId });
+}));
+
+// DELETE /api/auth/palette — reset to default
+authRouter.delete('/palette', requireAuth, asyncHandler(async (req, res) => {
+  await db.update(users)
+    .set({ paletteId: null })
+    .where(eq(users.id, req.user!.userId));
+
+  res.json({ paletteId: null });
+}));
 
 // PUT /api/auth/password — change password
 const passwordSchema = z.object({
@@ -250,7 +288,7 @@ const passwordSchema = z.object({
   newPassword: z.string().min(8),
 });
 
-authRouter.put('/password', requireAuth, blockIfImpersonating, async (req, res) => {
+authRouter.put('/password', requireAuth, blockIfImpersonating, asyncHandler(async (req, res) => {
   const parsed = passwordSchema.safeParse(req.body);
   if (!parsed.success) throw new AppError(400, 'Invalid input. New password must be at least 8 characters.');
 
@@ -270,4 +308,4 @@ authRouter.put('/password', requireAuth, blockIfImpersonating, async (req, res) 
     .where(eq(users.id, user.id));
 
   res.json({ ok: true });
-});
+}));
