@@ -7,6 +7,35 @@ import { useAuth } from '../../contexts/AuthContext';
 import { LEVELS } from '../../lib/constants';
 import { ClaudeIcon } from '../icons/ClaudeIcon';
 
+function getInitials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(w => w[0].toUpperCase())
+    .join('');
+}
+
+function UserAvatar({ user, size = 'sm' }: { user: { displayName: string; profileImage?: string | null }; size?: 'sm' | 'md' }) {
+  const dim = size === 'sm' ? 'w-6 h-6 text-[10px]' : 'w-8 h-8 text-xs';
+
+  if (user.profileImage) {
+    return (
+      <img
+        src={user.profileImage}
+        alt={user.displayName}
+        className={`${dim} rounded-full object-cover flex-shrink-0`}
+      />
+    );
+  }
+
+  return (
+    <span className={`${dim} rounded-full bg-purple text-white flex items-center justify-center font-mono font-bold flex-shrink-0`}>
+      {getInitials(user.displayName) || '?'}
+    </span>
+  );
+}
+
 const LEVEL_EMOJI: Record<number, string> = {
   0: '\u{1F4BB}', // laptop
   1: '\u{1F4DF}', // terminal/pager
@@ -118,11 +147,9 @@ export function HomeScreen() {
                   {/* Desktop: dashboard button + logout icon */}
                   <Link
                     to="/dashboard"
-                    className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg-elevated/60 border border-border hover:border-purple/30 hover:bg-bg-elevated transition-colors"
+                    className="hidden md:flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-bg-elevated/60 border border-border hover:border-purple/30 hover:bg-bg-elevated transition-colors"
                   >
-                    <svg className="w-3.5 h-3.5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
+                    <UserAvatar user={user} size="sm" />
                     <span className="text-xs font-mono text-text-primary">{user.displayName}</span>
                   </Link>
                   <button
@@ -162,10 +189,11 @@ export function HomeScreen() {
                           className="flex items-center gap-3 px-4 py-3 text-sm font-mono text-text-primary hover:bg-bg-elevated transition-colors"
                           onClick={() => setMobileMenuOpen(false)}
                         >
-                          <svg className="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                          </svg>
-                          Dashboard
+                          <UserAvatar user={user} size="md" />
+                          <div className="min-w-0">
+                            <p className="text-sm font-mono text-text-primary truncate">{user.displayName}</p>
+                            <p className="text-[11px] text-text-muted">Dashboard</p>
+                          </div>
                         </Link>
                         <button
                           onClick={() => { logout(); setMobileMenuOpen(false); }}
