@@ -1,0 +1,100 @@
+{
+  "id": "4b.7",
+  "level": 45,
+  "order": 7,
+  "title": "Your First Real API",
+  "subtitle": "Call JSONPlaceholder — a free public API — from your real terminal",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You've been calling a mock API. Now let's call a **real** one.\n\n**JSONPlaceholder** (`jsonplaceholder.typicode.com`) is a free public fake API used by millions of developers for testing and learning. No sign-up, no API key, no credit card.\n\nIt has real endpoints, real JSON responses, and behaves exactly like a production API — perfect for practicing.",
+      "keyPoints": [
+        "JSONPlaceholder is free, public, and requires no authentication",
+        "It has endpoints for users, posts, todos, comments, albums, and photos",
+        "Responses are fake data but the format is identical to real APIs",
+        "Open your terminal on your real machine for this lesson"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Open your real terminal (not the sandbox). Make sure curl is available.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl --version",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "curl 7.x.x or higher — any version from the last 5 years will work",
+      "troubleshooting": [
+        {
+          "problem": "command not found: curl",
+          "solution": "On Mac: curl comes pre-installed. Try restarting your terminal. On Windows: curl is available in PowerShell and Windows Terminal on Windows 10+."
+        }
+      ],
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Fetch a single todo item. This is a real GET request to a real server.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl https://jsonplaceholder.typicode.com/todos/1",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "{\n  \"userId\": 1,\n  \"id\": 1,\n  \"title\": \"delectus aut autem\",\n  \"completed\": false\n}",
+      "troubleshooting": [
+        {
+          "problem": "Connection timeout or no response",
+          "solution": "Check your internet connection. The JSONPlaceholder servers are very reliable — if it doesn't respond, it's likely a local network issue."
+        }
+      ],
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Fetch all users. This returns an array of 10 user objects — scan through the JSON and notice the structure.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl https://jsonplaceholder.typicode.com/users",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "An array of 10 user objects, each with id, name, username, email, address, phone, website, and company fields.",
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Use a query parameter to filter: get only the posts by user ID 1.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl \"https://jsonplaceholder.typicode.com/posts?userId=1\"",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "An array of 10 post objects, all with userId: 1",
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "POST a new resource. JSONPlaceholder accepts POST requests and returns the 'created' resource with an ID (though nothing is actually stored).",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl -X POST https://jsonplaceholder.typicode.com/posts \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"title\": \"My First Post\", \"body\": \"Hello from curl!\", \"userId\": 1}'",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "{\n  \"title\": \"My First Post\",\n  \"body\": \"Hello from curl!\",\n  \"userId\": 1,\n  \"id\": 101\n}",
+      "confirmationType": "success_or_error"
+    }
+  ],
+  "completionMessage": "You just called a real server on the actual internet — no browser, no framework. You fetched data, filtered with query params, and created a resource. This is backend development at its most fundamental.",
+  "milestone": null,
+  "nextLesson": "4b.8"
+}

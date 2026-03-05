@@ -1,0 +1,85 @@
+{
+  "id": "4b.9",
+  "level": 45,
+  "order": 9,
+  "title": "Calling the GitHub API",
+  "subtitle": "Explore a production API — no key needed for public data",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "GitHub's REST API is one of the best APIs to learn with:\n- **Free** for public data — no key needed\n- **Extensively documented** at `docs.github.com/en/rest`\n- **Real data** — your actual repos, commits, and profile\n- **Standard patterns** — everything you learn here applies to most REST APIs\n\nThe base URL is `https://api.github.com`. All endpoints go after it.",
+      "keyPoints": [
+        "No API key needed for public data (up to 60 requests/hour per IP)",
+        "Authenticated requests allow 5,000 requests/hour",
+        "The `Accept: application/vnd.github.v3+json` header is recommended",
+        "Response data includes far more fields than you'd typically use — just pick what you need"
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Fetch your own GitHub profile (or any public GitHub user). Replace `torvalds` with any GitHub username.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl https://api.github.com/users/torvalds",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "A JSON object with login, id, name, public_repos, followers, following, created_at, and many more fields.",
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "List the public repositories for that user.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl https://api.github.com/users/torvalds/repos",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "An array of repository objects. Each has name, description, language, stargazers_count, forks_count, updated_at, and more.",
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Add query parameters to filter the results — get the 3 most recently updated repos, sorted by update time.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl \"https://api.github.com/users/torvalds/repos?sort=updated&per_page=3\"",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "An array of 3 repository objects, sorted with the most recently updated first.",
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Now try it with YOUR GitHub username. Replace `YOUR_USERNAME` below.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl \"https://api.github.com/users/YOUR_USERNAME/repos?sort=updated&per_page=5\"",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "Your 5 most recently updated repositories as JSON.",
+      "troubleshooting": [
+        {
+          "problem": "Empty array []",
+          "solution": "Your GitHub account may have no public repos yet, or they're all private. That's fine — the API call itself worked correctly."
+        },
+        {
+          "problem": "404 Not Found",
+          "solution": "Check that you typed your GitHub username correctly (case-insensitive, but must match the username in your GitHub URL)."
+        }
+      ],
+      "confirmationType": "success_or_error"
+    }
+  ],
+  "completionMessage": "You just queried a production API used by millions of developers every day. The pattern — base URL + path + query params — works for every REST API on the internet.",
+  "milestone": null,
+  "nextLesson": "4b.10"
+}

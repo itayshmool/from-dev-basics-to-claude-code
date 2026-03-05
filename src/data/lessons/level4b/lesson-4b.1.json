@@ -1,0 +1,87 @@
+{
+  "id": "4b.1",
+  "level": 45,
+  "order": 1,
+  "title": "What Is a URL, Really?",
+  "subtitle": "Every URL is a structured address — learn to read it",
+  "type": "conceptual",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You've been clicking URLs your whole life. But as a developer, you need to **read** them — not just click them.\n\nEvery URL is built from distinct parts, each with a specific meaning. Once you can dissect a URL, you can understand any API, debug any request, and build any network feature.",
+      "analogy": "A URL is like a postal address. The protocol is the delivery method (air mail vs ground). The host is the street address. The path is the apartment number. The query string is a sticky note attached to the envelope with extra instructions.",
+      "keyPoints": [
+        "URLs are structured — every part has a name and a purpose",
+        "The query string (`?key=value`) is how you send optional parameters",
+        "A path like `/users/42` means 'resource users, item 42'",
+        "The same host can have thousands of different paths"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Let's dissect a real URL into its parts.",
+      "blocks": [
+        {
+          "language": "text",
+          "label": "Full URL",
+          "code": "https://api.github.com/users/torvalds/repos?per_page=5&sort=updated"
+        },
+        {
+          "language": "text",
+          "label": "Protocol",
+          "code": "https://\n\n\"How to talk\" — encrypted HTTP connection.\nAlways https:// for real APIs (not http://)."
+        },
+        {
+          "language": "text",
+          "label": "Host",
+          "code": "api.github.com\n\n\"Who to talk to\" — the server's address on the internet.\nDNS translates this to an IP like 140.82.121.6."
+        },
+        {
+          "language": "text",
+          "label": "Path",
+          "code": "/users/torvalds/repos\n\n\"What to ask for\" — the specific resource on that server.\nLike a file path, but for API resources."
+        },
+        {
+          "language": "text",
+          "label": "Query String",
+          "code": "?per_page=5&sort=updated\n\n\"Extra options\" — key=value pairs after the ?.\nper_page=5 means \"give me 5 results\".\nsort=updated means \"sort by last updated\"."
+        }
+      ],
+      "explanation": "The `?` marks the start of the query string. Each parameter is `key=value`. Multiple parameters are separated by `&`. The server reads each one as an option or filter."
+    },
+    {
+      "type": "dragSort",
+      "instruction": "Identify the correct part for each URL fragment below.",
+      "categories": [
+        { "name": "Protocol", "description": "How to connect" },
+        { "name": "Host", "description": "Who to connect to" },
+        { "name": "Path", "description": "What resource to get" },
+        { "name": "Query String", "description": "Extra options" }
+      ],
+      "items": [
+        { "text": "https://", "correctCategory": "Protocol" },
+        { "text": "jsonplaceholder.typicode.com", "correctCategory": "Host" },
+        { "text": "/posts/1/comments", "correctCategory": "Path" },
+        { "text": "?userId=3&limit=10", "correctCategory": "Query String" },
+        { "text": "api.openweathermap.org", "correctCategory": "Host" },
+        { "text": "/api/weather/current", "correctCategory": "Path" },
+        { "text": "?city=TelAviv&units=metric", "correctCategory": "Query String" }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "In the URL `https://api.example.com/products?category=shoes&limit=20`, what does `limit=20` do?",
+      "options": [
+        "Connects to port 20 on the server",
+        "Limits the server's CPU usage to 20%",
+        "Passes 'limit' as a query parameter with value '20' — the server decides what to do with it",
+        "Sets the maximum URL length to 20 characters"
+      ],
+      "correctIndex": 2,
+      "explanation": "Query parameters are just key-value pairs the server reads. `limit=20` is a hint to the server — by convention, most APIs use it to limit how many results come back. But it's the server that decides what `limit` means; it's not a built-in browser feature."
+    }
+  ],
+  "completionMessage": "You can now read any URL like a developer. Protocol → host → path → query string. Every API call starts with understanding the URL.",
+  "milestone": null,
+  "nextLesson": "4b.2"
+}

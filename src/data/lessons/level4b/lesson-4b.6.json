@@ -1,0 +1,78 @@
+{
+  "id": "4b.6",
+  "level": 45,
+  "order": 6,
+  "title": "Sending Data — POST Requests",
+  "subtitle": "GET fetches. POST creates. Learn to send data to a server.",
+  "type": "terminal",
+  "commandsIntroduced": [],
+  "curlMocks": {
+    "https://mock.zero2claude.dev/todos": "[{\"id\":1,\"text\":\"Buy groceries\",\"done\":false},{\"id\":2,\"text\":\"Read docs\",\"done\":true}]",
+    "POST https://mock.zero2claude.dev/todos": "{\"id\":3,\"text\":\"Learn curl\",\"done\":false,\"createdAt\":\"2025-03-05T12:00:00Z\"}"
+  },
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "So far you've only used `GET` — asking for data. But you also need to **send** data: create a user, submit a form, post a comment.\n\nThat's what `POST` is for.\n\nIn curl:\n- `-X POST` sets the method to POST\n- `-H \"Content-Type: application/json\"` tells the server what format you're sending\n- `-d '{...}'` is the request body — the data you're sending",
+      "keyPoints": [
+        "GET = read. POST = create.",
+        "`-X POST` switches the HTTP method",
+        "`-d '{...}'` sends a JSON body",
+        "Always include `Content-Type: application/json` when sending JSON"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Here's the anatomy of a POST request in curl.",
+      "blocks": [
+        {
+          "language": "bash",
+          "label": "POST with JSON body",
+          "code": "curl -X POST https://api.example.com/todos \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"text\": \"Learn curl\", \"done\": false}'"
+        }
+      ],
+      "explanation": "Line by line:\n`-X POST` — use POST method instead of GET\n`-H \"Content-Type: application/json\"` — tell the server the body is JSON\n`-d '...'` — the body data (use single quotes to avoid shell escaping issues with double quotes inside)"
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "First, GET the current list of todos to see what's there.",
+      "prompt": "Type `curl https://mock.zero2claude.dev/todos`",
+      "hint": "curl https://mock.zero2claude.dev/todos",
+      "validation": {
+        "type": "exactCommand",
+        "value": "curl https://mock.zero2claude.dev/todos"
+      },
+      "onSuccess": {
+        "message": "Two todos. Now let's add a third one using POST."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now POST a new todo to the server. Send it as a JSON body.",
+      "prompt": "Type `curl -X POST https://mock.zero2claude.dev/todos -H \"Content-Type: application/json\" -d '{\"text\": \"Learn curl\", \"done\": false}'`",
+      "hint": "Start with curl -X POST, then the URL, then the -H header, then -d with the JSON body in single quotes",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "curl -X POST https://mock.zero2claude.dev/todos"
+      },
+      "onSuccess": {
+        "message": "The server responded with the created todo — including an `id` it assigned, a `createdAt` timestamp, and the data you sent back. This confirms the item was saved.\n\nThis is the exact pattern used by every API: POST data → server creates resource → server returns the created object with its new ID."
+      }
+    },
+    {
+      "type": "quiz",
+      "question": "You want to add a new product to an e-commerce API. The API docs say `POST /api/products`. Which curl command is correct?",
+      "options": [
+        "curl https://shop.com/api/products?name=Shoes&price=50",
+        "curl -X POST https://shop.com/api/products -H \"Content-Type: application/json\" -d '{\"name\":\"Shoes\",\"price\":50}'",
+        "curl -GET https://shop.com/api/products -d '{\"name\":\"Shoes\"}'",
+        "curl --create https://shop.com/api/products -body '{\"name\":\"Shoes\"}'"
+      ],
+      "correctIndex": 1,
+      "explanation": "POST requests send data in the body (with -d), not in the URL. You need -X POST to change the method, Content-Type to tell the server the format, and -d with the JSON payload. Option A uses query params which is wrong for creation. Options C and D are invalid."
+    }
+  ],
+  "completionMessage": "GET reads. POST creates. You now know both directions of the HTTP conversation — asking for data and sending data.",
+  "milestone": null,
+  "nextLesson": "4b.7"
+}

@@ -78,7 +78,7 @@
       "Databases store data permanently",
       "The cloud is rented computing power"
     ],
-    "nextLevelTeaser": "Next up: Level 5 \u2014 Building With Real Tools. You'll install Node.js and build a real web server."
+    "nextLevelTeaser": "Next up: Level 4B \u2014 Talk to the Internet. You'll make real HTTP requests from the terminal using curl."
   },
-  "nextLesson": "5.1"
+  "nextLesson": "4b.1"
 }

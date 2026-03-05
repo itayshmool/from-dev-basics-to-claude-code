@@ -23,6 +23,7 @@ interface TerminalContextValue {
   bumpFsVersion: () => void;
   envVars: Map<string, string>;
   git: VirtualGit;
+  curlMocks?: Record<string, string>;
 }
 
 const TerminalCtx = createContext<TerminalContextValue | null>(null);
@@ -30,10 +31,12 @@ const TerminalCtx = createContext<TerminalContextValue | null>(null);
 export function TerminalProvider({
   initialFs,
   initialDir,
+  curlMocks,
   children,
 }: {
   initialFs?: FileSystemSpec;
   initialDir?: string;
+  curlMocks?: Record<string, string>;
   children: ReactNode;
 }) {
   const vfsRef = useRef(new VirtualFileSystem(initialFs, initialDir || '/home/user'));
@@ -77,6 +80,7 @@ export function TerminalProvider({
       bumpFsVersion,
       envVars: envVarsRef.current,
       git: gitRef.current,
+      curlMocks,
     }}>
       {children}
     </TerminalCtx.Provider>

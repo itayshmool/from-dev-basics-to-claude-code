@@ -1,0 +1,102 @@
+{
+  "id": "4b.12",
+  "level": 45,
+  "order": 12,
+  "title": "From curl to Code",
+  "subtitle": "Every curl command translates directly into real code",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Here's the secret: `curl` isn't just a testing tool. It's a **translation guide**.\n\nEvery curl command you write maps 1:1 to a fetch call in JavaScript, a requests call in Python, or any other HTTP client. Once a request works in curl, translating it to code is mechanical — and Claude Code does it in seconds.\n\nThis is the workflow every developer uses:\n1. Understand the API (read docs)\n2. Test the request with curl (confirm it works)\n3. Translate to code (copy into your project)\n4. Handle the response (parse and use the data)",
+      "keyPoints": [
+        "curl flags map directly to code: `-H` → headers object, `-d` → body",
+        "Any working curl command can be pasted to Claude Code: \"translate this to JavaScript fetch\"",
+        "The translation is mechanical — the hard part is getting the curl working, not the code",
+        "This workflow works for every language: JS, Python, Go, Ruby, etc."
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "The same request in curl, JavaScript (fetch), and Python (requests).",
+      "blocks": [
+        {
+          "language": "bash",
+          "label": "curl",
+          "code": "curl https://api.github.com/users/torvalds \\\n  -H \"Accept: application/json\""
+        },
+        {
+          "language": "javascript",
+          "label": "JavaScript (fetch)",
+          "code": "const response = await fetch('https://api.github.com/users/torvalds', {\n  headers: {\n    'Accept': 'application/json'\n  }\n});\nconst data = await response.json();\nconsole.log(data.name); // 'Linus Torvalds'"
+        },
+        {
+          "language": "python",
+          "label": "Python (requests)",
+          "code": "import requests\n\nresponse = requests.get(\n    'https://api.github.com/users/torvalds',\n    headers={'Accept': 'application/json'}\n)\ndata = response.json()\nprint(data['name'])  # Linus Torvalds"
+        }
+      ],
+      "explanation": "Notice the mapping:\n- URL → first argument\n- `-H \"Key: Value\"` → headers object `{ 'Key': 'Value' }`\n- `-X POST` → `method: 'POST'`\n- `-d '{...}'` → `body: JSON.stringify({...})`\n\nThe structure is identical. The syntax is different."
+    },
+    {
+      "type": "codeExample",
+      "instruction": "A POST request — the same data sent three ways.",
+      "blocks": [
+        {
+          "language": "bash",
+          "label": "curl",
+          "code": "curl -X POST https://api.example.com/posts \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Authorization: Bearer MY_TOKEN\" \\\n  -d '{\"title\": \"Hello\", \"body\": \"World\"}'"
+        },
+        {
+          "language": "javascript",
+          "label": "JavaScript (fetch)",
+          "code": "const response = await fetch('https://api.example.com/posts', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'Authorization': 'Bearer MY_TOKEN'\n  },\n  body: JSON.stringify({ title: 'Hello', body: 'World' })\n});\nconst data = await response.json();"
+        },
+        {
+          "language": "python",
+          "label": "Python (requests)",
+          "code": "import requests\n\nresponse = requests.post(\n    'https://api.example.com/posts',\n    headers={\n        'Content-Type': 'application/json',\n        'Authorization': 'Bearer MY_TOKEN'\n    },\n    json={'title': 'Hello', 'body': 'World'}\n)\ndata = response.json()"
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Write a curl command to get the 3 most recently updated public repos for `microsoft` on GitHub. Then ask Claude Code to translate it to JavaScript.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl \"https://api.github.com/users/microsoft/repos?sort=updated&per_page=3\"",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "An array of 3 repo objects. Confirm it works, then copy the command.",
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "promptTemplate",
+      "instruction": "Once your curl works, use this prompt with Claude Code to translate it to code.",
+      "prompt": "Translate this curl command into a JavaScript async function that returns the parsed JSON:\n\ncurl \"https://api.github.com/users/microsoft/repos?sort=updated&per_page=3\"\n\nThe function should be called `getMicrosoftRepos` and handle errors gracefully.",
+      "placeholders": [
+        {
+          "token": "curl command",
+          "description": "Paste your working curl command here"
+        }
+      ],
+      "expectedResult": "An async JavaScript function that uses fetch, handles errors, and returns the array of repos."
+    }
+  ],
+  "completionMessage": "Level 4B Complete: Talk to the Internet\n\nYou can now:\n  ✓ Read and construct any URL\n  ✓ Make GET, POST requests with curl\n  ✓ Add headers and authentication\n  ✓ Use query parameters to filter results\n  ✓ Read API documentation and translate it\n  ✓ Diagnose HTTP errors systematically\n  ✓ Translate curl commands to code\n\nThe internet is just requests and responses. You now speak the language.\n\nNext up: Level 5 — Building With Real Tools\nYou'll build the server that answers these requests.",
+  "milestone": {
+    "title": "Level 4B Complete: Talk to the Internet",
+    "summary": [
+      "You can construct and read any URL",
+      "You make real HTTP requests from the terminal using curl",
+      "You authenticate with API keys and request headers",
+      "You read API documentation and translate it into working commands",
+      "You diagnose HTTP errors by status code and response body",
+      "You know how curl maps directly to JavaScript and Python code"
+    ],
+    "nextLevelTeaser": "In Level 5, you'll flip to the other side — you'll BUILD the server that answers these requests."
+  },
+  "nextLesson": "5.1"
+}

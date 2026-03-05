@@ -1,0 +1,70 @@
+{
+  "id": "4b.11",
+  "level": 45,
+  "order": 11,
+  "title": "When Things Go Wrong",
+  "subtitle": "Diagnose API errors like a developer, not a guesser",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "APIs fail. Servers go down. Keys expire. Rate limits hit. URLs get typos.\n\nThe difference between a beginner and a developer isn't whether things break — it's how fast you diagnose and fix them.\n\nHere's the systematic approach:\n1. **Read the status code** — which error family is it?\n2. **Read the response body** — the server usually tells you exactly what's wrong\n3. **Check the headers** — `Retry-After`, `WWW-Authenticate`, and `X-RateLimit-*` are goldmines\n4. **Verify the URL** — one typo breaks everything",
+      "keyPoints": [
+        "Always use `curl -i` when debugging — you need the headers",
+        "The error body is usually more helpful than the status code",
+        "4xx = your problem. 5xx = their problem.",
+        "When nothing works, check the API provider's status page"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Your diagnostic checklist by status code family.",
+      "blocks": [
+        {
+          "language": "text",
+          "label": "4xx — Client errors (you did something wrong)",
+          "code": "400 Bad Request\n  → Check: Is your JSON valid? Are required fields present?\n  → Fix: Validate your -d body. Check the API docs for required fields.\n\n401 Unauthorized\n  → Check: Did you include the Authorization header? Is the key correct?\n  → Fix: Check your API key. Make sure you're using the right header format.\n\n403 Forbidden\n  → Check: Do you have permission? Is this feature on your plan?\n  → Fix: Check your account permissions or upgrade your plan.\n\n404 Not Found\n  → Check: Does the URL path exist? Did you replace all {placeholders}?\n  → Fix: Double-check the URL against the docs. Check the resource ID.\n\n429 Too Many Requests\n  → Check: Look for Retry-After header — it tells you when to retry.\n  → Fix: Slow down. Implement exponential backoff. Use caching."
+        },
+        {
+          "language": "text",
+          "label": "5xx — Server errors (their problem)",
+          "code": "500 Internal Server Error\n  → Their code crashed. Check their status page.\n  → Retry after a brief wait.\n\n503 Service Unavailable\n  → Server is overloaded or in maintenance.\n  → Check their status page. Wait and retry.\n\n504 Gateway Timeout\n  → Your request took too long. The server gave up.\n  → Try again. If persistent, contact the API provider."
+        },
+        {
+          "language": "text",
+          "label": "curl errors (before a response even arrives)",
+          "code": "curl: (6) Could not resolve host\n  → DNS failure. Check the hostname for typos.\n  → Verify your internet connection.\n\ncurl: (7) Failed to connect\n  → Server unreachable or port blocked.\n  → Check if the service is down.\n\ncurl: (35) SSL certificate problem\n  → Certificate expired or invalid.\n  → Check if you're using https:// correctly."
+        }
+      ]
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Trigger a real 404 from the GitHub API by requesting a repo that doesn't exist.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl -i https://api.github.com/repos/this-user-doesnt-exist-xyz/no-such-repo",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "HTTP/2 404\n...\n{\"message\": \"Not Found\", \"documentation_url\": \"...\"}\n\nThe API tells you exactly what's wrong — and even gives you a link to the docs.",
+      "confirmationType": "success_or_error"
+    },
+    {
+      "type": "guideStep",
+      "instruction": "Trigger a real 401 by trying to access a private endpoint without authentication.",
+      "codeBlocks": [
+        {
+          "language": "bash",
+          "code": "curl -i https://api.github.com/user",
+          "copyable": true
+        }
+      ],
+      "expectedOutput": "HTTP/2 401\n...\n{\"message\": \"Requires authentication\", ...}\n\nThis endpoint (`/user` — your own profile) requires a personal access token. Without one, you get 401.",
+      "confirmationType": "success_or_error"
+    }
+  ],
+  "completionMessage": "Error diagnosis is a skill you'll use every day. Status code → body → headers → URL. Work the checklist, fix in order, move on.",
+  "milestone": null,
+  "nextLesson": "4b.12"
+}

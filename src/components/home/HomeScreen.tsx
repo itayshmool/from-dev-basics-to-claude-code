@@ -42,6 +42,7 @@ const LEVEL_EMOJI: Record<number, string> = {
   2: '\u{1F4D6}', // open book
   3: '\u{1F500}', // shuffle/git
   4: '\u{2601}\uFE0F',  // cloud
+  45: '\u{1F4E1}', // satellite antenna — curl/HTTP requests
   5: '\u{1F528}', // hammer
   6: '\u{1F916}', // robot
   7: '\u{1F680}', // rocket

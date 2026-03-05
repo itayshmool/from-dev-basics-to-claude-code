@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useLessonEngine } from '../../hooks/useLessonEngine';
 import { validateLesson } from '../../core/lesson/LessonEngine';
 import { useProgress } from '../../hooks/useProgress';
-import { getLessonById, getLevelForLesson } from '../../data/levels';
+import { getLessonById, getLevelForLesson, levels as allLevels } from '../../data/levels';
 import { LEVELS } from '../../lib/constants';
 import { SectionRenderer } from './SectionRenderer';
 import { LessonComplete } from './LessonComplete';
@@ -163,19 +163,21 @@ export function LessonView() {
     }
   }
 
+  // Find the next level by array position (supports non-sequential IDs like 4B = 45)
+  const currentLevelIndex = allLevels.findIndex(l => l.id === level.id);
+  const nextLevelData = currentLevelIndex >= 0 ? allLevels[currentLevelIndex + 1] : null;
+  const nextLevelFirstLessonId = nextLevelData?.lessons[0]?.id ?? null;
+
   function handleNextLevel() {
-    const nextLevelId = les.level + 1;
-    const nextLevelFirstLessonId = `${nextLevelId}.1`;
-    const nextLesson = getLessonById(nextLevelFirstLessonId);
-    if (nextLesson) {
+    if (nextLevelFirstLessonId) {
       setCurrentLesson(nextLevelFirstLessonId, 0);
       navigate(`/lesson/${nextLevelFirstLessonId}`);
     }
   }
 
   // Derive next level info for milestone screen
-  const nextLevelMeta = LEVELS.find(l => l.id === les.level + 1);
-  const nextLevelFirstLesson = getLessonById(`${les.level + 1}.1`);
+  const nextLevelMeta = nextLevelData ? LEVELS.find(l => l.id === nextLevelData.id) : undefined;
+  const nextLevelFirstLesson = nextLevelFirstLessonId ? getLessonById(nextLevelFirstLessonId) : null;
   const hasNextLevel = !!nextLevelMeta && !!nextLevelFirstLesson;
 
   // Milestone screen
@@ -232,7 +234,7 @@ export function LessonView() {
       />
 
       {isTerminalLesson ? (
-        <TerminalProvider key={lessonId} initialFs={les.initialFs} initialDir={les.initialDir}>
+        <TerminalProvider key={lessonId} initialFs={les.initialFs} initialDir={les.initialDir} curlMocks={les.curlMocks}>
           {sectionContent}
           <TerminalBugReport
             isOpen={showBugReport}

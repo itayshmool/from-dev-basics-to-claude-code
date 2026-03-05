@@ -1,0 +1,71 @@
+{
+  "id": "4b.3",
+  "level": 45,
+  "order": 3,
+  "title": "Query Parameters in Action",
+  "subtitle": "Customize what you get back by adding options to the URL",
+  "type": "terminal",
+  "commandsIntroduced": [],
+  "curlMocks": {
+    "https://mock.zero2claude.dev/greet?name=Sara": "{\"greeting\": \"Hello, Sara!\"}",
+    "https://mock.zero2claude.dev/greet?name=Mike": "{\"greeting\": \"Hello, Mike!\"}",
+    "https://mock.zero2claude.dev/greet?name=Mike&lang=es": "{\"greeting\": \"Hola, Mike!\"}",
+    "https://mock.zero2claude.dev/items": "[{\"id\":1,\"name\":\"Apple\"},{\"id\":2,\"name\":\"Banana\"},{\"id\":3,\"name\":\"Cherry\"},{\"id\":4,\"name\":\"Date\"},{\"id\":5,\"name\":\"Elderberry\"},{\"id\":6,\"name\":\"Fig\"},{\"id\":7,\"name\":\"Grape\"},{\"id\":8,\"name\":\"Honeydew\"},{\"id\":9,\"name\":\"Kiwi\"},{\"id\":10,\"name\":\"Lemon\"}]",
+    "https://mock.zero2claude.dev/items?limit=3": "[{\"id\":1,\"name\":\"Apple\"},{\"id\":2,\"name\":\"Banana\"},{\"id\":3,\"name\":\"Cherry\"}]",
+    "https://mock.zero2claude.dev/items?limit=5": "[{\"id\":1,\"name\":\"Apple\"},{\"id\":2,\"name\":\"Banana\"},{\"id\":3,\"name\":\"Cherry\"},{\"id\":4,\"name\":\"Date\"},{\"id\":5,\"name\":\"Elderberry\"}]"
+  },
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Query parameters are how you **customize** what a server returns.\n\nThey go after a `?` in the URL. Each one is `key=value`. Multiple ones are separated by `&`.\n\nThe server reads them like options on a form — filter by this, sort by that, limit to N results.",
+      "keyPoints": [
+        "Query string starts with `?`",
+        "Parameters are `key=value` pairs",
+        "Multiple parameters are joined with `&`",
+        "The server defines what each parameter means — you can't invent them"
+      ]
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Try passing your name as a query parameter. The server will greet you by name.",
+      "prompt": "Type `curl https://mock.zero2claude.dev/greet?name=Sara`",
+      "hint": "The ? and everything after it is the query string",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "curl https://mock.zero2claude.dev/greet?name="
+      },
+      "onSuccess": {
+        "message": "The server read the `name` parameter and used it in the response. Change `Sara` to your own name and run it again — the response changes dynamically. This is how search, filtering, and personalization work on every website."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now add a second parameter. Multiple parameters are separated by `&` (the 'and' sign).",
+      "prompt": "Type `curl \"https://mock.zero2claude.dev/greet?name=Mike&lang=es\"`",
+      "hint": "Wrap the URL in quotes when it has & — the shell would otherwise treat & as a background operator",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "curl"
+      },
+      "onSuccess": {
+        "message": "`Hola, Mike!` — the server read both `name=Mike` and `lang=es` and combined them.\n\nNote: the URL was quoted. In the shell, `&` without quotes runs a command in the background. When your URL has `&`, always wrap it in quotes."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Query parameters also work for pagination — limiting how many results you get back.",
+      "prompt": "Type `curl https://mock.zero2claude.dev/items?limit=3` to get only 3 items instead of all 10.",
+      "hint": "Add ?limit=3 at the end of the items URL",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "curl https://mock.zero2claude.dev/items?limit="
+      },
+      "onSuccess": {
+        "message": "Without `?limit=3`, the server returns all 10 items. With it, only 3. This is called **pagination** — controlling how much data you get per request. Every large API uses it. Without it, a single request to a popular API could return millions of records."
+      }
+    }
+  ],
+  "completionMessage": "Query parameters are how you filter, search, sort, and paginate API responses. Now you can customize any request just by changing the URL.",
+  "milestone": null,
+  "nextLesson": "4b.4"
+}

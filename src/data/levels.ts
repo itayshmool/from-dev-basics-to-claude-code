@@ -70,6 +70,20 @@ import lesson412 from './lessons/level4/lesson-4.12.json';
 import lesson413 from './lessons/level4/lesson-4.13.json';
 import lesson414 from './lessons/level4/lesson-4.14.json';
 
+// Static imports for Level 4B lesson JSON files
+import lesson4b1 from './lessons/level4b/lesson-4b.1.json';
+import lesson4b2 from './lessons/level4b/lesson-4b.2.json';
+import lesson4b3 from './lessons/level4b/lesson-4b.3.json';
+import lesson4b4 from './lessons/level4b/lesson-4b.4.json';
+import lesson4b5 from './lessons/level4b/lesson-4b.5.json';
+import lesson4b6 from './lessons/level4b/lesson-4b.6.json';
+import lesson4b7 from './lessons/level4b/lesson-4b.7.json';
+import lesson4b8 from './lessons/level4b/lesson-4b.8.json';
+import lesson4b9 from './lessons/level4b/lesson-4b.9.json';
+import lesson4b10 from './lessons/level4b/lesson-4b.10.json';
+import lesson4b11 from './lessons/level4b/lesson-4b.11.json';
+import lesson4b12 from './lessons/level4b/lesson-4b.12.json';
+
 // Static imports for Level 5 lesson JSON files
 import lesson51 from './lessons/level5/lesson-5.1.json';
 import lesson52 from './lessons/level5/lesson-5.2.json';
@@ -130,6 +144,7 @@ const level1Lessons = [lesson11, lesson12, lesson13, lesson14, lesson15, lesson1
 const level2Lessons = [lesson21, lesson22, lesson23, lesson24, lesson25, lesson26, lesson27, lesson28, lesson29, lesson210, lesson211, lesson212] as Lesson[];
 const level3Lessons = [lesson31, lesson32, lesson33, lesson34, lesson35, lesson36, lesson37, lesson38, lesson39, lesson310, lesson311, lesson312, lesson313, lesson314, lesson315, lesson316] as Lesson[];
 const level4Lessons = [lesson41, lesson42, lesson43, lesson44, lesson45, lesson46, lesson47, lesson48, lesson49, lesson410, lesson411, lesson412, lesson413, lesson414] as Lesson[];
+const level4bLessons = [lesson4b1, lesson4b2, lesson4b3, lesson4b4, lesson4b5, lesson4b6, lesson4b7, lesson4b8, lesson4b9, lesson4b10, lesson4b11, lesson4b12] as Lesson[];
 const level5Lessons = [lesson51, lesson52, lesson53, lesson54, lesson55, lesson56, lesson57, lesson58, lesson59, lesson510, lesson511, lesson512, lesson513, lesson514, lesson515] as Lesson[];
 const level6Lessons = [lesson61, lesson62, lesson63, lesson64, lesson65, lesson66, lesson67, lesson68, lesson69, lesson610, lesson611, lesson612, lesson613, lesson614, lesson615] as Lesson[];
 const level7Lessons = [lesson71, lesson72, lesson73, lesson74, lesson75, lesson76, lesson77, lesson78, lesson79, lesson710, lesson711, lesson712] as Lesson[];
@@ -164,6 +179,12 @@ export const levels: LevelMeta[] = [
     title: 'How Software Actually Works',
     subtitle: 'Client, server, APIs, databases, and the cloud — demystified',
     lessons: level4Lessons,
+  },
+  {
+    id: 45,
+    title: 'Talk to the Internet',
+    subtitle: 'Make real HTTP requests, call real APIs, read real data',
+    lessons: level4bLessons,
   },
   {
     id: 5,

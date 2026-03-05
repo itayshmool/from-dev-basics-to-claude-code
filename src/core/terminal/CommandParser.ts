@@ -85,6 +85,7 @@ export function executeCommand(
   vfs: VirtualFileSystem,
   env?: Map<string, string>,
   git?: VirtualGit | null,
+  curlMocks?: Record<string, string>,
 ): ExecutionResult {
   const envMap = env ?? new Map();
   const expanded = expandEnvVars(input.trim(), envMap);
@@ -101,7 +102,7 @@ export function executeCommand(
   let lastResult: ExecutionResult = { output: '', isError: false };
 
   for (const segment of segments) {
-    lastResult = executeSingle(segment, vfs, envMap, pipeInput, git);
+    lastResult = executeSingle(segment, vfs, envMap, pipeInput, git, curlMocks);
     if (lastResult.isError) return lastResult;
     if (lastResult.clearedScreen) return lastResult;
     pipeInput = lastResult.output;
@@ -130,6 +131,7 @@ function executeSingle(
   env: Map<string, string>,
   pipeInput: string,
   git?: VirtualGit | null,
+  curlMocks?: Record<string, string>,
 ): ExecutionResult {
   const tokens = tokenize(input);
   const command = tokens[0] || '';
@@ -153,6 +155,7 @@ function executeSingle(
     case 'export': return cmdExport(args, env);
     case 'env':    return cmdEnv(env);
     case 'git':    return cmdGit(args, git);
+    case 'curl':   return cmdCurl(args, curlMocks);
     case 'clear':  return { output: '', isError: false, clearedScreen: true };
     case 'help':   return cmdHelp();
     default:
@@ -693,6 +696,75 @@ function cmdGit(args: string[], git?: VirtualGit | null): ExecutionResult {
 }
 
 /* ════════════════════════════════════════════
+   Level 4B commands (curl)
+   ════════════════════════════════════════════ */
+
+function cmdCurl(args: string[], curlMocks?: Record<string, string>): ExecutionResult {
+  if (!curlMocks) {
+    return { output: 'curl: command not available in this environment', isError: true };
+  }
+
+  const flags = new Set<string>();
+  let url = '';
+  let method = 'GET';
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg === '-i' || arg === '--include') { flags.add('i'); }
+    else if (arg === '-s' || arg === '--silent') { flags.add('s'); }
+    else if (arg === '-v' || arg === '--verbose') { flags.add('v'); }
+    else if (arg === '-X' || arg === '--request') { method = args[++i]?.toUpperCase() || 'GET'; }
+    else if (arg === '-H' || arg === '--header') { i++; /* consume header value, not used for mocks */ }
+    else if (arg === '-d' || arg === '--data' || arg === '--data-raw') { i++; /* consume body */ }
+    else if (arg === '-o' || arg === '--output') { i++; }
+    else if (arg.startsWith('-') && !arg.startsWith('--')) {
+      // compound short flags like -si
+      for (const ch of arg.slice(1)) {
+        if (ch === 'i') flags.add('i');
+        if (ch === 's') flags.add('s');
+        if (ch === 'v') flags.add('v');
+      }
+    } else if (!arg.startsWith('-')) {
+      url = arg;
+    }
+  }
+
+  if (!url) {
+    return { output: 'curl: no URL specified!\nUsage: curl [options] <url>', isError: true };
+  }
+
+  // Normalize URL: strip trailing slash for lookup
+  const normalUrl = url.replace(/\/$/, '');
+
+  // Try "METHOD url" key first (for non-GET), then bare URL
+  const lookupKey = method !== 'GET' ? `${method} ${normalUrl}` : normalUrl;
+  const body = curlMocks[lookupKey] ?? curlMocks[normalUrl];
+
+  if (body === undefined) {
+    // Extract hostname for a realistic error
+    let host = url;
+    try { host = new URL(url).hostname; } catch { /* keep raw url */ }
+    return {
+      output: `curl: (6) Could not resolve host: ${host}\nDouble-check the URL and try again.`,
+      isError: true,
+    };
+  }
+
+  if (flags.has('i')) {
+    const headerBlock = [
+      'HTTP/2 200',
+      'content-type: application/json',
+      `date: ${new Date().toUTCString()}`,
+      'content-length: ' + body.length,
+      '',
+    ].join('\n');
+    return { output: headerBlock + body, isError: false };
+  }
+
+  return { output: body, isError: false };
+}
+
+/* ════════════════════════════════════════════
    Help
    ════════════════════════════════════════════ */
 
@@ -725,6 +797,10 @@ function cmdHelp(): ExecutionResult {
     ['cmd > file',       'Write output to file'],
     ['cmd >> file',      'Append output to file'],
     ['cmd1 | cmd2',      'Pipe output between commands'],
+    ['curl <url>',       'Make an HTTP request'],
+    ['curl -i <url>',    'Show response headers + body'],
+    ['curl -X POST',     'Send a POST request'],
+    ['curl -H "K: V"',   'Add a request header'],
     ['clear',            'Clear the screen'],
     ['help',             'Show this help message'],
   ];

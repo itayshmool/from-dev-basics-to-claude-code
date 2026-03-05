@@ -1,0 +1,55 @@
+{
+  "id": "4b.2",
+  "level": 45,
+  "order": 2,
+  "title": "Your First curl",
+  "subtitle": "Send a real HTTP request from the terminal",
+  "type": "terminal",
+  "commandsIntroduced": ["curl"],
+  "curlMocks": {
+    "https://mock.zero2claude.dev/hello": "{\"message\": \"Hello from the internet!\"}",
+    "mock.zero2claude.dev/hello": "{\"message\": \"Hello from the internet!\"}",
+    "https://mock.zero2claude.dev/time": "{\"time\": \"14:23:07\", \"timezone\": \"UTC\"}"
+  },
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "`curl` is your walkie-talkie to the internet.\n\nYou speak (send a request), the server answers (sends a response). No browser, no app, no abstraction — just you and the raw conversation.\n\nEvery developer uses `curl` to test APIs, debug requests, and check if a server is alive. It's one of the most useful tools you'll ever learn.",
+      "keyPoints": [
+        "`curl <url>` sends a GET request and prints the response body",
+        "`curl -i <url>` includes response headers above the body",
+        "`curl -s <url>` is silent mode — no progress bar",
+        "The response body is usually JSON for API endpoints"
+      ]
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Let's make your first HTTP request. You're about to talk directly to a server — no browser required.",
+      "prompt": "Type `curl https://mock.zero2claude.dev/hello` and press Enter.",
+      "hint": "Type the command exactly as shown, then press Enter",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "curl"
+      },
+      "onSuccess": {
+        "message": "You got a response: `{\"message\": \"Hello from the internet!\"}` — that's JSON. The server received your GET request, processed it, and sent back data. This is how every API interaction works."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now let's see the **full** response — including the headers. Add the `-i` flag (i = include headers).",
+      "prompt": "Type `curl -i https://mock.zero2claude.dev/hello`",
+      "hint": "Add -i before the URL: curl -i https://...",
+      "validation": {
+        "type": "exactCommand",
+        "value": "curl -i https://mock.zero2claude.dev/hello"
+      },
+      "onSuccess": {
+        "message": "Now you see the full picture:\n\n`HTTP/2 200` — the status line (version + code)\n`content-type: application/json` — what format the body is in\n`date:` — when the server responded\n\nThen a blank line, then the body.\n\nThis is the raw conversation between your terminal and the server."
+      }
+    }
+  ],
+  "completionMessage": "You just made your first HTTP request from the terminal. No browser. No app. Just curl — your direct line to any server on the internet.",
+  "milestone": null,
+  "nextLesson": "4b.3"
+}
