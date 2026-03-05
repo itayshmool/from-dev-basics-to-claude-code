@@ -73,24 +73,26 @@ export function DashboardSidebar({ user, navItems, collapsed, onToggle, onLogout
           <NavLink
             to="/"
             title={collapsed ? 'Back to Home' : undefined}
-            className={`${collapsed ? 'flex justify-center' : 'block'} px-3 py-2 text-xs text-text-muted hover:text-text-primary transition-colors`}
+            className={`${collapsed ? 'flex justify-center' : 'flex items-center gap-3'} px-3 py-2 rounded-lg text-sm font-medium text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors`}
           >
-            {collapsed ? (
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span className="flex-shrink-0 w-5 h-5">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" />
               </svg>
-            ) : 'Back to Home'}
+            </span>
+            {!collapsed && <span>Back to Home</span>}
           </NavLink>
           <button
             onClick={onLogout}
             title={collapsed ? 'Logout' : undefined}
-            className={`${collapsed ? 'flex justify-center' : 'block w-full text-left'} px-3 py-2 text-xs text-text-muted hover:text-text-primary transition-colors`}
+            className={`${collapsed ? 'flex justify-center' : 'flex items-center gap-3 w-full text-left'} px-3 py-2 rounded-lg text-sm font-medium text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors`}
           >
-            {collapsed ? (
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span className="flex-shrink-0 w-5 h-5">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
               </svg>
-            ) : 'Logout'}
+            </span>
+            {!collapsed && <span>Logout</span>}
           </button>
         </div>
       </div>
