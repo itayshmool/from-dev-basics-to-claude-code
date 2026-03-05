@@ -75,7 +75,7 @@ export function HomeScreen() {
         style={{ background: 'rgba(255, 107, 53, 0.03)', filter: 'blur(100px)' }}
       />
 
-      <div className="relative max-w-[1400px] mx-auto px-4 py-6 sm:px-5 md:px-10 md:py-12 lg:px-16 xl:px-20 safe-bottom">
+      <div className="relative max-w-7xl mx-auto px-5 py-6 sm:px-6 md:px-10 md:py-12 lg:px-14 xl:px-20 safe-bottom">
         {/* Hero */}
         <div className="mb-12 md:mb-16 animate-stagger-in">
           <div className="flex items-center gap-2 sm:gap-4 mb-4">
