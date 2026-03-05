@@ -197,6 +197,11 @@ export function AdminPaletteManager() {
   const [editForm, setEditForm] = useState<Omit<Palette, 'id'> & { id?: string }>(emptyPalette());
   const [isNew, setIsNew] = useState(false);
 
+  // AI generate state
+  const [showGenerate, setShowGenerate] = useState(false);
+  const [generateHint, setGenerateHint] = useState('');
+  const [generating, setGenerating] = useState(false);
+
   // Load palettes
   useEffect(() => {
     (async () => {
@@ -248,6 +253,43 @@ export function AdminPaletteManager() {
     setEditForm({ ...emptyPalette(), order: maxOrder + 1 });
     setIsNew(true);
     setStatus(null);
+  }
+
+  async function handleGenerate() {
+    setGenerating(true);
+    setStatus(null);
+    try {
+      const res = await apiFetch('/api/admin/palettes/generate', {
+        method: 'POST',
+        body: JSON.stringify({ hint: generateHint || undefined }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Generation failed' }));
+        throw new Error(err.error || 'Generation failed');
+      }
+      const result: { name: string; dark: Record<string, string>; light: Record<string, string> } =
+        await res.json();
+
+      // Pre-fill editor with generated palette
+      const maxOrder = palettes.reduce((max, p) => Math.max(max, p.order), -1);
+      setEditing(null);
+      setEditForm({
+        name: result.name,
+        slug: toSlug(result.name),
+        colors: { dark: result.dark, light: result.light },
+        isDefault: false,
+        isActive: true,
+        order: maxOrder + 1,
+      });
+      setIsNew(true);
+      setShowGenerate(false);
+      setGenerateHint('');
+      setStatus(`AI generated "${result.name}". Review the colors and save when ready.`);
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : 'Generation failed.');
+    } finally {
+      setGenerating(false);
+    }
   }
 
   function startEdit(palette: Palette) {
@@ -409,12 +451,21 @@ export function AdminPaletteManager() {
           </p>
         </div>
         {!showEditor && (
-          <button
-            onClick={startCreate}
-            className="px-4 py-2 text-sm font-mono text-white bg-purple rounded-lg hover:opacity-90 transition-opacity"
-          >
-            Create Palette
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setShowGenerate(true)}
+              disabled={generating}
+              className="px-4 py-2 text-sm font-mono text-text-primary bg-bg-elevated border border-border rounded-lg hover:bg-bg-card transition-colors disabled:opacity-50"
+            >
+              {generating ? 'Generating...' : 'Generate with AI'}
+            </button>
+            <button
+              onClick={startCreate}
+              className="px-4 py-2 text-sm font-mono text-white bg-purple rounded-lg hover:opacity-90 transition-opacity"
+            >
+              Create Palette
+            </button>
+          </div>
         )}
       </div>
 
@@ -422,6 +473,41 @@ export function AdminPaletteManager() {
       {status && (
         <div className="mb-4 px-4 py-2 rounded-lg bg-bg-elevated border border-border text-sm font-mono text-text-secondary">
           {status}
+        </div>
+      )}
+
+      {/* AI Generate modal */}
+      {showGenerate && (
+        <div className="mb-6 bg-bg-card rounded-xl border border-border p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-semibold text-text-primary font-mono">Generate with AI</h2>
+            <button
+              onClick={() => { setShowGenerate(false); setGenerateHint(''); }}
+              className="text-xs font-mono text-text-muted hover:text-text-primary"
+            >
+              cancel
+            </button>
+          </div>
+          <p className="text-xs text-text-muted font-mono mb-3">
+            Describe the mood or style you want (optional). The AI will generate a full color palette.
+          </p>
+          <div className="flex gap-3">
+            <input
+              type="text"
+              value={generateHint}
+              onChange={(e) => setGenerateHint(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' && !generating) handleGenerate(); }}
+              placeholder='e.g. "warm sunset", "cyberpunk neon", "calm ocean"'
+              className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 font-mono text-sm text-text-primary placeholder:text-text-muted/50 focus:border-purple focus:outline-none"
+            />
+            <button
+              onClick={handleGenerate}
+              disabled={generating}
+              className="px-4 py-2 text-sm font-mono text-white bg-purple rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 whitespace-nowrap"
+            >
+              {generating ? 'Generating...' : 'Generate'}
+            </button>
+          </div>
         </div>
       )}
 
@@ -434,6 +520,15 @@ export function AdminPaletteManager() {
               {isNew ? 'New Palette' : `Edit: ${editing!.name}`}
             </h2>
             <div className="flex gap-2">
+              {isNew && Object.keys(editForm.colors.dark).length > 0 && (
+                <button
+                  onClick={() => { setShowGenerate(true); cancelEdit(); }}
+                  disabled={saving}
+                  className="px-4 py-2 text-sm font-mono text-text-muted bg-bg-elevated border border-border rounded-lg hover:bg-bg-card transition-colors disabled:opacity-50"
+                >
+                  Regenerate
+                </button>
+              )}
               <button
                 onClick={cancelEdit}
                 disabled={saving}

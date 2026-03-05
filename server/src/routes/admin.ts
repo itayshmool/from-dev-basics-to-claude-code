@@ -6,6 +6,7 @@ import { levels, lessons, users, progress, siteSettings, palettes } from '../db/
 import { requireAuth, requireAdmin } from '../middleware/auth.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { signAccessToken } from '../lib/jwt.js';
+import { generatePalette } from '../lib/paletteGenerator.js';
 
 export const adminRouter = Router();
 
@@ -430,4 +431,19 @@ adminRouter.put('/palettes/:id/default', asyncHandler(async (req, res) => {
     .returning();
 
   res.json(row);
+}));
+
+// POST /api/admin/palettes/generate — AI palette generation
+adminRouter.post('/palettes/generate', asyncHandler(async (req, res) => {
+  const { hint } = req.body as { hint?: string };
+
+  try {
+    const result = await generatePalette(hint, req.user!.userId);
+    res.json(result);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Generation failed';
+    if (message.includes('Rate limit')) throw new AppError(429, message);
+    if (message.includes('not configured')) throw new AppError(503, message);
+    throw new AppError(500, `AI generation failed: ${message}`);
+  }
 }));

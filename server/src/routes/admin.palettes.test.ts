@@ -54,6 +54,14 @@ vi.mock('../lib/jwt.js', () => ({
   verifyRefreshToken: vi.fn().mockReturnValue({ userId: 'admin-123', role: 'admin' }),
 }));
 
+vi.mock('../lib/paletteGenerator.js', () => ({
+  generatePalette: vi.fn().mockResolvedValue({
+    name: 'AI Generated',
+    dark: { '--color-bg-primary': '#1a1a2e' },
+    light: { '--color-bg-primary': '#f0f0f0' },
+  }),
+}));
+
 const { adminRouter } = await import('./admin.js');
 const express = (await import('express')).default;
 const request = (await import('supertest')).default;
