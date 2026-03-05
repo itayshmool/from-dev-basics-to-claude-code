@@ -21,12 +21,12 @@ export interface LevelSummary {
 export async function fetchLevels(): Promise<LevelSummary[]> {
   if (!USE_API) {
     const { levels } = await import('../data/levels');
-    return levels.map(l => ({
+    return levels.map((l, idx) => ({
       id: l.id,
       title: l.title,
       subtitle: l.subtitle,
       emoji: '',
-      order: l.id,
+      order: idx,
       lessons: l.lessons.map(les => ({
         id: les.id,
         title: les.title,
