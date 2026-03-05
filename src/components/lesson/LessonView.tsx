@@ -232,7 +232,7 @@ export function LessonView() {
       />
 
       {isTerminalLesson ? (
-        <TerminalProvider key={lessonId} initialFs={les.initialFs} initialDir={les.initialDir}>
+        <TerminalProvider key={lessonId} initialFs={les.initialFs} initialDir={les.initialDir} curlMocks={les.curlMocks}>
           {sectionContent}
           <TerminalBugReport
             isOpen={showBugReport}

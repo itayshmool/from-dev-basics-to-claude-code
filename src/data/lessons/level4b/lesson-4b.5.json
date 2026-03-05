@@ -1,0 +1,72 @@
+{
+  "id": "4b.5",
+  "level": 45,
+  "order": 5,
+  "title": "Request Headers",
+  "subtitle": "Attach metadata to your request — including authentication",
+  "type": "terminal",
+  "commandsIntroduced": [],
+  "curlMocks": {
+    "https://mock.zero2claude.dev/secret": "{\"error\": \"Unauthorized\", \"message\": \"Missing Authorization header.\"}",
+    "https://mock.zero2claude.dev/private": "{\"data\": \"Here is your secret data!\", \"user\": \"authenticated-student\", \"plan\": \"free\"}"
+  },
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Every HTTP request can carry **headers** — key-value metadata that travels alongside your request body.\n\nHeaders tell the server things like:\n- Who you are (`Authorization`)\n- What format you're sending (`Content-Type`)\n- What format you want back (`Accept`)\n- Which app is calling (`User-Agent`)\n\nIn curl, you add headers with `-H \"Key: Value\"`.",
+      "analogy": "Headers are the envelope your request comes in. The body is the letter inside. Some servers read the envelope before they'll even open it — if the envelope doesn't say the right things, your letter goes straight to the trash.",
+      "keyPoints": [
+        "Add headers with `-H \"Key: Value\"` — can use multiple `-H` flags",
+        "`Authorization: Bearer TOKEN` is the most common auth pattern",
+        "`Content-Type: application/json` tells the server your body is JSON",
+        "Most public APIs require an Authorization header for private data"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Here's what the most common headers look like in a curl command.",
+      "blocks": [
+        {
+          "language": "bash",
+          "label": "Authorization header",
+          "code": "curl https://api.example.com/data \\\n  -H \"Authorization: Bearer my-api-key-here\""
+        },
+        {
+          "language": "bash",
+          "label": "Multiple headers",
+          "code": "curl https://api.example.com/data \\\n  -H \"Authorization: Bearer my-api-key-here\" \\\n  -H \"Accept: application/json\" \\\n  -H \"X-Request-ID: abc123\""
+        }
+      ],
+      "explanation": "The `\\` at the end of each line is a line continuation — it tells the shell the command isn't done yet. It's just for readability; you can put everything on one line."
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "First, confirm that the `/private` endpoint blocks you without an authorization header.",
+      "prompt": "Type `curl -i https://mock.zero2claude.dev/secret` to see the 401.",
+      "hint": "curl -i https://mock.zero2claude.dev/secret",
+      "validation": {
+        "type": "exactCommand",
+        "value": "curl -i https://mock.zero2claude.dev/secret"
+      },
+      "onSuccess": {
+        "message": "401 — as expected. The server sees your request but refuses it without an identity token."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now add the Authorization header. The demo key is `student-demo-key`.",
+      "prompt": "Type `curl https://mock.zero2claude.dev/private -H \"Authorization: Bearer student-demo-key\"`",
+      "hint": "Use -H to add a header: -H \"Authorization: Bearer student-demo-key\"",
+      "validation": {
+        "type": "commandStartsWith",
+        "value": "curl https://mock.zero2claude.dev/private -H"
+      },
+      "onSuccess": {
+        "message": "You're in! The server verified your token and returned the protected data.\n\nThis is how virtually every real API works — you register, get an API key, and include it as `Authorization: Bearer YOUR_KEY` on every request. The server checks it before deciding what (if anything) to give you."
+      }
+    }
+  ],
+  "completionMessage": "Headers are how you authenticate, negotiate formats, and pass metadata. The `-H` flag is one of the most-used curl options you'll ever type.",
+  "milestone": null,
+  "nextLesson": "4b.6"
+}

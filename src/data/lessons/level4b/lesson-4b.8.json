@@ -1,0 +1,80 @@
+{
+  "id": "4b.8",
+  "level": 45,
+  "order": 8,
+  "title": "What Is an API Key?",
+  "subtitle": "Understand authentication tokens and how to use them safely",
+  "type": "guide",
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "JSONPlaceholder doesn't require authentication — it's open to everyone. But most real APIs do. They give you an **API key**: a secret string that identifies who you are.\n\nAPI keys exist for three reasons:\n1. **Rate limiting** — prevent abuse (you get N requests/day)\n2. **Billing** — track usage for paid plans\n3. **Authorization** — restrict access to private data\n\nYou include the key in every request, usually as a header.",
+      "analogy": "An API key is your hotel key card. The hotel knows who you are, what rooms you're allowed into, and when your access expires. Without it, the doors stay locked. With someone else's key, you'd be impersonating them.",
+      "keyPoints": [
+        "API keys are secret — treat them like passwords",
+        "Never commit API keys to Git (add to `.gitignore` via `.env`)",
+        "If you accidentally expose one, rotate it immediately",
+        "In code, always read keys from environment variables: `process.env.API_KEY`"
+      ]
+    },
+    {
+      "type": "codeExample",
+      "instruction": "Here's how API key authentication looks in curl (two common patterns).",
+      "blocks": [
+        {
+          "language": "bash",
+          "label": "Bearer token (most common)",
+          "code": "curl https://api.example.com/data \\\n  -H \"Authorization: Bearer YOUR_API_KEY\""
+        },
+        {
+          "language": "bash",
+          "label": "Query param (less secure, some APIs use it)",
+          "code": "curl \"https://api.example.com/data?api_key=YOUR_API_KEY\""
+        },
+        {
+          "language": "bash",
+          "label": "Custom header (some APIs)",
+          "code": "curl https://api.example.com/data \\\n  -H \"X-API-Key: YOUR_API_KEY\""
+        }
+      ],
+      "explanation": "The Bearer token pattern is the most secure — it keeps the key out of the URL, which can appear in server logs. Always prefer header-based auth over query param auth when you have a choice."
+    },
+    {
+      "type": "checklist",
+      "instruction": "API key safety rules — check each one you'll commit to following.",
+      "items": [
+        {
+          "text": "Never paste an API key in a public chat, GitHub issue, or Slack message",
+          "hint": "Once a key leaks publicly, rotate it immediately — bots scan GitHub continuously for exposed keys"
+        },
+        {
+          "text": "Add `.env` to `.gitignore` before creating your `.env` file",
+          "hint": "The safest order: create .gitignore, add .env to it, THEN create .env with your keys"
+        },
+        {
+          "text": "Store keys in environment variables, not hardcoded in source code",
+          "hint": "Use process.env.MY_API_KEY in Node.js, os.environ['MY_API_KEY'] in Python"
+        },
+        {
+          "text": "Use the minimum required permissions when creating API keys",
+          "hint": "If you only need read access, don't create a key with write access — limits blast radius if compromised"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "You accidentally committed your API key to a public GitHub repository. What do you do first?",
+      "options": [
+        "Delete the commit with git reset --hard",
+        "Make the repository private",
+        "Rotate (regenerate) the API key immediately in the provider's dashboard",
+        "Delete the .env file from the repo"
+      ],
+      "correctIndex": 2,
+      "explanation": "The key is compromised the moment it's pushed — bots scan GitHub in real-time and can steal keys within seconds. Deleting the commit doesn't help because the key is already in the git history and bots likely have it. Rotate the key first. Then clean up the history. Making the repo private is secondary — the damage is already done."
+    }
+  ],
+  "completionMessage": "API keys unlock real APIs — but they're your responsibility to protect. Never expose them, always rotate if compromised, always use environment variables.",
+  "milestone": null,
+  "nextLesson": "4b.9"
+}

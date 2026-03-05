@@ -1,0 +1,84 @@
+{
+  "id": "4b.4",
+  "level": 45,
+  "order": 4,
+  "title": "Status Codes Are a Language",
+  "subtitle": "Learn what the server is saying with its response code",
+  "type": "terminal",
+  "commandsIntroduced": [],
+  "curlMocks": {
+    "https://mock.zero2claude.dev/hello": "{\"message\": \"Hello from the internet!\"}",
+    "https://mock.zero2claude.dev/ghost": "{\"error\": \"Not Found\", \"message\": \"This route does not exist.\"}",
+    "https://mock.zero2claude.dev/secret": "{\"error\": \"Unauthorized\", \"message\": \"You need to provide an API key.\"}",
+    "https://mock.zero2claude.dev/broken": "{\"error\": \"Internal Server Error\", \"message\": \"Something went wrong on our end. Try again later.\"}",
+    "https://mock.zero2claude.dev/flood": "{\"error\": \"Too Many Requests\", \"message\": \"Slow down. Retry after 60 seconds.\", \"retryAfter\": 60}"
+  },
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Every HTTP response starts with a **status code**. It's the server's first word — before you even read the body.\n\nStatus codes are grouped by their first digit:\n- **2xx** = Success (it worked)\n- **4xx** = Client error (you did something wrong)\n- **5xx** = Server error (they did something wrong)\n\nKnowing these means you can diagnose any API problem in seconds.",
+      "keyPoints": [
+        "200 = OK — request succeeded, body has the data",
+        "401 = Unauthorized — you need to authenticate",
+        "403 = Forbidden — authenticated but not allowed",
+        "404 = Not Found — that path doesn't exist",
+        "429 = Too Many Requests — you're being rate limited",
+        "500 = Internal Server Error — their bug, not yours"
+      ]
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Let's deliberately trigger errors and read the responses. Use `-i` to see the status line. First, request a path that doesn't exist.",
+      "prompt": "Type `curl -i https://mock.zero2claude.dev/ghost`",
+      "hint": "curl -i shows headers — look for the HTTP/2 line at the top",
+      "validation": {
+        "type": "exactCommand",
+        "value": "curl -i https://mock.zero2claude.dev/ghost"
+      },
+      "onSuccess": {
+        "message": "You see `HTTP/2 404` at the top. The path `/ghost` doesn't exist on this server. The server returned a 404 with a descriptive error body.\n\n**Diagnosis rule**: 404 → check your URL path. Did you typo a word? Is the resource actually there?"
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now trigger a 401 — a protected endpoint that requires authentication.",
+      "prompt": "Type `curl -i https://mock.zero2claude.dev/secret`",
+      "hint": "curl -i https://mock.zero2claude.dev/secret",
+      "validation": {
+        "type": "exactCommand",
+        "value": "curl -i https://mock.zero2claude.dev/secret"
+      },
+      "onSuccess": {
+        "message": "`HTTP/2 401` — Unauthorized. The server knows what you're asking for, but won't give it without proof of who you are.\n\n**Diagnosis rule**: 401 → you're missing or have a wrong API key/token. You'll fix this in the headers lesson."
+      }
+    },
+    {
+      "type": "terminalStep",
+      "instruction": "Now a 500 — this one means it's the server's problem, not yours.",
+      "prompt": "Type `curl -i https://mock.zero2claude.dev/broken`",
+      "hint": "curl -i https://mock.zero2claude.dev/broken",
+      "validation": {
+        "type": "exactCommand",
+        "value": "curl -i https://mock.zero2claude.dev/broken"
+      },
+      "onSuccess": {
+        "message": "`HTTP/2 500` — Internal Server Error. Something crashed on their end. The body usually has a hint. Your next step: check the API's status page, wait a moment, and retry.\n\n**Diagnosis rule**: 5xx → not your fault. Don't keep hammering the endpoint. Wait and try again, or report it to the API provider."
+      }
+    },
+    {
+      "type": "quiz",
+      "question": "You call an API and get `HTTP/2 429`. What should you do?",
+      "options": [
+        "Fix your code — you sent a malformed request",
+        "Check your API key — it's probably expired",
+        "Wait and retry later — you've been rate limited",
+        "The server crashed — try a different endpoint"
+      ],
+      "correctIndex": 2,
+      "explanation": "429 = Too Many Requests. The server is telling you to slow down. It often includes a `Retry-After` header telling you exactly how many seconds to wait. Rate limiting protects APIs from being overwhelmed — it's not a bug, it's a feature."
+    }
+  ],
+  "completionMessage": "Status codes are the server's language. 2xx = worked, 4xx = your problem, 5xx = their problem. You can now diagnose API errors on sight.",
+  "milestone": null,
+  "nextLesson": "4b.5"
+}

@@ -220,6 +220,8 @@ export interface Lesson {
   initialFs?: FileSystemSpec;
   initialDir?: string;
   commandsIntroduced?: string[];
+  /** Mocked curl responses for the terminal sandbox. Keys are URLs (or "METHOD URL" for non-GET). */
+  curlMocks?: Record<string, string>;
   sections: LessonSection[];
   completionMessage?: string;
   milestone?: MilestoneInfo | null;
