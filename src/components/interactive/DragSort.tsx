@@ -37,6 +37,8 @@ export function DragSort({ section, onComplete }: DragSortProps) {
   }
 
   function handleCategoryClick(categoryName: string) {
+    // selectedItem is cleared by handleRemoveItem, so this guard
+    // also prevents placing when the user tapped a remove X
     if (!selectedItem) return;
     if (checked && allCorrect) return;
 
@@ -76,13 +78,17 @@ export function DragSort({ section, onComplete }: DragSortProps) {
     }
   }
 
-  function handleRemoveItem(itemText: string) {
+  function handleRemoveItem(itemText: string, e: React.MouseEvent) {
+    e.stopPropagation();
+    e.preventDefault();
     if (checked && allCorrect) return;
     setPlacements(prev => {
       const next = new Map(prev);
       next.delete(itemText);
       return next;
     });
+    // Clear selection so the category click can't also fire
+    setSelectedItem(null);
     if (checked) {
       setChecked(false);
       setShakeItems(new Set());
@@ -175,10 +181,7 @@ export function DragSort({ section, onComplete }: DragSortProps) {
                         return (
                           <span
                             key={itemText}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleRemoveItem(itemText);
-                            }}
+                            onClick={(e) => handleRemoveItem(itemText, e)}
                             className={`
                               group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[14px] font-medium
                               cursor-pointer transition-all active:scale-[0.96]
