@@ -69,17 +69,6 @@ export function HomeScreen() {
     return () => document.removeEventListener('mousedown', handler);
   }, [mobileMenuOpen]);
 
-  // Auto-expand the level containing the current lesson on mount
-  useEffect(() => {
-    if (!currentLessonId) return;
-    for (const levelData of levels) {
-      if (levelData.lessons.some(l => l.id === currentLessonId)) {
-        setExpandedLevels(new Set([levelData.id]));
-        break;
-      }
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const toggleLevel = (levelId: number) => {
     setExpandedLevels(prev => {
       const next = new Set(prev);
