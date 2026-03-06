@@ -12,7 +12,7 @@ interface AuthContextValue {
   isLoading: boolean;
   impersonating: User | null;
   login: (username: string, password: string) => Promise<void>;
-  register: (username: string, password: string, displayName: string) => Promise<void>;
+  register: (username: string, password: string, displayName: string, email?: string) => Promise<void>;
   logout: () => Promise<void>;
   updateUser: (updates: Partial<User>) => void;
   startImpersonation: (userId: string) => Promise<void>;
@@ -55,8 +55,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await pullProgress();
   }, []);
 
-  const register = useCallback(async (username: string, password: string, displayName: string) => {
-    const u = await authService.register(username, password, displayName);
+  const register = useCallback(async (username: string, password: string, displayName: string, email?: string) => {
+    const u = await authService.register(username, password, displayName, email);
     setUser(u);
     await pullProgress();
   }, []);

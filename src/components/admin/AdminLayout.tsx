@@ -11,6 +11,7 @@ const CONTENT_NAV = [
 
 const TOOLS_NAV = [
   { to: '/admin/palettes', label: 'Palettes', end: true },
+  { to: '/admin/email', label: 'Email', end: true },
   { to: '/admin/theme', label: 'Theme Editor', end: false },
   { to: '/admin/validate', label: 'Validator', end: false },
   { to: '/admin/analytics', label: 'Analytics', end: false },

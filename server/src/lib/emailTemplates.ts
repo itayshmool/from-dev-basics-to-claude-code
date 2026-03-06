@@ -1,0 +1,89 @@
+const STYLES = {
+  bg: '#09090B',
+  card: '#141419',
+  accent: '#FF6B35',
+  text: '#E8E5E0',
+  muted: '#6B6B6B',
+  border: '#2A2A2E',
+  fontStack: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+} as const;
+
+function layout(content: string): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background-color:${STYLES.bg};font-family:${STYLES.fontStack};">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:${STYLES.bg};padding:40px 20px;">
+<tr><td align="center">
+<table width="560" cellpadding="0" cellspacing="0" style="background-color:${STYLES.card};border-radius:12px;border:1px solid ${STYLES.border};overflow:hidden;">
+<tr><td style="padding:32px 40px;">
+${content}
+</td></tr>
+</table>
+<table width="560" cellpadding="0" cellspacing="0">
+<tr><td style="padding:24px 40px;text-align:center;">
+<p style="margin:0;font-size:12px;color:${STYLES.muted};font-family:${STYLES.fontStack};">From Zero to Claude Code</p>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
+function ctaButton(text: string, url: string): string {
+  return `<table cellpadding="0" cellspacing="0" style="margin:24px 0;">
+<tr><td style="background-color:${STYLES.accent};border-radius:8px;padding:12px 28px;">
+<a href="${url}" style="color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;display:inline-block;font-family:${STYLES.fontStack};">${text}</a>
+</td></tr>
+</table>`;
+}
+
+function heading(text: string): string {
+  return `<h1 style="margin:0 0 16px;font-size:22px;font-weight:700;color:${STYLES.text};font-family:${STYLES.fontStack};">${text}</h1>`;
+}
+
+function paragraph(text: string): string {
+  return `<p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:${STYLES.text};font-family:${STYLES.fontStack};">${text}</p>`;
+}
+
+function mutedText(text: string): string {
+  return `<p style="margin:16px 0 0;font-size:12px;line-height:1.5;color:${STYLES.muted};font-family:${STYLES.fontStack};">${text}</p>`;
+}
+
+export function welcomeTemplate(displayName: string, appUrl: string): string {
+  return layout(`
+${heading(`Welcome, ${displayName}!`)}
+${paragraph("You've just joined <strong>From Zero to Claude Code</strong> — an interactive course that teaches you how to use the terminal, Git, APIs, and AI-powered development tools.")}
+${paragraph("Start with Level 1 and work your way through 9 levels of hands-on lessons. No prior experience needed.")}
+${ctaButton('Start Learning', appUrl)}
+${mutedText("If you didn't create this account, you can safely ignore this email.")}
+  `);
+}
+
+export function verificationTemplate(displayName: string, verifyUrl: string): string {
+  return layout(`
+${heading('Verify your email')}
+${paragraph(`Hi ${displayName}, please verify your email address by clicking the button below.`)}
+${ctaButton('Verify Email', verifyUrl)}
+${mutedText("This link expires in 24 hours. If you didn't request this, you can safely ignore this email.")}
+  `);
+}
+
+export function passwordResetTemplate(displayName: string, resetUrl: string): string {
+  return layout(`
+${heading('Reset your password')}
+${paragraph(`Hi ${displayName}, we received a request to reset your password. Click the button below to choose a new one.`)}
+${ctaButton('Reset Password', resetUrl)}
+${mutedText("This link expires in 1 hour. If you didn't request a password reset, you can safely ignore this email — your password won't change.")}
+  `);
+}
+
+export function bugSubmittedTemplate(displayName: string, issueNumber: number): string {
+  return layout(`
+${heading('Bug report received')}
+${paragraph(`Thanks ${displayName}! Your bug report has been submitted and assigned issue <strong>#${issueNumber}</strong>.`)}
+${paragraph("We'll look into it. You don't need to do anything else — just keep learning!")}
+${mutedText("This is an automated confirmation. No reply is needed.")}
+  `);
+}

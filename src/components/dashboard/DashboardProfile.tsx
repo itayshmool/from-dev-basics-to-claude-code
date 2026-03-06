@@ -7,6 +7,7 @@ interface FullProfile {
   username: string;
   displayName: string;
   email: string | null;
+  emailVerified: boolean;
   profileImage: string | null;
   role: string;
   createdAt: string;
@@ -62,6 +63,7 @@ export function DashboardProfile() {
   const [editingEmail, setEditingEmail] = useState(false);
   const [email, setEmail] = useState('');
   const [savingEmail, setSavingEmail] = useState(false);
+  const [resendingVerification, setResendingVerification] = useState(false);
 
   // Image upload
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -124,14 +126,31 @@ export function DashboardProfile() {
         throw new Error(err.error || 'Failed to update');
       }
       const updated = await res.json();
-      setProfile(prev => prev ? { ...prev, email: updated.email } : null);
-      updateUser({ email: updated.email });
+      setProfile(prev => prev ? { ...prev, email: updated.email, emailVerified: false } : null);
+      updateUser({ email: updated.email, emailVerified: false });
       setEditingEmail(false);
-      setMessage({ type: 'success', text: 'Email updated.' });
+      setMessage({ type: 'success', text: email.trim() ? 'Email updated. Check your inbox for a verification link.' : 'Email removed.' });
     } catch (e) {
       setMessage({ type: 'error', text: e instanceof Error ? e.message : 'Failed to update.' });
     } finally {
       setSavingEmail(false);
+    }
+  }
+
+  async function handleResendVerification() {
+    setResendingVerification(true);
+    setMessage(null);
+    try {
+      const res = await apiFetch('/api/email/resend-verification', { method: 'POST' });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({ error: 'Failed to send' }));
+        throw new Error(data.error || 'Failed to send');
+      }
+      setMessage({ type: 'success', text: 'Verification email sent. Check your inbox.' });
+    } catch (e) {
+      setMessage({ type: 'error', text: e instanceof Error ? e.message : 'Failed to send.' });
+    } finally {
+      setResendingVerification(false);
     }
   }
 
@@ -352,16 +371,34 @@ export function DashboardProfile() {
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="text-sm font-mono text-text-primary">
                 {profile.email || 'Not set'}
               </span>
+              {profile.email && (
+                <span className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded ${
+                  profile.emailVerified
+                    ? 'text-green bg-green-soft'
+                    : 'text-yellow bg-yellow/10'
+                }`}>
+                  {profile.emailVerified ? 'Verified' : 'Unverified'}
+                </span>
+              )}
               <button
                 onClick={() => setEditingEmail(true)}
                 className="text-xs font-mono text-purple hover:underline"
               >
                 Edit
               </button>
+              {profile.email && !profile.emailVerified && (
+                <button
+                  onClick={handleResendVerification}
+                  disabled={resendingVerification}
+                  className="text-xs font-mono text-text-muted hover:text-purple transition-colors disabled:opacity-50"
+                >
+                  {resendingVerification ? 'Sending...' : 'Resend verification'}
+                </button>
+              )}
             </div>
           )}
         </div>

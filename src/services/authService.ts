@@ -6,6 +6,7 @@ export interface User {
   displayName: string;
   role: string;
   email?: string | null;
+  emailVerified?: boolean;
   profileImage?: string | null;
   paletteId?: string | null;
 }
@@ -31,10 +32,10 @@ export async function login(username: string, password: string): Promise<User> {
   return data.user;
 }
 
-export async function register(username: string, password: string, displayName: string): Promise<User> {
+export async function register(username: string, password: string, displayName: string, email?: string): Promise<User> {
   const res = await apiFetch('/api/auth/register', {
     method: 'POST',
-    body: JSON.stringify({ username, password, displayName }),
+    body: JSON.stringify({ username, password, displayName, ...(email ? { email } : {}) }),
   });
 
   if (!res.ok) {

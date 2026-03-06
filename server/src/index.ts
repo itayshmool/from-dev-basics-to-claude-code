@@ -7,6 +7,7 @@ import { authRouter } from './routes/auth.js';
 import { progressRouter } from './routes/progress.js';
 import { adminRouter } from './routes/admin.js';
 import { bugReportsRouter } from './routes/bugReports.js';
+import { emailRouter } from './routes/email.js';
 import { palettesRouter } from './routes/palettes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { eq } from 'drizzle-orm';
@@ -44,6 +45,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/progress', progressRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/bug-reports', bugReportsRouter);
+app.use('/api/email', emailRouter);
 app.use('/api/palettes', palettesRouter);
 
 // Error handler (must be last)

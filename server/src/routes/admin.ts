@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { eq, sql, desc, asc, and, gte } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db/index.js';
-import { levels, lessons, users, progress, siteSettings, palettes } from '../db/schema.js';
+import { levels, lessons, users, progress, siteSettings, palettes, emailLog } from '../db/schema.js';
 import { requireAuth, requireAdmin } from '../middleware/auth.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { signAccessToken } from '../lib/jwt.js';
@@ -446,4 +446,52 @@ adminRouter.post('/palettes/generate', asyncHandler(async (req, res) => {
     if (message.includes('not configured')) throw new AppError(503, message);
     throw new AppError(500, `AI generation failed: ${message}`);
   }
+}));
+
+// ─── Email log ───
+
+// GET /api/admin/email/log — paginated send history
+adminRouter.get('/email/log', asyncHandler(async (req, res) => {
+  const page = Math.max(1, parseInt(req.query.page as string) || 1);
+  const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string) || 50));
+  const typeFilter = req.query.type as string | undefined;
+  const offset = (page - 1) * limit;
+
+  const conditions = typeFilter ? eq(emailLog.emailType, typeFilter) : undefined;
+
+  const [countResult] = await db.select({ count: sql<number>`count(*)::int` })
+    .from(emailLog)
+    .where(conditions);
+
+  const logs = await db.select()
+    .from(emailLog)
+    .where(conditions)
+    .orderBy(desc(emailLog.createdAt))
+    .limit(limit)
+    .offset(offset);
+
+  res.json({ logs, total: countResult.count, page, limit });
+}));
+
+// GET /api/admin/email/log/stats — aggregate counts
+adminRouter.get('/email/log/stats', asyncHandler(async (_req, res) => {
+  const byType = await db.select({
+    emailType: emailLog.emailType,
+    count: sql<number>`count(*)::int`,
+  }).from(emailLog).groupBy(emailLog.emailType);
+
+  const byStatus = await db.select({
+    status: emailLog.status,
+    count: sql<number>`count(*)::int`,
+  }).from(emailLog).groupBy(emailLog.status);
+
+  const [totalResult] = await db.select({ count: sql<number>`count(*)::int` }).from(emailLog);
+
+  const byTypeMap: Record<string, number> = {};
+  for (const row of byType) byTypeMap[row.emailType] = row.count;
+
+  const byStatusMap: Record<string, number> = {};
+  for (const row of byStatus) byStatusMap[row.status] = row.count;
+
+  res.json({ byType: byTypeMap, byStatus: byStatusMap, total: totalResult.count });
 }));

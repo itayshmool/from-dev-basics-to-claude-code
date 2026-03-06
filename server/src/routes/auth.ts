@@ -7,6 +7,7 @@ import { hashPassword, verifyPassword } from '../lib/password.js';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../lib/jwt.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { requireAuth, blockIfImpersonating } from '../middleware/auth.js';
+import { sendWelcomeEmail, sendVerificationEmail } from '../lib/email.js';
 
 export const authRouter = Router();
 
@@ -23,6 +24,7 @@ const registerSchema = z.object({
   username: z.string().min(3).max(100).regex(/^[a-zA-Z0-9_]+$/),
   password: z.string().min(8),
   displayName: z.string().min(1).max(100),
+  email: z.string().email().max(255).optional(),
 });
 
 const loginSchema = z.object({
@@ -37,7 +39,7 @@ authRouter.post('/register', asyncHandler(async (req, res) => {
     throw new AppError(400, parsed.error.issues.map(i => i.message).join(', '));
   }
 
-  const { username, password, displayName } = parsed.data;
+  const { username, password, displayName, email } = parsed.data;
 
   // Check for existing user
   const [existing] = await db.select({ id: users.id })
@@ -56,6 +58,7 @@ authRouter.post('/register', asyncHandler(async (req, res) => {
     passwordHash,
     displayName,
     role: 'student',
+    email: email ?? null,
   }).returning({
     id: users.id,
     username: users.username,
@@ -63,6 +66,12 @@ authRouter.post('/register', asyncHandler(async (req, res) => {
     role: users.role,
     paletteId: users.paletteId,
   });
+
+  // Fire-and-forget welcome + verification emails
+  if (email) {
+    sendWelcomeEmail(user.id, email, displayName).catch(() => {});
+    sendVerificationEmail(user.id, email, displayName).catch(() => {});
+  }
 
   const payload = { userId: user.id, role: user.role };
   const accessToken = signAccessToken(payload);
@@ -160,6 +169,7 @@ authRouter.get('/me', requireAuth, asyncHandler(async (req, res) => {
     displayName: users.displayName,
     role: users.role,
     email: users.email,
+    emailVerified: users.emailVerified,
     profileImage: users.profileImage,
     paletteId: users.paletteId,
     createdAt: users.createdAt,
@@ -183,7 +193,14 @@ authRouter.put('/profile', requireAuth, asyncHandler(async (req, res) => {
 
   const updates: Record<string, unknown> = {};
   if (parsed.data.displayName !== undefined) updates.displayName = parsed.data.displayName;
-  if (parsed.data.email !== undefined) updates.email = parsed.data.email;
+  if (parsed.data.email !== undefined) {
+    updates.email = parsed.data.email;
+    // Reset verification when email changes
+    if (parsed.data.email !== null) {
+      updates.emailVerified = false;
+      updates.emailVerifiedAt = null;
+    }
+  }
 
   if (Object.keys(updates).length === 0) throw new AppError(400, 'No updates provided');
 
@@ -199,6 +216,12 @@ authRouter.put('/profile', requireAuth, asyncHandler(async (req, res) => {
     });
 
   if (!user) throw new AppError(404, 'User not found');
+
+  // Send verification email for the new email address
+  if (parsed.data.email && user.email) {
+    sendVerificationEmail(user.id, user.email, user.displayName).catch(() => {});
+  }
+
   res.json(user);
 }));
 

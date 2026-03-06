@@ -72,6 +72,12 @@ export function LoginScreen() {
           >
             {loading ? 'Logging in...' : 'Log in'}
           </button>
+
+          <div className="text-right">
+            <Link to="/forgot-password" className="text-xs text-text-muted hover:text-purple transition-colors">
+              Forgot password?
+            </Link>
+          </div>
         </form>
 
         <p className="text-center text-sm text-text-muted mt-6">

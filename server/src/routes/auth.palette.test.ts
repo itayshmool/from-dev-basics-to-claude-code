@@ -36,6 +36,12 @@ vi.mock('../lib/jwt.js', () => ({
   verifyRefreshToken: vi.fn().mockReturnValue({ userId: 'user-123', role: 'student' }),
 }));
 
+// Mock email functions (imported by auth router)
+vi.mock('../lib/email.js', () => ({
+  sendWelcomeEmail: vi.fn().mockResolvedValue(undefined),
+  sendVerificationEmail: vi.fn().mockResolvedValue(undefined),
+}));
+
 const { authRouter } = await import('./auth.js');
 const express = (await import('express')).default;
 const cookieParser = (await import('cookie-parser')).default;

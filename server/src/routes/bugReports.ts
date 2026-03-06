@@ -5,6 +5,7 @@ import { requireAuth, blockIfImpersonating } from '../middleware/auth.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { db } from '../db/index.js';
 import { users } from '../db/schema.js';
+import { sendBugSubmittedEmail } from '../lib/email.js';
 
 export const bugReportsRouter = Router();
 
@@ -156,7 +157,7 @@ bugReportsRouter.post('/', requireAuth, blockIfImpersonating, asyncHandler(async
   const userId = req.user!.userId;
   checkRateLimit(userId);
 
-  const [user] = await db.select({ id: users.id, username: users.username })
+  const [user] = await db.select({ id: users.id, username: users.username, email: users.email, displayName: users.displayName })
     .from(users).where(eq(users.id, userId)).limit(1);
   if (!user) throw new AppError(401, 'User not found');
 
@@ -188,6 +189,11 @@ bugReportsRouter.post('/', requireAuth, blockIfImpersonating, asyncHandler(async
   }
 
   const issue = await ghRes.json() as { number: number; html_url: string };
+
+  // Fire-and-forget bug confirmation email
+  if (user.email) {
+    sendBugSubmittedEmail(user.id, user.email, user.displayName, issue.number).catch(() => {});
+  }
 
   res.status(201).json({
     issueNumber: issue.number,

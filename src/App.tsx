@@ -5,6 +5,9 @@ import { HomeScreen } from './components/home/HomeScreen';
 import { LessonView } from './components/lesson/LessonView';
 import { LoginScreen } from './components/auth/LoginScreen';
 import { RegisterScreen } from './components/auth/RegisterScreen';
+import { ForgotPasswordScreen } from './components/auth/ForgotPasswordScreen';
+import { ResetPasswordScreen } from './components/auth/ResetPasswordScreen';
+import { VerifyEmailScreen } from './components/auth/VerifyEmailScreen';
 import { AdminGuard } from './components/admin/AdminGuard';
 import { AdminLoginScreen } from './components/admin/AdminLoginScreen';
 import { AdminLayout } from './components/admin/AdminLayout';
@@ -19,6 +22,7 @@ import { AdminThemeEditor } from './components/admin/AdminThemeEditor';
 import { AdminPaletteManager } from './components/admin/AdminPaletteManager';
 import { AdminContentValidator } from './components/admin/AdminContentValidator';
 import { AdminAnalytics } from './components/admin/AdminAnalytics';
+import { AdminEmailManager } from './components/admin/AdminEmailManager';
 import { DashboardGuard } from './components/dashboard/DashboardGuard';
 import { DashboardLayout } from './components/dashboard/DashboardLayout';
 import { DashboardOverview } from './components/dashboard/DashboardOverview';
@@ -43,6 +47,9 @@ function App() {
         <Route path="/lesson/:lessonId" element={<LessonView />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+        <Route path="/reset-password" element={<ResetPasswordScreen />} />
+        <Route path="/verify-email" element={<VerifyEmailScreen />} />
         <Route path="/dashboard" element={<DashboardGuard />}>
           <Route element={<DashboardLayout />}>
             <Route index element={<DashboardOverview />} />
@@ -63,6 +70,7 @@ function App() {
             <Route path="lessons/:id" element={<AdminLessonEditor />} />
             <Route path="lessons/:id/preview" element={<AdminLessonPreview />} />
             <Route path="palettes" element={<AdminPaletteManager />} />
+            <Route path="email" element={<AdminEmailManager />} />
             <Route path="theme" element={<AdminThemeEditor />} />
             <Route path="validate" element={<AdminContentValidator />} />
             <Route path="analytics" element={<AdminAnalytics />} />

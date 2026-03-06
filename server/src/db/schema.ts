@@ -59,6 +59,8 @@ export const users = pgTable('users', {
   displayName: varchar('display_name', { length: 100 }).notNull(),
   role: varchar('role', { length: 20 }).notNull().default('student'),
   email: varchar('email', { length: 255 }),
+  emailVerified: boolean('email_verified').default(false).notNull(),
+  emailVerifiedAt: timestamp('email_verified_at', { withTimezone: true }),
   profileImage: text('profile_image'),
   paletteId: uuid('palette_id').references(() => palettes.id, { onDelete: 'set null' }),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
@@ -79,4 +81,35 @@ export const siteSettings = pgTable('site_settings', {
   key: varchar('key', { length: 100 }).primaryKey(),
   value: jsonb('value').notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const emailVerificationTokens = pgTable('email_verification_tokens', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  email: varchar('email', { length: 255 }).notNull(),
+  tokenHash: varchar('token_hash', { length: 255 }).notNull(),
+  expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+  usedAt: timestamp('used_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const passwordResetTokens = pgTable('password_reset_tokens', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  tokenHash: varchar('token_hash', { length: 255 }).notNull(),
+  expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+  usedAt: timestamp('used_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const emailLog = pgTable('email_log', {
+  id: serial('id').primaryKey(),
+  emailType: varchar('email_type', { length: 50 }).notNull(),
+  recipientEmail: varchar('recipient_email', { length: 255 }).notNull(),
+  recipientUserId: uuid('recipient_user_id').references(() => users.id, { onDelete: 'set null' }),
+  subject: varchar('subject', { length: 500 }).notNull(),
+  resendId: varchar('resend_id', { length: 255 }),
+  status: varchar('status', { length: 20 }).notNull(),
+  errorMessage: text('error_message'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
