@@ -8,7 +8,7 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "Most real-world applications don't exist in isolation. They talk to other services to get data: weather apps call weather APIs, social media apps call authentication APIs, and e-commerce apps call payment APIs.\n\nAn **API** (Application Programming Interface) is just a URL that returns data instead of a web page. When you visit a website, your browser gets back HTML. When your code calls an API, it gets back **JSON** \u2014 structured data your program can use.\n\nYou already learned about APIs in Level 4. Now let's use one in real code.",
+      "content": "Most real-world applications don't exist in isolation. They talk to other services to get data: weather apps call weather APIs, social media apps call authentication APIs, and e-commerce apps call payment APIs.\n\nAn **API** (Application Programming Interface) is just a URL that returns data instead of a web page. When you visit a website, your browser gets back HTML. When your code calls an API, it gets back **JSON** \u2014 structured data your program can use.\n\nYou already learned about APIs in Level 5. Now let's use one in real code.",
       "analogy": "If your server is a restaurant kitchen, an external API is a supplier. You don't grow your own tomatoes \u2014 you call the supplier (API), place an order (request), and they deliver the goods (response). If the supplier is closed (API is down), you need a backup plan (error handling)."
     },
     {
@@ -32,11 +32,11 @@
         "Rate limits \u2014 APIs limit how many requests you can make per minute",
         "Error handling \u2014 always have a fallback if the API is down"
       ],
-      "tip": "Never put API keys directly in your code. Store them in a .env file (which you learned to .gitignore in Level 5). Access them with process.env.MY_API_KEY. If an API key ends up on GitHub, assume it's compromised and generate a new one."
+      "tip": "Never put API keys directly in your code. Store them in a .env file (which you learned to .gitignore in Level 7). Access them with process.env.MY_API_KEY. If an API key ends up on GitHub, assume it's compromised and generate a new one."
     },
     {
       "type": "guideStep",
-      "instruction": "Try adding this API route to your Express server from Level 5. This calls a free joke API that doesn't require an API key \u2014 perfect for practice.",
+      "instruction": "Try adding this API route to your Express server from Level 7. This calls a free joke API that doesn't require an API key \u2014 perfect for practice.",
       "codeBlocks": [
         {
           "language": "javascript",
@@ -69,7 +69,7 @@
       "explanation": "External APIs can fail for many reasons: the service is down, your internet drops, the API changed its format. Without try/catch, your server would crash. With it, you catch the error and send a friendly error message back to the user instead."
     }
   ],
-  "completionMessage": "You can now fetch data from external APIs in your Express server! You understand async/await, error handling, and the key concepts around API integration. This is the last lesson in Level 7 \u2014 you've built a solid foundation of junior developer patterns.",
+  "completionMessage": "You can now fetch data from external APIs in your Express server! You understand async/await, error handling, and the key concepts around API integration. This is the last lesson in Level 9 \u2014 you've built a solid foundation of junior developer patterns.",
   "milestone": null,
   "nextLesson": "7.7"
 }

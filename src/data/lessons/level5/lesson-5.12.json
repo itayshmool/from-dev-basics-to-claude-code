@@ -8,7 +8,7 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "So far, your routes return plain text with `res.send()`. That works for simple messages, but **real APIs don't return plain text — they return JSON.**\n\nRemember JSON from Level 4? It's the universal data format of the web. When your phone checks the weather, when a website loads your profile, when an app fetches new posts — all of that data travels as JSON.\n\nExpress makes this incredibly easy. Instead of `res.send()`, you use `res.json()` and pass it a JavaScript object. Express automatically converts it to JSON and sends it with the right headers so browsers and apps know how to read it.",
+      "content": "So far, your routes return plain text with `res.send()`. That works for simple messages, but **real APIs don't return plain text — they return JSON.**\n\nRemember JSON from Level 5? It's the universal data format of the web. When your phone checks the weather, when a website loads your profile, when an app fetches new posts — all of that data travels as JSON.\n\nExpress makes this incredibly easy. Instead of `res.send()`, you use `res.json()` and pass it a JavaScript object. Express automatically converts it to JSON and sends it with the right headers so browsers and apps know how to read it.",
       "keyPoints": [
         "res.send() returns plain text",
         "res.json() returns JSON data — the standard for APIs",
@@ -64,7 +64,7 @@
     },
     {
       "type": "narrative",
-      "content": "Your server is now **speaking JSON** — the same language that every API on the internet uses.\n\nRefresh the page a few times. Notice how the time changes with each request? That's because your server runs the code fresh every time someone visits the URL. It's *dynamic* — it generates a response on the fly based on the current moment.\n\nThis is the difference between a static website (same content every time) and an API (content that can change based on data, time, user, or anything else).\n\nRemember Level 4, where you learned about APIs and JSON? You're now on the **other side** of that conversation. You're not just consuming APIs anymore — you're *building* them.",
+      "content": "Your server is now **speaking JSON** — the same language that every API on the internet uses.\n\nRefresh the page a few times. Notice how the time changes with each request? That's because your server runs the code fresh every time someone visits the URL. It's *dynamic* — it generates a response on the fly based on the current moment.\n\nThis is the difference between a static website (same content every time) and an API (content that can change based on data, time, user, or anything else).\n\nRemember Level 5, where you learned about APIs and JSON? You're now on the **other side** of that conversation. You're not just consuming APIs anymore — you're *building* them.",
       "tip": "Try visiting /api/time from a different browser tab or even from your phone (if it's on the same WiFi). Each request gets a fresh response with the current time."
     }
   ],

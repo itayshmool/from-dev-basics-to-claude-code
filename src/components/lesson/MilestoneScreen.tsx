@@ -1,4 +1,5 @@
 import type { MilestoneInfo } from '../../core/lesson/types';
+import { getLevelDisplayNumber } from '../../lib/constants';
 
 interface MilestoneScreenProps {
   milestone: MilestoneInfo;
@@ -18,7 +19,7 @@ export function MilestoneScreen({ milestone, levelId, onContinue, onNextLevel, n
           </div>
 
           <h2 className="text-2xl font-bold text-text-primary mb-1">
-            Level {levelId} Complete!
+            Level {getLevelDisplayNumber(levelId)} Complete!
           </h2>
           <h3 className="text-[15px] font-semibold text-purple mb-8">{milestone.title}</h3>
 

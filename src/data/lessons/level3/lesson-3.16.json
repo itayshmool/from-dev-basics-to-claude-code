@@ -41,7 +41,7 @@
       }
     }
   ],
-  "completionMessage": "Level 3 complete! You've mastered git \u2014 the tool that every developer uses every single day.",
+  "completionMessage": "Level 4 complete! You've mastered git \u2014 the tool that every developer uses every single day.",
   "milestone": {
     "title": "Your Code Has a History",
     "summary": [
@@ -52,7 +52,7 @@
       "Branch, merge, and collaborate",
       "Push code to GitHub"
     ],
-    "nextLevelTeaser": "Next: Level 4 \u2014 How Software Actually Works. Understand the big picture of how apps, servers, and the internet fit together."
+    "nextLevelTeaser": "Next: Level 5 \u2014 How Software Actually Works. Understand the big picture of how apps, servers, and the internet fit together."
   },
   "nextLesson": "4.1"
 }

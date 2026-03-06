@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { levels } from '../../data/levels';
-import { LEVELS } from '../../lib/constants';
+import { LEVELS, getLevelDisplayNumber } from '../../lib/constants';
 import type { Lesson, LessonSection } from '../../core/lesson/types';
 
 interface ValidationResult {
@@ -160,7 +160,7 @@ function runValidationChecks(): ValidationResult[] {
     const actualCount = actualLevel ? actualLevel.lessons.length : 0;
     if (actualCount !== levelMeta.lessonCount) {
       countMismatches.push(
-        `Level ${levelMeta.id}: LEVELS says ${levelMeta.lessonCount}, actual is ${actualCount}`
+        `Level ${getLevelDisplayNumber(levelMeta.id)}: LEVELS says ${levelMeta.lessonCount}, actual is ${actualCount}`
       );
     }
   }

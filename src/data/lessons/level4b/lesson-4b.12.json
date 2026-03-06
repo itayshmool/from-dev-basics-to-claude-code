@@ -85,9 +85,9 @@
       "expectedResult": "An async JavaScript function that uses fetch, handles errors, and returns the array of repos."
     }
   ],
-  "completionMessage": "Level 4B Complete: Talk to the Internet\n\nYou can now:\n  ✓ Read and construct any URL\n  ✓ Make GET, POST requests with curl\n  ✓ Add headers and authentication\n  ✓ Use query parameters to filter results\n  ✓ Read API documentation and translate it\n  ✓ Diagnose HTTP errors systematically\n  ✓ Translate curl commands to code\n\nThe internet is just requests and responses. You now speak the language.\n\nNext up: Level 5 — Building With Real Tools\nYou'll build the server that answers these requests.",
+  "completionMessage": "Level 6 Complete: Talk to the Internet\n\nYou can now:\n  ✓ Read and construct any URL\n  ✓ Make GET, POST requests with curl\n  ✓ Add headers and authentication\n  ✓ Use query parameters to filter results\n  ✓ Read API documentation and translate it\n  ✓ Diagnose HTTP errors systematically\n  ✓ Translate curl commands to code\n\nThe internet is just requests and responses. You now speak the language.\n\nNext up: Level 7 — Building With Real Tools\nYou'll build the server that answers these requests.",
   "milestone": {
-    "title": "Level 4B Complete: Talk to the Internet",
+    "title": "Level 6 Complete: Talk to the Internet",
     "summary": [
       "You can construct and read any URL",
       "You make real HTTP requests from the terminal using curl",
@@ -96,7 +96,7 @@
       "You diagnose HTTP errors by status code and response body",
       "You know how curl maps directly to JavaScript and Python code"
     ],
-    "nextLevelTeaser": "In Level 5, you'll flip to the other side — you'll BUILD the server that answers these requests."
+    "nextLevelTeaser": "In Level 7, you'll flip to the other side — you'll BUILD the server that answers these requests."
   },
   "nextLesson": "5.1"
 }

@@ -57,7 +57,7 @@
     },
     {
       "type": "narrative",
-      "content": "**Congratulations \u2014 you've completed Level 6.**\n\nLet's recap what you can now do with Claude Code:\n\n- **Understand** any codebase by asking Claude to explain it\n- **Create** new files and entire projects from descriptions\n- **Edit** existing code with targeted, surgical changes\n- **Build** complete applications from a single detailed prompt\n- **Communicate** effectively using the WHAT-WHERE-HOW-CONTEXT framework\n\nYou've gone from someone who didn't know what a terminal was to someone who can build real applications with an AI pair programmer. That's not a small thing.\n\nThe tools you've learned across all these levels \u2014 the terminal, file systems, git, JavaScript, npm, web servers, and now Claude Code \u2014 are the exact same tools professional developers use every day. The difference is you have an AI assistant that makes you faster at all of them.",
+      "content": "**Congratulations \u2014 you've completed Level 8.**\n\nLet's recap what you can now do with Claude Code:\n\n- **Understand** any codebase by asking Claude to explain it\n- **Create** new files and entire projects from descriptions\n- **Edit** existing code with targeted, surgical changes\n- **Build** complete applications from a single detailed prompt\n- **Communicate** effectively using the WHAT-WHERE-HOW-CONTEXT framework\n\nYou've gone from someone who didn't know what a terminal was to someone who can build real applications with an AI pair programmer. That's not a small thing.\n\nThe tools you've learned across all these levels \u2014 the terminal, file systems, git, JavaScript, npm, web servers, and now Claude Code \u2014 are the exact same tools professional developers use every day. The difference is you have an AI assistant that makes you faster at all of them.",
       "keyPoints": [
         "Claude Code understands, creates, edits, and builds",
         "Better prompts = better results (WHAT, WHERE, HOW, CONTEXT)",
@@ -66,7 +66,7 @@
       ]
     }
   ],
-  "completionMessage": "Level 6 complete! You've mastered Claude Code \u2014 from installation to building complete projects with effective prompts. You now have an AI pair programmer that makes everything you've learned faster and more powerful.",
+  "completionMessage": "Level 8 complete! You've mastered Claude Code \u2014 from installation to building complete projects with effective prompts. You now have an AI pair programmer that makes everything you've learned faster and more powerful.",
   "milestone": null,
   "nextLesson": "6.9"
 }

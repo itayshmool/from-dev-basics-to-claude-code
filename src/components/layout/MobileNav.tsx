@@ -1,6 +1,6 @@
 import { levels } from '../../data/levels';
 import { useProgress } from '../../hooks/useProgress';
-import { LEVELS } from '../../lib/constants';
+import { LEVELS, getLevelDisplayNumber } from '../../lib/constants';
 
 interface MobileNavProps {
   currentLessonId: string;
@@ -55,7 +55,7 @@ export function MobileNav({ currentLessonId, currentLevel, onSelectLesson, showL
                 <div key={level.id} className="mb-3">
                   <div className="flex items-center gap-2 px-2 py-1.5">
                     <span className="w-5 h-5 rounded-md bg-purple text-white text-[10px] font-bold flex items-center justify-center">
-                      {level.id}
+                      {getLevelDisplayNumber(level.id)}
                     </span>
                     <span className="text-xs font-semibold text-text-muted">{level.title}</span>
                   </div>
@@ -114,7 +114,7 @@ export function MobileNav({ currentLessonId, currentLevel, onSelectLesson, showL
               <span className="text-white text-sm font-bold leading-none">&gt;_</span>
             </div>
             <div>
-              <p className="text-xs font-bold text-text-primary leading-tight">Level {currentLevel}</p>
+              <p className="text-xs font-bold text-text-primary leading-tight">Level {getLevelDisplayNumber(currentLevel)}</p>
               <p className="text-[10px] text-text-muted leading-tight">{levelInfo?.title}</p>
             </div>
           </div>

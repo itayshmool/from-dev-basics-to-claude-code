@@ -2,15 +2,15 @@
   "id": "5.15",
   "level": 5,
   "order": 15,
-  "title": "Level 5 Challenge",
+  "title": "Level 7 Challenge",
   "subtitle": "Put it all together — build a complete server",
   "type": "guide",
   "sections": [
     {
       "type": "narrative",
-      "content": "Time to put everything you've learned together. In this challenge, you'll build a **complete server** from scratch that combines everything from Level 5:\n\n- Serving HTML pages\n- Text routes\n- JSON API endpoints\n- Query parameters\n- Proper project setup with .gitignore\n- Version control with Git and GitHub\n\nThere's no step-by-step hand-holding here. You have all the knowledge you need from the previous lessons. If you get stuck on any step, check the hints — but try on your own first.\n\nThis is what real development feels like: you know the pieces, now assemble them into something complete.",
+      "content": "Time to put everything you've learned together. In this challenge, you'll build a **complete server** from scratch that combines everything from Level 7:\n\n- Serving HTML pages\n- Text routes\n- JSON API endpoints\n- Query parameters\n- Proper project setup with .gitignore\n- Version control with Git and GitHub\n\nThere's no step-by-step hand-holding here. You have all the knowledge you need from the previous lessons. If you get stuck on any step, check the hints — but try on your own first.\n\nThis is what real development feels like: you know the pieces, now assemble them into something complete.",
       "keyPoints": [
-        "This challenge combines everything from Level 5",
+        "This challenge combines everything from Level 7",
         "Try each step on your own before checking the hints",
         "It's okay to look back at previous lessons for reference",
         "When you finish, you'll have a real project on GitHub"
@@ -48,7 +48,7 @@
     },
     {
       "type": "narrative",
-      "content": "**Congratulations — you just built a real web server and published it to GitHub.**\n\nLet that sink in. A few lessons ago, you installed Node.js for the first time. Now you have:\n\n- A working web server that serves HTML pages\n- API endpoints that return live JSON data\n- Dynamic routes that respond to user input (query parameters)\n- A properly configured project with version control\n- Code published to GitHub for the world to see\n\nThis isn't a toy project or a simulation. This is **real software**, built with the same tools and patterns that professional developers use every day.\n\nThe key insight from Level 5: **building software isn't about memorizing syntax.** It's about understanding the pieces — servers, routes, responses, data formats — and assembling them. You now understand those pieces.\n\nAnd soon, Claude Code will help you assemble them much, much faster.",
+      "content": "**Congratulations — you just built a real web server and published it to GitHub.**\n\nLet that sink in. A few lessons ago, you installed Node.js for the first time. Now you have:\n\n- A working web server that serves HTML pages\n- API endpoints that return live JSON data\n- Dynamic routes that respond to user input (query parameters)\n- A properly configured project with version control\n- Code published to GitHub for the world to see\n\nThis isn't a toy project or a simulation. This is **real software**, built with the same tools and patterns that professional developers use every day.\n\nThe key insight from Level 7: **building software isn't about memorizing syntax.** It's about understanding the pieces — servers, routes, responses, data formats — and assembling them. You now understand those pieces.\n\nAnd soon, Claude Code will help you assemble them much, much faster.",
       "keyPoints": [
         "You built a real, working web server from scratch",
         "You created both HTML pages and JSON API endpoints",
@@ -57,9 +57,9 @@
       ]
     }
   ],
-  "completionMessage": "Level 5 complete! You've gone from installing Node.js to building and publishing a real web server. You're no longer just learning about tools — you're using them to build real things.",
+  "completionMessage": "Level 7 complete! You've gone from installing Node.js to building and publishing a real web server. You're no longer just learning about tools — you're using them to build real things.",
   "milestone": {
-    "title": "Level 5 Complete: Building With Real Tools",
+    "title": "Level 7 Complete: Building With Real Tools",
     "summary": [
       "Install and use Node.js",
       "Create projects with npm",
@@ -67,7 +67,7 @@
       "Create API endpoints that return JSON",
       "Serve HTML pages"
     ],
-    "nextLevelTeaser": "Next up: Level 6 — Claude Code. You'll learn to build projects by describing what you want in plain English."
+    "nextLevelTeaser": "Next up: Level 8 — Claude Code. You'll learn to build projects by describing what you want in plain English."
   },
   "nextLesson": "6.1"
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { apiFetch } from '../../services/api';
-import { LEVELS } from '../../lib/constants';
+import { LEVELS, getLevelDisplayNumber } from '../../lib/constants';
 
 interface Student {
   id: string;
@@ -121,7 +121,7 @@ export function AdminStudentDetail() {
             <div key={level.id} className="bg-bg-card rounded-xl border border-border p-4">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-sm font-mono text-text-primary">
-                  L{level.id}: {level.title}
+                  L{getLevelDisplayNumber(level.id)}: {level.title}
                 </span>
                 <span className="text-xs font-mono text-text-muted">
                   {completedInLevel}/{level.lessonCount}

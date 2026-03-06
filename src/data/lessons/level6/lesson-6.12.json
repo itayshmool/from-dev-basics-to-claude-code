@@ -8,11 +8,11 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "In Level 3, you learned git: branches, commits, merges, and pushing to GitHub. In this lesson, you'll combine that workflow with Claude Code.\n\nThe professional pattern looks like this:\n\n1. **Branch** — create a feature branch for the new work\n2. **Build** — use Claude Code to implement the feature\n3. **Review** — check what Claude wrote with `git diff`\n4. **Commit** — save the changes with a descriptive message\n5. **Merge** — bring the feature into your main branch\n6. **Push** — send it to GitHub\n\nThis is exactly how software teams work. Claude Code slots right into the \"Build\" step — the rest of the workflow stays the same."
+      "content": "In Level 4, you learned git: branches, commits, merges, and pushing to GitHub. In this lesson, you'll combine that workflow with Claude Code.\n\nThe professional pattern looks like this:\n\n1. **Branch** — create a feature branch for the new work\n2. **Build** — use Claude Code to implement the feature\n3. **Review** — check what Claude wrote with `git diff`\n4. **Commit** — save the changes with a descriptive message\n5. **Merge** — bring the feature into your main branch\n6. **Push** — send it to GitHub\n\nThis is exactly how software teams work. Claude Code slots right into the \"Build\" step — the rest of the workflow stays the same."
     },
     {
       "type": "guideStep",
-      "instruction": "Start by creating a feature branch. This keeps your experimental work separate from the stable main branch — just like you learned in Level 3.",
+      "instruction": "Start by creating a feature branch. This keeps your experimental work separate from the stable main branch — just like you learned in Level 4.",
       "codeBlocks": [
         {
           "language": "bash",

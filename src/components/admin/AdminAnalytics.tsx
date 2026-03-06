@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { apiFetch } from '../../services/api.js';
 import { AdminLoadingState } from './shared/AdminLoadingState.js';
+import { getLevelDisplayNumber } from '../../lib/constants';
 
 interface LevelCompletion {
   levelId: number;
@@ -89,7 +90,7 @@ function AnalyticsDashboard() {
           {stats.completionsPerLevel.map(level => (
             <CompletionBar
               key={level.levelId}
-              label={`L${level.levelId}: ${level.levelTitle}`}
+              label={`L${getLevelDisplayNumber(level.levelId)}: ${level.levelTitle}`}
               value={level.completions}
               maxValue={maxCompletions}
               displayValue={String(level.completions)}
@@ -111,7 +112,7 @@ function AnalyticsDashboard() {
             return (
               <CompletionRateBar
                 key={level.levelId}
-                label={`L${level.levelId}: ${level.levelTitle}`}
+                label={`L${getLevelDisplayNumber(level.levelId)}: ${level.levelTitle}`}
                 rate={rate}
               />
             );

@@ -78,7 +78,7 @@
       }
     }
   ],
-  "completionMessage": "`rm` permanently deletes files. There's no recycling bin in the terminal. In Level 3, you'll learn git, which gives you the power to undo — but for now, be intentional with `rm`.",
+  "completionMessage": "`rm` permanently deletes files. There's no recycling bin in the terminal. In Level 4, you'll learn git, which gives you the power to undo — but for now, be intentional with `rm`.",
   "milestone": null,
   "nextLesson": "1.9"
 }

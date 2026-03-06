@@ -68,9 +68,9 @@
       "caseSensitive": false
     }
   ],
-  "completionMessage": "You've completed Level 4! You now understand how software actually works — from code and programming languages, through servers and APIs, to databases, the cloud, deployment, and DNS. You have the big picture that most people never learn.",
+  "completionMessage": "You've completed Level 5! You now understand how software actually works — from code and programming languages, through servers and APIs, to databases, the cloud, deployment, and DNS. You have the big picture that most people never learn.",
   "milestone": {
-    "title": "Level 4 Complete: How Software Actually Works",
+    "title": "Level 5 Complete: How Software Actually Works",
     "summary": [
       "Code is instructions in text files",
       "Websites are files downloaded from servers",
@@ -78,7 +78,7 @@
       "Databases store data permanently",
       "The cloud is rented computing power"
     ],
-    "nextLevelTeaser": "Next up: Level 4B \u2014 Talk to the Internet. You'll make real HTTP requests from the terminal using curl."
+    "nextLevelTeaser": "Next up: Level 6 \u2014 Talk to the Internet. You'll make real HTTP requests from the terminal using curl."
   },
   "nextLesson": "4b.1"
 }

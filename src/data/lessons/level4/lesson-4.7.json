@@ -74,7 +74,7 @@
       "caseSensitive": false
     }
   ],
-  "completionMessage": "You now understand JSON, the universal data format of the web. You've completed Level 4 and have a solid understanding of how software and the web work: code, languages, websites, clients, servers, HTTP, APIs, and JSON. These are the building blocks everything else is built on.",
+  "completionMessage": "You now understand JSON, the universal data format of the web. You've completed Level 5 and have a solid understanding of how software and the web work: code, languages, websites, clients, servers, HTTP, APIs, and JSON. These are the building blocks everything else is built on.",
   "milestone": null,
   "nextLesson": "4.8"
 }

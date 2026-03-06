@@ -1,4 +1,4 @@
-import { LEVELS } from '../../lib/constants';
+import { LEVELS, getLevelDisplayNumber } from '../../lib/constants';
 import { useProgress } from '../../hooks/useProgress';
 import { ClaudeIcon } from '../icons/ClaudeIcon';
 import { ThemeToggle } from '../shared/ThemeToggle';
@@ -23,7 +23,7 @@ export function Header({ currentLevel }: HeaderProps) {
         <div>
           <h1 className="text-sm font-bold text-text-primary leading-tight">From Zero to Claude Code</h1>
           <p className="text-xs text-text-muted">
-            Level {currentLevel} &middot; {levelInfo?.title}
+            Level {getLevelDisplayNumber(currentLevel)} &middot; {levelInfo?.title}
           </p>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { levels } from '../../data/levels';
 import { useProgress } from '../../hooks/useProgress';
+import { getLevelDisplayNumber } from '../../lib/constants';
 
 interface SidebarProps {
   currentLessonId: string;
@@ -20,7 +21,7 @@ export function Sidebar({ currentLessonId, onSelectLesson }: SidebarProps) {
           <div className="px-4 py-1.5">
             <div className="flex items-center gap-2">
               <span className="w-5 h-5 rounded-md bg-purple text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0">
-                {level.id}
+                {getLevelDisplayNumber(level.id)}
               </span>
               <p className="text-xs font-semibold text-text-primary truncate">{level.title}</p>
             </div>

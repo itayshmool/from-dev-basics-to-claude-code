@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiFetch } from '../../services/api';
+import { getLevelDisplayNumber } from '../../lib/constants';
 
 interface Level {
   id: number;
@@ -88,7 +89,7 @@ export function AdminLevelList() {
                         className="w-10 px-1 py-0.5 rounded bg-bg-elevated border border-border text-text-primary text-sm"
                       />
                     ) : (
-                      <>{l.emoji} {l.id}</>
+                      <>{l.emoji} {getLevelDisplayNumber(l.id)}</>
                     )}
                   </td>
                   <td className="px-4 py-3 font-mono text-text-primary">

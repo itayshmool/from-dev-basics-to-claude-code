@@ -50,7 +50,7 @@
       }
     }
   ],
-  "completionMessage": "Level 2 complete! You can now read files, write to them, search across entire projects, and chain commands into powerful pipelines.",
+  "completionMessage": "Level 3 complete! You can now read files, write to them, search across entire projects, and chain commands into powerful pipelines.",
   "milestone": {
     "title": "Reading and Writing Files",
     "summary": [
@@ -60,7 +60,7 @@
       "Chain commands together with pipes",
       "Use environment variables for configuration"
     ],
-    "nextLevelTeaser": "Next: Level 3 — Your Code Has a History. Learn git and never lose your work again."
+    "nextLevelTeaser": "Next: Level 4 — Your Code Has a History. Learn git and never lose your work again."
   },
   "nextLesson": "3.1"
 }

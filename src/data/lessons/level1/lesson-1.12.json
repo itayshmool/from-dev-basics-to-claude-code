@@ -69,7 +69,7 @@
       }
     }
   ],
-  "completionMessage": "Level 1 complete! You've mastered the essential terminal commands.",
+  "completionMessage": "Level 2 complete! You've mastered the essential terminal commands.",
   "milestone": {
     "title": "Your First 30 Minutes in the Terminal",
     "summary": [
@@ -78,7 +78,7 @@
       "Move, copy, rename, and delete things",
       "Build a complete project structure with confidence"
     ],
-    "nextLevelTeaser": "Level 2 \u2014 Reading and Writing Files: You'll learn to look inside files, search for text, and chain commands together."
+    "nextLevelTeaser": "Level 3 \u2014 Reading and Writing Files: You'll learn to look inside files, search for text, and chain commands together."
   },
   "nextLesson": "2.1"
 }

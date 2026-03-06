@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiFetch } from '../../services/api';
+import { LEVELS } from '../../lib/constants';
 
 interface AdminLesson {
   id: string;
@@ -75,8 +76,8 @@ export function AdminLessonList() {
           className="text-xs bg-bg-elevated border border-border rounded-lg px-3 py-1.5 text-text-primary"
         >
           <option value="">All levels</option>
-          {[0, 1, 2, 3, 4, 5, 6, 7].map(l => (
-            <option key={l} value={l}>Level {l}</option>
+          {LEVELS.map(l => (
+            <option key={l.id} value={l.id}>Level {l.displayNumber}</option>
           ))}
         </select>
       </div>

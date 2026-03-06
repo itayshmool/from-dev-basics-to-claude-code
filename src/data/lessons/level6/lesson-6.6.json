@@ -25,7 +25,7 @@
     },
     {
       "type": "guideStep",
-      "instruction": "Now let's use a tool you learned in Level 3 — `git diff`. This shows you exactly what Claude changed. Green lines are additions, red lines are removals.",
+      "instruction": "Now let's use a tool you learned in Level 4 — `git diff`. This shows you exactly what Claude changed. Green lines are additions, red lines are removals.",
       "codeBlocks": [
         {
           "language": "bash",

@@ -2,13 +2,13 @@
   "id": "6.15",
   "level": 6,
   "order": 15,
-  "title": "Level 6 Challenge",
+  "title": "Level 8 Challenge",
   "subtitle": "Build and ship a complete project using Claude Code",
   "type": "guide",
   "sections": [
     {
       "type": "narrative",
-      "content": "This is the real deal. You're going to build a **complete bookmark manager application** from scratch using Claude Code — and push it to GitHub when you're done.\n\nNo step-by-step hand-holding. No simulations. You have all the skills:\n\n- **Terminal** (Level 1) — navigating and running commands\n- **File system** (Level 2) — creating and organizing files\n- **Git** (Level 3) — version control and GitHub\n- **Web fundamentals** (Level 4) — HTML, CSS, JavaScript\n- **Node.js** (Level 5) — building real projects\n- **Claude Code** (Level 6) — AI-powered development\n\nEach checkbox below is a feature to add. Build them one at a time using Claude Code. Review every change with `git diff`. Use feature branches. This is the professional workflow.\n\nTake your time. There's no rush. The goal isn't speed — it's building something real that works."
+      "content": "This is the real deal. You're going to build a **complete bookmark manager application** from scratch using Claude Code — and push it to GitHub when you're done.\n\nNo step-by-step hand-holding. No simulations. You have all the skills:\n\n- **Terminal** (Level 2) — navigating and running commands\n- **File system** (Level 3) — creating and organizing files\n- **Git** (Level 4) — version control and GitHub\n- **Web fundamentals** (Level 5) — HTML, CSS, JavaScript\n- **Node.js** (Level 7) — building real projects\n- **Claude Code** (Level 8) — AI-powered development\n\nEach checkbox below is a feature to add. Build them one at a time using Claude Code. Review every change with `git diff`. Use feature branches. This is the professional workflow.\n\nTake your time. There's no rush. The goal isn't speed — it's building something real that works."
     },
     {
       "type": "checklist",
@@ -60,13 +60,13 @@
         "You used Claude Code as a professional development tool",
         "You followed the branch-build-review-commit workflow",
         "Your project is live on GitHub — a real portfolio piece",
-        "Next up: Level 7 — the patterns that junior developers use every day"
+        "Next up: Level 9 — the patterns that junior developers use every day"
       ]
     }
   ],
-  "completionMessage": "Level 6 complete! You've gone from learning about Claude Code to using it to build and ship a real project. You're not just learning anymore — you're building. That's what developers do.",
+  "completionMessage": "Level 8 complete! You've gone from learning about Claude Code to using it to build and ship a real project. You're not just learning anymore — you're building. That's what developers do.",
   "milestone": {
-    "title": "Level 6 Complete: Claude Code \u2014 Your AI Pair Programmer",
+    "title": "Level 8 Complete: Claude Code \u2014 Your AI Pair Programmer",
     "summary": [
       "Install and configure Claude Code",
       "Build projects through conversation",
@@ -74,7 +74,7 @@
       "Review and iterate on AI-generated code",
       "Combine Claude Code with a professional git workflow"
     ],
-    "nextLevelTeaser": "Next up: Level 7 \u2014 Junior Developer Patterns. You'll learn to debug, deploy, and work like a professional."
+    "nextLevelTeaser": "Next up: Level 9 \u2014 Junior Developer Patterns. You'll learn to debug, deploy, and work like a professional."
   },
   "nextLesson": "7.1"
 }

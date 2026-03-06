@@ -8,7 +8,7 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "One of Claude Code's most powerful uses is **understanding code you didn't write**. This is a skill every developer needs constantly — when joining a new team, exploring an open-source project, or returning to your own code after a few months.\n\nBefore Claude Code, understanding a new codebase meant hours of reading files, tracing function calls, and piecing together how everything connects. Now you can just ask.\n\nLet's practice reading code with Claude. Start Claude Code in any project you have — ideally the one from Level 5, or any project with a few files.",
+      "content": "One of Claude Code's most powerful uses is **understanding code you didn't write**. This is a skill every developer needs constantly — when joining a new team, exploring an open-source project, or returning to your own code after a few months.\n\nBefore Claude Code, understanding a new codebase meant hours of reading files, tracing function calls, and piecing together how everything connects. Now you can just ask.\n\nLet's practice reading code with Claude. Start Claude Code in any project you have — ideally the one from Level 7, or any project with a few files.",
       "analogy": "Imagine being dropped into a new city with no map. You could wander around for hours figuring out where everything is. Or you could ask a local who knows every street. Claude Code is that local — except it knows every line of code."
     },
     {

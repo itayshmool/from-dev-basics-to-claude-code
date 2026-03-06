@@ -13,7 +13,7 @@
     },
     {
       "type": "guideStep",
-      "instruction": "Navigate to your project folder from Level 5 (or any folder with code in it) and start Claude Code. If you don't have a project handy, create a quick one with `mkdir my-project && cd my-project`.",
+      "instruction": "Navigate to your project folder from Level 7 (or any folder with code in it) and start Claude Code. If you don't have a project handy, create a quick one with `mkdir my-project && cd my-project`.",
       "codeBlocks": [
         {
           "language": "bash",
