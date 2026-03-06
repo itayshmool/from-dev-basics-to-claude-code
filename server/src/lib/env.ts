@@ -10,7 +10,7 @@ const envSchema = z.object({
   ADMIN_PASSWORD: z.string().min(8).optional(),
   ANTHROPIC_API_KEY: z.string().optional(),
   RESEND_API_KEY: z.string().optional(),
-  EMAIL_FROM: z.string().default('From Zero to Claude Code <onboarding@resend.dev>'),
+  EMAIL_FROM: z.string().default('From Zero to Claude Code <noreply@zero2claude.dev>'),
   FRONTEND_URL: z.string().default('http://localhost:5173'),
 });
 
