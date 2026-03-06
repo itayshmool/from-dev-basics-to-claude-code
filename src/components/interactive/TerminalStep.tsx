@@ -6,6 +6,67 @@ import { Terminal } from './terminal/Terminal';
 import { FileExplorer } from './terminal/FileExplorer';
 import { CommandReferenceBar } from './terminal/CommandReferenceBar';
 import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
+import { FileTreeBlock } from './FileTreeBlock';
+
+/** File/folder name pattern: word chars, dots, hyphens, optional trailing / */
+const TREE_LINE_RE = /^(\s*)[\w][\w.\-]*\/?$/;
+
+type InstructionSegment =
+  | { type: 'text'; content: string }
+  | { type: 'tree'; lines: string[] };
+
+/** Split instruction text into regular text segments and tree-block segments. */
+function splitInstructionSegments(text: string): InstructionSegment[] {
+  const lines = text.split('\n');
+  const segments: InstructionSegment[] = [];
+  let textBuf: string[] = [];
+  let treeBuf: string[] = [];
+
+  function flushText() {
+    if (textBuf.length > 0) {
+      segments.push({ type: 'text', content: textBuf.join('\n') });
+      textBuf = [];
+    }
+  }
+
+  function flushTree() {
+    if (treeBuf.length >= 3) {
+      segments.push({ type: 'tree', lines: treeBuf });
+    } else {
+      // Too short to be a tree, treat as text
+      textBuf.push(...treeBuf);
+    }
+    treeBuf = [];
+  }
+
+  for (const line of lines) {
+    const isTreeLine = TREE_LINE_RE.test(line);
+    if (isTreeLine) {
+      if (treeBuf.length === 0) flushText();
+      treeBuf.push(line);
+    } else {
+      if (treeBuf.length > 0) flushTree();
+      textBuf.push(line);
+    }
+  }
+
+  // Flush remaining
+  if (treeBuf.length > 0) flushTree();
+  flushText();
+
+  return segments;
+}
+
+/** Render inline backtick-code within a text string. */
+function renderInlineCode(text: string) {
+  return text.split('`').map((part, i) =>
+    i % 2 === 0 ? part : (
+      <code key={i} className="text-[13px] lg:text-[15px] font-mono font-medium text-purple bg-purple-soft px-1.5 py-0.5 rounded">
+        {part}
+      </code>
+    )
+  );
+}
 
 interface TerminalStepProps {
   section: TerminalStepSection;
@@ -123,12 +184,14 @@ export function TerminalStep({ section, onComplete, commands = [] }: TerminalSte
             <p className="text-[13px] text-text-secondary leading-relaxed">{section.contextMessage}</p>
           </div>
         )}
-        <div className="text-[15px] lg:text-[17px] text-text-secondary leading-relaxed whitespace-pre-line max-w-3xl">
-          {section.instruction.split('`').map((part, i) =>
-            i % 2 === 0 ? part : (
-              <code key={i} className="text-[13px] lg:text-[15px] font-mono font-medium text-purple bg-purple-soft px-1.5 py-0.5 rounded">
-                {part}
-              </code>
+        <div className="text-[15px] lg:text-[17px] text-text-secondary leading-relaxed max-w-3xl">
+          {splitInstructionSegments(section.instruction).map((seg, i) =>
+            seg.type === 'tree' ? (
+              <FileTreeBlock key={i} lines={seg.lines} />
+            ) : (
+              <span key={i} className="whitespace-pre-line">
+                {renderInlineCode(seg.content)}
+              </span>
             )
           )}
         </div>
