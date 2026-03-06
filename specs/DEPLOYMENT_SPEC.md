@@ -92,14 +92,20 @@ Render rewrite rule: `/* → /index.html` (configured in dashboard Redirects/Rew
 | `ADMIN_PASSWORD` | Used by seed script to create the admin user |
 | `GITHUB_PAT` | GitHub Personal Access Token with `repo` scope (for bug report → GitHub Issues) |
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret key (server-side verification) |
+| `RESEND_API_KEY` | Resend API key for transactional emails (from resend.com/api-keys) |
+| `EMAIL_FROM` | Sender address, default: `From Zero to Claude Code <noreply@zero2claude.dev>` |
+| `FRONTEND_URL` | Frontend base URL for email links, default: `https://zero2claude.dev` |
 
 ### Database Schema
-5 tables managed by Drizzle ORM:
+8 tables managed by Drizzle ORM:
 - **levels** — 8 levels with title, subtitle, emoji, publish status
 - **lessons** — 102 lessons with sections (JSONB), filesystem specs, metadata
-- **users** — username/password (bcrypt), role (`student` or `admin`)
+- **users** — username/password (bcrypt), role (`student` or `admin`), email, emailVerified, emailVerifiedAt
 - **progress** — per-user per-lesson section index, completion status
-- **site_settings** — key-value store for admin-configurable settings (e.g., theme overrides)
+- **site_settings** — key-value store for admin-configurable settings (e.g., theme overrides, email settings)
+- **email_verification_tokens** — hashed tokens for email verification (24h expiry, one-time use)
+- **password_reset_tokens** — hashed tokens for password reset (1h expiry, one-time use)
+- **email_log** — audit log of all sent emails (type, recipient, status, resendId, error)
 
 Migration files committed in `server/drizzle/`. Migrations run automatically during each build.
 
@@ -128,6 +134,32 @@ Migration files committed in `server/drizzle/`. Migrations run automatically dur
 
 ### CORS During Cold Start
 When the Render web service is sleeping, the first request may receive a Render-generated error page without CORS headers. The browser will show a CORS error. Subsequent requests work normally once the server wakes up.
+
+## Render Service IDs (for MCP / API)
+
+| Service | Type | ID |
+|---------|------|----|
+| terminal-trainer | Static Site (frontend) | `srv-d6kak0kr85hc739icnug` |
+| terminal-trainer-api | Web Service (backend) | `srv-d6jbmbp4tr6s739ccvcg` |
+| terminal-trainer-db | PostgreSQL | `dpg-d6jbi5fgi27c73d2jiv0-a` |
+
+## Email System (Resend)
+
+| Setting | Value |
+|---------|-------|
+| Provider | [Resend](https://resend.com) |
+| Sending domain | `zero2claude.dev` (verified via DKIM + SPF + MX) |
+| From address | `From Zero to Claude Code <noreply@zero2claude.dev>` |
+| DNS provider | Namecheap (Advanced DNS) |
+
+**DNS records for Resend:**
+| Type | Host | Value |
+|------|------|-------|
+| TXT | `resend._domainkey` | DKIM public key |
+| MX | `send` | `feedback-smtp.eu-west-1.amazonses.com` (priority 10) |
+| TXT | `send` | `v=spf1 include:amazonses.com ~all` |
+
+**Email types:** welcome, verification, password_reset, bug_submitted — all configurable (enable/disable + custom subject) via admin dashboard at `/admin/email`.
 
 ## Deploy Workflow
 
@@ -162,6 +194,7 @@ server/
       progress.ts         # GET/PUT /api/progress, GET /stats, GET /achievements, GET /continue
       admin.ts            # Admin CRUD endpoints + site settings
       bugReports.ts       # POST /api/bug-reports (Turnstile + GitHub Issues)
+      email.ts            # POST /api/email/{forgot-password,reset-password,verify,resend-verification}
     middleware/
       auth.ts             # JWT verification middleware
       errorHandler.ts     # Global error handler
@@ -169,6 +202,8 @@ server/
       env.ts              # Zod-validated environment config
       password.ts         # bcrypt helpers
       achievements.ts     # Achievement registry (16 achievements)
+      email.ts            # Resend email service (send, verify tokens, logging)
+      emailTemplates.ts   # HTML email templates (welcome, verification, reset, bug)
   drizzle/                # Migration SQL files (committed)
   drizzle.config.ts       # Drizzle Kit config
   tsconfig.json
