@@ -39,10 +39,11 @@ export function TerminalProvider({
   curlMocks?: Record<string, string>;
   children: ReactNode;
 }) {
-  const vfsRef = useRef(new VirtualFileSystem(initialFs, initialDir || '/home/user'));
+  const home = '/home/user';
+  const vfsRef = useRef(new VirtualFileSystem(initialFs, home, initialDir || home));
   const gitRef = useRef(new VirtualGit(vfsRef.current));
   const envVarsRef = useRef(new Map<string, string>([
-    ['HOME', initialDir || '/home/user'],
+    ['HOME', home],
     ['USER', 'user'],
     ['PATH', '/usr/bin:/usr/local/bin'],
   ]));

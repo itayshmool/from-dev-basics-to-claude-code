@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { StepThroughSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
+import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
 
 interface StepThroughProps {
   section: StepThroughSection;
@@ -10,6 +11,7 @@ interface StepThroughProps {
 export function StepThrough({ section, onComplete }: StepThroughProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [maxReached, setMaxReached] = useState(0);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   const totalSteps = section.steps.length;
   const step = section.steps[currentStep];
@@ -20,6 +22,9 @@ export function StepThrough({ section, onComplete }: StepThroughProps) {
     if (currentStep < totalSteps - 1) {
       const nextStep = currentStep + 1;
       setCurrentStep(nextStep);
+      if (nextStep === totalSteps - 1 && maxReached < totalSteps - 1) {
+        setShowCelebration(true);
+      }
       setMaxReached(prev => Math.max(prev, nextStep));
     }
   }
@@ -36,6 +41,9 @@ export function StepThrough({ section, onComplete }: StepThroughProps) {
 
   return (
     <LessonStep cta={cta}>
+      {showCelebration && (
+        <CelebrationOverlay message="All steps complete!" onDone={() => setShowCelebration(false)} />
+      )}
       <div className="space-y-5">
         {/* Instruction */}
         <h3 className="text-xl font-bold text-text-primary leading-snug">

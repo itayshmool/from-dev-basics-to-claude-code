@@ -23,8 +23,29 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir", "touch", "rm"],
+  "commandsIntroduced": [
+    "pwd",
+    "ls",
+    "ls -l",
+    "ls -a",
+    "cd",
+    "cd ..",
+    "cd ~",
+    "mkdir",
+    "touch",
+    "rm"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Creating is great, but sometimes you need to clean up. The `rm` command **permanently deletes** a file — no trash can, no undo.",
+      "analogy": "Unlike dragging to the Recycle Bin, `rm` is like shredding a document. Once it's gone, it's gone.",
+      "keyPoints": [
+        "`rm` stands for **remove**",
+        "Deleted files don't go to a trash folder — they're gone permanently",
+        "Always double-check before using `rm`"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Sometimes you need to clean up. Let's delete some files we don't need.",

@@ -88,16 +88,34 @@ export function LessonView() {
     navigate('/');
   }, [navigate]);
 
+  const handleGoBack = useCallback(() => {
+    if (!engine) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      engine.goBack();
+      const newIndex = engine.getCurrentSectionIndex();
+      setCurrentSection(newIndex);
+      setIsTransitioning(false);
+    }, 200);
+  }, [engine, setCurrentSection]);
+
   // Keyboard shortcuts
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      // Don't fire shortcuts when typing in inputs
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target as HTMLElement)?.isContentEditable) return;
+
       if (e.key === 'Escape') {
         handleExitLesson();
+      }
+      if ((e.key === 'p' || e.key === 'ArrowLeft') && engine && engine.getCurrentSectionIndex() > 0) {
+        handleGoBack();
       }
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleExitLesson]);
+  }, [handleExitLesson, engine, handleGoBack]);
 
   if (!lesson || !engine || !level || !lessonId) {
     return (
@@ -142,16 +160,6 @@ export function LessonView() {
           checkForNewAchievements(beforeIds);
         }
       }
-      setIsTransitioning(false);
-    }, 200);
-  }
-
-  function handleGoBack() {
-    setIsTransitioning(true);
-    setTimeout(() => {
-      eng.goBack();
-      const newIndex = eng.getCurrentSectionIndex();
-      setCurrentSection(newIndex);
       setIsTransitioning(false);
     }, 200);
   }

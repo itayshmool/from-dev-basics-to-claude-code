@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import type { FileSystemSpec } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 
@@ -34,13 +34,35 @@ function TreeNode({ name, value, path, depth, onFileClick, onDirClick }: TreeNod
     }
   }
 
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+      handleClick();
+    } else if (!isFile) {
+      if (e.key === 'ArrowRight' && !expanded) {
+        e.preventDefault();
+        e.stopPropagation();
+        setExpanded(true);
+      } else if (e.key === 'ArrowLeft' && expanded) {
+        e.preventDefault();
+        e.stopPropagation();
+        setExpanded(false);
+      }
+    }
+  }
+
   const childCount = !isFile ? Object.keys(value as FileSystemSpec).length : 0;
 
   return (
-    <div>
+    <div role={isFile ? 'none' : 'group'}>
       <button
         onClick={handleClick}
-        className="flex items-center gap-2 w-full text-left py-2 px-2.5 hover:bg-bg-elevated rounded-lg text-[15px] transition-all active:scale-[0.98]"
+        onKeyDown={handleKeyDown}
+        role="treeitem"
+        aria-expanded={isFile ? undefined : expanded}
+        aria-label={`${isFile ? 'File' : 'Folder'}: ${name}`}
+        className="flex items-center gap-2 w-full text-left py-2 px-2.5 hover:bg-bg-elevated rounded-lg text-[15px] transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/50 focus-visible:bg-bg-elevated"
         style={{ paddingLeft: `${depth * 16 + 10}px` }}
       >
         {isFile ? (
@@ -60,7 +82,7 @@ function TreeNode({ name, value, path, depth, onFileClick, onDirClick }: TreeNod
         )}
       </button>
       {!isFile && expanded && (
-        <div className="animate-fade-in-up" style={{ animationDuration: '150ms' }}>
+        <div role="group" className="animate-fade-in-up" style={{ animationDuration: '150ms' }}>
           {Object.entries(value as FileSystemSpec).map(([childName, childValue]) => (
             <TreeNode
               key={childName}
@@ -80,6 +102,19 @@ function TreeNode({ name, value, path, depth, onFileClick, onDirClick }: TreeNod
 
 export function InteractiveFileTree({ section, onComplete }: InteractiveFileTreeProps) {
   const [selectedFile, setSelectedFile] = useState<{ path: string; content: string } | null>(null);
+  const treeRef = useRef<HTMLDivElement>(null);
+
+  const handleTreeKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const items = treeRef.current?.querySelectorAll<HTMLElement>('[role="treeitem"]');
+      if (!items?.length) return;
+      const current = document.activeElement;
+      const idx = Array.from(items).indexOf(current as HTMLElement);
+      const next = e.key === 'ArrowDown' ? Math.min(idx + 1, items.length - 1) : Math.max(idx - 1, 0);
+      items[next]?.focus();
+    }
+  }, []);
 
   return (
     <LessonStep cta={{ label: 'Continue', onClick: onComplete }}>
@@ -89,7 +124,13 @@ export function InteractiveFileTree({ section, onComplete }: InteractiveFileTree
         </h3>
 
         <div className="flex flex-col gap-3">
-          <div className="bg-bg-card rounded-xl border border-border p-2 max-h-64 overflow-y-auto">
+          <div
+            ref={treeRef}
+            role="tree"
+            aria-label="File tree"
+            onKeyDown={handleTreeKeyDown}
+            className="bg-bg-card rounded-xl border border-border p-2 max-h-64 overflow-y-auto"
+          >
             {Object.entries(section.tree).map(([name, value]) => (
               <TreeNode
                 key={name}

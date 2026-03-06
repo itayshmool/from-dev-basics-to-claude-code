@@ -16,8 +16,21 @@
     }
   },
   "initialDir": "/home/user/project",
-  "commandsIntroduced": ["tail", "tail -n"],
+  "commandsIntroduced": [
+    "tail",
+    "tail -n"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "If `head` shows the top, `tail` shows the **bottom**. It's especially useful for log files, where the newest entries are at the end.",
+      "analogy": "It's like flipping to the last page of a notebook to see the most recent entry.",
+      "keyPoints": [
+        "`tail` shows the last 10 lines by default",
+        "`tail -n 5` shows the last 5 lines",
+        "Perfect for checking log files and recent changes"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "`head` shows the beginning, but when something goes wrong with a server, the most recent events are at the end. `tail` shows the last 10 lines — the freshest data.",

@@ -15,8 +15,20 @@
     }
   },
   "initialDir": "/home/user/project",
-  "commandsIntroduced": ["|"],
+  "commandsIntroduced": [
+    "|"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "The real power of the terminal comes from **combining** commands. The pipe (`|`) takes the output of one command and feeds it as input to the next.",
+      "analogy": "Think of it as an assembly line — each station does one job, and passes the result to the next station.",
+      "keyPoints": [
+        "`|` (pipe) connects two commands together",
+        "The output of the left command becomes the input of the right command",
+        "You can chain multiple pipes: `cmd1 | cmd2 | cmd3`"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "This server.log file has 100 lines of activity. Let's find all the errors first.",
@@ -53,11 +65,11 @@
         "value": "WARNING"
       },
       "onSuccess": {
-        "message": "Three commands chained! `cat` reads the file, `grep` filters for WARNING lines, `tail -n 5` keeps only the last 5. Each `|` passes output to the next command \u2014 like an assembly line."
+        "message": "Three commands chained! `cat` reads the file, `grep` filters for WARNING lines, `tail -n 5` keeps only the last 5. Each `|` passes output to the next command — like an assembly line."
       }
     }
   ],
-  "completionMessage": "Pipes (`|`) are one of the terminal's most powerful features. They let you combine simple commands into powerful pipelines. This idea \u2014 small tools that do one thing, connected together \u2014 is the core philosophy of Unix.",
+  "completionMessage": "Pipes (`|`) are one of the terminal's most powerful features. They let you combine simple commands into powerful pipelines. This idea — small tools that do one thing, connected together — is the core philosophy of Unix.",
   "milestone": null,
   "nextLesson": "2.11"
 }

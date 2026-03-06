@@ -16,8 +16,21 @@
     }
   },
   "initialDir": "/home/user/project",
-  "commandsIntroduced": ["head", "head -n"],
+  "commandsIntroduced": [
+    "head",
+    "head -n"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Sometimes a file is long and you only need to see the **beginning**. The `head` command shows just the first few lines.",
+      "analogy": "It's like reading the first paragraph of a long article to see if it's what you're looking for.",
+      "keyPoints": [
+        "`head` shows the first 10 lines by default",
+        "`head -n 5` shows just the first 5 lines",
+        "Perfect for previewing large files without overwhelming your screen"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "That log file has 50 lines. Using `cat` would flood your screen. `head` shows just the first 10 lines by default — perfect for a quick peek.",

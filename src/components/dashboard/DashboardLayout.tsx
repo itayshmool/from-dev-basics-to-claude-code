@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { DashboardSidebar } from './DashboardSidebar';
 import { ThemeToggle } from '../shared/ThemeToggle';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 const SIDEBAR_KEY = 'dashboard-sidebar-collapsed';
 
@@ -64,11 +65,23 @@ export function DashboardLayout() {
   });
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const drawerRef = useRef<HTMLElement>(null);
+  useFocusTrap(drawerRef, mobileDrawerOpen);
 
   // Close mobile drawer on navigation
   useEffect(() => {
     setMobileDrawerOpen(false);
   }, [location.pathname]);
+
+  // Close mobile drawer on Escape
+  useEffect(() => {
+    if (!mobileDrawerOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileDrawerOpen(false);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [mobileDrawerOpen]);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(prev => {
@@ -123,6 +136,10 @@ export function DashboardLayout() {
 
       {/* Mobile drawer */}
       <aside
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
         className={`
           md:hidden fixed inset-y-0 left-0 z-50 w-64
           bg-bg-card border-r border-border
@@ -179,11 +196,11 @@ export function DashboardLayout() {
             ))}
           </nav>
 
-          <div className="pt-4 border-t border-border flex items-center justify-center gap-2">
+          <div className="pt-4 border-t border-border flex items-center justify-center gap-1">
             <NavLink
               to="/"
               title="Back to Home"
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
+              className="w-11 h-11 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" />
@@ -193,7 +210,7 @@ export function DashboardLayout() {
             <button
               onClick={handleLogout}
               title="Logout"
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
+              className="w-11 h-11 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />

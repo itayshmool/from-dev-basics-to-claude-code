@@ -13,8 +13,20 @@
     }
   },
   "initialDir": "/home/user/project",
-  "commandsIntroduced": ["> file"],
+  "commandsIntroduced": [
+    "> file"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Instead of just printing to the screen, you can **redirect** output into a file. The `>` operator writes output to a file, replacing anything that was there before.",
+      "analogy": "It's like erasing a whiteboard and writing something new. Whatever was there before is gone.",
+      "keyPoints": [
+        "`>` redirects output into a file",
+        "It **replaces** the entire file contents",
+        "Creates the file if it doesn't exist yet"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Create a file with content: use `echo` with `>` to redirect output into a file.",
@@ -47,7 +59,7 @@
     {
       "type": "terminalStep",
       "instruction": "Now overwrite the file.",
-      "prompt": "Type `echo \"Goodbye\" > greeting.txt` \u2014 what happens to the old content?",
+      "prompt": "Type `echo \"Goodbye\" > greeting.txt` — what happens to the old content?",
       "hint": "echo \"Goodbye\" > greeting.txt",
       "validation": {
         "type": "fileContains",
@@ -74,7 +86,7 @@
       }
     }
   ],
-  "completionMessage": "You learned the `>` redirect operator. It sends command output into a file instead of the screen. But be careful \u2014 `>` overwrites everything! Next, you'll learn how to add to a file without erasing it.",
+  "completionMessage": "You learned the `>` redirect operator. It sends command output into a file instead of the screen. But be careful — `>` overwrites everything! Next, you'll learn how to add to a file without erasing it.",
   "milestone": null,
   "nextLesson": "2.6"
 }

@@ -23,8 +23,25 @@
     }
   },
   "initialDir": "/home/user/documents",
-  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd .."],
+  "commandsIntroduced": [
+    "pwd",
+    "ls",
+    "ls -l",
+    "ls -a",
+    "cd",
+    "cd .."
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "You can go into folders — but how do you go back? Two dots (`..`) is the universal shortcut for **the parent folder** (the one above you).",
+      "analogy": "Going into a folder is like walking into a room. `cd ..` is walking back out the door you came in through.",
+      "keyPoints": [
+        "`..` always means the parent directory",
+        "`cd ..` takes you one level up",
+        "You can chain them: `cd ../..` goes up two levels"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "You're inside documents. How do you go back up to your home folder?",

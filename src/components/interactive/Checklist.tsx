@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import type { ChecklistSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
+import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
 
 interface ChecklistProps {
   section: ChecklistSection;
@@ -20,6 +21,7 @@ function renderInlineCode(text: string) {
 export function Checklist({ section, onComplete }: ChecklistProps) {
   const [checkedItems, setCheckedItems] = useState<Set<number>>(new Set());
   const [expandedHints, setExpandedHints] = useState<Set<number>>(new Set());
+  const [showCelebration, setShowCelebration] = useState(false);
 
   const allChecked = checkedItems.size === section.items.length;
 
@@ -30,10 +32,13 @@ export function Checklist({ section, onComplete }: ChecklistProps) {
         next.delete(index);
       } else {
         next.add(index);
+        if (next.size === section.items.length) {
+          setShowCelebration(true);
+        }
       }
       return next;
     });
-  }, []);
+  }, [section.items.length]);
 
   const toggleHint = useCallback((index: number) => {
     setExpandedHints(prev => {
@@ -49,6 +54,9 @@ export function Checklist({ section, onComplete }: ChecklistProps) {
 
   return (
     <LessonStep cta={{ label: 'Continue', onClick: onComplete, disabled: !allChecked }}>
+      {showCelebration && (
+        <CelebrationOverlay message="All checked!" onDone={() => setShowCelebration(false)} />
+      )}
       <div className="space-y-5">
         {/* Instruction */}
         <p className="text-[17px] leading-relaxed text-text-secondary whitespace-pre-line">

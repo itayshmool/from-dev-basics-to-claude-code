@@ -13,8 +13,20 @@
     }
   },
   "initialDir": "/home/user/project",
-  "commandsIntroduced": ["echo"],
+  "commandsIntroduced": [
+    "echo"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "The `echo` command prints text to the screen. It sounds simple, but it's a building block for much more powerful techniques coming next.",
+      "analogy": "Think of `echo` as talking to the terminal — whatever you say, it repeats back to you.",
+      "keyPoints": [
+        "`echo` prints whatever text you give it",
+        "Useful for seeing variable values and writing to files",
+        "What you `echo` can be redirected into files (coming in the next lesson)"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "`echo` is the terminal's way of printing text. Whatever you type after `echo`, it repeats back to you. Simple, but incredibly useful.",

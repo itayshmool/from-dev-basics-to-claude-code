@@ -17,8 +17,32 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir", "touch", "rm", "rm -r", "cp", "mv"],
+  "commandsIntroduced": [
+    "pwd",
+    "ls",
+    "ls -l",
+    "ls -a",
+    "cd",
+    "cd ..",
+    "cd ~",
+    "mkdir",
+    "touch",
+    "rm",
+    "rm -r",
+    "cp",
+    "mv"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "The `mv` command does double duty: it can **move** a file to a new location, and it can **rename** a file. Same command, two uses.",
+      "analogy": "Think of `mv` as picking something up and putting it somewhere else. If you put it in the same spot with a different name — that's renaming.",
+      "keyPoints": [
+        "`mv` stands for **move**",
+        "`mv file newname` renames it in place",
+        "`mv file folder/` moves it into that folder"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "`mv` does two things: move a file to a different location, or rename it. Same command, different use.",

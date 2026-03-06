@@ -23,8 +23,20 @@
     }
   },
   "initialDir": "/home/user",
-  "commandsIntroduced": ["pwd"],
+  "commandsIntroduced": [
+    "pwd"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "When you open a terminal, you're always **somewhere** in your computer's file system. Before doing anything else, you need to know your current location.",
+      "analogy": "It's like opening your eyes in a new building — the first thing you do is check the 'You Are Here' dot on the map.",
+      "keyPoints": [
+        "`pwd` stands for **print working directory**",
+        "It shows the full path to where you currently are",
+        "You'll use this whenever you feel lost"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Your terminal is open. The first thing to do in any terminal: find out where you are.",

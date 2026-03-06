@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { apiFetch } from '../../services/api';
 import { ActivityTimeline } from './ActivityTimeline';
 import { LevelBreakdown } from './LevelBreakdown';
+import { StreakHeatmap } from './StreakHeatmap';
 
 interface Stats {
   totalCompleted: number;
@@ -21,6 +22,7 @@ interface Stats {
     lessonTitle: string;
     completedAt: string | null;
   }[];
+  activityMap?: Record<string, number>;
 }
 
 export function DashboardStats() {
@@ -72,6 +74,14 @@ export function DashboardStats() {
           detail={stats.longestStreak > stats.currentStreak ? `Best: ${stats.longestStreak}` : undefined}
         />
       </div>
+
+      {/* Activity heatmap */}
+      {stats.activityMap && Object.keys(stats.activityMap).length > 0 && (
+        <div className="mb-8 bg-bg-card rounded-xl border border-border p-5">
+          <h2 className="text-sm font-semibold text-text-primary font-mono mb-4">Activity</h2>
+          <StreakHeatmap activityMap={stats.activityMap} />
+        </div>
+      )}
 
       {/* Level breakdown */}
       <div className="mb-8">

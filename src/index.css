@@ -101,6 +101,20 @@ body {
 ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
 
+/* Focus visible — accessible keyboard focus rings */
+:focus-visible {
+  outline: 2px solid var(--color-purple);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-purple);
+  outline-offset: 0px;
+}
+
 /* Touch targets */
 @media (pointer: coarse) {
   button, a, [role="button"] {
@@ -337,4 +351,10 @@ body {
 /* Safe area */
 .safe-bottom {
   padding-bottom: max(env(safe-area-inset-bottom, 0px), 20px);
+}
+
+@media (pointer: coarse) {
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 24px);
+  }
 }

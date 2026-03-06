@@ -56,15 +56,15 @@ export function LessonProgressBar({ current, total, onClose, onBack, canGoBack, 
           </button>
         )}
 
-        <div className="flex-1 h-2 bg-bg-elevated rounded-full overflow-hidden">
+        <div className="flex-1 h-3 bg-bg-elevated rounded-full overflow-hidden">
           <div
             className="h-full bg-purple rounded-full transition-all duration-500 ease-out"
             style={{ width: `${pct}%`, boxShadow: pct > 0 ? '0 0 8px rgba(255, 107, 53, 0.3)' : undefined }}
           />
         </div>
 
-        <span className="text-xs font-mono font-semibold text-text-muted tabular-nums flex-shrink-0">
-          {current + 1}/{total}
+        <span className="text-[11px] font-mono font-semibold text-text-muted tabular-nums flex-shrink-0">
+          <span className="hidden sm:inline">Section </span>{current + 1}<span className="text-text-muted/60"> of </span>{total}
         </span>
 
         {onReportBug && (
@@ -85,7 +85,7 @@ export function LessonProgressBar({ current, total, onClose, onBack, canGoBack, 
       {/* Lesson title + section type indicator */}
       <div className="flex items-center justify-center gap-2 mt-1.5">
         {sectionType && SECTION_TYPE_LABELS[sectionType] && (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-bg-elevated text-[10px] font-mono font-medium text-text-secondary flex-shrink-0">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-soft border border-purple/10 text-[11px] font-mono font-semibold text-purple flex-shrink-0">
             <span>{SECTION_TYPE_LABELS[sectionType].icon}</span>
             {SECTION_TYPE_LABELS[sectionType].label}
           </span>

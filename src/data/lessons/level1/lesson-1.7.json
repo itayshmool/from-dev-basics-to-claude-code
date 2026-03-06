@@ -16,8 +16,28 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir", "touch"],
+  "commandsIntroduced": [
+    "pwd",
+    "ls",
+    "ls -l",
+    "ls -a",
+    "cd",
+    "cd ..",
+    "cd ~",
+    "mkdir",
+    "touch"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "You know how to make folders — now let's make **files**. The `touch` command creates a new, empty file.",
+      "analogy": "If `mkdir` builds a new room, `touch` places an empty notebook inside it — ready for you to write in later.",
+      "keyPoints": [
+        "`touch` creates a new empty file",
+        "You choose the filename, including its extension",
+        "If the file already exists, `touch` just updates its timestamp"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Folders are created. Now let's add some files.",

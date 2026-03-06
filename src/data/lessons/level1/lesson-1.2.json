@@ -23,8 +23,23 @@
     }
   },
   "initialDir": "/home/user",
-  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a"],
+  "commandsIntroduced": [
+    "pwd",
+    "ls",
+    "ls -l",
+    "ls -a"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Knowing where you are is useful, but you also need to see what's around you. The `ls` command shows all files and folders in your current location.",
+      "analogy": "Think of `ls` as turning on the lights in a room — suddenly you can see everything that's there.",
+      "keyPoints": [
+        "`ls` stands for **list**",
+        "It shows files and folders in your current directory",
+        "Folders and files look different in the output"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Now that you know where you are, let's see what's around you.",

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import type { FileSystemSpec } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
@@ -26,12 +26,25 @@ function PathTreeNode({ name, value, path, depth, onNavigate, activePath }: Path
   const isOnPath = activePath.startsWith(path) || activePath === path;
   const isTarget = activePath === path;
 
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+      onNavigate(path, isFile);
+    }
+  }
+
   return (
-    <div>
+    <div role={isFile ? 'none' : 'group'}>
       <button
         onClick={() => onNavigate(path, isFile)}
+        onKeyDown={handleKeyDown}
+        role="treeitem"
+        aria-selected={isTarget}
+        aria-label={`${isFile ? 'File' : 'Folder'}: ${name}`}
         className={`
           flex items-center gap-2 w-full text-left py-2 px-2.5 rounded-lg text-[15px] transition-all active:scale-[0.98]
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/50
           ${isTarget ? 'bg-purple-soft ring-1 ring-purple/20' : isOnPath ? 'bg-purple-soft/40' : 'hover:bg-bg-elevated'}
         `}
         style={{ paddingLeft: `${depth * 16 + 10}px` }}
@@ -46,7 +59,7 @@ function PathTreeNode({ name, value, path, depth, onNavigate, activePath }: Path
         </span>
       </button>
       {!isFile && isOnPath && (
-        <div className="animate-fade-in-up" style={{ animationDuration: '150ms' }}>
+        <div role="group" className="animate-fade-in-up" style={{ animationDuration: '150ms' }}>
           {Object.entries(value as FileSystemSpec).map(([childName, childValue]) => (
             <PathTreeNode
               key={childName}
@@ -67,6 +80,7 @@ function PathTreeNode({ name, value, path, depth, onNavigate, activePath }: Path
 export function PathBuilder({ section, onComplete }: PathBuilderProps) {
   const [currentPath, setCurrentPath] = useState('');
   const [showCelebration, setShowCelebration] = useState(false);
+  const treeRef = useRef<HTMLDivElement>(null);
   const isComplete = currentPath === section.targetPath;
 
   function handleNavigate(path: string) {
@@ -75,6 +89,18 @@ export function PathBuilder({ section, onComplete }: PathBuilderProps) {
       setShowCelebration(true);
     }
   }
+
+  const handleTreeKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const items = treeRef.current?.querySelectorAll<HTMLElement>('[role="treeitem"]');
+      if (!items?.length) return;
+      const current = document.activeElement;
+      const idx = Array.from(items).indexOf(current as HTMLElement);
+      const next = e.key === 'ArrowDown' ? Math.min(idx + 1, items.length - 1) : Math.max(idx - 1, 0);
+      items[next]?.focus();
+    }
+  }, []);
 
   const segments = currentPath.split('/').filter(Boolean);
 
@@ -107,7 +133,7 @@ export function PathBuilder({ section, onComplete }: PathBuilderProps) {
           </div>
 
           {/* Tree */}
-          <div className="bg-bg-card rounded-xl border border-border p-2 max-h-56 overflow-y-auto">
+          <div ref={treeRef} role="tree" aria-label="Path builder tree" onKeyDown={handleTreeKeyDown} className="bg-bg-card rounded-xl border border-border p-2 max-h-56 overflow-y-auto">
             {Object.entries(section.tree).map(([name, value]) => (
               <PathTreeNode
                 key={name}

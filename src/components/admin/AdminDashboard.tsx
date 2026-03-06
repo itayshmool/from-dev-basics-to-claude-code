@@ -62,8 +62,14 @@ export function AdminDashboard() {
 
       {/* Per-level chart */}
       <div className="bg-bg-card rounded-xl border border-border p-5 md:p-6" style={{ boxShadow: 'var(--shadow-card)' }}>
-        <h2 className="text-sm font-semibold text-text-primary font-mono mb-5">Completion by Level</h2>
-        <div className="space-y-4">
+        <h2 className="text-sm font-semibold text-text-primary font-mono mb-4">Completion by Level</h2>
+        <div className="flex items-center gap-3 mb-3 px-1">
+          <span className="text-[10px] font-mono text-text-muted uppercase tracking-wider w-6">&nbsp;</span>
+          <span className="text-[10px] font-mono text-text-muted uppercase tracking-wider w-36">Level</span>
+          <span className="text-[10px] font-mono text-text-muted uppercase tracking-wider flex-1">Progress</span>
+          <span className="text-[10px] font-mono text-text-muted uppercase tracking-wider w-20 text-right">Completed</span>
+        </div>
+        <div className="space-y-3">
           {stats.completionsPerLevel.map(level => {
             const pct = level.totalPossible > 0
               ? Math.round((level.completions / level.totalPossible) * 100)

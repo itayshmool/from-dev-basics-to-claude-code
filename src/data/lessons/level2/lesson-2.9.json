@@ -17,8 +17,20 @@
     }
   },
   "initialDir": "/home/user/project",
-  "commandsIntroduced": ["grep -r"],
+  "commandsIntroduced": [
+    "grep -r"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "What if you need to find text but don't know which file it's in? `grep -r` searches **recursively** through all files in a folder and its subfolders.",
+      "analogy": "Regular `grep` searches one file. `grep -r` is like searching every drawer in every cabinet in the building.",
+      "keyPoints": [
+        "`grep -r` searches through all files in a directory tree",
+        "It shows the filename and matching line for each result",
+        "Great for finding where something is defined in a project"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "What if you don't know which file contains the text? Search ALL files at once. The `-r` flag tells grep to search recursively through every file in a folder.",
@@ -29,7 +41,7 @@
         "value": "grep -r"
       },
       "onSuccess": {
-        "message": "Found 'port' in three different files! `-r` means recursive \u2014 search this folder and all subfolders. The `.` means 'start here'. You didn't need to know which file had the text."
+        "message": "Found 'port' in three different files! `-r` means recursive — search this folder and all subfolders. The `.` means 'start here'. You didn't need to know which file had the text."
       }
     },
     {

@@ -26,14 +26,22 @@ function TreeNode({ name, value, path, depth, cwd, highlightPath }: TreeNodeProp
   return (
     <div>
       <div
-        className={`flex items-center gap-1.5 py-1 px-2 rounded-md text-[13px] font-mono transition-all ${
+        className={`relative flex items-center gap-1.5 py-1 px-2 rounded-md text-[13px] font-mono transition-all ${
           isCwd ? 'bg-purple-soft text-purple font-semibold' :
           isHighlighted ? 'bg-green-soft text-green animate-fade-in-up' :
           ''
         }`}
-        style={{ paddingLeft: `${depth * 14 + 8}px` }}
+        style={{ paddingLeft: `${depth * 16 + 8}px` }}
         onClick={() => !isFile && setExpanded(!expanded)}
       >
+        {/* Indentation guides */}
+        {Array.from({ length: depth }).map((_, i) => (
+          <span
+            key={i}
+            className="absolute top-0 bottom-0 w-px bg-border"
+            style={{ left: `${i * 16 + 14}px` }}
+          />
+        ))}
         {isFile ? (
           <span className="text-[11px] flex-shrink-0 opacity-70">{'\u{1F4C4}'}</span>
         ) : (

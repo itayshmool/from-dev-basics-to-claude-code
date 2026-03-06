@@ -25,8 +25,30 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir", "touch", "rm", "rm -r"],
+  "commandsIntroduced": [
+    "pwd",
+    "ls",
+    "ls -l",
+    "ls -a",
+    "cd",
+    "cd ..",
+    "cd ~",
+    "mkdir",
+    "touch",
+    "rm",
+    "rm -r"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Deleting a folder is a bit different from deleting a file. You need to tell `rm` to go **recursive** — meaning delete everything inside, then the folder itself.",
+      "analogy": "You can't demolish a room that still has furniture in it. `rm -r` clears everything out first, then removes the room.",
+      "keyPoints": [
+        "`rm -r` deletes a folder and everything inside it",
+        "The `-r` flag means **recursive** — it goes through all contents",
+        "Be very careful — this deletes everything with no undo"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Deleting folders is slightly different — you need to tell `rm` to go 'recursive'.",

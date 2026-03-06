@@ -20,6 +20,16 @@
   ],
   "sections": [
     {
+      "type": "narrative",
+      "content": "Sometimes you need to know **how much** is in a file: how many lines, words, or characters. The `wc` command counts them for you.",
+      "analogy": "It's like a word count tool in a text editor — but it works right from the command line.",
+      "keyPoints": [
+        "`wc` stands for **word count**",
+        "`wc -l` counts just the lines",
+        "Combine with pipes: `cat file | wc -l` counts lines in a file"
+      ]
+    },
+    {
       "type": "terminalStep",
       "instruction": "You have a 100-line server log. But how do you know it's 100 lines without counting manually? The `wc` command counts for you.",
       "prompt": "Type `wc -l server.log` to count the lines in the log file.",

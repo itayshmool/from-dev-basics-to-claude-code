@@ -15,8 +15,20 @@
     }
   },
   "initialDir": "/home/user/project",
-  "commandsIntroduced": [">> file"],
+  "commandsIntroduced": [
+    ">> file"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Sometimes you don't want to replace a file — you want to **add** to it. The `>>` operator appends to the end of a file without erasing what's already there.",
+      "analogy": "If `>` is erasing the whiteboard, `>>` is writing on the next empty line — everything above stays intact.",
+      "keyPoints": [
+        "`>>` appends to the end of a file",
+        "It never erases existing content",
+        "Creates the file if it doesn't exist yet, just like `>`"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Let's look at a file that already has some content.",
@@ -43,7 +55,7 @@
         }
       },
       "onSuccess": {
-        "message": "`>>` APPENDS \u2014 adds to the end without deleting anything."
+        "message": "`>>` APPENDS — adds to the end without deleting anything."
       }
     },
     {

@@ -23,8 +23,24 @@
     }
   },
   "initialDir": "/home/user",
-  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd"],
+  "commandsIntroduced": [
+    "pwd",
+    "ls",
+    "ls -l",
+    "ls -a",
+    "cd"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Now that you can see where you are and what's around you, it's time to **move**. The `cd` command lets you walk into folders.",
+      "analogy": "If `pwd` is checking the map and `ls` is looking around the room, `cd` is walking through a door into another room.",
+      "keyPoints": [
+        "`cd` stands for **change directory**",
+        "Type `cd` followed by a folder name to enter it",
+        "Your prompt updates to show your new location"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "You can see three folders. Let's go inside one.",

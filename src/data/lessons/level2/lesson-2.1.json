@@ -17,8 +17,20 @@
     }
   },
   "initialDir": "/home/user/project",
-  "commandsIntroduced": ["cat"],
+  "commandsIntroduced": [
+    "cat"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Files aren't just names on a screen — they contain **content**. The `cat` command lets you read what's inside a file, right in the terminal.",
+      "analogy": "If a file is a sealed envelope, `cat` is opening it and reading the letter inside.",
+      "keyPoints": [
+        "`cat` stands for **concatenate** (but it's mostly used to read files)",
+        "It prints the entire file contents to screen",
+        "Best for short files — long files will scroll past quickly"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "You can see files with `ls`, but how do you read what's inside them? That's what `cat` is for. It dumps a file's contents right to your screen.",

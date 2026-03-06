@@ -18,8 +18,31 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir", "touch", "rm", "rm -r", "cp"],
+  "commandsIntroduced": [
+    "pwd",
+    "ls",
+    "ls -l",
+    "ls -a",
+    "cd",
+    "cd ..",
+    "cd ~",
+    "mkdir",
+    "touch",
+    "rm",
+    "rm -r",
+    "cp"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Sometimes you want a duplicate of a file — a backup, or a starting point for a new version. The `cp` command makes a copy.",
+      "analogy": "It's like photocopying a document — you end up with two identical copies, each at its own location.",
+      "keyPoints": [
+        "`cp` stands for **copy**",
+        "Syntax: `cp source destination`",
+        "The original file stays untouched"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Sometimes you want to copy a file — keep the original and make a duplicate.",

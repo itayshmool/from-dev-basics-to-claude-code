@@ -11,8 +11,27 @@
     }
   },
   "initialDir": "/home/user",
-  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~", "mkdir"],
+  "commandsIntroduced": [
+    "pwd",
+    "ls",
+    "ls -l",
+    "ls -a",
+    "cd",
+    "cd ..",
+    "cd ~",
+    "mkdir"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "So far you've been exploring existing folders. Now it's time to **create your own**. The `mkdir` command makes a new empty folder.",
+      "analogy": "If your file system is a building, `mkdir` is adding a new room. You choose the name, and it appears ready to be filled.",
+      "keyPoints": [
+        "`mkdir` stands for **make directory**",
+        "Type `mkdir` followed by the folder name you want",
+        "The new folder starts empty"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Let's build something. First, we need a folder for our project.",

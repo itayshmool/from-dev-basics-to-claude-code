@@ -23,8 +23,26 @@
     }
   },
   "initialDir": "/home/user/projects/website",
-  "commandsIntroduced": ["pwd", "ls", "ls -l", "ls -a", "cd", "cd ..", "cd ~"],
+  "commandsIntroduced": [
+    "pwd",
+    "ls",
+    "ls -l",
+    "ls -a",
+    "cd",
+    "cd ..",
+    "cd ~"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "No matter how deep you wander into the folder tree, there's always a fast way home. The `~` symbol is a shortcut for your **home directory**.",
+      "analogy": "Think of `~` as a 'teleport home' button — no matter where you are, one command takes you straight back.",
+      "keyPoints": [
+        "`~` (tilde) is a shortcut for your home folder",
+        "`cd ~` instantly jumps to `/home/user`",
+        "Just typing `cd` with no arguments also takes you home"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Sometimes you're deep in a folder tree and just want to go home. There's a shortcut.",

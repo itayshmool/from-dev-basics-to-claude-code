@@ -6,15 +6,16 @@ export class VirtualFileSystem {
   private cwd: string;
   private home: string;
 
-  constructor(spec?: FileSystemSpec, home = '/home/user') {
+  constructor(spec?: FileSystemSpec, home = '/home/user', cwd?: string) {
     this.root = { type: 'dir', name: '', children: new Map() };
     this.home = home;
-    this.cwd = home;
+    this.cwd = cwd || home;
     if (spec) {
       this.buildFromSpec(spec, this.root);
     }
     // Ensure home directory exists
     this.ensureDir(home);
+    if (cwd) this.ensureDir(cwd);
   }
 
   private buildFromSpec(spec: FileSystemSpec, parent: DirNode): void {

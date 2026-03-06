@@ -115,6 +115,14 @@ progressRouter.get('/stats', async (req, res) => {
     total: countMap.get(lv.levelId) || 0,
   }));
 
+  // Activity map — count of completions per day (last 180 days)
+  const activityMap: Record<string, number> = {};
+  for (const row of completedRows) {
+    if (!row.completedAt) continue;
+    const dateStr = new Date(row.completedAt).toISOString().slice(0, 10);
+    activityMap[dateStr] = (activityMap[dateStr] || 0) + 1;
+  }
+
   // Recent activity (last 10 with lesson titles)
   const lessonTitles = new Map(
     (await db.select({ id: lessons.id, title: lessons.title }).from(lessons)).map(l => [l.id, l.title])
@@ -134,6 +142,7 @@ progressRouter.get('/stats', async (req, res) => {
     longestStreak,
     levelBreakdown,
     recentActivity,
+    activityMap,
   });
 });
 

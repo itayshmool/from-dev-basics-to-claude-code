@@ -15,8 +15,20 @@
     }
   },
   "initialDir": "/home/user/project",
-  "commandsIntroduced": ["cat file > newfile"],
+  "commandsIntroduced": [
+    "cat file > newfile"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "You already know `cat` reads files and `>` writes to files. Combine them, and you can **copy one file's contents into another**.",
+      "analogy": "It's like reading a letter aloud and having someone write down every word — the result is a copy.",
+      "keyPoints": [
+        "`cat source > destination` copies content from one file to another",
+        "This overwrites the destination file",
+        "A handy pattern that combines two commands you already know"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "You can combine `cat` with `>` to copy the contents of one file into another. `cat` reads the file, and `>` sends the output to a new file.",
@@ -40,11 +52,11 @@
         "value": "cat backup.txt"
       },
       "onSuccess": {
-        "message": "Same content as the original. This copies CONTENT by reading and redirecting \u2014 different from the `cp` command you'll learn later."
+        "message": "Same content as the original. This copies CONTENT by reading and redirecting — different from the `cp` command you'll learn later."
       }
     }
   ],
-  "completionMessage": "You combined two things you already know \u2014 `cat` and `>` \u2014 to create something new: a way to copy file contents. This is how the terminal works \u2014 small tools combine into powerful workflows.",
+  "completionMessage": "You combined two things you already know — `cat` and `>` — to create something new: a way to copy file contents. This is how the terminal works — small tools combine into powerful workflows.",
   "milestone": null,
   "nextLesson": "2.8"
 }

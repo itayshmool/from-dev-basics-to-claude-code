@@ -17,8 +17,21 @@
     }
   },
   "initialDir": "/home/user/project",
-  "commandsIntroduced": ["grep", "grep -i"],
+  "commandsIntroduced": [
+    "grep",
+    "grep -i"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Real files can have hundreds of lines. Instead of reading everything, `grep` lets you **search** for specific text and shows only the matching lines.",
+      "analogy": "It's like using Ctrl+F (Find) in a document — type what you're looking for, and only the matches light up.",
+      "keyPoints": [
+        "`grep` searches for a pattern inside a file",
+        "It prints only the lines that match",
+        "Syntax: `grep \"search term\" filename`"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "`grep` searches for text inside files. It shows every line that contains your search term.",

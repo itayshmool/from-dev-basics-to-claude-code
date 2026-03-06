@@ -166,7 +166,7 @@ export function Terminal({ onCommandExecuted, disabled }: TerminalProps) {
       {/* Terminal body */}
       <div
         ref={containerRef}
-        className="bg-bg-terminal p-4 font-mono text-[13px] min-h-[120px] max-h-[200px] md:min-h-[200px] md:max-h-[450px] overflow-y-auto cursor-text"
+        className="bg-bg-terminal p-4 font-mono text-[14px] min-h-[120px] max-h-[200px] md:min-h-[200px] md:max-h-[450px] overflow-y-auto cursor-text"
         onClick={() => inputRef.current?.focus()}
       >
         {/* History */}
@@ -195,7 +195,7 @@ export function Terminal({ onCommandExecuted, disabled }: TerminalProps) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="bg-transparent text-[#F0ECE4] outline-none border-none flex-1 font-mono text-[13px] p-0 m-0 caret-[#D4A843]"
+              className="bg-transparent text-[#F0ECE4] outline-none border-none flex-1 font-mono text-[14px] p-0 m-0 caret-[#D4A843]"
               autoFocus
               spellCheck={false}
               autoComplete="off"

@@ -30,6 +30,16 @@
   ],
   "sections": [
     {
+      "type": "narrative",
+      "content": "You've learned to read files, search text, chain commands, and count results. Now you'll combine all these skills to investigate a real scenario: a week of server logs.",
+      "analogy": "This is your detective training exercise — you have the clues (log files) and the tools (grep, cat, wc, pipes). Time to solve the case.",
+      "keyPoints": [
+        "You'll combine `cat`, `grep`, `wc`, and pipes",
+        "Real-world scenarios often require chaining multiple commands",
+        "Read the logs carefully — the answers are hiding in the data"
+      ]
+    },
+    {
       "type": "terminalStep",
       "instruction": "You're an ops engineer investigating a bad week. The server had problems, and your job is to figure out what happened using the terminal tools you've learned.\n\nYou have 5 days of logs in the `logs/` folder and source code in `src/`. Use `grep`, `wc`, pipes, and everything else to investigate.",
       "prompt": "Find all the errors across the week. Which day had the most? Use `grep -c` to count errors per file, or `grep -r` to search all logs. Also check the source code for TODOs.",

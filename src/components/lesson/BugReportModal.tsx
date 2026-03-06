@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { apiFetch } from '../../services/api';
 import { useTurnstile } from '../../hooks/useTurnstile';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 export interface BugReportContext {
   lessonId: string;
@@ -47,6 +48,8 @@ export function BugReportModal({ isOpen, onClose, context }: BugReportModalProps
   const [error, setError] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(modalRef, isOpen);
 
   const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
 
@@ -125,7 +128,7 @@ export function BugReportModal({ isOpen, onClose, context }: BugReportModalProps
       <div className="absolute inset-0 bg-bg-overlay" onClick={handleClose} />
 
       {/* Modal */}
-      <div className="relative bg-bg-card border border-border rounded-xl shadow-float w-full max-w-lg max-h-[80vh] overflow-y-auto">
+      <div ref={modalRef} role="dialog" aria-modal="true" aria-label="Report an issue" className="relative bg-bg-card border border-border rounded-xl shadow-float w-full max-w-lg max-h-[80vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-border">
           <h2 className="text-sm font-semibold text-text-primary font-mono">Report an Issue</h2>

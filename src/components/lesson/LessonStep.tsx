@@ -15,7 +15,10 @@ interface LessonStepProps {
 export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Enter' && cta && !cta.disabled) {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target as HTMLElement)?.isContentEditable) return;
+
+      if ((e.key === 'Enter' || e.key === 'n' || e.key === 'ArrowRight') && cta && !cta.disabled) {
         e.preventDefault();
         cta.onClick();
       }
@@ -28,19 +31,19 @@ export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
     <div className="flex flex-col h-full">
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto pt-6 pb-8" style={{ paddingLeft: 'clamp(24px, 4vw, 112px)', paddingRight: 'clamp(24px, 4vw, 112px)' }}>
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-[700px] mx-auto">
           {children}
         </div>
       </div>
 
       {/* Bottom-fixed CTA bar */}
       {(cta || secondaryCta) && (
-        <div className="flex-shrink-0 border-t border-border-strong bg-bg-primary/90 backdrop-blur-sm py-5 safe-bottom" style={{ paddingLeft: 'clamp(24px, 4vw, 112px)', paddingRight: 'clamp(24px, 4vw, 112px)', boxShadow: '0 -8px 24px rgba(0, 0, 0, 0.3)' }}>
-          <div className="max-w-3xl mx-auto flex gap-3">
+        <div className="flex-shrink-0 border-t border-border-strong bg-bg-primary/95 backdrop-blur-sm py-5 safe-bottom" style={{ paddingLeft: 'clamp(24px, 4vw, 112px)', paddingRight: 'clamp(24px, 4vw, 112px)', boxShadow: '0 -12px 32px rgba(0, 0, 0, 0.4), 0 -2px 8px rgba(0, 0, 0, 0.2)' }}>
+          <div className="max-w-[700px] mx-auto flex gap-3">
             {secondaryCta && (
               <button
                 onClick={secondaryCta.onClick}
-                className="flex-1 px-5 py-3 bg-bg-card text-text-primary border border-border rounded-lg text-[14px] lg:text-[16px] font-medium hover:border-border-strong active:scale-[0.98] transition-all"
+                className="flex-1 px-5 py-3.5 bg-bg-card text-text-primary border border-border rounded-lg text-[15px] lg:text-[16px] font-medium hover:border-border-strong active:scale-[0.98] transition-all"
               >
                 {secondaryCta.label}
               </button>
@@ -49,7 +52,7 @@ export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
               <button
                 onClick={cta.onClick}
                 disabled={cta.disabled}
-                className="flex-1 px-5 py-3 bg-purple text-white rounded-lg text-[14px] lg:text-[16px] font-semibold transition-all active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed hover:brightness-110"
+                className="flex-1 px-5 py-3.5 bg-purple text-white rounded-lg text-[15px] lg:text-[16px] font-semibold transition-all active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed hover:brightness-110"
                 style={!cta.disabled ? { boxShadow: 'var(--shadow-button)' } : undefined}
               >
                 {cta.label}
