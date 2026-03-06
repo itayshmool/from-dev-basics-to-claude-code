@@ -30,8 +30,18 @@
       "explanation": "Every user gets their own row. The columns (id, name, email, created_at) are the same for everyone — this structure is called a \"schema.\" It's like a spreadsheet where every row follows the same format."
     },
     {
+      "type": "narrative",
+      "content": "Not all databases work the same way. There are two main families:\n\n**SQL databases** (like PostgreSQL and MySQL) store data in strict tables with rows and columns. Every row follows the same structure, called a **schema**. Think of it like a spreadsheet — every row has the exact same columns. SQL databases are great when your data is predictable and structured.\n\n**NoSQL databases** (like MongoDB) are more flexible. Instead of rigid tables, they store data as **documents** — think of them like JSON files. Each document can have different fields, so you don't need to decide the exact structure upfront. NoSQL databases are great when your data varies a lot or changes frequently.",
+      "keyPoints": [
+        "SQL databases use strict tables with a fixed schema (same columns for every row)",
+        "NoSQL databases use flexible documents that can each have different fields",
+        "PostgreSQL is a popular SQL database; MongoDB is a popular NoSQL database",
+        "Neither type is 'better' — they're designed for different use cases"
+      ]
+    },
+    {
       "type": "dragSort",
-      "instruction": "There are two main types of databases. Drag each description to the correct category.",
+      "instruction": "Now sort these descriptions into the correct database type.",
       "categories": [
         {
           "name": "SQL Database",

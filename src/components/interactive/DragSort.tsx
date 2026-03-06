@@ -180,13 +180,13 @@ export function DragSort({ section, onComplete }: DragSortProps) {
                               handleRemoveItem(itemText);
                             }}
                             className={`
-                              inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[14px] font-medium
+                              group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[14px] font-medium
                               cursor-pointer transition-all active:scale-[0.96]
                               ${status === 'correct'
                                 ? 'bg-green-soft border border-green/30 text-green'
                                 : status === 'incorrect'
                                   ? 'bg-red-soft border border-red/30 text-red'
-                                  : 'bg-bg-elevated border border-border text-text-primary hover:border-border-strong'
+                                  : 'bg-bg-elevated border border-border text-text-primary hover:border-purple/30 hover:bg-purple-soft'
                               }
                               ${shouldShake ? 'animate-shake' : ''}
                             `}
@@ -203,7 +203,7 @@ export function DragSort({ section, onComplete }: DragSortProps) {
                               </svg>
                             )}
                             {status === 'neutral' && (
-                              <svg className="w-3 h-3 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <svg className="w-3.5 h-3.5 text-text-muted opacity-60 group-hover:opacity-100 group-hover:text-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                               </svg>
                             )}
