@@ -4,12 +4,11 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const LEVELS = [1, 2];
-const LESSONS_PER_LEVEL = 12;
+const LEVEL_LESSON_COUNTS: Record<number, number> = { 1: 13, 2: 13, 3: 17 };
 
-describe('Level 1-2 lesson narrative intros (#62)', () => {
-  for (const level of LEVELS) {
-    for (let i = 1; i <= LESSONS_PER_LEVEL; i++) {
+describe('Level 1-3 lesson narrative intros (#62, #63)', () => {
+  for (const [level, count] of Object.entries(LEVEL_LESSON_COUNTS)) {
+    for (let i = 1; i <= count; i++) {
       const filePath = join(__dirname, `level${level}`, `lesson-${level}.${i}.json`);
 
       it(`lesson ${level}.${i} has a narrative intro as first section`, () => {

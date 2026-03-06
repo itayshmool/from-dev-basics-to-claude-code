@@ -16,8 +16,21 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["git log", "git log --oneline"],
+  "commandsIntroduced": [
+    "git log",
+    "git log --oneline"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Every commit you make is recorded in git's **log** \u2014 a timeline of your project's history. You can view this history anytime to see what changed, when, and who made each change.",
+      "analogy": "Git log is like flipping through a photo album of your project. Each page shows a snapshot (commit) with a date stamp, your name, and the note you wrote on the back. You can flip through quickly with `--oneline` or study each page in detail.",
+      "keyPoints": [
+        "`git log` shows the full commit history with hashes, authors, dates, and messages",
+        "`git log --oneline` shows a compact one-line-per-commit summary",
+        "The most recent commits appear at the top of the log"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Let's set up a project with a commit so we can view its history.",
@@ -43,6 +56,18 @@
       "onSuccess": {
         "message": "All files staged."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "What does `git log --oneline` show?",
+      "options": [
+        "Only the last commit",
+        "A compact list: one line per commit with hash and message",
+        "Only commits from today",
+        "File names that changed"
+      ],
+      "correctIndex": 1,
+      "explanation": "`git log --oneline` shows a compact summary with each commit's short hash and message on a single line. It's much easier to scan than the full `git log` output."
     },
     {
       "type": "terminalStep",

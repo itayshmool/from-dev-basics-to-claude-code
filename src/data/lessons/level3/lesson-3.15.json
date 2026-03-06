@@ -19,6 +19,16 @@
   "commandsIntroduced": [],
   "sections": [
     {
+      "type": "narrative",
+      "content": "A good commit message is a gift to your future self (and your teammates). It should explain **why** you made a change, not just what you changed. Clear messages make git's history actually useful.",
+      "analogy": "Writing good commit messages is like labeling photos on the back. '3rd birthday party at grandma's house' is helpful. 'photo' is not. Months later, those labels are the only way you'll remember what was happening in each snapshot.",
+      "keyPoints": [
+        "Good messages explain the **why**: 'Fix login timeout for slow connections'",
+        "Bad messages are vague: 'fixed stuff', 'update', 'asdf'",
+        "The first line should be short (under 50 characters) and in imperative mood: 'Add', 'Fix', 'Update'"
+      ]
+    },
+    {
       "type": "terminalStep",
       "instruction": "You have a blog project with HTML and CSS. Let's practice the full workflow with good commit messages.",
       "prompt": "Type `git init` to start tracking this project.",
@@ -56,6 +66,18 @@
       "onSuccess": {
         "message": "Great message! It describes WHAT the commit contains. Someone reading your git log would immediately know what this project started with."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "Which commit message follows best practices?",
+      "options": [
+        "\"fixed stuff\"",
+        "\"update\"",
+        "\"Add user login validation for email format\"",
+        "\"changes\""
+      ],
+      "correctIndex": 2,
+      "explanation": "Good commit messages are specific and start with an imperative verb: 'Add', 'Fix', 'Update'. They explain what and why, not just 'stuff' or 'changes'. Your future self will thank you."
     },
     {
       "type": "terminalStep",

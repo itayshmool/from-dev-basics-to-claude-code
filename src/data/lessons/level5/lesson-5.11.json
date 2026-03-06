@@ -8,7 +8,7 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "Right now, your server only responds to one URL: the root path `/`. If you visit `localhost:3000/about` or `localhost:3000/anything-else`, you'll get an error.\n\nReal websites have many pages — a homepage, an about page, a contact page, product pages, and more. Each page has its own **route** — a URL path that the server knows how to handle.\n\nAdding routes is how you teach your server to respond to different URLs with different content. Each `app.get()` call creates a new route.",
+      "content": "Right now, your server only responds to one URL: the root path `/`. If you visit `localhost:3000/about` or `localhost:3000/anything-else`, you'll get an error.\n\nReal websites have many pages \u2014 a homepage, an about page, a contact page, product pages, and more. Each page has its own **route** \u2014 a URL path that the server knows how to handle.\n\nAdding routes is how you teach your server to respond to different URLs with different content. Each `app.get()` call creates a new route.",
       "analogy": "Think of routes like a receptionist at an office. When someone asks for the sales department, they get directed to one room. When they ask for support, they go to another. Your server is the receptionist, and routes are the directions.",
       "keyPoints": [
         "Each app.get('/path', ...) creates a new route",
@@ -59,8 +59,20 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "In `app.get('/about', handler)`, what does `/about` represent?",
+      "options": [
+        "The name of a file to serve",
+        "The URL path that triggers this handler",
+        "A folder on your computer",
+        "A variable name"
+      ],
+      "correctIndex": 1,
+      "explanation": "`/about` is the route \u2014 the URL path a user visits. When someone goes to `http://localhost:3000/about`, Express matches it to this handler and runs the function. Different routes handle different pages."
+    },
+    {
       "type": "guideStep",
-      "instruction": "Now test your new routes! Open your browser and visit both of these URLs:\n\n1. **http://localhost:3000/about** — should show your about page text\n2. **http://localhost:3000/contact** — should show your contact page text\n\nAlso try **http://localhost:3000** to make sure your original route still works too.",
+      "instruction": "Now test your new routes! Open your browser and visit both of these URLs:\n\n1. **http://localhost:3000/about** \u2014 should show your about page text\n2. **http://localhost:3000/contact** \u2014 should show your contact page text\n\nAlso try **http://localhost:3000** to make sure your original route still works too.",
       "codeBlocks": [
         {
           "language": "text",
@@ -82,7 +94,7 @@
       ]
     }
   ],
-  "completionMessage": "Your server now handles three different URLs! Each app.get() is a route, and you can add as many as you want. This is exactly how real websites work — hundreds of routes, each returning different content.",
+  "completionMessage": "Your server now handles three different URLs! Each app.get() is a route, and you can add as many as you want. This is exactly how real websites work \u2014 hundreds of routes, each returning different content.",
   "milestone": null,
   "nextLesson": "5.12"
 }

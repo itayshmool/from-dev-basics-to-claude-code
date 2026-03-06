@@ -1,0 +1,151 @@
+{
+  "id": "3.17",
+  "title": "Level 3 Review",
+  "type": "conceptual",
+  "nextLesson": "4.1",
+  "milestone": {
+    "title": "Your Code Has a History",
+    "summary": [
+      "Initialize repositories with git init",
+      "Track changes with add, commit, and status",
+      "View history with git log",
+      "See differences with git diff",
+      "Branch, merge, and collaborate",
+      "Push code to GitHub"
+    ],
+    "nextLevelTeaser": "Next: Level 5 \u2014 How Software Actually Works. Understand the big picture of how apps, servers, and the internet fit together."
+  },
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You've completed the entire git journey \u2014 from `git init` to pushing, branching, and merging. Let's review every major concept and make sure it's locked in before moving on.",
+      "analogy": "You've been building your photo album skills: taking snapshots (commits), organizing albums (branches), sharing them (push/pull), and combining work (merge). This review checks that you can do it all from memory.",
+      "keyPoints": [
+        "Core workflow: `init` \u2192 `add` \u2192 `commit` \u2192 `push`",
+        "History tools: `git log`, `git diff`, `git status`",
+        "Collaboration: `branch`, `merge`, `clone`, `pull`"
+      ]
+    },
+    {
+      "type": "match",
+      "instruction": "Match each git command to what it does.",
+      "pairs": [
+        {
+          "left": "git init",
+          "right": "Creates a new repository"
+        },
+        {
+          "left": "git add .",
+          "right": "Stages all changes for commit"
+        },
+        {
+          "left": "git commit -m",
+          "right": "Saves a snapshot with a message"
+        },
+        {
+          "left": "git push",
+          "right": "Uploads commits to GitHub"
+        },
+        {
+          "left": "git pull",
+          "right": "Downloads latest changes"
+        },
+        {
+          "left": "git clone",
+          "right": "Downloads an entire repository"
+        },
+        {
+          "left": "git branch",
+          "right": "Lists all branches"
+        },
+        {
+          "left": "git merge",
+          "right": "Combines a branch into current one"
+        }
+      ]
+    },
+    {
+      "type": "dragSort",
+      "instruction": "Which git commands work locally only, and which require a connection to GitHub?",
+      "categories": [
+        {
+          "name": "Local Only",
+          "description": "Works without internet or GitHub"
+        },
+        {
+          "name": "Requires GitHub",
+          "description": "Needs a remote connection"
+        }
+      ],
+      "items": [
+        {
+          "text": "git init",
+          "correctCategory": "Local Only"
+        },
+        {
+          "text": "git add",
+          "correctCategory": "Local Only"
+        },
+        {
+          "text": "git commit",
+          "correctCategory": "Local Only"
+        },
+        {
+          "text": "git log",
+          "correctCategory": "Local Only"
+        },
+        {
+          "text": "git diff",
+          "correctCategory": "Local Only"
+        },
+        {
+          "text": "git branch",
+          "correctCategory": "Local Only"
+        },
+        {
+          "text": "git push",
+          "correctCategory": "Requires GitHub"
+        },
+        {
+          "text": "git pull",
+          "correctCategory": "Requires GitHub"
+        },
+        {
+          "text": "git clone",
+          "correctCategory": "Requires GitHub"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What's the correct order for saving and uploading your changes?",
+      "options": [
+        "`commit` \u2192 `add` \u2192 `push`",
+        "`push` \u2192 `add` \u2192 `commit`",
+        "`add` \u2192 `commit` \u2192 `push`",
+        "`add` \u2192 `push` \u2192 `commit`"
+      ],
+      "correctIndex": 2,
+      "explanation": "First stage your changes (`add`), then save a snapshot (`commit`), then upload to GitHub (`push`). Think of it as: pack the box, seal it, then mail it."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To create a new branch called `feature` and switch to it, type: git checkout ___ feature",
+      "answer": "-b",
+      "acceptAlternates": [],
+      "caseSensitive": true
+    },
+    {
+      "type": "quiz",
+      "question": "You accidentally changed a file and want to undo ALL changes, restoring it to the last commit. What do you use?",
+      "options": [
+        "`git undo filename`",
+        "`git checkout -- filename`",
+        "`git reset filename`",
+        "`git restore --delete filename`"
+      ],
+      "correctIndex": 1,
+      "explanation": "`git checkout -- filename` restores the file to its last committed state, discarding all uncommitted changes. It's your safety net \u2014 but remember, the discarded changes are gone permanently."
+    }
+  ]
+}

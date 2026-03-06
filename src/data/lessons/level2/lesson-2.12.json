@@ -32,11 +32,11 @@
     {
       "type": "narrative",
       "content": "You've learned to read files, search text, chain commands, and count results. Now you'll combine all these skills to investigate a real scenario: a week of server logs.",
-      "analogy": "This is your detective training exercise — you have the clues (log files) and the tools (grep, cat, wc, pipes). Time to solve the case.",
+      "analogy": "This is your detective training exercise \u2014 you have the clues (log files) and the tools (grep, cat, wc, pipes). Time to solve the case.",
       "keyPoints": [
         "You'll combine `cat`, `grep`, `wc`, and pipes",
         "Real-world scenarios often require chaining multiple commands",
-        "Read the logs carefully — the answers are hiding in the data"
+        "Read the logs carefully \u2014 the answers are hiding in the data"
       ]
     },
     {
@@ -56,21 +56,11 @@
         "value": "TODO"
       },
       "onSuccess": {
-        "message": "Excellent detective work! You used grep, pipes, and wc to analyze real log data across multiple files. Wednesday was the bad day — 5 errors including disk full, memory issues, and a Redis outage. And you found those TODOs in the source code that still need fixing.\n\nThese are the exact skills ops engineers and developers use every day to diagnose production issues."
+        "message": "Excellent detective work! You used grep, pipes, and wc to analyze real log data across multiple files. Wednesday was the bad day \u2014 5 errors including disk full, memory issues, and a Redis outage. And you found those TODOs in the source code that still need fixing.\n\nThese are the exact skills ops engineers and developers use every day to diagnose production issues."
       }
     }
   ],
   "completionMessage": "Level 3 complete! You can now read files, write to them, search across entire projects, and chain commands into powerful pipelines.",
-  "milestone": {
-    "title": "Reading and Writing Files",
-    "summary": [
-      "Read file contents with cat, head, and tail",
-      "Write and append to files with > and >>",
-      "Search across files with grep",
-      "Chain commands together with pipes",
-      "Use environment variables for configuration"
-    ],
-    "nextLevelTeaser": "Next: Level 4 — Your Code Has a History. Learn git and never lose your work again."
-  },
-  "nextLesson": "3.1"
+  "milestone": null,
+  "nextLesson": "2.13"
 }

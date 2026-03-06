@@ -36,7 +36,7 @@
     {
       "type": "narrative",
       "content": "No matter how deep you wander into the folder tree, there's always a fast way home. The `~` symbol is a shortcut for your **home directory**.",
-      "analogy": "Think of `~` as a 'teleport home' button — no matter where you are, one command takes you straight back.",
+      "analogy": "Think of `~` as a 'teleport home' button \u2014 no matter where you are, one command takes you straight back.",
       "keyPoints": [
         "`~` (tilde) is a shortcut for your home folder",
         "`cd ~` instantly jumps to `/home/user`",
@@ -53,7 +53,7 @@
         "value": "pwd"
       },
       "onSuccess": {
-        "message": "`/home/user/projects/website` — a few levels deep."
+        "message": "`/home/user/projects/website` \u2014 a few levels deep."
       }
     },
     {
@@ -66,13 +66,13 @@
         "value": "cd ~"
       },
       "onSuccess": {
-        "message": "You're at `/home/user` — no matter how deep you were, `~` takes you home.",
+        "message": "You're at `/home/user` \u2014 no matter how deep you were, `~` takes you home.",
         "highlightExplorer": "/home/user"
       }
     },
     {
       "type": "terminalStep",
-      "instruction": "You can also just type `cd` with nothing after it. Same result. Let's go back deep first — type `cd projects/website`.",
+      "instruction": "You can also just type `cd` with nothing after it. Same result. Let's go back deep first \u2014 type `cd projects/website`.",
       "prompt": "Navigate back to projects/website first.",
       "hint": "Type: cd projects/website",
       "validation": {
@@ -80,8 +80,20 @@
         "value": "cd projects/website"
       },
       "onSuccess": {
-        "message": "You're deep again. Now try just `cd` with no arguments — it also takes you home. Both `cd` and `cd ~` are your 'panic button' when you feel lost."
+        "message": "You're deep again. Now try just `cd` with no arguments \u2014 it also takes you home. Both `cd` and `cd ~` are your 'panic button' when you feel lost."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "Which shortcut takes you directly to your home directory?",
+      "options": [
+        "`cd ~`",
+        "`cd /`",
+        "`cd ..`",
+        "`cd home`"
+      ],
+      "correctIndex": 0,
+      "explanation": "The tilde `~` is a shortcut for your home directory. `cd ~` and `cd` (with no arguments) both take you home. `cd /` goes to the root of the entire file system, which is different."
     }
   ],
   "completionMessage": "Lost? Type `pwd` to see where you are. Type `cd ~` to go home. You can always start over.",

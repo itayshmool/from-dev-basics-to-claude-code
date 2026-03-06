@@ -18,7 +18,8 @@
         "6. Push to GitHub: git push",
         "7. Create a Pull Request on GitHub",
         "8. Team reviews, then merges"
-      ]
+      ],
+      "analogy": "The professional git workflow is like a team relay race. Each runner (developer) takes the baton (pulls latest code), runs their leg (works on a branch), passes it forward (pushes + creates a PR), and the coach (reviewer) gives the OK before the next handoff."
     },
     {
       "type": "narrative",

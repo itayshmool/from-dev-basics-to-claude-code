@@ -15,8 +15,22 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["git init", "git add", "git commit -m"],
+  "commandsIntroduced": [
+    "git init",
+    "git add",
+    "git commit -m"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Real development is a cycle: you make changes to your files, stage them with `git add`, and save them with `git commit`. This **edit \u2192 add \u2192 commit** rhythm is the core of working with git every day.",
+      "analogy": "Think of it like a daily journal routine. You write your thoughts during the day (edit files), choose which pages to keep (stage with `git add`), then bind them into the journal (commit). Tomorrow you do it again, and your journal grows one entry at a time.",
+      "keyPoints": [
+        "The core git workflow is: edit files \u2192 `git add` \u2192 `git commit`",
+        "You can make many edits before staging and committing",
+        "Each commit should represent one logical change or task"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Let's practice the full git workflow: initialize, commit, make changes, commit again.",
@@ -42,6 +56,17 @@
       "onSuccess": {
         "message": "Files staged. Now save this as your starting point."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "The three-step git workflow is: edit files, ___, then commit.",
+      "answer": "git add",
+      "acceptAlternates": [
+        "add",
+        "stage",
+        "git add ."
+      ],
+      "caseSensitive": false
     },
     {
       "type": "terminalStep",

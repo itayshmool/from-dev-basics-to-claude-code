@@ -57,7 +57,7 @@
     },
     {
       "type": "terminalStep",
-      "instruction": "Good — you're inside documents. Let's see what's here.",
+      "instruction": "Good \u2014 you're inside documents. Let's see what's here.",
       "prompt": "Check what's here.",
       "hint": "Type: ls",
       "validation": {
@@ -65,7 +65,7 @@
         "value": "ls"
       },
       "onSuccess": {
-        "message": "One file: notes.txt. You navigated to a folder and looked inside — two essential skills."
+        "message": "One file: notes.txt. You navigated to a folder and looked inside \u2014 two essential skills."
       }
     },
     {
@@ -78,8 +78,15 @@
         "value": "pwd"
       },
       "onSuccess": {
-        "message": "`/home/user/documents` — exactly where you'd expect."
+        "message": "`/home/user/documents` \u2014 exactly where you'd expect."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To move into a folder called `photos`, you type: ___ photos",
+      "answer": "cd",
+      "acceptAlternates": [],
+      "caseSensitive": true
     }
   ],
   "completionMessage": "You can now move into folders with `cd`. Combined with `ls` and `pwd`, you can explore any file system.",

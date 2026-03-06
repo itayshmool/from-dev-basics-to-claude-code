@@ -34,7 +34,7 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "You can go into folders — but how do you go back? Two dots (`..`) is the universal shortcut for **the parent folder** (the one above you).",
+      "content": "You can go into folders \u2014 but how do you go back? Two dots (`..`) is the universal shortcut for **the parent folder** (the one above you).",
       "analogy": "Going into a folder is like walking into a room. `cd ..` is walking back out the door you came in through.",
       "keyPoints": [
         "`..` always means the parent directory",
@@ -71,8 +71,17 @@
       }
     },
     {
+      "type": "fillInBlank",
+      "prompt": "Two dots (`..`) represent the ___ directory.",
+      "answer": "parent",
+      "acceptAlternates": [
+        "parent directory"
+      ],
+      "caseSensitive": false
+    },
+    {
       "type": "terminalStep",
-      "instruction": "Keep going — go deeper into `website`.",
+      "instruction": "Keep going \u2014 go deeper into `website`.",
       "prompt": "Move into the website folder.",
       "hint": "Type: cd website",
       "validation": {
@@ -97,6 +106,15 @@
         "message": "Back to `/home/user`. Each `..` goes up one level, so `../..` goes up two.",
         "highlightExplorer": "/home/user"
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To go up one directory level, you type: cd ___",
+      "answer": "..",
+      "acceptAlternates": [
+        "cd .."
+      ],
+      "caseSensitive": false
     }
   ],
   "completionMessage": "You can now go up with `cd ..` and chain them with `cd ../..`. You're never stuck in a deep folder.",

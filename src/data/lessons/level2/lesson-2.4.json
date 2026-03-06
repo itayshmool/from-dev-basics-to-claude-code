@@ -20,7 +20,7 @@
     {
       "type": "narrative",
       "content": "The `echo` command prints text to the screen. It sounds simple, but it's a building block for much more powerful techniques coming next.",
-      "analogy": "Think of `echo` as talking to the terminal — whatever you say, it repeats back to you.",
+      "analogy": "Think of `echo` as talking to the terminal \u2014 whatever you say, it repeats back to you.",
       "keyPoints": [
         "`echo` prints whatever text you give it",
         "Useful for seeing variable values and writing to files",
@@ -50,7 +50,7 @@
         "value": "echo"
       },
       "onSuccess": {
-        "message": "The terminal replaced `$USER` with your actual username. Variables starting with `$` get expanded — the shell swaps them out before the command runs. This is how scripts adapt to different users and environments."
+        "message": "The terminal replaced `$USER` with your actual username. Variables starting with `$` get expanded \u2014 the shell swaps them out before the command runs. This is how scripts adapt to different users and environments."
       }
     },
     {
@@ -65,9 +65,18 @@
       "onSuccess": {
         "message": "Same result, no quotes needed. The shell treats `Hello` and `world` as separate arguments, but `echo` just prints them all with spaces between. Quotes become important when you have special characters like `$`, `*`, or want to preserve extra spaces."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To print your username using the echo command, you type: echo ___",
+      "answer": "$USER",
+      "acceptAlternates": [
+        "$user"
+      ],
+      "caseSensitive": false
     }
   ],
-  "completionMessage": "You now know `echo` — the terminal's print command. It seems simple, but it's a building block for everything: writing to files, debugging scripts, and checking variables. Next up, you'll learn to search through files.",
+  "completionMessage": "You now know `echo` \u2014 the terminal's print command. It seems simple, but it's a building block for everything: writing to files, debugging scripts, and checking variables. Next up, you'll learn to search through files.",
   "milestone": null,
   "nextLesson": "2.5"
 }

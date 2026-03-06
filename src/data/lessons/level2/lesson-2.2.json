@@ -33,7 +33,7 @@
     },
     {
       "type": "terminalStep",
-      "instruction": "That log file has 50 lines. Using `cat` would flood your screen. `head` shows just the first 10 lines by default — perfect for a quick peek.",
+      "instruction": "That log file has 50 lines. Using `cat` would flood your screen. `head` shows just the first 10 lines by default \u2014 perfect for a quick peek.",
       "prompt": "Type `head log.txt` to see the first 10 lines of the server log.",
       "hint": "Type: head log.txt",
       "validation": {
@@ -54,7 +54,7 @@
         "value": "head -n 3 log.txt"
       },
       "onSuccess": {
-        "message": "Only 3 lines — the very start of the server boot. The `-n` flag lets you be precise about how much you want to see."
+        "message": "Only 3 lines \u2014 the very start of the server boot. The `-n` flag lets you be precise about how much you want to see."
       }
     },
     {
@@ -67,11 +67,18 @@
         "value": "head -n 1 data.csv"
       },
       "onSuccess": {
-        "message": "name, email, role, joined — now you know the structure of the data without reading all 30 rows. Developers do this constantly with CSV and log files."
+        "message": "name, email, role, joined \u2014 now you know the structure of the data without reading all 30 rows. Developers do this constantly with CSV and log files."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To see only the first 5 lines of a file, you type: head ___ 5 filename",
+      "answer": "-n",
+      "acceptAlternates": [],
+      "caseSensitive": true
     }
   ],
-  "completionMessage": "You now know `head` — perfect for peeking at the beginning of files. Use `head` for a quick 10-line preview, or `head -n N` for exactly N lines. But what about the end of a file?",
+  "completionMessage": "You now know `head` \u2014 perfect for peeking at the beginning of files. Use `head` for a quick 10-line preview, or `head -n N` for exactly N lines. But what about the end of a file?",
   "milestone": null,
   "nextLesson": "2.3"
 }

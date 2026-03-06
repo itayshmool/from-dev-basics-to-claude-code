@@ -23,12 +23,12 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "Files aren't just names on a screen — they contain **content**. The `cat` command lets you read what's inside a file, right in the terminal.",
+      "content": "Files aren't just names on a screen \u2014 they contain **content**. The `cat` command lets you read what's inside a file, right in the terminal.",
       "analogy": "If a file is a sealed envelope, `cat` is opening it and reading the letter inside.",
       "keyPoints": [
         "`cat` stands for **concatenate** (but it's mostly used to read files)",
         "It prints the entire file contents to screen",
-        "Best for short files — long files will scroll past quickly"
+        "Best for short files \u2014 long files will scroll past quickly"
       ]
     },
     {
@@ -67,11 +67,18 @@
         "value": "cat index.html"
       },
       "onSuccess": {
-        "message": "HTML! The code behind every web page. Those angle brackets (`<html>`, `<h1>`) are tags that tell the browser how to display content. `cat` doesn't care what's in the file — it just prints it all."
+        "message": "HTML! The code behind every web page. Those angle brackets (`<html>`, `<h1>`) are tags that tell the browser how to display content. `cat` doesn't care what's in the file \u2014 it just prints it all."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To display the full contents of a file called `readme.txt`, you type: ___ readme.txt",
+      "answer": "cat",
+      "acceptAlternates": [],
+      "caseSensitive": true
     }
   ],
-  "completionMessage": "You now know `cat` — the quickest way to read a file. It's great for short files, but for long files with hundreds of lines, you'll want something more targeted. That's coming next.",
+  "completionMessage": "You now know `cat` \u2014 the quickest way to read a file. It's great for short files, but for long files with hundreds of lines, you'll want something more targeted. That's coming next.",
   "milestone": null,
   "nextLesson": "2.2"
 }

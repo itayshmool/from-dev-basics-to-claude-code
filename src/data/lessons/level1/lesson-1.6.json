@@ -42,7 +42,7 @@
         "value": "mkdir my-project"
       },
       "onSuccess": {
-        "message": "Folder created! Check the file explorer — you can see it appeared.",
+        "message": "Folder created! Check the file explorer \u2014 you can see it appeared.",
         "highlightExplorer": "/home/user/my-project"
       }
     },
@@ -58,6 +58,15 @@
       "onSuccess": {
         "message": "There it is: `my-project`. `mkdir` = 'make directory'."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "`mkdir` is short for \"make ___\".",
+      "answer": "directory",
+      "acceptAlternates": [
+        "directories"
+      ],
+      "caseSensitive": false
     },
     {
       "type": "terminalStep",
@@ -100,6 +109,13 @@
         "message": "Both created. Check `ls` to see them.",
         "highlightExplorer": "/home/user/my-project/js"
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To create a new empty folder called `assets`, you type: ___ assets",
+      "answer": "mkdir",
+      "acceptAlternates": [],
+      "caseSensitive": true
     }
   ],
   "completionMessage": "You can now create folders with `mkdir`. Your project is taking shape!",

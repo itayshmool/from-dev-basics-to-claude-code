@@ -15,8 +15,20 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["git checkout --"],
+  "commandsIntroduced": [
+    "git checkout --"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Made a mistake? Git can **undo** changes to a file by restoring it to the last committed version. This is like a safety net \u2014 as long as you've committed recently, you can always get back to a known good state.",
+      "analogy": "Think of `git checkout --` as a Ctrl+Z for your entire file. If you accidentally deleted half your essay, you can restore it from the last photograph (commit) you took. The key is that you can only restore what you've previously saved.",
+      "keyPoints": [
+        "`git checkout -- filename` restores a file to its last committed state",
+        "This discards all uncommitted changes to that file \u2014 they're gone permanently",
+        "This is why committing often is important: more commits = more restore points"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "First, set up a git repository so we have a safety net.",
@@ -55,6 +67,18 @@
       "onSuccess": {
         "message": "Committed! Git now has a safe copy of your working website."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "Why is committing frequently a good practice?",
+      "options": [
+        "Git requires at least one commit per hour",
+        "It makes the repo smaller",
+        "More commits = more restore points if something goes wrong",
+        "It's required before you can use `git diff`"
+      ],
+      "correctIndex": 2,
+      "explanation": "Each commit is a snapshot you can return to. If you commit every hour versus once a day, you have many more restore points. Think of it as saving your game \u2014 the more often you save, the less progress you lose."
     },
     {
       "type": "terminalStep",

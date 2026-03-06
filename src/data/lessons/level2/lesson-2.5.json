@@ -59,7 +59,7 @@
     {
       "type": "terminalStep",
       "instruction": "Now overwrite the file.",
-      "prompt": "Type `echo \"Goodbye\" > greeting.txt` — what happens to the old content?",
+      "prompt": "Type `echo \"Goodbye\" > greeting.txt` \u2014 what happens to the old content?",
       "hint": "echo \"Goodbye\" > greeting.txt",
       "validation": {
         "type": "fileContains",
@@ -84,9 +84,21 @@
       "onSuccess": {
         "message": "'Hello, world' is gone! `>` OVERWRITES the entire file. This is important to remember."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "What happens if you use `>` to redirect output to a file that already has content?",
+      "options": [
+        "The new content is added to the end",
+        "Nothing \u2014 the file is protected",
+        "The entire file is replaced with the new content",
+        "It creates a backup first"
+      ],
+      "correctIndex": 2,
+      "explanation": "`>` completely overwrites the file. All previous content is erased and replaced with the new output. To add to a file without erasing, use `>>` (append)."
     }
   ],
-  "completionMessage": "You learned the `>` redirect operator. It sends command output into a file instead of the screen. But be careful — `>` overwrites everything! Next, you'll learn how to add to a file without erasing it.",
+  "completionMessage": "You learned the `>` redirect operator. It sends command output into a file instead of the screen. But be careful \u2014 `>` overwrites everything! Next, you'll learn how to add to a file without erasing it.",
   "milestone": null,
   "nextLesson": "2.6"
 }

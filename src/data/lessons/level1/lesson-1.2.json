@@ -33,7 +33,7 @@
     {
       "type": "narrative",
       "content": "Knowing where you are is useful, but you also need to see what's around you. The `ls` command shows all files and folders in your current location.",
-      "analogy": "Think of `ls` as turning on the lights in a room — suddenly you can see everything that's there.",
+      "analogy": "Think of `ls` as turning on the lights in a room \u2014 suddenly you can see everything that's there.",
       "keyPoints": [
         "`ls` stands for **list**",
         "It shows files and folders in your current directory",
@@ -78,6 +78,18 @@
       "onSuccess": {
         "message": "See `.` and `..`? Those are special: `.` means 'this folder' and `..` means 'the folder above'. We'll use `..` soon."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "Which `ls` flag reveals hidden files (files starting with a dot)?",
+      "options": [
+        "`ls -l`",
+        "`ls -a`",
+        "`ls -h`",
+        "`ls -r`"
+      ],
+      "correctIndex": 1,
+      "explanation": "The `-a` flag stands for 'all' and shows hidden files like `.gitignore` or `.env`. Hidden files start with a dot and are normally invisible to `ls`."
     }
   ],
   "completionMessage": "You can now see what's in any folder. `ls` for a quick look, `ls -l` for details, `ls -a` to see hidden files.",

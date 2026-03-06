@@ -1,0 +1,151 @@
+{
+  "id": "1.13",
+  "title": "Level 1 Review",
+  "type": "conceptual",
+  "nextLesson": "2.1",
+  "milestone": {
+    "title": "Your First 30 Minutes in the Terminal",
+    "summary": [
+      "Navigate anywhere on a computer using the terminal",
+      "Create files and folders from scratch",
+      "Move, copy, rename, and delete things",
+      "Build a complete project structure with confidence"
+    ],
+    "nextLevelTeaser": "Level 3 \u2014 Reading and Writing Files: You'll learn to look inside files, search for text, and chain commands together."
+  },
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "You've completed Level 1! Let's review everything you learned about navigating and managing files in the terminal. This review will test your recall across all the commands \u2014 matching, typing, and categorizing.",
+      "analogy": "Think of this as a final walkthrough of your new workshop. You've learned where every tool lives and what each one does. Now let's make sure you can grab the right tool without hesitating.",
+      "keyPoints": [
+        "You learned 10+ commands: `pwd`, `ls`, `cd`, `mkdir`, `touch`, `rm`, `cp`, `mv`, and their flags",
+        "Navigation: moving between folders, going home, going up",
+        "File operations: creating, copying, moving, renaming, and deleting"
+      ]
+    },
+    {
+      "type": "match",
+      "instruction": "Match each terminal command to what it does.",
+      "pairs": [
+        {
+          "left": "pwd",
+          "right": "Shows your current location"
+        },
+        {
+          "left": "ls -a",
+          "right": "Lists all files including hidden"
+        },
+        {
+          "left": "cd ..",
+          "right": "Goes up one directory"
+        },
+        {
+          "left": "mkdir",
+          "right": "Creates a new folder"
+        },
+        {
+          "left": "touch",
+          "right": "Creates a new empty file"
+        },
+        {
+          "left": "rm -r",
+          "right": "Deletes a folder and its contents"
+        },
+        {
+          "left": "cp",
+          "right": "Copies a file"
+        },
+        {
+          "left": "mv",
+          "right": "Moves or renames a file"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "You're in `/home/user/projects/website`. You want to get to `/home/user/projects/api`. What's the shortest command?",
+      "options": [
+        "`cd /home/user/projects/api`",
+        "`cd ../api`",
+        "`cd api`",
+        "`cd ~/api`"
+      ],
+      "correctIndex": 1,
+      "explanation": "Since `website` and `api` are siblings (both inside `projects`), you go up one level with `..` then into `api`. The full path works too, but `../api` is shorter and more practical."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "The `~` symbol is a shortcut for your ___ directory.",
+      "answer": "home",
+      "acceptAlternates": [
+        "home directory"
+      ],
+      "caseSensitive": false
+    },
+    {
+      "type": "dragSort",
+      "instruction": "Categorize each command: does it help you navigate, create things, or destroy things?",
+      "categories": [
+        {
+          "name": "Navigation",
+          "description": "Moving around the file system"
+        },
+        {
+          "name": "Creation",
+          "description": "Making new files or folders"
+        },
+        {
+          "name": "Destructive",
+          "description": "Removing files or folders permanently"
+        }
+      ],
+      "items": [
+        {
+          "text": "cd",
+          "correctCategory": "Navigation"
+        },
+        {
+          "text": "pwd",
+          "correctCategory": "Navigation"
+        },
+        {
+          "text": "ls",
+          "correctCategory": "Navigation"
+        },
+        {
+          "text": "mkdir",
+          "correctCategory": "Creation"
+        },
+        {
+          "text": "touch",
+          "correctCategory": "Creation"
+        },
+        {
+          "text": "cp",
+          "correctCategory": "Creation"
+        },
+        {
+          "text": "rm",
+          "correctCategory": "Destructive"
+        },
+        {
+          "text": "rm -r",
+          "correctCategory": "Destructive"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What's the difference between `cp` and `mv`?",
+      "options": [
+        "`cp` is faster than `mv`",
+        "`cp` makes a duplicate, `mv` moves the original (no copy left behind)",
+        "`mv` only works on folders",
+        "There's no difference"
+      ],
+      "correctIndex": 1,
+      "explanation": "`cp` creates a copy \u2014 the original stays where it was. `mv` moves the original \u2014 nothing is left behind. `mv` also doubles as a rename command."
+    }
+  ]
+}

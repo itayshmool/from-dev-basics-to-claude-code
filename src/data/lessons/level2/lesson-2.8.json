@@ -25,7 +25,7 @@
     {
       "type": "narrative",
       "content": "Real files can have hundreds of lines. Instead of reading everything, `grep` lets you **search** for specific text and shows only the matching lines.",
-      "analogy": "It's like using Ctrl+F (Find) in a document — type what you're looking for, and only the matches light up.",
+      "analogy": "It's like using Ctrl+F (Find) in a document \u2014 type what you're looking for, and only the matches light up.",
       "keyPoints": [
         "`grep` searches for a pattern inside a file",
         "It prints only the lines that match",
@@ -83,6 +83,13 @@
       "onSuccess": {
         "message": "Same result! `-i` ignores case, so \"todo\", \"TODO\", and \"Todo\" all match. Very useful when you're not sure how something was written."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To search for 'error' in a file ignoring case (matching ERROR, Error, error, etc.), add the ___ flag to grep.",
+      "answer": "-i",
+      "acceptAlternates": [],
+      "caseSensitive": true
     }
   ],
   "completionMessage": "`grep` is one of the most powerful terminal tools. It searches for text patterns inside files. Add `-i` to ignore case. In later lessons, you'll learn to search across multiple files and use patterns to find even more.",

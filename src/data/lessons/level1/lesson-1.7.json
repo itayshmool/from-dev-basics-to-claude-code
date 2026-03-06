@@ -30,8 +30,8 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "You know how to make folders — now let's make **files**. The `touch` command creates a new, empty file.",
-      "analogy": "If `mkdir` builds a new room, `touch` places an empty notebook inside it — ready for you to write in later.",
+      "content": "You know how to make folders \u2014 now let's make **files**. The `touch` command creates a new, empty file.",
+      "analogy": "If `mkdir` builds a new room, `touch` places an empty notebook inside it \u2014 ready for you to write in later.",
       "keyPoints": [
         "`touch` creates a new empty file",
         "You choose the filename, including its extension",
@@ -48,7 +48,7 @@
         "value": "touch index.html"
       },
       "onSuccess": {
-        "message": "File created! It's empty for now — `touch` creates a blank file.",
+        "message": "File created! It's empty for now \u2014 `touch` creates a blank file.",
         "highlightExplorer": "/home/user/my-project/index.html"
       }
     },
@@ -66,6 +66,18 @@
       }
     },
     {
+      "type": "quiz",
+      "question": "What happens if you `touch` a file that already exists?",
+      "options": [
+        "It deletes the file",
+        "It overwrites the file with an empty one",
+        "Nothing bad \u2014 it just updates the timestamp",
+        "It shows an error"
+      ],
+      "correctIndex": 2,
+      "explanation": "`touch` on an existing file simply updates its 'last modified' timestamp. It won't delete or overwrite anything \u2014 it's a safe command."
+    },
+    {
       "type": "terminalStep",
       "instruction": "You can create a file inside a subfolder without navigating there first.",
       "prompt": "Create `style.css` inside the `css` folder: `touch css/style.css`.",
@@ -81,7 +93,7 @@
     },
     {
       "type": "terminalStep",
-      "instruction": "One more — create a JavaScript file in the js folder.",
+      "instruction": "One more \u2014 create a JavaScript file in the js folder.",
       "prompt": "Create `app.js` inside the `js` folder.",
       "hint": "Type: touch js/app.js",
       "validation": {
@@ -89,9 +101,16 @@
         "value": "touch js/app.js"
       },
       "onSuccess": {
-        "message": "Your project is taking shape. Look at the file explorer — it matches what a real web project looks like.",
+        "message": "Your project is taking shape. Look at the file explorer \u2014 it matches what a real web project looks like.",
         "highlightExplorer": "/home/user/my-project/js/app.js"
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To create a new empty file called `index.html`, you type: ___ index.html",
+      "answer": "touch",
+      "acceptAlternates": [],
+      "caseSensitive": true
     }
   ],
   "completionMessage": "You can now create files with `touch`. Combined with `mkdir`, you can build any project structure.",

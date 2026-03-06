@@ -8,7 +8,7 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "So far your server has returned plain text and JSON. But when you visit a real website, you see styled pages with headings, images, and layouts — not raw text.\n\nThat's because real web servers serve **HTML files**. HTML is the language browsers understand for displaying rich, formatted content.\n\nInstead of writing HTML inside your JavaScript code (which gets messy fast), we'll put HTML files in a special folder and tell Express to serve them automatically. This is called **serving static files** — files that don't change based on the request, they're just served as-is.",
+      "content": "So far your server has returned plain text and JSON. But when you visit a real website, you see styled pages with headings, images, and layouts \u2014 not raw text.\n\nThat's because real web servers serve **HTML files**. HTML is the language browsers understand for displaying rich, formatted content.\n\nInstead of writing HTML inside your JavaScript code (which gets messy fast), we'll put HTML files in a special folder and tell Express to serve them automatically. This is called **serving static files** \u2014 files that don't change based on the request, they're just served as-is.",
       "keyPoints": [
         "Static files are served directly without any processing",
         "The public/ folder is a convention for files that should be accessible via the browser",
@@ -40,7 +40,7 @@
     },
     {
       "type": "guideStep",
-      "instruction": "Create an `index.html` file inside the `public` folder. You can create this file using a text editor — save it as `public/index.html` in your project directory.\n\nThis will be the homepage of your server.",
+      "instruction": "Create an `index.html` file inside the `public` folder. You can create this file using a text editor \u2014 save it as `public/index.html` in your project directory.\n\nThis will be the homepage of your server.",
       "codeBlocks": [
         {
           "language": "html",
@@ -53,9 +53,21 @@
       "troubleshooting": [
         {
           "problem": "I'm not sure how to create the file",
-          "solution": "Option 1: Use a text editor (VS Code, TextEdit, Notepad) — create a new file, paste the HTML, and save it as index.html inside the public folder. Option 2: Use the terminal — you can use 'nano public/index.html' (Mac/Linux) to open an editor right in the terminal."
+          "solution": "Option 1: Use a text editor (VS Code, TextEdit, Notepad) \u2014 create a new file, paste the HTML, and save it as index.html inside the public folder. Option 2: Use the terminal \u2014 you can use 'nano public/index.html' (Mac/Linux) to open an editor right in the terminal."
         }
       ]
+    },
+    {
+      "type": "quiz",
+      "question": "What is the purpose of `res.sendFile()` in Express?",
+      "options": [
+        "It uploads a file to the server",
+        "It sends an HTML file as the response to the browser",
+        "It deletes a file from disk",
+        "It reads a file into a variable"
+      ],
+      "correctIndex": 1,
+      "explanation": "`res.sendFile()` reads an HTML file from your server's disk and sends its contents as the HTTP response. The browser receives the HTML and renders it as a web page. This is how servers serve web pages."
     },
     {
       "type": "guideStep",
@@ -71,7 +83,7 @@
       "troubleshooting": [
         {
           "problem": "I'm not sure where exactly to put this line",
-          "solution": "Put it right after 'const port = 3000;' and before your first app.get() route. The order matters — Express checks static files first, then routes."
+          "solution": "Put it right after 'const port = 3000;' and before your first app.get() route. The order matters \u2014 Express checks static files first, then routes."
         }
       ]
     },
@@ -104,7 +116,7 @@
       ]
     }
   ],
-  "completionMessage": "You're now serving a real HTML web page from your server! Any file you put in the public/ folder — HTML, CSS, images, JavaScript — becomes accessible through your server. This is how real websites work.",
+  "completionMessage": "You're now serving a real HTML web page from your server! Any file you put in the public/ folder \u2014 HTML, CSS, images, JavaScript \u2014 becomes accessible through your server. This is how real websites work.",
   "milestone": null,
   "nextLesson": "5.14"
 }

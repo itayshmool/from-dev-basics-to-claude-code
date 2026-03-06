@@ -16,8 +16,21 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["git add", "git add ."],
+  "commandsIntroduced": [
+    "git add",
+    "git add ."
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Git doesn't automatically save every change you make. You have to **choose** which changes to include in your next save point. This choosing step is called **staging**, and you do it with `git add`.",
+      "analogy": "Staging is like packing a shipping box. You have a bunch of items on your desk, but you don't have to ship everything at once. You pick which items go in the box (`git add`), then seal and label the box (`git commit`). Anything left on the desk stays for the next shipment.",
+      "keyPoints": [
+        "`git add filename` stages a specific file for the next commit",
+        "`git add .` stages everything in the current directory",
+        "Staging lets you control exactly what goes into each save point"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "This project has two files but git isn't tracking anything yet. First, initialize git in this folder.",

@@ -15,8 +15,20 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["git diff"],
+  "commandsIntroduced": [
+    "git diff"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Before you commit, you often want to see exactly what you changed. `git diff` shows you a line-by-line comparison between your current files and the last committed version \u2014 additions in green, deletions in red.",
+      "analogy": "Using `git diff` is like holding two photos side by side and playing spot-the-difference. Git highlights exactly what was added, removed, or changed so you can review your work before committing it.",
+      "keyPoints": [
+        "`git diff` shows unstaged changes compared to the last commit",
+        "Added lines are shown with a `+` prefix (green), removed lines with `-` (red)",
+        "Always review your diff before committing to catch mistakes early"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Before we can see changes, we need a git repository with a commit to compare against.",
@@ -55,6 +67,18 @@
       "onSuccess": {
         "message": "Committed! Git now remembers exactly what app.js looks like right now."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "What does git diff compare by default?",
+      "options": [
+        "Two different branches",
+        "Your current files vs the last commit",
+        "Two different files",
+        "Local repo vs GitHub"
+      ],
+      "correctIndex": 1,
+      "explanation": "By default, git diff shows the differences between your working directory (current files) and the last commit. It highlights what you've changed but haven't committed yet."
     },
     {
       "type": "terminalStep",

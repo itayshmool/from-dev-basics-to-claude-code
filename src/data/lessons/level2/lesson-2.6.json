@@ -21,8 +21,8 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "Sometimes you don't want to replace a file — you want to **add** to it. The `>>` operator appends to the end of a file without erasing what's already there.",
-      "analogy": "If `>` is erasing the whiteboard, `>>` is writing on the next empty line — everything above stays intact.",
+      "content": "Sometimes you don't want to replace a file \u2014 you want to **add** to it. The `>>` operator appends to the end of a file without erasing what's already there.",
+      "analogy": "If `>` is erasing the whiteboard, `>>` is writing on the next empty line \u2014 everything above stays intact.",
       "keyPoints": [
         "`>>` appends to the end of a file",
         "It never erases existing content",
@@ -55,7 +55,7 @@
         }
       },
       "onSuccess": {
-        "message": "`>>` APPENDS — adds to the end without deleting anything."
+        "message": "`>>` APPENDS \u2014 adds to the end without deleting anything."
       }
     },
     {
@@ -86,6 +86,13 @@
       "onSuccess": {
         "message": "Four items. You're building a file line by line."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To add text to the end of a file without erasing existing content, use the ___ operator.",
+      "answer": ">>",
+      "acceptAlternates": [],
+      "caseSensitive": false
     }
   ],
   "completionMessage": "Key difference: `>` OVERWRITES (replaces everything), `>>` APPENDS (adds to the end). Use `>` when you want a fresh file. Use `>>` when you want to add to an existing file.",

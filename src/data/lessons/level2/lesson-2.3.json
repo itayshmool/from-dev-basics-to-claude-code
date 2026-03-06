@@ -33,7 +33,7 @@
     },
     {
       "type": "terminalStep",
-      "instruction": "`head` shows the beginning, but when something goes wrong with a server, the most recent events are at the end. `tail` shows the last 10 lines — the freshest data.",
+      "instruction": "`head` shows the beginning, but when something goes wrong with a server, the most recent events are at the end. `tail` shows the last 10 lines \u2014 the freshest data.",
       "prompt": "Type `tail log.txt` to see the most recent log entries.",
       "hint": "Type: tail log.txt",
       "validation": {
@@ -54,7 +54,7 @@
         "value": "tail -n 3 log.txt"
       },
       "onSuccess": {
-        "message": "The three latest events. In the real world, developers run `tail` on log files constantly to check what just happened — especially when something breaks."
+        "message": "The three latest events. In the real world, developers run `tail` on log files constantly to check what just happened \u2014 especially when something breaks."
       }
     },
     {
@@ -69,6 +69,18 @@
       "onSuccess": {
         "message": "Chris Evans, the most recently listed person in the dataset. Remember: `head -n 1` gives you the headers, `tail -n 1` gives you the last record. A handy pair."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "Which command shows the **last** lines of a file?",
+      "options": [
+        "`head`",
+        "`cat`",
+        "`tail`",
+        "`end`"
+      ],
+      "correctIndex": 2,
+      "explanation": "`tail` shows the last lines of a file (default: 10). It's the opposite of `head`. This is especially useful for reading the most recent entries in log files."
     }
   ],
   "completionMessage": "You now have three ways to read files: `cat` for the whole thing, `head` for the beginning, `tail` for the end. Together, they let you quickly inspect any file without opening an editor.",

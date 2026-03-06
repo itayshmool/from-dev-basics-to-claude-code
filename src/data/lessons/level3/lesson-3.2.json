@@ -13,8 +13,20 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["git init"],
+  "commandsIntroduced": [
+    "git init"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "Every project tracked by git starts with a single command: `git init`. This tells git to create a hidden `.git` folder inside your project, which is where git stores all its tracking data. Without this step, git doesn't know your project exists.",
+      "analogy": "Running `git init` is like setting up a new filing cabinet for a project. Before you have the cabinet, there's nowhere to organize and store your documents. The cabinet itself is hidden in a closet (the `.git` folder), but it's always there keeping everything organized.",
+      "keyPoints": [
+        "`git init` creates a new git repository in the current folder",
+        "It creates a hidden `.git` directory that stores all tracking data",
+        "`git status` shows you what git sees \u2014 tracked, untracked, and changed files"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Every git project starts the same way: `git init`. This tells git to start tracking this folder.",

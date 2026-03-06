@@ -16,8 +16,20 @@
     }
   },
   "initialDir": "/home/user/portfolio",
-  "commandsIntroduced": ["git checkout --"],
+  "commandsIntroduced": [
+    "git checkout --"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "You've learned every part of the git workflow individually. Now it's time to put it all together: initialize a repository, make commits, create branches, merge them, and push to a remote \u2014 the complete developer workflow.",
+      "analogy": "This is like your first morning doing the entire routine without checking the instructions. You know each step \u2014 making coffee, packing lunch, catching the bus. Now you'll do them all in sequence, start to finish, from memory.",
+      "keyPoints": [
+        "The full workflow: `init` \u2192 `add` \u2192 `commit` \u2192 `branch` \u2192 `merge` \u2192 `push`",
+        "Real developers run through this cycle many times a day",
+        "Confidence comes from repetition \u2014 this challenge builds muscle memory"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Build a portfolio site using the full git workflow. Initialize a repo, make commits, create a branch, merge it, and push to GitHub.\n\nTarget workflow:\n1. git init\n2. Add content to index.html, stage, and commit\n3. Create a branch for styles\n4. Add styles to style.css, stage, and commit\n5. Switch back to main and merge\n6. Add a remote and push",
@@ -42,17 +54,6 @@
     }
   ],
   "completionMessage": "Level 4 complete! You've mastered git \u2014 the tool that every developer uses every single day.",
-  "milestone": {
-    "title": "Your Code Has a History",
-    "summary": [
-      "Initialize repositories with git init",
-      "Track changes with add, commit, and status",
-      "View history with git log",
-      "See differences with git diff",
-      "Branch, merge, and collaborate",
-      "Push code to GitHub"
-    ],
-    "nextLevelTeaser": "Next: Level 5 \u2014 How Software Actually Works. Understand the big picture of how apps, servers, and the internet fit together."
-  },
-  "nextLesson": "4.1"
+  "milestone": null,
+  "nextLesson": "3.17"
 }

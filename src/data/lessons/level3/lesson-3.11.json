@@ -11,8 +11,21 @@
     }
   },
   "initialDir": "/home/user",
-  "commandsIntroduced": ["git clone", "git pull"],
+  "commandsIntroduced": [
+    "git clone",
+    "git pull"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "**Cloning** downloads an entire repository from GitHub to your computer, and **pulling** fetches the latest changes from a repo you already have. These are how you get code from others.",
+      "analogy": "Cloning is like downloading someone's entire photo album to your computer \u2014 you get the full history. Pulling is like checking for new photos that were added since your last download. Clone once, then pull to stay up to date.",
+      "keyPoints": [
+        "`git clone URL` downloads a full repository including all history",
+        "`git pull` fetches and merges the latest changes from the remote",
+        "Clone is a one-time setup; pull is something you do regularly"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Most developers start by downloading an existing project from GitHub. `git clone` copies the entire project \u2014 all files and their full history.",

@@ -16,8 +16,20 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["git commit -m"],
+  "commandsIntroduced": [
+    "git commit -m"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "A **commit** is a permanent snapshot of your staged changes. Once you commit, that version of your work is saved in git's history forever. Each commit gets a unique ID and your message describing what changed.",
+      "analogy": "Committing is like taking a photograph of your desk. The photo captures exactly how everything looks right now. You write a note on the back describing the moment. Later, you can flip through your photos to see how your desk looked at any point in time.",
+      "keyPoints": [
+        "`git commit -m \"message\"` saves staged changes with a description",
+        "Each commit gets a unique hash (ID) that identifies it",
+        "Commits are permanent \u2014 you can always go back to any previous commit"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "You have a project with two files. Let's initialize git and save your first snapshot.",

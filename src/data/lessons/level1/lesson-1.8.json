@@ -38,11 +38,11 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "Creating is great, but sometimes you need to clean up. The `rm` command **permanently deletes** a file — no trash can, no undo.",
+      "content": "Creating is great, but sometimes you need to clean up. The `rm` command **permanently deletes** a file \u2014 no trash can, no undo.",
       "analogy": "Unlike dragging to the Recycle Bin, `rm` is like shredding a document. Once it's gone, it's gone.",
       "keyPoints": [
         "`rm` stands for **remove**",
-        "Deleted files don't go to a trash folder — they're gone permanently",
+        "Deleted files don't go to a trash folder \u2014 they're gone permanently",
         "Always double-check before using `rm`"
       ]
     },
@@ -69,8 +69,20 @@
         "value": "rm temp.txt"
       },
       "onSuccess": {
-        "message": "Gone. `rm` = 'remove'. No trash can, no undo — it's just deleted."
+        "message": "Gone. `rm` = 'remove'. No trash can, no undo \u2014 it's just deleted."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "Can you recover a file deleted with `rm`?",
+      "options": [
+        "Yes, check the Trash",
+        "Yes, use `rm --undo`",
+        "No \u2014 it's permanently deleted",
+        "Only if you're an admin"
+      ],
+      "correctIndex": 2,
+      "explanation": "Files deleted with `rm` are gone permanently. There's no trash, no recycle bin, no undo. This is why being careful with `rm` is so important."
     },
     {
       "type": "terminalStep",
@@ -97,9 +109,21 @@
       "onSuccess": {
         "message": "Just index.html, css/, and js/. Clean. Remember: `rm` is permanent. There's no recycling bin in the terminal."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "What should you be careful about when using `rm`?",
+      "options": [
+        "It runs slowly on large files",
+        "Deleted files don't go to the trash \u2014 they're gone permanently",
+        "It only works on empty files",
+        "You need admin permission to use it"
+      ],
+      "correctIndex": 1,
+      "explanation": "Unlike dragging to the Trash, `rm` permanently deletes files with no undo. Always double-check the filename before pressing Enter."
     }
   ],
-  "completionMessage": "`rm` permanently deletes files. There's no recycling bin in the terminal. In Level 4, you'll learn git, which gives you the power to undo — but for now, be intentional with `rm`.",
+  "completionMessage": "`rm` permanently deletes files. There's no recycling bin in the terminal. In Level 4, you'll learn git, which gives you the power to undo \u2014 but for now, be intentional with `rm`.",
   "milestone": null,
   "nextLesson": "1.9"
 }

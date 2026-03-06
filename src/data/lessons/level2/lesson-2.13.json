@@ -1,0 +1,143 @@
+{
+  "id": "2.13",
+  "title": "Level 2 Review",
+  "type": "conceptual",
+  "nextLesson": "3.1",
+  "milestone": {
+    "title": "Reading and Writing Files",
+    "summary": [
+      "Read file contents with cat, head, and tail",
+      "Write and append to files with > and >>",
+      "Search across files with grep",
+      "Chain commands together with pipes",
+      "Use environment variables for configuration"
+    ],
+    "nextLevelTeaser": "Next: Level 4 \u2014 Your Code Has a History. Learn git and never lose your work again."
+  },
+  "sections": [
+    {
+      "type": "narrative",
+      "content": "Level 2 complete! You've learned to read, write, search, and chain commands together. Let's test your recall on all the file content tools you've mastered.",
+      "analogy": "You've built up a full toolkit for working with file contents \u2014 reading glasses (`cat`, `head`, `tail`), a pen (`echo`, `>`, `>>`), a magnifying glass (`grep`), and assembly-line connectors (`|`). Let's see if you can pick the right tool for each job.",
+      "keyPoints": [
+        "Reading: `cat` for full files, `head`/`tail` for previews",
+        "Writing: `>` overwrites, `>>` appends, `echo` produces text",
+        "Searching: `grep` finds patterns, `-i` ignores case, `-r` searches recursively",
+        "Chaining: `|` pipes one command's output into another"
+      ]
+    },
+    {
+      "type": "match",
+      "instruction": "Match each command to what it does.",
+      "pairs": [
+        {
+          "left": "cat",
+          "right": "Displays entire file contents"
+        },
+        {
+          "left": "head -n 5",
+          "right": "Shows the first 5 lines"
+        },
+        {
+          "left": "tail",
+          "right": "Shows the last lines of a file"
+        },
+        {
+          "left": "grep -i",
+          "right": "Searches text, ignoring case"
+        },
+        {
+          "left": "wc -l",
+          "right": "Counts the number of lines"
+        },
+        {
+          "left": "echo",
+          "right": "Prints text to the terminal"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "What's the key difference between `>` and `>>`?",
+      "options": [
+        "`>` is faster than `>>`",
+        "`>` replaces the entire file; `>>` adds to the end",
+        "`>>` only works with text files",
+        "`>` creates files; `>>` can't"
+      ],
+      "correctIndex": 1,
+      "explanation": "`>` overwrites \u2014 everything in the file is replaced. `>>` appends \u2014 new content is added to the end, preserving what was already there. Both create the file if it doesn't exist."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To search for 'TODO' in every file in every subfolder, you type: grep ___ \"TODO\" .",
+      "answer": "-r",
+      "acceptAlternates": [
+        "-R",
+        "-ri",
+        "-Ri"
+      ],
+      "caseSensitive": false
+    },
+    {
+      "type": "dragSort",
+      "instruction": "Categorize each tool by what it's primarily used for.",
+      "categories": [
+        {
+          "name": "Reading",
+          "description": "Viewing file contents"
+        },
+        {
+          "name": "Writing",
+          "description": "Creating or modifying file contents"
+        },
+        {
+          "name": "Searching",
+          "description": "Finding text in files"
+        }
+      ],
+      "items": [
+        {
+          "text": "cat",
+          "correctCategory": "Reading"
+        },
+        {
+          "text": "head",
+          "correctCategory": "Reading"
+        },
+        {
+          "text": "tail",
+          "correctCategory": "Reading"
+        },
+        {
+          "text": "echo \"text\" > file",
+          "correctCategory": "Writing"
+        },
+        {
+          "text": "echo \"text\" >> file",
+          "correctCategory": "Writing"
+        },
+        {
+          "text": "grep",
+          "correctCategory": "Searching"
+        },
+        {
+          "text": "grep -r",
+          "correctCategory": "Searching"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": "Which command pipeline counts the number of lines containing 'ERROR' in `server.log`?",
+      "options": [
+        "`cat server.log | count ERROR`",
+        "`grep ERROR server.log | wc -l`",
+        "`wc -l server.log | grep ERROR`",
+        "`find ERROR server.log | wc`"
+      ],
+      "correctIndex": 1,
+      "explanation": "First, `grep ERROR server.log` finds all lines containing 'ERROR'. Then `| wc -l` counts those lines. The pipe sends grep's output as input to wc. This is the power of command chaining."
+    }
+  ]
+}

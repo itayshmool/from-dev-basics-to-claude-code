@@ -46,8 +46,20 @@
       "confirmationType": "continue"
     },
     {
+      "type": "quiz",
+      "question": "What file tracks your project's dependencies so others can install them?",
+      "options": [
+        "`node_modules/index.js`",
+        "`package.json`",
+        "`dependencies.txt`",
+        "`.npmrc`"
+      ],
+      "correctIndex": 1,
+      "explanation": "`package.json` is the heart of any Node.js project. It lists all dependencies (packages your project needs), scripts you can run, and metadata about your project. When someone clones your repo, they run `npm install` and it reads `package.json` to install everything."
+    },
+    {
       "type": "guideStep",
-      "instruction": "Let's peek inside `node_modules` — the folder where npm stores all downloaded packages. Express needs many other packages to work, so you'll see way more than just 'express' in there.",
+      "instruction": "Let's peek inside `node_modules` \u2014 the folder where npm stores all downloaded packages. Express needs many other packages to work, so you'll see way more than just 'express' in there.",
       "codeBlocks": [
         {
           "language": "bash",
@@ -59,17 +71,17 @@
     },
     {
       "type": "narrative",
-      "content": "That's a lot of folders! Express depends on other packages, which depend on *other* packages. This is called the **dependency tree**.\n\nHere's the important thing: you never commit `node_modules` to git. It can contain thousands of files and hundreds of megabytes. Instead, your `package.json` records what you need, and anyone who clones your project can run `npm install` to download everything fresh.\n\nThis is why `package.json` matters so much — it's the recipe. `node_modules` is the groceries.",
+      "content": "That's a lot of folders! Express depends on other packages, which depend on *other* packages. This is called the **dependency tree**.\n\nHere's the important thing: you never commit `node_modules` to git. It can contain thousands of files and hundreds of megabytes. Instead, your `package.json` records what you need, and anyone who clones your project can run `npm install` to download everything fresh.\n\nThis is why `package.json` matters so much \u2014 it's the recipe. `node_modules` is the groceries.",
       "analogy": "package.json is a shopping list. node_modules is the actual groceries. You share the list, not a truckload of food.",
       "keyPoints": [
         "npm install downloads packages into node_modules/",
         "package.json records which packages your project depends on",
-        "Never commit node_modules to git — it's too large",
+        "Never commit node_modules to git \u2014 it's too large",
         "Anyone can recreate node_modules by running npm install"
       ]
     }
   ],
-  "completionMessage": "You installed your first package! Express is ready to use. But first, there's one important housekeeping step — making sure git ignores the files it shouldn't track.",
+  "completionMessage": "You installed your first package! Express is ready to use. But first, there's one important housekeeping step \u2014 making sure git ignores the files it shouldn't track.",
   "milestone": null,
   "nextLesson": "5.7"
 }

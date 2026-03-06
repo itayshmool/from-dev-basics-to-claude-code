@@ -30,7 +30,7 @@
     {
       "type": "narrative",
       "content": "When you open a terminal, you're always **somewhere** in your computer's file system. Before doing anything else, you need to know your current location.",
-      "analogy": "It's like opening your eyes in a new building — the first thing you do is check the 'You Are Here' dot on the map.",
+      "analogy": "It's like opening your eyes in a new building \u2014 the first thing you do is check the 'You Are Here' dot on the map.",
       "keyPoints": [
         "`pwd` stands for **print working directory**",
         "It shows the full path to where you currently are",
@@ -40,14 +40,14 @@
     {
       "type": "terminalStep",
       "instruction": "Your terminal is open. The first thing to do in any terminal: find out where you are.",
-      "prompt": "Type `pwd` and press Enter. pwd = 'print working directory' — it shows your current location.",
+      "prompt": "Type `pwd` and press Enter. pwd = 'print working directory' \u2014 it shows your current location.",
       "hint": "Just type the three letters: pwd",
       "validation": {
         "type": "exactCommand",
         "value": "pwd"
       },
       "onSuccess": {
-        "message": "You're at `/home/user` — this is your home folder. Think of it as the 'You Are Here' dot on a mall map."
+        "message": "You're at `/home/user` \u2014 this is your home folder. Think of it as the 'You Are Here' dot on a mall map."
       }
     },
     {
@@ -60,8 +60,20 @@
         "value": "pwd"
       },
       "onSuccess": {
-        "message": "Same answer: `/home/user`. You haven't moved. `pwd` never changes anything — it just tells you where you are."
+        "message": "Same answer: `/home/user`. You haven't moved. `pwd` never changes anything \u2014 it just tells you where you are."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "What does `pwd` stand for?",
+      "options": [
+        "Print working directory",
+        "Password",
+        "Path with directory",
+        "Power down"
+      ],
+      "correctIndex": 0,
+      "explanation": "`pwd` stands for 'print working directory'. It shows you the full path to your current location in the file system \u2014 like a 'You Are Here' sign."
     }
   ],
   "completionMessage": "You now know your first command: pwd. Whenever you feel lost, type pwd to find out where you are.",

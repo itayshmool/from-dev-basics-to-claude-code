@@ -35,8 +35,8 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "Sometimes you want a duplicate of a file — a backup, or a starting point for a new version. The `cp` command makes a copy.",
-      "analogy": "It's like photocopying a document — you end up with two identical copies, each at its own location.",
+      "content": "Sometimes you want a duplicate of a file \u2014 a backup, or a starting point for a new version. The `cp` command makes a copy.",
+      "analogy": "It's like photocopying a document \u2014 you end up with two identical copies, each at its own location.",
       "keyPoints": [
         "`cp` stands for **copy**",
         "Syntax: `cp source destination`",
@@ -45,7 +45,7 @@
     },
     {
       "type": "terminalStep",
-      "instruction": "Sometimes you want to copy a file — keep the original and make a duplicate.",
+      "instruction": "Sometimes you want to copy a file \u2014 keep the original and make a duplicate.",
       "prompt": "Copy `index.html` to the `backup` folder: `cp index.html backup/index.html`.",
       "hint": "Type: cp index.html backup/index.html",
       "validation": {
@@ -83,6 +83,13 @@
       "onSuccess": {
         "message": "Both files are there. Originals untouched."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To copy `notes.txt` to a file called `backup.txt`, you type: ___ notes.txt backup.txt",
+      "answer": "cp",
+      "acceptAlternates": [],
+      "caseSensitive": true
     }
   ],
   "completionMessage": "You can now copy files with `cp`. The original stays in place, and a duplicate appears at the destination.",

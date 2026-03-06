@@ -41,17 +41,17 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "Deleting a folder is a bit different from deleting a file. You need to tell `rm` to go **recursive** — meaning delete everything inside, then the folder itself.",
+      "content": "Deleting a folder is a bit different from deleting a file. You need to tell `rm` to go **recursive** \u2014 meaning delete everything inside, then the folder itself.",
       "analogy": "You can't demolish a room that still has furniture in it. `rm -r` clears everything out first, then removes the room.",
       "keyPoints": [
         "`rm -r` deletes a folder and everything inside it",
-        "The `-r` flag means **recursive** — it goes through all contents",
-        "Be very careful — this deletes everything with no undo"
+        "The `-r` flag means **recursive** \u2014 it goes through all contents",
+        "Be very careful \u2014 this deletes everything with no undo"
       ]
     },
     {
       "type": "terminalStep",
-      "instruction": "Deleting folders is slightly different — you need to tell `rm` to go 'recursive'.",
+      "instruction": "Deleting folders is slightly different \u2014 you need to tell `rm` to go 'recursive'.",
       "prompt": "Try deleting `old-stuff` the same way as a file: `rm old-stuff`.",
       "hint": "Type: rm old-stuff",
       "expectError": true,
@@ -60,7 +60,7 @@
         "value": "rm old-stuff"
       },
       "onSuccess": {
-        "message": "You got an error: regular `rm` only works on files. That's by design — it prevents accidental folder deletion."
+        "message": "You got an error: regular `rm` only works on files. That's by design \u2014 it prevents accidental folder deletion."
       }
     },
     {
@@ -75,6 +75,18 @@
       "onSuccess": {
         "message": "The folder and all its contents are gone. `-r` means 'go through everything inside, then delete the folder too'."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "Why does `rm myfolder` fail without the `-r` flag?",
+      "options": [
+        "Folders are read-only by default",
+        "You need to empty the folder first",
+        "`rm` only deletes files \u2014 folders require `-r` (recursive) to delete their contents too",
+        "The folder name needs quotes around it"
+      ],
+      "correctIndex": 2,
+      "explanation": "A folder can contain files and other folders inside it. The `-r` flag tells `rm` to recursively go inside and delete everything, then remove the folder itself."
     }
   ],
   "completionMessage": "`rm -r` deletes a folder and EVERYTHING inside it. Always double-check the folder name before pressing Enter.",

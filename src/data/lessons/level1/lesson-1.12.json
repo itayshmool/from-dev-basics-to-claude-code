@@ -31,7 +31,7 @@
     {
       "type": "narrative",
       "content": "You've learned all the essential file commands: navigate, create, copy, move, and delete. Time to put them all together in a real scenario.",
-      "analogy": "This is like your driving test — you've practiced each skill individually, now you'll combine them in one go.",
+      "analogy": "This is like your driving test \u2014 you've practiced each skill individually, now you'll combine them in one go.",
       "keyPoints": [
         "You'll use `mkdir`, `touch`, `cp`, `mv`, and `rm` together",
         "Plan your steps before typing each command",
@@ -40,7 +40,7 @@
     },
     {
       "type": "terminalStep",
-      "instruction": "Challenge time. Build a complete project structure using everything you've learned. No step-by-step guidance — just the goal and your skills.\n\nTarget structure:\n\nmy-portfolio/\n  index.html\n  about.html\n  contact.html\n  assets/\n    css/\n      style.css\n      responsive.css\n    js/\n      app.js\n    images/",
+      "instruction": "Challenge time. Build a complete project structure using everything you've learned. No step-by-step guidance \u2014 just the goal and your skills.\n\nTarget structure:\n\nmy-portfolio/\n  index.html\n  about.html\n  contact.html\n  assets/\n    css/\n      style.css\n      responsive.css\n    js/\n      app.js\n    images/",
       "prompt": "Build the full project structure shown above. Use mkdir, touch, and cd as needed.",
       "hint": "Start by creating the top-level folder and cd into it",
       "hints": [
@@ -75,20 +75,11 @@
         }
       },
       "onSuccess": {
-        "message": "You just built a project structure from scratch using only the terminal.\n\nCommands you now know:\n  pwd — where am I?\n  ls — what's here?\n  cd — move to a folder\n  cd .. — go up one level\n  cd ~ — go home\n  mkdir — create a folder\n  touch — create a file\n  rm — delete a file\n  rm -r — delete a folder\n  cp — copy a file\n  mv — move or rename\n\nThat's 11 commands. Professional developers use these every single day."
+        "message": "You just built a project structure from scratch using only the terminal.\n\nCommands you now know:\n  pwd \u2014 where am I?\n  ls \u2014 what's here?\n  cd \u2014 move to a folder\n  cd .. \u2014 go up one level\n  cd ~ \u2014 go home\n  mkdir \u2014 create a folder\n  touch \u2014 create a file\n  rm \u2014 delete a file\n  rm -r \u2014 delete a folder\n  cp \u2014 copy a file\n  mv \u2014 move or rename\n\nThat's 11 commands. Professional developers use these every single day."
       }
     }
   ],
   "completionMessage": "Level 2 complete! You've mastered the essential terminal commands.",
-  "milestone": {
-    "title": "Your First 30 Minutes in the Terminal",
-    "summary": [
-      "Navigate anywhere on a computer using the terminal",
-      "Create files and folders from scratch",
-      "Move, copy, rename, and delete things",
-      "Build a complete project structure with confidence"
-    ],
-    "nextLevelTeaser": "Level 3 — Reading and Writing Files: You'll learn to look inside files, search for text, and chain commands together."
-  },
-  "nextLesson": "2.1"
+  "milestone": null,
+  "nextLesson": "1.13"
 }

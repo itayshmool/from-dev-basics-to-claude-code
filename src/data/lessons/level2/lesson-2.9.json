@@ -41,7 +41,7 @@
         "value": "grep -r"
       },
       "onSuccess": {
-        "message": "Found 'port' in three different files! `-r` means recursive — search this folder and all subfolders. The `.` means 'start here'. You didn't need to know which file had the text."
+        "message": "Found 'port' in three different files! `-r` means recursive \u2014 search this folder and all subfolders. The `.` means 'start here'. You didn't need to know which file had the text."
       }
     },
     {
@@ -56,6 +56,15 @@
       "onSuccess": {
         "message": "Found in app.js and config.txt. In real projects with hundreds of files across dozens of folders, `grep -r` is a lifesaver. You'll use it every day."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To search for a word across all files in all subdirectories, use: grep ___ \"word\" .",
+      "answer": "-r",
+      "acceptAlternates": [
+        "-R"
+      ],
+      "caseSensitive": false
     }
   ],
   "completionMessage": "`grep -r` is one of the most used commands in professional development. When you join a new codebase with thousands of files, it's how you find where things are defined, where functions are called, and where bugs are hiding.",

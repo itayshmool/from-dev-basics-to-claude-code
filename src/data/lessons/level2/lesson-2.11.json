@@ -22,7 +22,7 @@
     {
       "type": "narrative",
       "content": "Sometimes you need to know **how much** is in a file: how many lines, words, or characters. The `wc` command counts them for you.",
-      "analogy": "It's like a word count tool in a text editor — but it works right from the command line.",
+      "analogy": "It's like a word count tool in a text editor \u2014 but it works right from the command line.",
       "keyPoints": [
         "`wc` stands for **word count**",
         "`wc -l` counts just the lines",
@@ -52,7 +52,7 @@
         "value": "grep"
       },
       "onSuccess": {
-        "message": "10 errors. `grep` found all the ERROR lines, then `wc -l` counted them. You'll use this pattern constantly — filter then count."
+        "message": "10 errors. `grep` found all the ERROR lines, then `wc -l` counted them. You'll use this pattern constantly \u2014 filter then count."
       }
     },
     {
@@ -65,8 +65,15 @@
         "value": "grep"
       },
       "onSuccess": {
-        "message": "20 warnings. You just built a mini analytics pipeline — search then count. In real ops work, this is how you quickly assess the health of a system."
+        "message": "20 warnings. You just built a mini analytics pipeline \u2014 search then count. In real ops work, this is how you quickly assess the health of a system."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To count the number of lines in a file, pipe its contents to: ___ -l",
+      "answer": "wc",
+      "acceptAlternates": [],
+      "caseSensitive": true
     }
   ],
   "completionMessage": "Combining commands is the real power of the terminal. `grep` finds, `wc` counts, `head` and `tail` trim, and `|` connects them all. Each tool does one thing well, and together they can answer almost any question about your data.",

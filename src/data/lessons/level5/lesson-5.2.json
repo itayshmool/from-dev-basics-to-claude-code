@@ -8,7 +8,7 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "Node.js has an **interactive mode** called the REPL (Read-Eval-Print Loop). You type a line of JavaScript, Node reads it, evaluates it, prints the result, and waits for more.\n\nIt's like having a conversation with JavaScript. You say something, it responds. This is perfect for experimenting and learning — no files needed, no setup, just you and the language.",
+      "content": "Node.js has an **interactive mode** called the REPL (Read-Eval-Print Loop). You type a line of JavaScript, Node reads it, evaluates it, prints the result, and waits for more.\n\nIt's like having a conversation with JavaScript. You say something, it responds. This is perfect for experimenting and learning \u2014 no files needed, no setup, just you and the language.",
       "analogy": "The REPL is like a calculator on steroids. A calculator does math. The REPL does math, text manipulation, logic, and anything else JavaScript can do.",
       "keyPoints": [
         "REPL stands for Read-Eval-Print Loop",
@@ -18,7 +18,7 @@
     },
     {
       "type": "guideStep",
-      "instruction": "Start the Node.js REPL by typing `node` with no arguments. You should see a `>` prompt appear — that means Node is waiting for your JavaScript.",
+      "instruction": "Start the Node.js REPL by typing `node` with no arguments. You should see a `>` prompt appear \u2014 that means Node is waiting for your JavaScript.",
       "codeBlocks": [
         {
           "language": "bash",
@@ -37,7 +37,7 @@
     },
     {
       "type": "guideStep",
-      "instruction": "Now try some JavaScript expressions. Type each one and press Enter to see the result:\n\n- `2 + 2` — basic math\n- `\"Hello\".toUpperCase()` — text manipulation\n- `Math.random()` — generate a random number between 0 and 1\n\nEach time you press Enter, Node evaluates your code and shows the result instantly.",
+      "instruction": "Now try some JavaScript expressions. Type each one and press Enter to see the result:\n\n- `2 + 2` \u2014 basic math\n- `\"Hello\".toUpperCase()` \u2014 text manipulation\n- `Math.random()` \u2014 generate a random number between 0 and 1\n\nEach time you press Enter, Node evaluates your code and shows the result instantly.",
       "codeBlocks": [
         {
           "language": "javascript",
@@ -58,8 +58,20 @@
       "confirmationType": "continue"
     },
     {
+      "type": "quiz",
+      "question": "What does `console.log()` do in JavaScript?",
+      "options": [
+        "Saves data to a file",
+        "Prints a message to the terminal or browser console",
+        "Creates a new variable",
+        "Opens a log file"
+      ],
+      "correctIndex": 1,
+      "explanation": "`console.log()` is the most basic way to output text in JavaScript. It prints to the terminal when running with Node.js, or to the browser's developer console in a web page."
+    },
+    {
       "type": "guideStep",
-      "instruction": "Now try `console.log()` — this is how JavaScript prints output. Then exit the REPL by pressing Ctrl+C twice (or type `.exit`).",
+      "instruction": "Now try `console.log()` \u2014 this is how JavaScript prints output. Then exit the REPL by pressing Ctrl+C twice (or type `.exit`).",
       "codeBlocks": [
         {
           "language": "javascript",
@@ -72,7 +84,7 @@
       "troubleshooting": [
         {
           "problem": "I see 'undefined' after the output",
-          "solution": "That's normal! console.log() prints your text, then returns undefined. The REPL shows both — your output and the return value."
+          "solution": "That's normal! console.log() prints your text, then returns undefined. The REPL shows both \u2014 your output and the return value."
         }
       ]
     }

@@ -15,8 +15,21 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["git branch", "git checkout -b"],
+  "commandsIntroduced": [
+    "git branch",
+    "git checkout -b"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "**Branches** let you work on a new feature or experiment without affecting the main version of your project. You create a branch, make changes there, and only merge them back when you're ready.",
+      "analogy": "Creating a branch is like photocopying your album so you can experiment on the copy. You can scribble, rearrange pages, or try wild ideas. If it works out, you merge the changes back into the original. If not, you just toss the copy.",
+      "keyPoints": [
+        "`git checkout -b branch-name` creates a new branch and switches to it",
+        "`git branch` lists all branches and shows which one you're on",
+        "Branches keep experimental work separate from the stable main branch"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Before we can branch, we need a repository with at least one commit. Let's set that up.",
@@ -42,6 +55,18 @@
       "onSuccess": {
         "message": "Files staged. Let's commit them."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "What does `git checkout -b feature` do?",
+      "options": [
+        "Deletes the branch called 'feature'",
+        "Creates a new branch called 'feature' AND switches to it",
+        "Switches to an existing branch called 'feature'",
+        "Merges 'feature' into main"
+      ],
+      "correctIndex": 1,
+      "explanation": "The `-b` flag means 'create new branch'. `git checkout -b feature` creates the branch and immediately switches to it \u2014 two operations in one command."
     },
     {
       "type": "terminalStep",

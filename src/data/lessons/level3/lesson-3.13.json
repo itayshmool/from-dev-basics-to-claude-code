@@ -15,8 +15,20 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["git merge"],
+  "commandsIntroduced": [
+    "git merge"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "**Merging** combines the changes from one branch into another. When your feature branch is ready, you switch to `main` and merge your branch in. Git automatically combines the changes.",
+      "analogy": "Merging is like combining edits from two copies of a document. You and a colleague each had your own copy. Now you sit down and combine the best parts of both into one master version. Git handles this automatically in most cases.",
+      "keyPoints": [
+        "First switch to the target branch (`git checkout main`), then run `git merge branch-name`",
+        "Git automatically combines changes if there are no conflicts",
+        "After merging, all the commits from the feature branch become part of main's history"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "We need a repository with a commit before we can branch and merge. Initialize git first.",
@@ -55,6 +67,15 @@
       "onSuccess": {
         "message": "Base commit saved. Now let's create a feature branch."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To switch from a feature branch back to the main branch, type: git checkout ___",
+      "answer": "main",
+      "acceptAlternates": [
+        "master"
+      ],
+      "caseSensitive": false
     },
     {
       "type": "terminalStep",
@@ -97,6 +118,18 @@
       "onSuccess": {
         "message": "Changes staged. Now commit them."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "What does `git merge feature` do when you're on the `main` branch?",
+      "options": [
+        "Deletes the feature branch",
+        "Copies the feature branch",
+        "Combines the feature branch's changes into main",
+        "Switches you to the feature branch"
+      ],
+      "correctIndex": 2,
+      "explanation": "Merging takes all the commits from the feature branch and applies them to the branch you're currently on (main). The feature branch itself remains unchanged."
     },
     {
       "type": "terminalStep",

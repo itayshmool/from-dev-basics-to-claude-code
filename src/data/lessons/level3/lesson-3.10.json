@@ -15,8 +15,21 @@
     }
   },
   "initialDir": "/home/user/my-project",
-  "commandsIntroduced": ["git remote add", "git push"],
+  "commandsIntroduced": [
+    "git remote add",
+    "git push"
+  ],
   "sections": [
+    {
+      "type": "narrative",
+      "content": "So far, your repository lives only on your computer. **Pushing** uploads your commits to a remote server like GitHub, creating a backup and letting others access your code.",
+      "analogy": "Pushing to GitHub is like mailing a copy of your photo album to a safety deposit box. Your original stays on your desk, but now there's a secure backup that others can access too. If your desk catches fire, the album is safe.",
+      "keyPoints": [
+        "`git remote add origin URL` connects your local repo to GitHub",
+        "`git push -u origin main` uploads your commits to the remote",
+        "After the first push, `git push` is all you need for future uploads"
+      ]
+    },
     {
       "type": "terminalStep",
       "instruction": "Let's set up a project and push it to GitHub. First, initialize the repository.",
@@ -42,6 +55,13 @@
       "onSuccess": {
         "message": "Files staged. Now commit them."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "The conventional name for your main GitHub remote is ___.",
+      "answer": "origin",
+      "acceptAlternates": [],
+      "caseSensitive": true
     },
     {
       "type": "terminalStep",

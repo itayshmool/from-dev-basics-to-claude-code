@@ -36,7 +36,7 @@
     {
       "type": "narrative",
       "content": "The `mv` command does double duty: it can **move** a file to a new location, and it can **rename** a file. Same command, two uses.",
-      "analogy": "Think of `mv` as picking something up and putting it somewhere else. If you put it in the same spot with a different name — that's renaming.",
+      "analogy": "Think of `mv` as picking something up and putting it somewhere else. If you put it in the same spot with a different name \u2014 that's renaming.",
       "keyPoints": [
         "`mv` stands for **move**",
         "`mv file newname` renames it in place",
@@ -46,7 +46,7 @@
     {
       "type": "terminalStep",
       "instruction": "`mv` does two things: move a file to a different location, or rename it. Same command, different use.",
-      "prompt": "Oops — `idnex.html` is a typo. Let's rename it: `mv idnex.html index.html`.",
+      "prompt": "Oops \u2014 `idnex.html` is a typo. Let's rename it: `mv idnex.html index.html`.",
       "hint": "Type: mv idnex.html index.html",
       "validation": {
         "type": "exactCommand",
@@ -71,6 +71,13 @@
       }
     },
     {
+      "type": "fillInBlank",
+      "prompt": "To rename `old.txt` to `new.txt`, you type: ___ old.txt new.txt",
+      "answer": "mv",
+      "acceptAlternates": [],
+      "caseSensitive": true
+    },
+    {
       "type": "terminalStep",
       "instruction": "Now move the CSS file into the new folder.",
       "prompt": "Move the file: `mv style.css css/style.css`.",
@@ -80,7 +87,7 @@
         "value": "mv style.css css/style.css"
       },
       "onSuccess": {
-        "message": "Moved! Unlike `cp`, the original is gone — it's been relocated. Check the file explorer.",
+        "message": "Moved! Unlike `cp`, the original is gone \u2014 it's been relocated. Check the file explorer.",
         "highlightExplorer": "/home/user/my-project/css/style.css"
       }
     },
@@ -96,6 +103,18 @@
       "onSuccess": {
         "message": "index.html, css/, js/. The style.css is now inside css/."
       }
+    },
+    {
+      "type": "quiz",
+      "question": "What makes `mv` special compared to `cp`?",
+      "options": [
+        "It only works on folders",
+        "It does two things: moves files AND renames them (same command)",
+        "It creates a backup automatically",
+        "It's faster than `cp`"
+      ],
+      "correctIndex": 1,
+      "explanation": "`mv` handles both moving and renaming. `mv file.txt newname.txt` renames it. `mv file.txt folder/` moves it. There's no separate rename command \u2014 `mv` does both."
     }
   ],
   "completionMessage": "You can now move and rename files with `mv`. Same command, two uses: rename (same folder) or move (different folder).",

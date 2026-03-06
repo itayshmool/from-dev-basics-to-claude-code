@@ -21,6 +21,7 @@ import lesson19 from './lessons/level1/lesson-1.9.json';
 import lesson110 from './lessons/level1/lesson-1.10.json';
 import lesson111 from './lessons/level1/lesson-1.11.json';
 import lesson112 from './lessons/level1/lesson-1.12.json';
+import lesson113 from './lessons/level1/lesson-1.13.json';
 
 // Static imports for Level 2 lesson JSON files
 import lesson21 from './lessons/level2/lesson-2.1.json';
@@ -35,6 +36,7 @@ import lesson29 from './lessons/level2/lesson-2.9.json';
 import lesson210 from './lessons/level2/lesson-2.10.json';
 import lesson211 from './lessons/level2/lesson-2.11.json';
 import lesson212 from './lessons/level2/lesson-2.12.json';
+import lesson213 from './lessons/level2/lesson-2.13.json';
 
 // Static imports for Level 3 lesson JSON files
 import lesson31 from './lessons/level3/lesson-3.1.json';
@@ -53,6 +55,7 @@ import lesson313 from './lessons/level3/lesson-3.13.json';
 import lesson314 from './lessons/level3/lesson-3.14.json';
 import lesson315 from './lessons/level3/lesson-3.15.json';
 import lesson316 from './lessons/level3/lesson-3.16.json';
+import lesson317 from './lessons/level3/lesson-3.17.json';
 
 // Static imports for Level 4 lesson JSON files
 import lesson41 from './lessons/level4/lesson-4.1.json';
@@ -140,9 +143,9 @@ export interface LevelMeta {
 }
 
 const level0Lessons = [lesson01, lesson02, lesson03, lesson04, lesson05, lesson06] as Lesson[];
-const level1Lessons = [lesson11, lesson12, lesson13, lesson14, lesson15, lesson16, lesson17, lesson18, lesson19, lesson110, lesson111, lesson112] as Lesson[];
-const level2Lessons = [lesson21, lesson22, lesson23, lesson24, lesson25, lesson26, lesson27, lesson28, lesson29, lesson210, lesson211, lesson212] as Lesson[];
-const level3Lessons = [lesson31, lesson32, lesson33, lesson34, lesson35, lesson36, lesson37, lesson38, lesson39, lesson310, lesson311, lesson312, lesson313, lesson314, lesson315, lesson316] as Lesson[];
+const level1Lessons = [lesson11, lesson12, lesson13, lesson14, lesson15, lesson16, lesson17, lesson18, lesson19, lesson110, lesson111, lesson112, lesson113] as Lesson[];
+const level2Lessons = [lesson21, lesson22, lesson23, lesson24, lesson25, lesson26, lesson27, lesson28, lesson29, lesson210, lesson211, lesson212, lesson213] as Lesson[];
+const level3Lessons = [lesson31, lesson32, lesson33, lesson34, lesson35, lesson36, lesson37, lesson38, lesson39, lesson310, lesson311, lesson312, lesson313, lesson314, lesson315, lesson316, lesson317] as Lesson[];
 const level4Lessons = [lesson41, lesson42, lesson43, lesson44, lesson45, lesson46, lesson47, lesson48, lesson49, lesson410, lesson411, lesson412, lesson413, lesson414] as Lesson[];
 const level4bLessons = [lesson4b1, lesson4b2, lesson4b3, lesson4b4, lesson4b5, lesson4b6, lesson4b7, lesson4b8, lesson4b9, lesson4b10, lesson4b11, lesson4b12] as Lesson[];
 const level5Lessons = [lesson51, lesson52, lesson53, lesson54, lesson55, lesson56, lesson57, lesson58, lesson59, lesson510, lesson511, lesson512, lesson513, lesson514, lesson515] as Lesson[];
