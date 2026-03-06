@@ -25,7 +25,7 @@ function getResendClient(): Resend | null {
   return resend;
 }
 
-const FROM_ADDRESS = 'From Zero to Claude Code <noreply@zero2claude.dev>';
+const FROM_ADDRESS = env.EMAIL_FROM;
 
 // ---------------------------------------------------------------------------
 // Token utilities
