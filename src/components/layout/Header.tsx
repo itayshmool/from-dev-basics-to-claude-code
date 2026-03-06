@@ -1,6 +1,7 @@
 import { LEVELS } from '../../lib/constants';
 import { useProgress } from '../../hooks/useProgress';
 import { ClaudeIcon } from '../icons/ClaudeIcon';
+import { ThemeToggle } from '../shared/ThemeToggle';
 
 interface HeaderProps {
   currentLevel: number;
@@ -27,7 +28,7 @@ export function Header({ currentLevel }: HeaderProps) {
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <span className="text-xs font-medium text-text-muted">{completed}/{total}</span>
         <div className="w-24 h-2 bg-bg-primary rounded-full overflow-hidden">
           <div
@@ -36,6 +37,7 @@ export function Header({ currentLevel }: HeaderProps) {
           />
         </div>
         <span className="text-xs font-bold text-purple">{pct}%</span>
+        <ThemeToggle />
       </div>
     </header>
   );

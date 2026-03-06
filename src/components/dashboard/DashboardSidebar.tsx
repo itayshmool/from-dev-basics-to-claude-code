@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { ThemeToggle } from '../shared/ThemeToggle';
 
 interface NavItem {
   to: string;
@@ -79,6 +80,7 @@ export function DashboardSidebar({ user, navItems, collapsed, onToggle, onLogout
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" />
             </svg>
           </NavLink>
+          <ThemeToggle />
           <button
             onClick={onLogout}
             title="Logout"

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { DashboardSidebar } from './DashboardSidebar';
+import { ThemeToggle } from '../shared/ThemeToggle';
 
 const SIDEBAR_KEY = 'dashboard-sidebar-collapsed';
 
@@ -109,6 +110,7 @@ export function DashboardLayout() {
             {user?.displayName}
           </span>
         </div>
+        <ThemeToggle />
       </div>
 
       {/* Mobile drawer backdrop */}
@@ -187,6 +189,7 @@ export function DashboardLayout() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4" />
               </svg>
             </NavLink>
+            <ThemeToggle />
             <button
               onClick={handleLogout}
               title="Logout"
