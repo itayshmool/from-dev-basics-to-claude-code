@@ -12,8 +12,9 @@ const PAIR_COLORS = ['purple', 'teal', 'blue', 'orange', 'green'] as const;
 
 export function ClickMatch({ section, onComplete }: ClickMatchProps) {
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
-  const [matched, setMatched] = useState<Array<{ left: string; right: string }>>([]);
-  const [wrongPair, setWrongPair] = useState<{ left: string; right: string } | null>(null);
+  // Track matches by index into shuffledRight to handle duplicate right-side values
+  const [matched, setMatched] = useState<Array<{ left: string; rightIdx: number }>>([]);
+  const [wrongPair, setWrongPair] = useState<{ left: string; rightIdx: number } | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
 
   const shuffledRight = useMemo(
@@ -22,7 +23,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
   );
 
   const matchedLefts = new Set(matched.map((m) => m.left));
-  const matchedRights = new Set(matched.map((m) => m.right));
+  const matchedRightIdxs = new Set(matched.map((m) => m.rightIdx));
   const allMatched = matched.length === section.pairs.length;
 
   function getMatchColor(left: string) {
@@ -30,8 +31,8 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
     return PAIR_COLORS[idx % PAIR_COLORS.length];
   }
 
-  function getMatchColorByRight(right: string) {
-    const idx = matched.findIndex((m) => m.right === right);
+  function getMatchColorByRightIdx(rightIdx: number) {
+    const idx = matched.findIndex((m) => m.rightIdx === rightIdx);
     return PAIR_COLORS[idx % PAIR_COLORS.length];
   }
 
@@ -41,11 +42,12 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
     setWrongPair(null);
   }
 
-  function handleRightClick(right: string) {
-    if (matchedRights.has(right) || !selectedLeft) return;
-    const isCorrect = section.pairs.some((p) => p.left === selectedLeft && p.right === right);
+  function handleRightClick(rightIdx: number) {
+    if (matchedRightIdxs.has(rightIdx) || !selectedLeft) return;
+    const rightValue = shuffledRight[rightIdx];
+    const isCorrect = section.pairs.some((p) => p.left === selectedLeft && p.right === rightValue);
     if (isCorrect) {
-      const newMatched = [...matched, { left: selectedLeft, right }];
+      const newMatched = [...matched, { left: selectedLeft, rightIdx }];
       setMatched(newMatched);
       setSelectedLeft(null);
       setWrongPair(null);
@@ -53,7 +55,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
         setShowCelebration(true);
       }
     } else {
-      setWrongPair({ left: selectedLeft, right });
+      setWrongPair({ left: selectedLeft, rightIdx });
       setTimeout(() => setWrongPair(null), 600);
       setSelectedLeft(null);
     }
@@ -114,15 +116,15 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
             </div>
 
             <div className="space-y-2">
-              {shuffledRight.map((right) => {
-                const isMatched = matchedRights.has(right);
-                const isWrong = wrongPair?.right === right;
-                const color = isMatched ? getMatchColorByRight(right) : '';
+              {shuffledRight.map((right, idx) => {
+                const isMatched = matchedRightIdxs.has(idx);
+                const isWrong = wrongPair?.rightIdx === idx;
+                const color = isMatched ? getMatchColorByRightIdx(idx) : '';
 
                 return (
                   <button
-                    key={right}
-                    onClick={() => handleRightClick(right)}
+                    key={idx}
+                    onClick={() => handleRightClick(idx)}
                     disabled={isMatched || !selectedLeft}
                     className={`
                       w-full text-left px-3.5 py-3 rounded-xl border-2 text-[15px] font-medium transition-all leading-snug active:scale-[0.98]

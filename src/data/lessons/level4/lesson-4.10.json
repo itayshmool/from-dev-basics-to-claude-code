@@ -40,12 +40,12 @@
     },
     {
       "type": "match",
-      "instruction": "Match each description to whether it's a Frontend or Backend concept.",
+      "instruction": "Match each example to what part of the app handles it.",
       "pairs": [
-        { "left": "Where users interact", "right": "Frontend" },
-        { "left": "Where data is processed", "right": "Backend" },
-        { "left": "Runs in the browser", "right": "Frontend" },
-        { "left": "Runs on a server", "right": "Backend" }
+        { "left": "A button changes color on hover", "right": "Frontend (browser)" },
+        { "left": "Your password is checked", "right": "Backend (server)" },
+        { "left": "A page layout adjusts on mobile", "right": "Frontend (CSS)" },
+        { "left": "An order is saved to the database", "right": "Backend (database)" }
       ]
     },
     {
