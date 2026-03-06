@@ -59,65 +59,56 @@ export function useTurnstile(
 ) {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  // Track when the container DOM element becomes available
-  const [containerReady, setContainerReady] = useState(false);
   const widgetIdRef = useRef<string | null>(null);
   const optionsRef = useRef(options);
   optionsRef.current = options;
 
-  // Poll for container availability since refs don't trigger re-renders
   useEffect(() => {
-    if (containerRef.current) {
-      setContainerReady(true);
-      return;
-    }
-    const id = requestAnimationFrame(() => {
-      if (containerRef.current) setContainerReady(true);
-    });
-    return () => cancelAnimationFrame(id);
-  });
-
-  useEffect(() => {
-    if (!options.siteKey || !containerRef.current) {
+    if (!options.siteKey) {
       setIsLoading(false);
       return;
     }
 
-    let cancelled = false;
-    const container = containerRef.current;
+    // Poll until the container DOM element is available (e.g., modal opens)
+    const interval = setInterval(() => {
+      if (!containerRef.current) return;
+      clearInterval(interval);
 
-    loadScript()
-      .then(() => {
-        if (cancelled || !window.turnstile || !container) return;
+      // Reset state for fresh render
+      setIsError(false);
+      setIsLoading(true);
 
-        widgetIdRef.current = window.turnstile.render(container, {
-          sitekey: optionsRef.current.siteKey,
-          callback: (token: string) => optionsRef.current.onVerify(token),
-          'error-callback': () => {
-            setIsError(true);
-            optionsRef.current.onError?.();
-          },
-          'expired-callback': () => optionsRef.current.onExpire?.(),
-          theme: 'auto',
-        });
+      loadScript()
+        .then(() => {
+          if (!window.turnstile || !containerRef.current) return;
 
-        setIsLoading(false);
-      })
-      .catch(() => {
-        if (!cancelled) {
+          widgetIdRef.current = window.turnstile.render(containerRef.current, {
+            sitekey: optionsRef.current.siteKey,
+            callback: (token: string) => optionsRef.current.onVerify(token),
+            'error-callback': () => {
+              setIsError(true);
+              optionsRef.current.onError?.();
+            },
+            'expired-callback': () => optionsRef.current.onExpire?.(),
+            theme: 'auto',
+          });
+
+          setIsLoading(false);
+        })
+        .catch(() => {
           setIsError(true);
           setIsLoading(false);
-        }
-      });
+        });
+    }, 50);
 
     return () => {
-      cancelled = true;
+      clearInterval(interval);
       if (widgetIdRef.current && window.turnstile) {
         window.turnstile.remove(widgetIdRef.current);
         widgetIdRef.current = null;
       }
     };
-  }, [options.siteKey, containerRef, containerReady]);
+  }, [options.siteKey, containerRef]);
 
   const reset = useCallback(() => {
     if (widgetIdRef.current && window.turnstile) {
