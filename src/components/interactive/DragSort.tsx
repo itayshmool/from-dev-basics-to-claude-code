@@ -281,7 +281,8 @@ export function DragSort({ section, onComplete }: DragSortProps) {
               <p id="items-pool-label" className="text-[13px] text-text-muted mb-2 font-medium uppercase tracking-wider">
                 Items
               </p>
-              <div className="flex flex-wrap gap-2" role="listbox" aria-labelledby="items-pool-label">
+              <p id="dragsort-kb-hint" className="sr-only">Select an item with Enter, then press Tab to move to a category and Enter to place it.</p>
+              <div className="flex flex-wrap gap-2" role="listbox" aria-labelledby="items-pool-label" aria-describedby="dragsort-kb-hint">
                 {unplacedItems.map((item, poolIdx) => (
                   <button
                     key={item.text}

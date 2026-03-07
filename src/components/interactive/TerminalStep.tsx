@@ -297,13 +297,14 @@ export function TerminalStep({ section, onComplete, commands = [] }: TerminalSte
             {section.hint && (
               <button
                 onClick={() => setShowHint(true)}
+                aria-label="Show hint for this step"
                 className="text-purple hover:brightness-125 text-[13px] font-mono transition-all"
               >
                 need a hint?
               </button>
             )}
             {showHint && !isFreeMode && section.hint && (
-              <p className="mt-2 text-text-secondary text-[13px]">{section.hint}</p>
+              <p role="status" className="mt-2 text-text-secondary text-[13px]">{section.hint}</p>
             )}
           </div>
         )}

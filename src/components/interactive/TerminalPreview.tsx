@@ -63,9 +63,22 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
     ? { label: 'Continue', onClick: onComplete }
     : { label: 'Skip', onClick: skipToEnd };
 
+  // Keyboard shortcut to skip animation
+  function handleContainerKeyDown(e: React.KeyboardEvent) {
+    if ((e.key === ' ' || e.key === 's') && !allDone) {
+      e.preventDefault();
+      skipToEnd();
+    }
+  }
+
   return (
     <LessonStep cta={cta}>
-      <div className="space-y-4">
+      <div
+        className="space-y-4 outline-none"
+        tabIndex={0}
+        onKeyDown={handleContainerKeyDown}
+        aria-label="Terminal preview. Press Space to skip animation."
+      >
         <p className="text-[17px] text-text-secondary leading-relaxed">
           {section.instruction}
         </p>

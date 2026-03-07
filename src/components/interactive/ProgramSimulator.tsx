@@ -75,15 +75,30 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
           ? { label: 'Continue', onClick: onComplete }
           : undefined;
 
+  // Keyboard shortcut to step through program
+  function handleContainerKeyDown(e: React.KeyboardEvent) {
+    // Don't capture keys when typing in input
+    if (e.target instanceof HTMLInputElement) return;
+    if ((e.key === 'n' || e.key === ' ') && isStarted && !isFinished && !waitingForInput) {
+      e.preventDefault();
+      handleStep();
+    }
+  }
+
   return (
     <LessonStep cta={cta}>
-      <div className="space-y-4">
+      <div
+        className="space-y-4 outline-none"
+        tabIndex={0}
+        onKeyDown={handleContainerKeyDown}
+        aria-label="Program simulator. Press Space or N to advance to next step."
+      >
         <p className="text-[17px] text-text-secondary leading-relaxed">
           {section.instruction}
         </p>
 
         {/* Code */}
-        <div className="rounded-xl overflow-hidden border border-[#3D3A36]" role="region" aria-label="Program code" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        <div className="rounded-xl overflow-hidden border border-[#3D3A36]" role="region" aria-label="Program code" aria-live="polite" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
           <div className="bg-[#38352F] px-3.5 py-2.5 flex items-center gap-1.5">
             <div className="flex gap-1.5">
               <div className="w-3 h-3 rounded-full bg-[#E85B4A]" />

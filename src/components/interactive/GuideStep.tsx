@@ -230,6 +230,8 @@ export function GuideStep({ section, onComplete }: GuideStepProps) {
               >
                 <button
                   onClick={() => togglePanel(i)}
+                  aria-expanded={expandedPanels.has(i)}
+                  aria-controls={`troubleshoot-panel-${i}`}
                   className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-bg-elevated/50 transition-colors"
                 >
                   <span className="text-[14px] font-medium text-text-primary">
@@ -247,7 +249,7 @@ export function GuideStep({ section, onComplete }: GuideStepProps) {
                   </svg>
                 </button>
                 {expandedPanels.has(i) && (
-                  <div className="px-4 pb-3 border-t border-border/50">
+                  <div id={`troubleshoot-panel-${i}`} className="px-4 pb-3 border-t border-border/50">
                     <p className="text-[14px] text-text-secondary leading-relaxed pt-3 whitespace-pre-line">
                       {renderInlineCode(item.solution)}
                     </p>
