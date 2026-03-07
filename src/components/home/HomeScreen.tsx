@@ -204,7 +204,10 @@ export function HomeScreen() {
                     className="hidden md:flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-bg-elevated/60 border border-border hover:border-purple/30 hover:bg-bg-elevated transition-colors"
                   >
                     <UserAvatar user={user} size="sm" />
-                    <span className="text-xs font-mono text-text-primary">{user.displayName}</span>
+                    <div className="flex flex-col">
+                      <span className="text-xs font-mono text-text-primary leading-tight">{user.displayName}</span>
+                      <span className="text-[10px] font-mono text-text-muted leading-tight">Dashboard</span>
+                    </div>
                   </Link>
                   <div className="hidden md:block relative group">
                     <button
