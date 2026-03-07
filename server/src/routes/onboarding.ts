@@ -13,7 +13,10 @@ export const onboardingRouter = Router();
 onboardingRouter.use(requireAuth);
 
 const generateSchema = z.object({
-  background: z.string().min(10).max(2000),
+  background: z.string().min(10).max(2000).refine((value) => {
+    const withoutUrls = value.replace(/https?:\/\/\S+/gi, '').trim();
+    return withoutUrls.length >= 10;
+  }, 'Please include your role, experience, and goals (a URL alone is not enough)'),
 });
 
 function normalizeProvider(value: unknown): AIProvider {
@@ -36,7 +39,8 @@ onboardingRouter.post(
 
     const parsed = generateSchema.safeParse(req.body);
     if (!parsed.success) {
-      throw new AppError(400, 'Please provide a background description (10-2000 characters)');
+      const message = parsed.error.issues[0]?.message || 'Please provide a background description (10-2000 characters)';
+      throw new AppError(400, message);
     }
 
     const userId = req.user!.userId;

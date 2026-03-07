@@ -110,5 +110,22 @@ describe('POST /api/onboarding/generate provider selection', () => {
       'anthropic',
     );
   });
-});
 
+  it('rejects URL-only background prompts with a clear validation error', async () => {
+    const { db } = await import('../db/index.js');
+    const { generateOnboardingPlan } = await import('../lib/onboardingGenerator.js');
+
+    vi.mocked(db.select)
+      .mockImplementationOnce(() => createQueryChain([{ key: 'ai_onboarding_enabled', value: true }]) as ReturnType<typeof db.select>);
+
+    const app = createApp();
+    const res = await request(app)
+      .post('/api/onboarding/generate')
+      .set('Authorization', 'Bearer token')
+      .send({ background: 'https://www.linkedin.com/in/itayshmool/' });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('Please include your role, experience, and goals (a URL alone is not enough)');
+    expect(vi.mocked(generateOnboardingPlan)).not.toHaveBeenCalled();
+  });
+});

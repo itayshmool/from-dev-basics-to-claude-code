@@ -204,17 +204,39 @@ export async function generateOnboardingPlan(
     throw new Error('Rate limit exceeded. Max 3 plans per hour.');
   }
 
-  const ai = await generateJsonWithProvider({
-    provider,
-    systemPrompt: SYSTEM_PROMPT,
-    userPrompt: userBackground,
-    maxTokens: 2048,
-    anthropicModel: 'claude-sonnet-4-20250514',
-    geminiModel: 'gemini-2.5-flash',
-  });
+  async function requestPlan(userPrompt: string) {
+    return generateJsonWithProvider({
+      provider,
+      systemPrompt: SYSTEM_PROMPT,
+      userPrompt,
+      maxTokens: 2048,
+      anthropicModel: 'claude-sonnet-4-20250514',
+      geminiModel: 'gemini-2.5-flash',
+    });
+  }
 
-  const parsed = parseJsonFromModelText(ai.text);
-  const validated = planResponseSchema.parse(parsed);
+  function parseAndValidatePlan(rawText: string): OnboardingPlan {
+    const parsed = parseJsonFromModelText(rawText);
+    return planResponseSchema.parse(parsed);
+  }
+
+  let ai = await requestPlan(userBackground);
+  let validated: OnboardingPlan;
+
+  try {
+    validated = parseAndValidatePlan(ai.text);
+  } catch {
+    const retryPrompt = `${userBackground}
+
+IMPORTANT:
+- Return ONLY valid JSON
+- No markdown fences
+- Include all 9 levelNotes (0,1,2,3,4,45,5,6,7)
+- recommendedLessons must contain 15-40 lesson IDs`;
+
+    ai = await requestPlan(retryPrompt);
+    validated = parseAndValidatePlan(ai.text);
+  }
 
   return {
     plan: validated,
