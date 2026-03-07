@@ -62,6 +62,15 @@ vi.mock('../lib/paletteGenerator.js', () => ({
   }),
 }));
 
+vi.mock('../lib/aiClient.js', () => ({
+  generateJsonWithProvider: vi.fn().mockResolvedValue({
+    text: '{"ok":true}',
+    inputTokens: 1,
+    outputTokens: 1,
+    model: 'claude-sonnet-4-20250514',
+  }),
+}));
+
 const { adminRouter } = await import('./admin.js');
 const express = (await import('express')).default;
 const request = (await import('supertest')).default;

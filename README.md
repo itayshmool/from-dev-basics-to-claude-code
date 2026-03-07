@@ -19,7 +19,7 @@ From Zero to Claude Code takes beginners through a structured curriculum of 102 
 
 ### For Admins
 - **Admin dashboard** (`/admin`) — student management, level/lesson CRUD, lesson editor with live preview
-- **AI onboarding management** (`/admin/onboarding`) — toggle AI plan generation on/off, monitor usage (generations, tokens, unique users)
+- **AI onboarding management** (`/admin/onboarding`) — toggle AI plan generation on/off, choose AI provider (Anthropic or Gemini), run provider API connectivity tests before enabling, and monitor usage split by provider
 - **Theme editor** — runtime CSS variable overrides persisted via API, applied globally to all users
 - **Content validator** — structural checks across all 102 lessons
 - **Analytics** — completion funnels, drop-off analysis, weekly trends
@@ -137,7 +137,7 @@ src/
       AdminThemeEditor.tsx         # Live theme editor with API persistence
       AdminContentValidator.tsx    # Lesson structure validator
       AdminAnalytics.tsx           # Engagement analytics
-      AdminOnboardingStats.tsx     # AI onboarding toggle + usage stats
+      AdminOnboardingStats.tsx     # AI onboarding: toggle, provider switch, connectivity tests, usage stats
     ui/
       AchievementToast.tsx         # Floating achievement notification
     lesson/
@@ -161,7 +161,9 @@ server/
     middleware/                    # Auth + error handling
     lib/
       achievements.ts              # Achievement registry (16 achievements)
-      onboardingGenerator.ts       # AI plan generation via Anthropic API
+      aiClient.ts                  # Shared AI provider client (Anthropic + Gemini)
+      onboardingGenerator.ts       # AI plan generation via configured provider
+      paletteGenerator.ts          # AI palette generation via configured provider
     routes/
       onboarding.ts                # AI onboarding API routes
   drizzle/                         # Migration SQL files
@@ -172,6 +174,7 @@ specs/
   DEPLOYMENT_SPEC.md               # Deployment architecture
   ADMIN_DASHBOARD_SPEC.md          # Admin dashboard expansion spec
   USER_DASHBOARD_SPEC.md           # User dashboard spec (4 phases)
+  AI_PROVIDER_ADMIN_TEST_SPEC.md   # AI provider switch + admin preflight test spec
   LEVEL_0_SPEC.md - LEVEL_7_SPEC.md
 ```
 
@@ -197,5 +200,6 @@ npm run db:seed      # Seed levels, lessons, admin user
 
 - **Frontend:** Push to `main` → GitHub Actions builds and deploys to GitHub Pages
 - **Backend:** Push to `main` → Render auto-builds, runs migrations, restarts
+- **AI provider env vars:** backend supports `ANTHROPIC_API_KEY` and `GEMINI_API_KEY`; active provider is selected from admin settings
 
 See `specs/DEPLOYMENT_SPEC.md` for full deployment architecture.

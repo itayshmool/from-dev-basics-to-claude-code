@@ -1,6 +1,5 @@
-import Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
-import { env } from './env.js';
+import { generateJsonWithProvider, type AIProvider } from './aiClient.js';
 
 const paletteResponseSchema = z.object({
   name: z.string().min(1).max(100),
@@ -61,36 +60,34 @@ function checkRateLimit(userId: string): boolean {
 export async function generatePalette(
   hint?: string,
   userId?: string,
-): Promise<{ name: string; dark: Record<string, string>; light: Record<string, string> }> {
-  if (!env.ANTHROPIC_API_KEY) {
-    throw new Error('ANTHROPIC_API_KEY not configured');
-  }
+  provider: AIProvider = 'anthropic',
+): Promise<{ name: string; dark: Record<string, string>; light: Record<string, string>; inputTokens: number; outputTokens: number; model: string }> {
 
   if (userId && !checkRateLimit(userId)) {
     throw new Error('Rate limit exceeded. Max 10 generations per hour.');
   }
 
-  const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
-
   const userMessage = hint
     ? `Generate a color palette inspired by: "${hint}"`
     : 'Generate a unique, creative color palette with a distinctive mood.';
 
-  const response = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1024,
-    system: SYSTEM_PROMPT,
-    messages: [{ role: 'user', content: userMessage }],
+  const ai = await generateJsonWithProvider({
+    provider,
+    systemPrompt: SYSTEM_PROMPT,
+    userPrompt: userMessage,
+    maxTokens: 1024,
+    anthropicModel: 'claude-sonnet-4-20250514',
+    geminiModel: 'gemini-2.5-flash',
   });
 
-  const text = response.content
-    .filter((block): block is Anthropic.TextBlock => block.type === 'text')
-    .map((block) => block.text)
-    .join('');
-
   // Parse and validate
-  const parsed = JSON.parse(text);
+  const parsed = JSON.parse(ai.text);
   const validated = paletteResponseSchema.parse(parsed);
 
-  return validated;
+  return {
+    ...validated,
+    inputTokens: ai.inputTokens,
+    outputTokens: ai.outputTokens,
+    model: ai.model,
+  };
 }

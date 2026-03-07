@@ -1,6 +1,5 @@
-import Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
-import { env } from './env.js';
+import { generateJsonWithProvider, type AIProvider } from './aiClient.js';
 
 const planResponseSchema = z.object({
   summary: z.string().min(1),
@@ -199,37 +198,28 @@ Return ONLY valid JSON, no markdown fences or extra text:
 export async function generateOnboardingPlan(
   userBackground: string,
   userId: string,
+  provider: AIProvider = 'anthropic',
 ): Promise<{ plan: OnboardingPlan; inputTokens: number; outputTokens: number; model: string }> {
-  if (!env.ANTHROPIC_API_KEY) {
-    throw new Error('ANTHROPIC_API_KEY not configured');
-  }
-
   if (!checkRateLimit(userId)) {
     throw new Error('Rate limit exceeded. Max 3 plans per hour.');
   }
 
-  const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
-  const model = 'claude-sonnet-4-20250514';
-
-  const response = await client.messages.create({
-    model,
-    max_tokens: 2048,
-    system: SYSTEM_PROMPT,
-    messages: [{ role: 'user', content: userBackground }],
+  const ai = await generateJsonWithProvider({
+    provider,
+    systemPrompt: SYSTEM_PROMPT,
+    userPrompt: userBackground,
+    maxTokens: 2048,
+    anthropicModel: 'claude-sonnet-4-20250514',
+    geminiModel: 'gemini-2.5-flash',
   });
 
-  const text = response.content
-    .filter((block): block is Anthropic.TextBlock => block.type === 'text')
-    .map((block) => block.text)
-    .join('');
-
-  const parsed = JSON.parse(text);
+  const parsed = JSON.parse(ai.text);
   const validated = planResponseSchema.parse(parsed);
 
   return {
     plan: validated,
-    inputTokens: response.usage.input_tokens,
-    outputTokens: response.usage.output_tokens,
-    model,
+    inputTokens: ai.inputTokens,
+    outputTokens: ai.outputTokens,
+    model: ai.model,
   };
 }

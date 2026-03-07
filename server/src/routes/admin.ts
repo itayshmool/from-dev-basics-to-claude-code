@@ -7,10 +7,20 @@ import { requireAuth, requireAdmin } from '../middleware/auth.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { signAccessToken } from '../lib/jwt.js';
 import { generatePalette } from '../lib/paletteGenerator.js';
+import type { AIProvider } from '../lib/aiClient.js';
+import { generateJsonWithProvider } from '../lib/aiClient.js';
 
 export const adminRouter = Router();
 
 adminRouter.use(requireAuth, requireAdmin);
+
+function normalizeProvider(value: unknown): AIProvider {
+  return value === 'gemini' ? 'gemini' : 'anthropic';
+}
+
+const testProviderSchema = z.object({
+  provider: z.enum(['anthropic', 'gemini']).optional(),
+});
 
 // GET /api/admin/stats
 adminRouter.get('/stats', async (_req, res) => {
@@ -436,15 +446,57 @@ adminRouter.put('/palettes/:id/default', asyncHandler(async (req, res) => {
 // POST /api/admin/palettes/generate — AI palette generation
 adminRouter.post('/palettes/generate', asyncHandler(async (req, res) => {
   const { hint } = req.body as { hint?: string };
+  const [providerSetting] = await db.select().from(siteSettings)
+    .where(eq(siteSettings.key, 'ai_provider'));
+  const provider = normalizeProvider(providerSetting?.value);
 
   try {
-    const result = await generatePalette(hint, req.user!.userId);
+    const result = await generatePalette(hint, req.user!.userId, provider);
     res.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Generation failed';
     if (message.includes('Rate limit')) throw new AppError(429, message);
     if (message.includes('not configured')) throw new AppError(503, message);
     throw new AppError(500, `AI generation failed: ${message}`);
+  }
+}));
+
+// POST /api/admin/onboarding/test-provider — test AI provider connectivity
+adminRouter.post('/onboarding/test-provider', asyncHandler(async (req, res) => {
+  const parsed = testProviderSchema.safeParse(req.body);
+  if (!parsed.success) throw new AppError(400, 'Invalid provider');
+
+  let provider = parsed.data.provider;
+  if (!provider) {
+    const [providerSetting] = await db.select().from(siteSettings)
+      .where(eq(siteSettings.key, 'ai_provider'));
+    provider = normalizeProvider(providerSetting?.value);
+  }
+
+  const startedAt = Date.now();
+  try {
+    const result = await generateJsonWithProvider({
+      provider,
+      systemPrompt: 'Return only JSON. No markdown fences.',
+      userPrompt: 'Return: {"ok":true,"provider":"test"}',
+      maxTokens: 120,
+      anthropicModel: 'claude-sonnet-4-20250514',
+      geminiModel: 'gemini-2.5-flash',
+    });
+
+    res.json({
+      ok: true,
+      provider,
+      model: result.model,
+      latencyMs: Date.now() - startedAt,
+      inputTokens: result.inputTokens,
+      outputTokens: result.outputTokens,
+      textPreview: result.text.slice(0, 160),
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Provider test failed';
+    if (message.includes('not configured')) throw new AppError(503, message);
+    throw new AppError(502, `Provider test failed: ${message}`);
   }
 }));
 
@@ -509,6 +561,12 @@ adminRouter.get('/onboarding/stats', asyncHandler(async (_req, res) => {
     output: sql<number>`coalesce(sum(${aiOnboardingLog.outputTokens}), 0)::int`,
   }).from(aiOnboardingLog);
 
+  const tokenRows = await db.select({
+    model: aiOnboardingLog.model,
+    inputTokens: aiOnboardingLog.inputTokens,
+    outputTokens: aiOnboardingLog.outputTokens,
+  }).from(aiOnboardingLog);
+
   const [uniqueUsers] = await db.select({
     count: sql<number>`count(distinct ${aiOnboardingLog.userId})::int`,
   }).from(aiOnboardingLog);
@@ -532,14 +590,30 @@ adminRouter.get('/onboarding/stats', asyncHandler(async (_req, res) => {
   // Check current enabled state
   const [setting] = await db.select().from(siteSettings)
     .where(eq(siteSettings.key, 'ai_onboarding_enabled'));
+  const [providerSetting] = await db.select().from(siteSettings)
+    .where(eq(siteSettings.key, 'ai_provider'));
+
+  const usageByProvider: Record<AIProvider, { generations: number; inputTokens: number; outputTokens: number }> = {
+    anthropic: { generations: 0, inputTokens: 0, outputTokens: 0 },
+    gemini: { generations: 0, inputTokens: 0, outputTokens: 0 },
+  };
+
+  for (const row of tokenRows) {
+    const provider: AIProvider = row.model.startsWith('gemini') ? 'gemini' : 'anthropic';
+    usageByProvider[provider].generations += 1;
+    usageByProvider[provider].inputTokens += row.inputTokens;
+    usageByProvider[provider].outputTokens += row.outputTokens;
+  }
 
   res.json({
     enabled: setting?.value === true,
+    provider: normalizeProvider(providerSetting?.value),
     totalGenerations: totalGenerations.count,
     uniqueUsers: uniqueUsers.count,
     activePlans: plansActive.count,
     totalInputTokens: totalTokens.input,
     totalOutputTokens: totalTokens.output,
+    usageByProvider,
     recentLogs,
   });
 }));

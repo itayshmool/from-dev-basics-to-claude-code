@@ -6,6 +6,7 @@ import { aiOnboardingPlans, aiOnboardingLog, siteSettings } from '../db/schema.j
 import { requireAuth } from '../middleware/auth.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { generateOnboardingPlan } from '../lib/onboardingGenerator.js';
+import type { AIProvider } from '../lib/aiClient.js';
 
 export const onboardingRouter = Router();
 
@@ -14,6 +15,10 @@ onboardingRouter.use(requireAuth);
 const generateSchema = z.object({
   background: z.string().min(10).max(2000),
 });
+
+function normalizeProvider(value: unknown): AIProvider {
+  return value === 'gemini' ? 'gemini' : 'anthropic';
+}
 
 // POST /api/onboarding/generate — generate a personalized plan
 onboardingRouter.post(
@@ -35,11 +40,17 @@ onboardingRouter.post(
     }
 
     const userId = req.user!.userId;
+    const [providerSetting] = await db
+      .select()
+      .from(siteSettings)
+      .where(eq(siteSettings.key, 'ai_provider'));
+    const provider = normalizeProvider(providerSetting?.value);
 
     try {
       const { plan, inputTokens, outputTokens, model } = await generateOnboardingPlan(
         parsed.data.background,
         userId,
+        provider,
       );
 
       // Upsert plan (one per user)

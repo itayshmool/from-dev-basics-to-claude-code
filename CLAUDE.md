@@ -17,14 +17,14 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 - **Terminal infrastructure**: Virtual filesystem (VFS), command parser, Terminal UI, FileExplorer sidebar, CommandReferenceBar
 - **Backend**: Express API, PostgreSQL, JWT auth, progress tracking, admin CRUD
 - **Auth**: Student login/register, dedicated admin login at `/admin/login`
-- **Admin dashboard**: Stats, student list, level/lesson management, lesson editor, theme editor, palette manager, content validator, analytics, AI onboarding toggle + usage stats
+- **Admin dashboard**: Stats, student list, level/lesson management, lesson editor, theme editor, palette manager, content validator, analytics, AI onboarding toggle + provider selection + usage stats
 - **User dashboard** (`/dashboard`): Overview with smart continue, progress stats & streaks, 16 achievements with toast notifications, profile management (image upload, email, display name), password change, personalized learning plan view
-- **AI onboarding** (`/onboarding/ai`): AI-powered personalized learning plan — user describes background, Claude Sonnet generates a plan highlighting priority levels and recommended lessons. Plan saved to DB, shown in dashboard, and surfaces "Recommended" badges on home screen. First-login modal prompts users to try it. Admin can toggle on/off at `/admin/onboarding` with usage tracking (generations, tokens, unique users)
+- **AI onboarding** (`/onboarding/ai`): AI-powered personalized learning plan — user describes background, selected provider (Anthropic or Gemini) generates a plan highlighting priority levels and recommended lessons. Plan saved to DB, shown in dashboard, and surfaces "Recommended" badges on home screen. First-login modal prompts users to try it. Admin can toggle on/off, select provider, test provider connectivity, and monitor usage at `/admin/onboarding`
 - **Collapsible dashboard sidebar**: Desktop arrow-toggle between full and icon-only mode (persisted to localStorage); mobile hamburger menu with slide-out drawer
 - **Collapsible home screen modules**: Level cards collapsed by default showing only header + progress; click to expand lessons; auto-expands current lesson's level
 - **Profile image upload**: Client-side resize to 200x200, stored as base64 in PostgreSQL; camera overlay on avatar hover, remove button
 - **Achievement system**: 16 achievements (milestones, level mastery, streaks, speed) computed server-side, toast notifications on unlock
-- **Color palette system**: Multiple palettes (DB-backed), user palette picker, admin palette CRUD at `/admin/palettes`, AI palette generation via Anthropic API
+- **Color palette system**: Multiple palettes (DB-backed), user palette picker, admin palette CRUD at `/admin/palettes`, AI palette generation via selected provider (Anthropic or Gemini)
 - **Theme system**: Admin theme editor with runtime CSS variable overrides persisted via `site_settings` table, applied globally on page load. Priority: CSS defaults → user palette → admin overrides
 - **Mobile-responsive home screen**: Hamburger menu with dropdown (Dashboard + Logout) on mobile; icon-only controls; tighter layout for small screens
 - **Dual-mode frontend**: Works with API (progress synced to DB) or without (localStorage fallback)
@@ -62,15 +62,16 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 - `server/src/index.ts` — Express entry point
 - `server/src/db/schema.ts` — Drizzle table definitions (levels, lessons, users with email/profileImage/paletteId, progress, site_settings, palettes, ai_onboarding_plans, ai_onboarding_log)
 - `server/src/routes/auth.ts` — auth endpoints including profile image upload (base64), email update, palette selection
-- `server/src/routes/admin.ts` — admin CRUD for levels, lessons, settings, palettes (including AI generation), onboarding stats
-- `server/src/lib/paletteGenerator.ts` — AI palette generation via Anthropic API with rate limiting
+- `server/src/routes/admin.ts` — admin CRUD for levels, lessons, settings, palettes (including AI generation), onboarding stats, provider API test endpoint
+- `server/src/lib/aiClient.ts` — shared provider interface for Anthropic/Gemini calls + usage normalization
+- `server/src/lib/paletteGenerator.ts` — AI palette generation via selected provider with rate limiting
 - `src/components/admin/AdminPaletteManager.tsx` — admin palette list + editor + AI generate UI
 - `src/components/home/HomeScreen.tsx` — home page with collapsible levels, mobile hamburger menu, AI onboarding CTA + first-login modal
 - `src/hooks/useOnboardingPlan.ts` — shared hook for fetching user's AI onboarding plan + enabled state
 - `src/components/onboarding/AIOnboarding.tsx` — full-page AI onboarding UI (standalone, not inside DashboardLayout)
 - `src/components/dashboard/DashboardPlan.tsx` — dashboard plan view sorted by priority with lesson links
 - `src/components/admin/AdminOnboardingStats.tsx` — admin AI onboarding toggle + usage stats
-- `server/src/lib/onboardingGenerator.ts` — AI plan generation via Anthropic API with rate limiting (3/hour per user)
+- `server/src/lib/onboardingGenerator.ts` — AI plan generation via selected provider with rate limiting (3/hour per user)
 - `server/src/routes/onboarding.ts` — API routes: generate plan, get plan, check enabled
 - `server/src/db/seed.ts` — seeds DB from lesson JSONs
 - `server/src/lib/achievements.ts` — achievement registry (16 achievements)
@@ -97,21 +98,23 @@ npm run db:seed     # Seed database
 - **Frontend:** Push to `main` → Render auto-builds static site, serves via CDN
 - **Backend:** Push to `main` → Render auto-builds, migrates, seeds, restarts
 - Frontend env vars set on Render static site: `VITE_USE_API=true`, `VITE_API_URL`, `VITE_TURNSTILE_SITE_KEY`
-- Backend env vars on Render: `DATABASE_URL`, `JWT_SECRET`, `JWT_REFRESH_SECRET`, `ADMIN_PASSWORD`, `ANTHROPIC_API_KEY`, `GITHUB_PAT`
+- Backend env vars on Render: `DATABASE_URL`, `JWT_SECRET`, `JWT_REFRESH_SECRET`, `ADMIN_PASSWORD`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `GITHUB_PAT`
 - SPA routing: Render rewrite rule `/* → /index.html`
 - See `specs/DEPLOYMENT_SPEC.md` for full details
 
 ## Important Notes
 - The `--color-purple` CSS variable is actually electric orange (#FF6B35), not purple. This naming was kept from the original theme to avoid renaming every class reference. All `bg-purple`, `text-purple` etc. render as orange.
 - Terminal/code blocks use hardcoded warm dark colors (#2D2B28 background, #38352F titlebar, #F0ECE4 text, #6ABF69 prompt green, #D4A843 highlight gold) — not theme tokens.
-- The app defaults to dark theme but supports light mode via user toggle. The `--font-mono` (Monaco) is used as the identity font for headings, labels, and code. `--font-sans` (system SF Pro) is used for body text.
+- The app defaults to dark theme; light/dark toggle is hidden for users. The `--font-mono` (Monaco) is used as the identity font for headings, labels, and code. `--font-sans` (system SF Pro) is used for body text.
 - Palettes define 14 CSS tokens (4 backgrounds, 3 text, 5 accents, 2 borders) for both dark and light modes. Users select a palette; admins can create/edit/delete palettes and generate new ones via AI.
 - Render free tier: service sleeps after 15min inactivity, ~30s cold start. Free Postgres expires after 30 days.
 - Auth cookies use `sameSite: 'none'` for cross-origin (Render static site → Render API, different subdomains).
 - Repo is private. Bug reports create GitHub Issues via server-side `GITHUB_PAT` (unaffected by repo visibility).
 - Profile images are stored as base64 data URIs in the `profile_image` text column (users table). Client resizes to 200x200 before upload. Express body limit is 5mb.
 - Dashboard sidebar state (collapsed/expanded) is persisted to `localStorage` key `dashboard-sidebar-collapsed`.
-- AI palette generation uses `@anthropic-ai/sdk` with Claude Sonnet. Rate limited to 10 generations/hour per admin (in-memory). Requires `ANTHROPIC_API_KEY` env var.
-- AI onboarding plan generation uses `@anthropic-ai/sdk` with Claude Sonnet (`claude-sonnet-4-20250514`). Rate limited to 3 generations/hour per user (in-memory). System prompt embeds the full curriculum (all 102 lessons). Plan stored in `ai_onboarding_plans` (one per user, upserted), generation log in `ai_onboarding_log`. Admin toggle via `site_settings` key `ai_onboarding_enabled`.
+- AI palette generation and onboarding generation use a shared provider interface supporting `anthropic` and `gemini`. Anthropic uses `claude-sonnet-4-20250514`; Gemini uses `gemini-2.5-flash`.
+- Rate limits remain in-memory: palettes 10 generations/hour per admin; onboarding 3 generations/hour per user.
+- Onboarding plans are stored in `ai_onboarding_plans` (one per user, upserted), generation logs in `ai_onboarding_log`; admin usage endpoint now includes totals and provider-split usage (`usageByProvider`).
+- Admin onboarding page includes provider test actions that call `POST /api/admin/onboarding/test-provider` before enabling for users.
 - First-login AI onboarding modal uses `localStorage` key `ai-onboarding-modal-dismissed` to show once per user.
 - Backend async route handlers must use `asyncHandler` wrapper (Express 4 doesn't catch async throws). All auth, palette, and onboarding routes are wrapped.
