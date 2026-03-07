@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { generateJsonWithProvider, type AIProvider } from './aiClient.js';
+import { generateJsonWithProvider, parseJsonFromModelText, type AIProvider } from './aiClient.js';
 
 const planResponseSchema = z.object({
   summary: z.string().min(1),
@@ -213,7 +213,7 @@ export async function generateOnboardingPlan(
     geminiModel: 'gemini-2.5-flash',
   });
 
-  const parsed = JSON.parse(ai.text);
+  const parsed = parseJsonFromModelText(ai.text);
   const validated = planResponseSchema.parse(parsed);
 
   return {

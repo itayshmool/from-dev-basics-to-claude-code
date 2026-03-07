@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { generateJsonWithProvider, type AIProvider } from './aiClient.js';
+import { generateJsonWithProvider, parseJsonFromModelText, type AIProvider } from './aiClient.js';
 
 const paletteResponseSchema = z.object({
   name: z.string().min(1).max(100),
@@ -81,7 +81,7 @@ export async function generatePalette(
   });
 
   // Parse and validate
-  const parsed = JSON.parse(ai.text);
+  const parsed = parseJsonFromModelText(ai.text);
   const validated = paletteResponseSchema.parse(parsed);
 
   return {

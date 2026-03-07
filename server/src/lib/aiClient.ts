@@ -19,6 +19,72 @@ interface AIJsonResponse {
   model: string;
 }
 
+function findBalancedJsonObject(input: string): string | null {
+  const start = input.indexOf('{');
+  if (start === -1) return null;
+
+  let depth = 0;
+  let inString = false;
+  let escapeNext = false;
+
+  for (let i = start; i < input.length; i += 1) {
+    const ch = input[i];
+
+    if (escapeNext) {
+      escapeNext = false;
+      continue;
+    }
+
+    if (ch === '\\' && inString) {
+      escapeNext = true;
+      continue;
+    }
+
+    if (ch === '"') {
+      inString = !inString;
+      continue;
+    }
+
+    if (inString) continue;
+
+    if (ch === '{') depth += 1;
+    if (ch === '}') depth -= 1;
+
+    if (depth === 0) {
+      return input.slice(start, i + 1);
+    }
+  }
+
+  return null;
+}
+
+export function parseJsonFromModelText(rawText: string): unknown {
+  const text = rawText.trim();
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    // fall through to recovery strategies
+  }
+
+  const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  if (fenceMatch) {
+    const fenced = fenceMatch[1].trim();
+    try {
+      return JSON.parse(fenced);
+    } catch {
+      // fall through
+    }
+  }
+
+  const objectSlice = findBalancedJsonObject(text);
+  if (objectSlice) {
+    return JSON.parse(objectSlice);
+  }
+
+  throw new Error('Model response did not contain valid JSON');
+}
+
 function getGeminiText(response: any): string {
   const parts = response?.candidates?.[0]?.content?.parts;
   if (!Array.isArray(parts)) return '';
@@ -82,4 +148,3 @@ export async function generateJsonWithProvider(req: AIJsonRequest): Promise<AIJs
     model: req.geminiModel,
   };
 }
-
