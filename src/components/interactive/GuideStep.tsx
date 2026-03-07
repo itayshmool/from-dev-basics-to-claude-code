@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type { GuideStepSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 import { CodeBlock } from './CodeBlock';
@@ -31,6 +31,8 @@ export function GuideStep({ section, onComplete }: GuideStepProps) {
   const [showTroubleshooting, setShowTroubleshooting] = useState(false);
   const [expandedPanels, setExpandedPanels] = useState<Set<number>>(new Set());
   const [checkedItems, setCheckedItems] = useState<Set<number>>(new Set());
+  const [focusedCheckIndex, setFocusedCheckIndex] = useState(0);
+  const checkRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     try {
@@ -163,14 +165,36 @@ export function GuideStep({ section, onComplete }: GuideStepProps) {
 
         {/* Checklist items (for checklist confirmation type) */}
         {section.confirmationType === 'checklist' && section.checklistItems && (
-          <div className="space-y-2">
+          <div className="space-y-2" role="group" aria-label="Verification checklist">
             {section.checklistItems.map((item, i) => (
               <button
                 key={i}
+                ref={(el) => { checkRefs.current[i] = el; }}
+                role="checkbox"
+                aria-checked={checkedItems.has(i)}
+                tabIndex={i === focusedCheckIndex ? 0 : -1}
                 onClick={() => toggleCheck(i)}
+                onKeyDown={(e) => {
+                  const count = section.checklistItems!.length;
+                  if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const next = (i + 1) % count;
+                    setFocusedCheckIndex(next);
+                    checkRefs.current[next]?.focus();
+                  } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const next = (i - 1 + count) % count;
+                    setFocusedCheckIndex(next);
+                    checkRefs.current[next]?.focus();
+                  } else if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    toggleCheck(i);
+                  }
+                }}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-bg-card border border-border hover:border-border-strong transition-all text-left"
               >
                 <span
+                  aria-hidden="true"
                   className={`w-5 h-5 rounded flex-shrink-0 flex items-center justify-center transition-all ${
                     checkedItems.has(i)
                       ? 'bg-purple border-purple'

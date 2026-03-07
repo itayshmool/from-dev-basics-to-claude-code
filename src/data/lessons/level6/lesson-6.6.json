@@ -44,6 +44,13 @@
         "Green lines (+) = added code, red lines (-) = removed code",
         "Claude edits surgically — it changes only what's needed"
       ]
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To see exactly what lines Claude changed before committing, run git ___.",
+      "answer": "diff",
+      "acceptAlternates": ["diff --staged"],
+      "hintDetail": "This git command shows added lines in green (+) and removed lines in red (-)."
     }
   ],
   "completionMessage": "You've learned to use Claude Code for targeted edits to existing code. Now let's think bigger — building an entire project from a single description.",

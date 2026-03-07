@@ -44,6 +44,18 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "What does the -y flag do in npm init -y?",
+      "options": [
+        "Skips all questions and uses defaults",
+        "Installs the latest version of npm",
+        "Creates a yarn.lock file",
+        "Yes, deletes existing files"
+      ],
+      "correctIndex": 0,
+      "explanation": "The -y flag means 'yes to all defaults' — it creates package.json immediately without asking you any questions."
+    },
+    {
       "type": "guideStep",
       "instruction": "Let's look at what npm created. The `package.json` file is the heart of every Node.js project — it describes your project and tracks its dependencies.",
       "codeBlocks": [

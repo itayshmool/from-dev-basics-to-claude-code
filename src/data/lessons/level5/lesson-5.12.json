@@ -35,6 +35,18 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "What's the difference between res.send() and res.json()?",
+      "options": [
+        "res.send() returns plain text, res.json() returns structured JSON data",
+        "res.send() is faster than res.json()",
+        "res.json() only works with arrays",
+        "There is no difference"
+      ],
+      "correctIndex": 0,
+      "explanation": "res.send() sends plain text, while res.json() converts a JavaScript object to JSON format and sets the proper Content-Type headers automatically."
+    },
+    {
       "type": "guideStep",
       "instruction": "Stop your server with **Ctrl+C** and restart it, then visit the new route in your browser.\n\nYou should see JSON data with the current time and date — not plain text, but structured data with curly braces and key-value pairs.",
       "codeBlocks": [

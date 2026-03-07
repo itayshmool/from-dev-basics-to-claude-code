@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import type { ChecklistSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
@@ -22,6 +22,8 @@ export function Checklist({ section, onComplete }: ChecklistProps) {
   const [checkedItems, setCheckedItems] = useState<Set<number>>(new Set());
   const [expandedHints, setExpandedHints] = useState<Set<number>>(new Set());
   const [showCelebration, setShowCelebration] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(0);
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const allChecked = checkedItems.size === section.items.length;
 
@@ -52,6 +54,24 @@ export function Checklist({ section, onComplete }: ChecklistProps) {
     });
   }, []);
 
+  function handleItemKeyDown(e: React.KeyboardEvent, index: number) {
+    const count = section.items.length;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = (index + 1) % count;
+      setFocusedIndex(next);
+      itemRefs.current[next]?.focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const next = (index - 1 + count) % count;
+      setFocusedIndex(next);
+      itemRefs.current[next]?.focus();
+    } else if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      toggleCheck(index);
+    }
+  }
+
   return (
     <LessonStep cta={{ label: 'Continue', onClick: onComplete, disabled: !allChecked }}>
       {showCelebration && (
@@ -59,12 +79,12 @@ export function Checklist({ section, onComplete }: ChecklistProps) {
       )}
       <div className="space-y-5">
         {/* Instruction */}
-        <p className="text-[17px] leading-relaxed text-text-secondary whitespace-pre-line">
+        <p id="checklist-instruction" className="text-[17px] leading-relaxed text-text-secondary whitespace-pre-line">
           {renderInlineCode(section.instruction)}
         </p>
 
         {/* Checklist items */}
-        <div className="space-y-2">
+        <div className="space-y-2" role="group" aria-labelledby="checklist-instruction">
           {section.items.map((item, i) => {
             const isChecked = checkedItems.has(i);
             const hasHint = !!item.hint;
@@ -80,13 +100,17 @@ export function Checklist({ section, onComplete }: ChecklistProps) {
                 }`}
               >
                 <button
+                  ref={(el) => { itemRefs.current[i] = el; }}
+                  role="checkbox"
+                  aria-checked={isChecked}
+                  tabIndex={i === focusedIndex ? 0 : -1}
                   onClick={(e) => { e.stopPropagation(); toggleCheck(i); }}
+                  onKeyDown={(e) => handleItemKeyDown(e, i)}
                   className="w-full flex items-start gap-3 px-4 py-3.5 text-left"
                 >
-                  {/* Custom checkbox */}
+                  {/* Custom checkbox visual */}
                   <span
-                    role="checkbox"
-                    aria-checked={isChecked}
+                    aria-hidden="true"
                     className={`w-5 h-5 rounded flex-shrink-0 flex items-center justify-center mt-0.5 transition-all ${
                       isChecked
                         ? 'bg-purple border-2 border-purple'

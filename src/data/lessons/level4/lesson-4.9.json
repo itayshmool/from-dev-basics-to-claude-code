@@ -62,6 +62,14 @@
       "type": "narrative",
       "content": "These four commands — SELECT, INSERT, UPDATE, DELETE — are often called **CRUD** operations (Create, Read, Update, Delete). They cover the vast majority of what apps do with databases.\n\nEvery time you sign up for a service, that's an INSERT. Every time you scroll your feed, that's a SELECT. Every time you edit your profile, that's an UPDATE. And when you delete your account, well, that's a DELETE.",
       "tip": "You don't need to write SQL from scratch. Claude Code can generate SQL queries for you — just describe what data you want in plain English, and it will write the query."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "The four main SQL operations — Create, Read, Update, Delete — are commonly known by the acronym ___.",
+      "answer": "CRUD",
+      "acceptAlternates": ["crud"],
+      "caseSensitive": false,
+      "hintDetail": "It stands for the first letter of each operation: Create, Read, Update, Delete."
     }
   ],
   "completionMessage": "You've learned SQL, the language for talking to databases. With just four commands — SELECT, INSERT, UPDATE, DELETE — you can do almost anything with stored data. Next, we'll zoom out and look at how frontend and backend work together.",

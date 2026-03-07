@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { StepThroughSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
@@ -35,6 +35,34 @@ export function StepThrough({ section, onComplete }: StepThroughProps) {
     }
   }
 
+  // Keyboard navigation: arrow keys for prev/next
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    const tag = (e.target as HTMLElement)?.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (currentStep > 0) {
+        setCurrentStep(prev => prev - 1);
+      }
+    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (currentStep < totalSteps - 1) {
+        const nextStep = currentStep + 1;
+        setCurrentStep(nextStep);
+        if (nextStep === totalSteps - 1 && maxReached < totalSteps - 1) {
+          setShowCelebration(true);
+        }
+        setMaxReached(prev => Math.max(prev, nextStep));
+      }
+    }
+  }, [currentStep, totalSteps, maxReached]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
+
   const cta = hasReachedEnd
     ? { label: 'Continue', onClick: onComplete }
     : undefined;
@@ -44,15 +72,15 @@ export function StepThrough({ section, onComplete }: StepThroughProps) {
       {showCelebration && (
         <CelebrationOverlay message="All steps complete!" onDone={() => setShowCelebration(false)} />
       )}
-      <div className="space-y-5">
+      <div className="space-y-5" role="region" aria-labelledby="stepthrough-instruction" aria-roledescription="step-by-step guide">
         {/* Instruction */}
-        <h3 className="text-xl font-bold text-text-primary leading-snug">
+        <h3 id="stepthrough-instruction" className="text-xl font-bold text-text-primary leading-snug">
           {section.instruction}
         </h3>
 
         {/* Step counter */}
         <div className="flex items-center justify-between">
-          <span className="text-[14px] text-text-secondary font-medium">
+          <span className="text-[14px] text-text-secondary font-medium" aria-live="polite">
             Step {currentStep + 1} of {totalSteps}
           </span>
 
@@ -63,6 +91,7 @@ export function StepThrough({ section, onComplete }: StepThroughProps) {
                 key={i}
                 onClick={() => i <= maxReached && setCurrentStep(i)}
                 disabled={i > maxReached}
+                aria-label={`Go to step ${i + 1}${i === currentStep ? ' (current)' : ''}`}
                 className={`
                   w-2 h-2 rounded-full transition-all
                   ${i === currentStep

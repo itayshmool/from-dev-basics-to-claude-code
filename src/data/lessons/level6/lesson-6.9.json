@@ -25,6 +25,18 @@
     {
       "type": "narrative",
       "tip": "Each prompt builds on the last. Claude remembers the full conversation and knows the complete context of your project. You don't need to re-explain what you've already built — just describe what you want to change or add next."
+    },
+    {
+      "type": "quiz",
+      "question": "Why is it better to use multiple small prompts instead of one giant prompt?",
+      "options": [
+        "Each prompt builds incrementally, making it easier to review and correct",
+        "Claude has a strict word limit per prompt",
+        "Smaller prompts cost less money",
+        "Claude forgets context between prompts anyway"
+      ],
+      "correctIndex": 0,
+      "explanation": "Small, focused prompts let you review each change before moving on. If something goes wrong, you only need to fix one small piece. Claude remembers the full conversation, so you don't lose context."
     }
   ],
   "completionMessage": "You've learned the iterative workflow. Start simple, then refine. Each prompt is a small step, and Claude keeps the full context of your conversation. This is how real features get built.",

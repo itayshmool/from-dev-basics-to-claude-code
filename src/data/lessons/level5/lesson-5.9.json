@@ -44,6 +44,13 @@
       ]
     },
     {
+      "type": "fillInBlank",
+      "prompt": "When a server is running and your terminal appears to 'hang', it means the server is ___ for requests.",
+      "answer": "listening",
+      "acceptAlternates": ["waiting"],
+      "hintDetail": "Think about what a server does when it's started — it waits for incoming connections."
+    },
+    {
       "type": "guideStep",
       "instruction": "Your server is now running! Open your web browser (Chrome, Safari, Firefox — any browser works) and type this address in the address bar:\n\n**http://localhost:3000**\n\nYou should see your \"Hello, World!\" message displayed in the browser. That text is coming from your server — your computer received the browser's request and sent back a response.",
       "codeBlocks": [
@@ -74,6 +81,18 @@
         "This is the same request-response cycle that powers every website",
         "Go back to your terminal — the server is still running, waiting for more requests"
       ]
+    },
+    {
+      "type": "quiz",
+      "question": "When you visit http://localhost:3000 in your browser, what happens behind the scenes?",
+      "options": [
+        "The browser sends an HTTP request to your computer, and your server sends back a response",
+        "The browser downloads app.js and runs it locally",
+        "Express connects to the internet and fetches a page",
+        "Node.js opens a new browser window automatically"
+      ],
+      "correctIndex": 0,
+      "explanation": "Your browser (the client) sends an HTTP GET request to localhost port 3000. Your Express server receives it, runs the matching route handler, and sends back the response text."
     }
   ],
   "completionMessage": "Your first server is alive! It's listening, it's responding, and it's running right on your machine. This is how every web developer starts.",

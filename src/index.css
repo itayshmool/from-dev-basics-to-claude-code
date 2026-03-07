@@ -366,6 +366,15 @@ select:focus-visible {
   animation: saved-toast 2s ease-in-out forwards;
 }
 
+/* Reduced motion — disable all animations for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Safe area */
 .safe-bottom {
   padding-bottom: max(env(safe-area-inset-bottom, 0px), 20px);

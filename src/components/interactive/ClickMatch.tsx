@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useRef } from 'react';
 import type { MatchSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
+import { useFirstInteraction } from '../../hooks/useFirstInteraction';
 
 interface ClickMatchProps {
   section: MatchSection;
@@ -19,6 +20,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
   const [statusMessage, setStatusMessage] = useState('');
   const leftRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const rightRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const { isFirst: showHint } = useFirstInteraction('clickMatch');
 
   const shuffledRight = useMemo(
     () => [...section.pairs.map((p) => p.right)].sort(() => Math.random() - 0.5),
@@ -121,6 +123,12 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
           <h3 id="match-instruction" className="text-xl font-bold text-text-primary leading-snug">
             {section.instruction}
           </h3>
+
+          {showHint && (
+            <p className="text-[13px] text-text-muted italic">
+              Tip: Click an item on the left, then click its match on the right.
+            </p>
+          )}
 
           <p className="text-xs text-text-muted tabular-nums">{matched.length}/{section.pairs.length} matched</p>
 

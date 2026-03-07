@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import type { QuizSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
+import { useFirstInteraction } from '../../hooks/useFirstInteraction';
 
 interface QuizProps {
   section: QuizSection;
@@ -18,6 +19,7 @@ export function Quiz({ section, onComplete }: QuizProps) {
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const explanationRef = useRef<HTMLDivElement>(null);
   const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const { isFirst: showHint } = useFirstInteraction('quiz');
 
   const isCorrect = selected === section.correctIndex;
   const canContinue = submitted && (isCorrect || attempts >= 2);
@@ -108,6 +110,12 @@ export function Quiz({ section, onComplete }: QuizProps) {
           <h3 id="quiz-question" className="text-xl font-bold text-text-primary leading-snug">
             {section.question}
           </h3>
+
+          {showHint && (
+            <p className="text-[13px] text-text-muted italic" aria-live="polite">
+              Tip: Select an answer, then press Check Answer. Use arrow keys or number keys to navigate.
+            </p>
+          )}
 
           <div className="space-y-2.5" role="radiogroup" aria-labelledby="quiz-question">
             {section.options.map((option, i) => {

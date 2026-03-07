@@ -51,6 +51,18 @@
       "confirmationType": "success_or_error"
     },
     {
+      "type": "quiz",
+      "question": "What does the -g flag mean when installing an npm package?",
+      "options": [
+        "Install globally (available system-wide)",
+        "Install the latest version",
+        "Generate a config file",
+        "Install with Git integration"
+      ],
+      "correctIndex": 0,
+      "explanation": "The -g flag installs the package globally, making it available as a command from any directory — not just one project."
+    },
+    {
       "type": "guideStep",
       "instruction": "Now let's authenticate. Run `claude` to start it for the first time. It will walk you through signing in with your Anthropic account. Follow the prompts on screen — it will open a browser window for you to log in.",
       "codeBlocks": [

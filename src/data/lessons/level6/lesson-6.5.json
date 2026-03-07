@@ -54,6 +54,18 @@
         "Claude remembers context — it knows what files already exist",
         "Iterate by asking for changes rather than starting over"
       ]
+    },
+    {
+      "type": "quiz",
+      "question": "What's the recommended workflow when using Claude Code to create files?",
+      "options": [
+        "Describe → Review → Test → Iterate",
+        "Copy code from the internet → paste → run",
+        "Write code yourself → ask Claude to fix errors",
+        "Let Claude build everything without reviewing"
+      ],
+      "correctIndex": 0,
+      "explanation": "The best workflow is: describe what you want, review what Claude creates, test it, and then iterate by asking for changes. You're the decision-maker — Claude is the fast executor."
     }
   ],
   "completionMessage": "You've used Claude to create files from a plain-English description. But creating from scratch is only half the story — editing existing code is just as important.",
