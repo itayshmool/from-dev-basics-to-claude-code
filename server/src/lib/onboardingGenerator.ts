@@ -1,16 +1,36 @@
 import { z } from 'zod';
 import { generateJsonWithProvider, parseJsonFromModelText, type AIProvider } from './aiClient.js';
+import { env } from './env.js';
+
+const REQUIRED_LEVEL_IDS = [0, 1, 2, 3, 4, 45, 5, 6, 7] as const;
 
 const planResponseSchema = z.object({
   summary: z.string().min(1),
-  recommendedLessons: z.array(z.string()),
+  recommendedLessons: z.array(z.string()).min(15).max(40),
   levelNotes: z.array(
     z.object({
       levelId: z.number(),
       note: z.string(),
       priority: z.enum(['high', 'medium', 'low', 'skip']),
     }),
-  ),
+  ).superRefine((notes, ctx) => {
+    const ids = notes.map((n) => n.levelId);
+    const uniqueIds = new Set(ids);
+    if (uniqueIds.size !== REQUIRED_LEVEL_IDS.length) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'levelNotes must include each required level exactly once',
+      });
+      return;
+    }
+    const missing = REQUIRED_LEVEL_IDS.filter((id) => !uniqueIds.has(id));
+    if (missing.length > 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Missing required levelNotes for ids: ${missing.join(',')}`,
+      });
+    }
+  }),
 });
 
 export type OnboardingPlan = z.infer<typeof planResponseSchema>;
@@ -27,6 +47,40 @@ function checkRateLimit(userId: string): boolean {
   timestamps.push(now);
   rateLimits.set(userId, timestamps);
   return true;
+}
+
+function normalizePlanCandidate(value: unknown): unknown {
+  if (!value || typeof value !== 'object') return value;
+
+  const obj = value as Record<string, unknown>;
+  const normalized: Record<string, unknown> = { ...obj };
+
+  if (Array.isArray(obj.recommendedLessons)) {
+    const deduped = Array.from(
+      new Set(
+        obj.recommendedLessons
+          .filter((lesson): lesson is string => typeof lesson === 'string')
+          .map((lesson) => lesson.trim())
+          .filter(Boolean),
+      ),
+    );
+    normalized.recommendedLessons = deduped.slice(0, 40);
+  }
+
+  if (Array.isArray(obj.levelNotes)) {
+    const seen = new Set<number>();
+    const dedupedNotes: unknown[] = [];
+    for (const note of obj.levelNotes) {
+      if (!note || typeof note !== 'object') continue;
+      const levelId = (note as Record<string, unknown>).levelId;
+      if (typeof levelId !== 'number' || seen.has(levelId)) continue;
+      seen.add(levelId);
+      dedupedNotes.push(note);
+    }
+    normalized.levelNotes = dedupedNotes;
+  }
+
+  return normalized;
 }
 
 const SYSTEM_PROMPT = `You are an expert learning advisor for "From Zero to Claude Code", a web app that teaches non-technical people how to use the terminal and eventually build software with AI assistance.
@@ -204,44 +258,83 @@ export async function generateOnboardingPlan(
     throw new Error('Rate limit exceeded. Max 3 plans per hour.');
   }
 
-  async function requestPlan(userPrompt: string) {
-    return generateJsonWithProvider({
-      provider,
-      systemPrompt: SYSTEM_PROMPT,
-      userPrompt,
-      maxTokens: 2048,
-      anthropicModel: 'claude-sonnet-4-20250514',
-      geminiModel: 'gemini-2.5-flash',
-    });
-  }
-
   function parseAndValidatePlan(rawText: string): OnboardingPlan {
-    const parsed = parseJsonFromModelText(rawText);
+    const parsed = normalizePlanCandidate(parseJsonFromModelText(rawText));
     return planResponseSchema.parse(parsed);
   }
 
-  let ai = await requestPlan(userBackground);
-  let validated: OnboardingPlan;
-
-  try {
-    validated = parseAndValidatePlan(ai.text);
-  } catch {
-    const retryPrompt = `${userBackground}
+  const prompts: string[] = [
+    userBackground,
+    `${userBackground}
 
 IMPORTANT:
 - Return ONLY valid JSON
 - No markdown fences
 - Include all 9 levelNotes (0,1,2,3,4,45,5,6,7)
-- recommendedLessons must contain 15-40 lesson IDs`;
+- recommendedLessons must contain 15-40 lesson IDs`,
+  ];
 
-    ai = await requestPlan(retryPrompt);
-    validated = parseAndValidatePlan(ai.text);
+  async function generateWithProvider(activeProvider: AIProvider): Promise<{
+    plan: OnboardingPlan;
+    inputTokens: number;
+    outputTokens: number;
+    model: string;
+  }> {
+    let lastError: unknown;
+    let lastText = '';
+    let ai = await generateJsonWithProvider({
+      provider: activeProvider,
+      systemPrompt: SYSTEM_PROMPT,
+      userPrompt: prompts[0],
+      maxTokens: 2048,
+      anthropicModel: 'claude-sonnet-4-20250514',
+      geminiModel: 'gemini-2.5-flash',
+    });
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      if (attempt > 0) {
+        const promptToUse = attempt === 2
+          ? `Rewrite the following output as valid JSON only.
+Do not add commentary, markdown, or code fences.
+Ensure recommendedLessons has 15-40 lesson IDs and levelNotes contains exactly one entry for each id in [0,1,2,3,4,45,5,6,7].
+
+OUTPUT TO REWRITE:
+${lastText}`
+          : prompts[attempt];
+
+        ai = await generateJsonWithProvider({
+          provider: activeProvider,
+          systemPrompt: SYSTEM_PROMPT,
+          userPrompt: promptToUse,
+          maxTokens: 2048,
+          anthropicModel: 'claude-sonnet-4-20250514',
+          geminiModel: 'gemini-2.5-flash',
+        });
+      }
+
+      try {
+        const validated = parseAndValidatePlan(ai.text);
+        return {
+          plan: validated,
+          inputTokens: ai.inputTokens,
+          outputTokens: ai.outputTokens,
+          model: ai.model,
+        };
+      } catch (err) {
+        lastError = err;
+        lastText = ai.text;
+      }
+    }
+
+    throw lastError instanceof Error ? lastError : new Error('Failed to generate valid onboarding plan JSON');
   }
 
-  return {
-    plan: validated,
-    inputTokens: ai.inputTokens,
-    outputTokens: ai.outputTokens,
-    model: ai.model,
-  };
+  try {
+    return await generateWithProvider(provider);
+  } catch (err) {
+    if (provider === 'gemini' && env.ANTHROPIC_API_KEY) {
+      return generateWithProvider('anthropic');
+    }
+    throw err;
+  }
 }

@@ -128,7 +128,10 @@ export async function generateJsonWithProvider(req: AIJsonRequest): Promise<AIJs
     body: JSON.stringify({
       systemInstruction: { parts: [{ text: req.systemPrompt }] },
       contents: [{ role: 'user', parts: [{ text: req.userPrompt }] }],
-      generationConfig: { maxOutputTokens: req.maxTokens },
+      generationConfig: {
+        maxOutputTokens: req.maxTokens,
+        responseMimeType: 'application/json',
+      },
     }),
   });
 
