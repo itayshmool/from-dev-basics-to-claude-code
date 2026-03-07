@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { levels } from '../../data/levels';
+import { levels, getLessonById } from '../../data/levels';
 import { useProgress } from '../../hooks/useProgress';
 import { useAuth } from '../../contexts/AuthContext';
 import { LEVELS } from '../../lib/constants';
 import { ClaudeIcon } from '../icons/ClaudeIcon';
 import { ThemeToggle } from '../shared/ThemeToggle';
+import { WelcomeOverlay, useOnboardingSeen } from './WelcomeOverlay';
 
 function getInitials(name: string): string {
   return name
@@ -50,12 +51,14 @@ const LEVEL_EMOJI: Record<number, string> = {
 
 export function HomeScreen() {
   const navigate = useNavigate();
-  const { isLessonComplete, completedLessons, getLevelCompletedCount, currentSectionIndex, currentLessonId } = useProgress();
+  const { isLessonComplete, completedLessons, getLevelCompletedCount, getReviewLessons, currentSectionIndex, currentLessonId } = useProgress();
   const { user, logout } = useAuth();
 
   const [expandedLevels, setExpandedLevels] = useState<Set<number>>(new Set());
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const { seen: onboardingSeen, markSeen: markOnboardingSeen } = useOnboardingSeen();
+  const [showWelcome, setShowWelcome] = useState(!onboardingSeen && completedLessons.length === 0);
 
   // Close mobile menu on outside click
   useEffect(() => {
@@ -87,6 +90,11 @@ export function HomeScreen() {
 
   return (
     <div className="h-full overflow-y-auto bg-bg-primary relative">
+      {/* Onboarding overlay for first-time users */}
+      {showWelcome && (
+        <WelcomeOverlay onDismiss={() => { setShowWelcome(false); markOnboardingSeen(); }} />
+      )}
+
       {/* Ambient glow */}
       <div
         className="absolute top-0 left-1/4 w-[500px] h-[300px] rounded-full pointer-events-none"
@@ -232,6 +240,39 @@ export function HomeScreen() {
             </div>
           </Link>
         )}
+
+        {/* Spaced review recommendations */}
+        {(() => {
+          const reviewIds = getReviewLessons();
+          if (reviewIds.length === 0) return null;
+          const reviewLessons = reviewIds.map(id => getLessonById(id)).filter(Boolean);
+          if (reviewLessons.length === 0) return null;
+          return (
+            <div className="mb-6 lg:mb-8">
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4 text-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 className="text-sm font-mono font-semibold text-text-primary">Review these lessons</h3>
+                <span className="text-[10px] font-mono text-text-muted bg-bg-elevated px-1.5 py-0.5 rounded">Spaced repetition</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {reviewLessons.map(lesson => lesson && (
+                  <Link
+                    key={lesson.id}
+                    to={`/lesson/${lesson.id}`}
+                    className="inline-flex items-center gap-2 px-3 py-2 bg-bg-card border border-yellow/15 rounded-lg hover:border-yellow/30 transition-colors group"
+                  >
+                    <span className="text-[13px] font-mono text-text-primary group-hover:text-purple transition-colors">{lesson.title}</span>
+                    <svg className="w-3 h-3 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Available level cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">

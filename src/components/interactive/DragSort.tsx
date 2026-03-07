@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import type { DragSortSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
@@ -15,6 +15,9 @@ export function DragSort({ section, onComplete }: DragSortProps) {
   const [allCorrect, setAllCorrect] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [shakeItems, setShakeItems] = useState<Set<string>>(new Set());
+  const [statusMessage, setStatusMessage] = useState('');
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const categoryRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const allPlaced = placements.size === section.items.length;
 
@@ -31,8 +34,10 @@ export function DragSort({ section, onComplete }: DragSortProps) {
     if (selectedItem === itemText) {
       // Deselect
       setSelectedItem(null);
+      setStatusMessage('');
     } else {
       setSelectedItem(itemText);
+      setStatusMessage(`Selected "${itemText}". Now choose a category.`);
     }
   }
 
@@ -47,6 +52,7 @@ export function DragSort({ section, onComplete }: DragSortProps) {
       next.set(selectedItem, categoryName);
       return next;
     });
+    setStatusMessage(`Placed "${selectedItem}" in "${categoryName}".`);
     setSelectedItem(null);
 
     // Reset check state when re-sorting
@@ -75,10 +81,13 @@ export function DragSort({ section, onComplete }: DragSortProps) {
 
     if (correct) {
       setShowCelebration(true);
+      setStatusMessage('All items sorted correctly!');
+    } else {
+      setStatusMessage(`${incorrectItems.size} item${incorrectItems.size > 1 ? 's' : ''} in the wrong category. Tap to move.`);
     }
   }
 
-  function handleRemoveItem(itemText: string, e: React.MouseEvent) {
+  function handleRemoveItem(itemText: string, e: React.MouseEvent | React.KeyboardEvent) {
     e.stopPropagation();
     e.preventDefault();
     if (checked && allCorrect) return;
@@ -87,6 +96,7 @@ export function DragSort({ section, onComplete }: DragSortProps) {
       next.delete(itemText);
       return next;
     });
+    setStatusMessage(`Removed "${itemText}" from category.`);
     // Clear selection so the category click can't also fire
     setSelectedItem(null);
     if (checked) {
@@ -114,6 +124,35 @@ export function DragSort({ section, onComplete }: DragSortProps) {
     return items;
   }
 
+  // Keyboard navigation for unplaced items
+  function handleItemKeyDown(e: React.KeyboardEvent, poolIndex: number) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      const next = (poolIndex + 1) % unplacedItems.length;
+      itemRefs.current[next]?.focus();
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const next = (poolIndex - 1 + unplacedItems.length) % unplacedItems.length;
+      itemRefs.current[next]?.focus();
+    } else if (e.key === 'Tab' && !e.shiftKey && selectedItem) {
+      e.preventDefault();
+      categoryRefs.current[0]?.focus();
+    }
+  }
+
+  // Keyboard navigation for categories
+  function handleCategoryKeyDown(e: React.KeyboardEvent, catIndex: number) {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = (catIndex + 1) % section.categories.length;
+      categoryRefs.current[next]?.focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const next = (catIndex - 1 + section.categories.length) % section.categories.length;
+      categoryRefs.current[next]?.focus();
+    }
+  }
+
   const cta = allCorrect
     ? { label: 'Continue', onClick: onComplete }
     : allPlaced && !checked
@@ -126,12 +165,12 @@ export function DragSort({ section, onComplete }: DragSortProps) {
       <LessonStep cta={cta}>
         <div className="space-y-5">
           {/* Instruction */}
-          <h3 className="text-xl font-bold text-text-primary leading-snug">
+          <h3 id="dragsort-instruction" className="text-xl font-bold text-text-primary leading-snug">
             {section.instruction}
           </h3>
 
           {/* Hint text */}
-          <p className="text-[14px] text-text-muted">
+          <p className="text-[14px] text-text-muted" aria-live="polite">
             {selectedItem
               ? 'Now tap a category to place the item.'
               : unplacedItems.length > 0
@@ -141,17 +180,25 @@ export function DragSort({ section, onComplete }: DragSortProps) {
                   : 'All items placed. Check your answers!'}
           </p>
 
+          {/* Screen reader status */}
+          <div aria-live="polite" aria-atomic="true" className="sr-only">
+            {statusMessage}
+          </div>
+
           {/* Category drop zones */}
-          <div className="space-y-3">
-            {section.categories.map((category) => {
+          <div className="space-y-3" role="group" aria-labelledby="dragsort-instruction">
+            {section.categories.map((category, catIdx) => {
               const itemsHere = getItemsInCategory(category.name);
               const isTarget = selectedItem !== null;
 
               return (
                 <button
                   key={category.name}
+                  ref={(el) => { categoryRefs.current[catIdx] = el; }}
                   onClick={() => handleCategoryClick(category.name)}
+                  onKeyDown={(e) => handleCategoryKeyDown(e, catIdx)}
                   disabled={!isTarget}
+                  aria-label={`Category: ${category.name}${category.description ? ` — ${category.description}` : ''}. ${itemsHere.length} items.`}
                   className={`
                     w-full text-left rounded-xl border-2 border-dashed p-4 transition-all
                     ${isTarget
@@ -181,7 +228,11 @@ export function DragSort({ section, onComplete }: DragSortProps) {
                         return (
                           <span
                             key={itemText}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`${itemText}${status === 'correct' ? ' (correct)' : status === 'incorrect' ? ' (incorrect)' : ''}. Press Enter to remove.`}
                             onClick={(e) => handleRemoveItem(itemText, e)}
+                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleRemoveItem(itemText, e); }}
                             className={`
                               group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[14px] font-medium
                               cursor-pointer transition-all active:scale-[0.96]
@@ -227,14 +278,18 @@ export function DragSort({ section, onComplete }: DragSortProps) {
           {/* Unplaced items */}
           {unplacedItems.length > 0 && (
             <div>
-              <p className="text-[13px] text-text-muted mb-2 font-medium uppercase tracking-wider">
+              <p id="items-pool-label" className="text-[13px] text-text-muted mb-2 font-medium uppercase tracking-wider">
                 Items
               </p>
-              <div className="flex flex-wrap gap-2">
-                {unplacedItems.map((item) => (
+              <div className="flex flex-wrap gap-2" role="listbox" aria-labelledby="items-pool-label">
+                {unplacedItems.map((item, poolIdx) => (
                   <button
                     key={item.text}
+                    ref={(el) => { itemRefs.current[poolIdx] = el; }}
+                    role="option"
+                    aria-selected={selectedItem === item.text}
                     onClick={() => handleItemClick(item.text)}
+                    onKeyDown={(e) => handleItemKeyDown(e, poolIdx)}
                     className={`
                       px-3.5 py-2 rounded-lg text-[14px] font-medium transition-all active:scale-[0.96]
                       border

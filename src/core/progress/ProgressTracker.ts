@@ -59,6 +59,10 @@ export class ProgressTracker {
       this.state.completedLessons = [...this.state.completedLessons, lessonId];
       this.state.levelProgress[level] = (this.state.levelProgress[level] || 0) + 1;
     }
+    if (!this.state.completionDates) this.state.completionDates = {};
+    if (!this.state.completionDates[lessonId]) {
+      this.state.completionDates[lessonId] = new Date().toISOString();
+    }
     this.save();
   }
 
@@ -75,6 +79,18 @@ export class ProgressTracker {
 
   getLevelCompletedCount(level: number): number {
     return this.state.levelProgress[level] || 0;
+  }
+
+  /** Returns lesson IDs completed 3+ days ago, sorted oldest-first (max 5) */
+  getReviewLessons(): string[] {
+    const dates = this.state.completionDates;
+    if (!dates) return [];
+    const cutoff = Date.now() - 3 * 24 * 60 * 60 * 1000;
+    return Object.entries(dates)
+      .filter(([, iso]) => new Date(iso).getTime() < cutoff)
+      .sort(([, a], [, b]) => new Date(a).getTime() - new Date(b).getTime())
+      .slice(0, 5)
+      .map(([id]) => id);
   }
 
   reset(): void {

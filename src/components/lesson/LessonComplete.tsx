@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 interface LessonCompleteProps {
   message: string;
   onNext: () => void;
@@ -5,9 +7,50 @@ interface LessonCompleteProps {
   hasNext: boolean;
 }
 
-export function LessonComplete({ message, onNext, onHome, hasNext }: LessonCompleteProps) {
+function ConfettiParticle({ delay, left }: { delay: number; left: number }) {
+  const colors = ['#FF6B35', '#22C55E', '#3B82F6', '#EAB308', '#14B8A6'];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  const size = 6 + Math.random() * 6;
+
   return (
-    <div className="h-full flex flex-col bg-bg-primary">
+    <div
+      className="absolute rounded-sm pointer-events-none"
+      style={{
+        width: size,
+        height: size,
+        backgroundColor: color,
+        left: `${left}%`,
+        top: -10,
+        opacity: 0,
+        animation: `confetti-fall 1.5s ease-in ${delay}ms forwards`,
+      }}
+    />
+  );
+}
+
+export function LessonComplete({ message, onNext, onHome, hasNext }: LessonCompleteProps) {
+  const [showConfetti, setShowConfetti] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowConfetti(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="h-full flex flex-col bg-bg-primary relative overflow-hidden">
+      {/* Confetti */}
+      {showConfetti && (
+        <div className="absolute inset-0 pointer-events-none z-10" aria-hidden="true">
+          {Array.from({ length: 24 }).map((_, i) => (
+            <ConfettiParticle
+              key={i}
+              delay={i * 60}
+              left={5 + Math.random() * 90}
+            />
+          ))}
+        </div>
+      )}
+
       <div className="flex-1 flex flex-col items-center justify-center text-center px-6 animate-pop-in">
         <div className="w-20 h-20 rounded-full bg-green-soft flex items-center justify-center mb-6">
           <span className="text-4xl">&#127881;</span>

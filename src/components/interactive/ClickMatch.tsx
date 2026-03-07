@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useRef } from 'react';
 import type { MatchSection } from '../../core/lesson/types';
 import { LessonStep } from '../lesson/LessonStep';
 import { CelebrationOverlay } from '../lesson/CelebrationOverlay';
@@ -16,6 +16,9 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
   const [matched, setMatched] = useState<Array<{ left: string; rightIdx: number }>>([]);
   const [wrongPair, setWrongPair] = useState<{ left: string; rightIdx: number } | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
+  const leftRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const rightRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const shuffledRight = useMemo(
     () => [...section.pairs.map((p) => p.right)].sort(() => Math.random() - 0.5),
@@ -40,6 +43,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
     if (matchedLefts.has(left)) return;
     setSelectedLeft(left);
     setWrongPair(null);
+    setStatusMessage(`Selected "${left}". Now choose a match on the right.`);
   }
 
   function handleRightClick(rightIdx: number) {
@@ -51,11 +55,13 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
       setMatched(newMatched);
       setSelectedLeft(null);
       setWrongPair(null);
+      setStatusMessage(`Matched "${selectedLeft}" with "${rightValue}".`);
       if (newMatched.length === section.pairs.length) {
         setShowCelebration(true);
       }
     } else {
       setWrongPair({ left: selectedLeft, rightIdx });
+      setStatusMessage(`"${selectedLeft}" and "${rightValue}" don't match. Try again.`);
       setTimeout(() => setWrongPair(null), 600);
       setSelectedLeft(null);
     }
@@ -64,6 +70,36 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
   const handleCelebrationDone = useCallback(() => {
     setShowCelebration(false);
   }, []);
+
+  // Keyboard navigation for left column
+  function handleLeftKeyDown(e: React.KeyboardEvent, index: number) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const availableIndices = section.pairs.map((p, i) => (!matchedLefts.has(p.left) ? i : -1)).filter((i) => i >= 0);
+      const currentPos = availableIndices.indexOf(index);
+      const nextPos = e.key === 'ArrowDown'
+        ? (currentPos + 1) % availableIndices.length
+        : (currentPos - 1 + availableIndices.length) % availableIndices.length;
+      leftRefs.current[availableIndices[nextPos]]?.focus();
+    } else if (e.key === 'Tab' && !e.shiftKey && selectedLeft) {
+      e.preventDefault();
+      const firstAvailable = shuffledRight.findIndex((_, i) => !matchedRightIdxs.has(i));
+      if (firstAvailable >= 0) rightRefs.current[firstAvailable]?.focus();
+    }
+  }
+
+  // Keyboard navigation for right column
+  function handleRightKeyDown(e: React.KeyboardEvent, index: number) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const availableIndices = shuffledRight.map((_, i) => (!matchedRightIdxs.has(i) ? i : -1)).filter((i) => i >= 0);
+      const currentPos = availableIndices.indexOf(index);
+      const nextPos = e.key === 'ArrowDown'
+        ? (currentPos + 1) % availableIndices.length
+        : (currentPos - 1 + availableIndices.length) % availableIndices.length;
+      rightRefs.current[availableIndices[nextPos]]?.focus();
+    }
+  }
 
   const colorMap: Record<string, string> = {
     purple: 'bg-purple-soft border-purple/30 text-purple',
@@ -82,15 +118,20 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
       {showCelebration && <CelebrationOverlay onDone={handleCelebrationDone} />}
       <LessonStep cta={cta}>
         <div className="space-y-5">
-          <h3 className="text-xl font-bold text-text-primary leading-snug">
+          <h3 id="match-instruction" className="text-xl font-bold text-text-primary leading-snug">
             {section.instruction}
           </h3>
 
           <p className="text-xs text-text-muted tabular-nums">{matched.length}/{section.pairs.length} matched</p>
 
-          <div className="grid grid-cols-2 gap-2.5">
-            <div className="space-y-2">
-              {section.pairs.map(({ left }) => {
+          {/* Live region for screen reader announcements */}
+          <div aria-live="polite" aria-atomic="true" className="sr-only">
+            {statusMessage}
+          </div>
+
+          <div className="grid grid-cols-2 gap-2.5" role="group" aria-labelledby="match-instruction">
+            <div className="space-y-2" role="listbox" aria-label="Items to match">
+              {section.pairs.map(({ left }, i) => {
                 const isMatched = matchedLefts.has(left);
                 const isSelected = selectedLeft === left;
                 const isWrong = wrongPair?.left === left;
@@ -99,7 +140,12 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
                 return (
                   <button
                     key={left}
+                    ref={(el) => { leftRefs.current[i] = el; }}
+                    role="option"
+                    aria-selected={isSelected}
+                    aria-disabled={isMatched}
                     onClick={() => handleLeftClick(left)}
+                    onKeyDown={(e) => handleLeftKeyDown(e, i)}
                     disabled={isMatched}
                     className={`
                       w-full text-left px-3.5 py-3 rounded-xl border-2 text-[15px] font-medium transition-all leading-snug active:scale-[0.98]
@@ -115,7 +161,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
               })}
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2" role="listbox" aria-label="Match targets">
               {shuffledRight.map((right, idx) => {
                 const isMatched = matchedRightIdxs.has(idx);
                 const isWrong = wrongPair?.rightIdx === idx;
@@ -124,7 +170,12 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
                 return (
                   <button
                     key={idx}
+                    ref={(el) => { rightRefs.current[idx] = el; }}
+                    role="option"
+                    aria-selected={false}
+                    aria-disabled={isMatched || !selectedLeft}
                     onClick={() => handleRightClick(idx)}
+                    onKeyDown={(e) => handleRightKeyDown(e, idx)}
                     disabled={isMatched || !selectedLeft}
                     className={`
                       w-full text-left px-3.5 py-3 rounded-xl border-2 text-[15px] font-medium transition-all leading-snug active:scale-[0.98]

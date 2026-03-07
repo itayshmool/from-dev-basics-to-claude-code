@@ -63,6 +63,7 @@ export function LessonView() {
 
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showBugReport, setShowBugReport] = useState(false);
+  const [showSavedToast, setShowSavedToast] = useState(false);
 
   // Dev-time content validation
   useEffect(() => {
@@ -85,8 +86,15 @@ export function LessonView() {
   }, [lessonId, setCurrentLesson]);
 
   const handleExitLesson = useCallback(() => {
-    navigate('/');
-  }, [navigate]);
+    const idx = engine?.getCurrentSectionIndex() ?? 0;
+    const complete = engine?.isLessonComplete() ?? false;
+    if (idx > 0 && !complete) {
+      setShowSavedToast(true);
+      setTimeout(() => navigate('/'), 1200);
+    } else {
+      navigate('/');
+    }
+  }, [navigate, engine]);
 
   const handleGoBack = useCallback(() => {
     if (!engine) return;
@@ -240,6 +248,18 @@ export function LessonView() {
         onReportBug={import.meta.env.VITE_USE_API === 'true' ? () => setShowBugReport(true) : undefined}
         sectionType={currentSection?.type}
       />
+
+      {/* Progress saved toast */}
+      {showSavedToast && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 animate-saved-toast" role="status">
+          <div className="flex items-center gap-2 px-4 py-2.5 bg-bg-card border border-green/20 rounded-xl shadow-float">
+            <svg className="w-4 h-4 text-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+            </svg>
+            <span className="text-sm font-mono text-text-primary">Progress saved</span>
+          </div>
+        </div>
+      )}
 
       {isTerminalLesson ? (
         <TerminalProvider key={lessonId} initialFs={les.initialFs} initialDir={les.initialDir} curlMocks={les.curlMocks}>

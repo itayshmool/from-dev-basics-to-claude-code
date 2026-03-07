@@ -15,7 +15,9 @@ export function Quiz({ section, onComplete }: QuizProps) {
   const [submitted, setSubmitted] = useState(false);
   const [attempts, setAttempts] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const explanationRef = useRef<HTMLDivElement>(null);
+  const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const isCorrect = selected === section.correctIndex;
   const canContinue = submitted && (isCorrect || attempts >= 2);
@@ -44,6 +46,50 @@ export function Quiz({ section, onComplete }: QuizProps) {
     }
   }, [submitted]);
 
+  // Keyboard navigation for options
+  function handleOptionKeyDown(e: React.KeyboardEvent, index: number) {
+    if (submitted) return;
+    const count = section.options.length;
+    let nextIndex = index;
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      nextIndex = (index + 1) % count;
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      nextIndex = (index - 1 + count) % count;
+    } else if (e.key === ' ') {
+      e.preventDefault();
+      setSelected(index);
+      return;
+    } else {
+      return;
+    }
+
+    setFocusedIndex(nextIndex);
+    setSelected(nextIndex);
+    optionRefs.current[nextIndex]?.focus();
+  }
+
+  // Number key shortcuts (1-4)
+  useEffect(() => {
+    if (submitted) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+      const num = parseInt(e.key);
+      if (num >= 1 && num <= section.options.length) {
+        const idx = num - 1;
+        setSelected(idx);
+        setFocusedIndex(idx);
+        optionRefs.current[idx]?.focus();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [submitted, section.options.length]);
+
   const cta = canContinue
     ? { label: 'Continue', onClick: onComplete }
     : !submitted
@@ -59,11 +105,11 @@ export function Quiz({ section, onComplete }: QuizProps) {
       {showCelebration && <CelebrationOverlay onDone={handleCelebrationDone} />}
       <LessonStep cta={cta} secondaryCta={secondaryCta}>
         <div className="space-y-5">
-          <h3 className="text-xl font-bold text-text-primary leading-snug">
+          <h3 id="quiz-question" className="text-xl font-bold text-text-primary leading-snug">
             {section.question}
           </h3>
 
-          <div className="space-y-2.5">
+          <div className="space-y-2.5" role="radiogroup" aria-labelledby="quiz-question">
             {section.options.map((option, i) => {
               const isSelected = selected === i;
               const showResult = submitted;
@@ -78,7 +124,12 @@ export function Quiz({ section, onComplete }: QuizProps) {
               return (
                 <button
                   key={i}
+                  ref={(el) => { optionRefs.current[i] = el; }}
+                  role="radio"
+                  aria-checked={isSelected}
+                  tabIndex={i === focusedIndex ? 0 : -1}
                   onClick={() => !submitted && setSelected(i)}
+                  onKeyDown={(e) => handleOptionKeyDown(e, i)}
                   disabled={submitted}
                   className={`w-full text-left px-4 py-3.5 rounded-xl text-[15px] transition-all flex items-center gap-3.5 active:scale-[0.98] ${style}`}
                 >

@@ -68,7 +68,7 @@ export function DashboardAchievements() {
           <h2 className="text-sm font-semibold text-text-primary font-mono mb-3">
             Earned ({data.earned.length})
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" role="list" aria-label="Earned achievements">
             {data.earned.map(a => (
               <AchievementBadge
                 key={a.id}
@@ -83,13 +83,13 @@ export function DashboardAchievements() {
         </div>
       )}
 
-      {/* In Progress */}
+      {/* Locked / In Progress */}
       {data.available.length > 0 && (
         <div>
           <h2 className="text-sm font-semibold text-text-primary font-mono mb-3">
-            In Progress ({data.available.length})
+            Locked ({data.available.length})
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" role="list" aria-label="Locked achievements">
             {data.available.map(a => (
               <AchievementBadge
                 key={a.id}
@@ -98,6 +98,7 @@ export function DashboardAchievements() {
                 description={a.description}
                 earned={false}
                 progress={a.progress}
+                hint={a.progress === 0 ? 'Keep learning!' : undefined}
               />
             ))}
           </div>

@@ -32,6 +32,10 @@ export function useProgress() {
     progressTracker.reset();
   }, []);
 
+  const getReviewLessons = useCallback(() => {
+    return progressTracker.getReviewLessons();
+  }, []);
+
   return {
     ...state,
     markLessonComplete,
@@ -39,6 +43,7 @@ export function useProgress() {
     setCurrentSection,
     isLessonComplete,
     getLevelCompletedCount,
+    getReviewLessons,
     reset,
   } as ProgressState & {
     markLessonComplete: (lessonId: string, level: number) => void;
@@ -46,6 +51,7 @@ export function useProgress() {
     setCurrentSection: (index: number) => void;
     isLessonComplete: (lessonId: string) => boolean;
     getLevelCompletedCount: (level: number) => number;
+    getReviewLessons: () => string[];
     reset: () => void;
   };
 }

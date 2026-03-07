@@ -348,6 +348,24 @@ select:focus-visible {
   animation: glow-pulse 2.5s ease-in-out infinite;
 }
 
+/* Confetti */
+@keyframes confetti-fall {
+  0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(85vh) rotate(720deg); }
+}
+
+/* Progress saved indicator */
+@keyframes saved-toast {
+  0% { opacity: 0; transform: translateY(8px); }
+  15% { opacity: 1; transform: translateY(0); }
+  85% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+
+.animate-saved-toast {
+  animation: saved-toast 2s ease-in-out forwards;
+}
+
 /* Safe area */
 .safe-bottom {
   padding-bottom: max(env(safe-area-inset-bottom, 0px), 20px);
