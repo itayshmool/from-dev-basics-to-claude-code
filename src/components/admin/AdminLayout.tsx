@@ -15,6 +15,7 @@ const TOOLS_NAV = [
   { to: '/admin/theme', label: 'Theme Editor', end: false },
   { to: '/admin/validate', label: 'Validator', end: false },
   { to: '/admin/analytics', label: 'Analytics', end: false },
+  { to: '/admin/onboarding', label: 'AI Onboarding', end: true },
 ];
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) => `

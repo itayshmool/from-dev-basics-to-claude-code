@@ -9,6 +9,7 @@ import { ThemeToggle } from '../shared/ThemeToggle';
 import { WelcomeOverlay, useOnboardingSeen } from './WelcomeOverlay';
 import { LevelAssessment } from './LevelAssessment';
 import { LEVEL_ASSESSMENTS } from '../../data/assessments';
+import { useOnboardingPlan } from '../../hooks/useOnboardingPlan';
 
 function getInitials(name: string): string {
   return name
@@ -84,6 +85,7 @@ export function HomeScreen() {
   const navigate = useNavigate();
   const { isLessonComplete, completedLessons, getLevelCompletedCount, getReviewLessons, currentSectionIndex, currentLessonId, completionDates } = useProgress();
   const { user, logout } = useAuth();
+  const { plan: onboardingPlan, loading: planLoading, enabled: planEnabled, recommendedLessons } = useOnboardingPlan();
 
   // Smart expand: auto-expand current in-progress level + next level; for new users just level 0
   const [expandedLevels, setExpandedLevels] = useState<Set<number>>(() => {
@@ -300,6 +302,27 @@ export function HomeScreen() {
           </Link>
         )}
 
+        {/* AI onboarding CTA for users without a plan */}
+        {user && planEnabled && !onboardingPlan && !planLoading && (
+          <Link
+            to="/onboarding/ai"
+            className="block mb-6 lg:mb-8 bg-bg-card border border-purple/15 rounded-xl p-4 md:p-5 hover:border-purple/30 transition-colors group"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-lg">&#x1F9ED;</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-[13px] font-mono font-medium text-text-primary group-hover:text-purple transition-colors">
+                  Get a personalized learning plan
+                </p>
+                <p className="text-[11px] text-text-muted mt-0.5">
+                  Tell us about your background, and AI will recommend the best path through the curriculum
+                </p>
+              </div>
+              <span className="text-xs font-mono text-purple hidden sm:inline">Try it &rarr;</span>
+            </div>
+          </Link>
+        )}
+
         {/* Daily goal & streak alert */}
         {user && completedLessons.length > 0 && (() => {
           const doneToday = hasCompletionToday(completionDates);
@@ -417,6 +440,17 @@ export function HomeScreen() {
                       {allLevelComplete && (
                         <span className="flex-shrink-0 text-[10px] font-bold font-mono text-green bg-green-soft px-1.5 py-0.5 rounded">Done</span>
                       )}
+                      {!allLevelComplete && onboardingPlan && (() => {
+                        const ln = onboardingPlan.levelNotes.find(n => n.levelId === levelMeta.id);
+                        if (!ln || ln.priority === 'low' || ln.priority === 'skip') return null;
+                        return (
+                          <span className={`flex-shrink-0 text-[10px] font-bold font-mono px-1.5 py-0.5 rounded ${
+                            ln.priority === 'high' ? 'text-purple bg-purple/10' : 'text-blue bg-blue/10'
+                          }`}>
+                            {ln.priority === 'high' ? 'Priority' : 'Useful'}
+                          </span>
+                        );
+                      })()}
                     </div>
                     <p className="text-xs lg:text-sm text-text-muted truncate mt-0.5">{levelMeta.subtitle}</p>
                   </div>
@@ -498,6 +532,11 @@ export function HomeScreen() {
                                 {lesson.title}
                               </p>
                               <p className="text-[11px] lg:text-xs text-text-muted truncate">{lesson.subtitle}</p>
+                              {!isDone && recommendedLessons.has(lesson.id) && (
+                                <span className="inline-flex items-center text-[9px] font-mono font-bold text-purple bg-purple/10 px-1.5 py-0.5 rounded mt-1">
+                                  Recommended
+                                </span>
+                              )}
                               {isCurrent && !isDone && currentSectionIndex > 0 && lesson.sections.length > 0 && (
                                 <div className="flex items-center gap-2 mt-1.5">
                                   <div className="flex-1 h-1 bg-bg-elevated rounded-full overflow-hidden max-w-[100px]">

@@ -23,6 +23,8 @@ import { AdminPaletteManager } from './components/admin/AdminPaletteManager';
 import { AdminContentValidator } from './components/admin/AdminContentValidator';
 import { AdminAnalytics } from './components/admin/AdminAnalytics';
 import { AdminEmailManager } from './components/admin/AdminEmailManager';
+import { AdminOnboardingStats } from './components/admin/AdminOnboardingStats';
+import { AIOnboarding } from './components/onboarding/AIOnboarding';
 import { DashboardGuard } from './components/dashboard/DashboardGuard';
 import { DashboardLayout } from './components/dashboard/DashboardLayout';
 import { DashboardOverview } from './components/dashboard/DashboardOverview';
@@ -30,6 +32,7 @@ import { DashboardProfile } from './components/dashboard/DashboardProfile';
 import { DashboardSettings } from './components/dashboard/DashboardSettings';
 import { DashboardStats } from './components/dashboard/DashboardStats';
 import { DashboardAchievements } from './components/dashboard/DashboardAchievements';
+import { DashboardPlan } from './components/dashboard/DashboardPlan';
 import { AchievementProvider } from './contexts/AchievementContext';
 import { ImpersonationBanner } from './components/layout/ImpersonationBanner';
 
@@ -57,7 +60,11 @@ function App() {
             <Route path="achievements" element={<DashboardAchievements />} />
             <Route path="profile" element={<DashboardProfile />} />
             <Route path="settings" element={<DashboardSettings />} />
+            <Route path="plan" element={<DashboardPlan />} />
           </Route>
+        </Route>
+        <Route path="/onboarding/ai" element={<DashboardGuard />}>
+          <Route index element={<AIOnboarding />} />
         </Route>
         <Route path="/admin/login" element={<AdminLoginScreen />} />
         <Route path="/admin" element={<AdminGuard />}>
@@ -74,6 +81,7 @@ function App() {
             <Route path="theme" element={<AdminThemeEditor />} />
             <Route path="validate" element={<AdminContentValidator />} />
             <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="onboarding" element={<AdminOnboardingStats />} />
           </Route>
         </Route>
       </Routes>

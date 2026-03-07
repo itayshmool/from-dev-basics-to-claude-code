@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { eq, sql, desc, asc, and, gte } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db/index.js';
-import { levels, lessons, users, progress, siteSettings, palettes, emailLog } from '../db/schema.js';
+import { levels, lessons, users, progress, siteSettings, palettes, emailLog, aiOnboardingPlans, aiOnboardingLog } from '../db/schema.js';
 import { requireAuth, requireAdmin } from '../middleware/auth.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { signAccessToken } from '../lib/jwt.js';
@@ -494,4 +494,52 @@ adminRouter.get('/email/log/stats', asyncHandler(async (_req, res) => {
   for (const row of byStatus) byStatusMap[row.status] = row.count;
 
   res.json({ byType: byTypeMap, byStatus: byStatusMap, total: totalResult.count });
+}));
+
+// ─── AI Onboarding stats ───
+
+// GET /api/admin/onboarding/stats
+adminRouter.get('/onboarding/stats', asyncHandler(async (_req, res) => {
+  const [totalGenerations] = await db.select({
+    count: sql<number>`count(*)::int`,
+  }).from(aiOnboardingLog);
+
+  const [totalTokens] = await db.select({
+    input: sql<number>`coalesce(sum(${aiOnboardingLog.inputTokens}), 0)::int`,
+    output: sql<number>`coalesce(sum(${aiOnboardingLog.outputTokens}), 0)::int`,
+  }).from(aiOnboardingLog);
+
+  const [uniqueUsers] = await db.select({
+    count: sql<number>`count(distinct ${aiOnboardingLog.userId})::int`,
+  }).from(aiOnboardingLog);
+
+  const [plansActive] = await db.select({
+    count: sql<number>`count(*)::int`,
+  }).from(aiOnboardingPlans);
+
+  // Recent generations (last 20)
+  const recentLogs = await db.select({
+    id: aiOnboardingLog.id,
+    userId: aiOnboardingLog.userId,
+    inputTokens: aiOnboardingLog.inputTokens,
+    outputTokens: aiOnboardingLog.outputTokens,
+    model: aiOnboardingLog.model,
+    createdAt: aiOnboardingLog.createdAt,
+  }).from(aiOnboardingLog)
+    .orderBy(desc(aiOnboardingLog.createdAt))
+    .limit(20);
+
+  // Check current enabled state
+  const [setting] = await db.select().from(siteSettings)
+    .where(eq(siteSettings.key, 'ai_onboarding_enabled'));
+
+  res.json({
+    enabled: setting?.value === true,
+    totalGenerations: totalGenerations.count,
+    uniqueUsers: uniqueUsers.count,
+    activePlans: plansActive.count,
+    totalInputTokens: totalTokens.input,
+    totalOutputTokens: totalTokens.output,
+    recentLogs,
+  });
 }));
