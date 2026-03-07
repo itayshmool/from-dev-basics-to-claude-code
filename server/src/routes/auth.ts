@@ -24,7 +24,7 @@ const registerSchema = z.object({
   username: z.string().min(3).max(100).regex(/^[a-zA-Z0-9_]+$/),
   password: z.string().min(8),
   displayName: z.string().min(1).max(100),
-  email: z.string().email().max(255).optional(),
+  email: z.string().email().max(255),
 });
 
 const loginSchema = z.object({
