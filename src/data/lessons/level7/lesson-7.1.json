@@ -64,6 +64,12 @@
       ]
     },
     {
+      "type": "fillInBlank",
+      "prompt": "The first file to read when exploring a new project is the _____.",
+      "answer": "README",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "When exploring a new codebase, what should you read FIRST?",
       "options": [

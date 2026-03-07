@@ -60,6 +60,28 @@
       "explanation": "process.env reads from the .env file after dotenv loads it. The || 3000 provides a default value if PORT isn't set \u2014 this is a common pattern so your app still works even without a .env file."
     },
     {
+      "type": "quiz",
+      "question": "Why should you NEVER commit a .env file to git?",
+      "options": [
+        "It makes the repository too large",
+        "It contains secrets that would be exposed to anyone who clones the repo",
+        "Git doesn't support .env files",
+        ".env files only work on your local machine"
+      ],
+      "correctIndex": 1,
+      "explanation": "Secrets in git history persist forever, even if deleted later. Bots scan GitHub for accidentally committed keys within minutes."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "In Node.js with dotenv, you access an environment variable called API_KEY using `process._____.API_KEY`.",
+      "answer": "env",
+      "acceptableAnswers": [
+        "env"
+      ],
+      "hint": "It's a property on the process object that holds all environment variables.",
+      "successMessage": "Correct \u2014 process.env gives you access to all environment variables loaded from .env."
+    },
+    {
       "type": "checklist",
       "instruction": "Environment variable security checklist. These three steps should become second nature for every project you create.",
       "items": [

@@ -48,6 +48,24 @@
       "expectedResult": "Claude will read the file and give you a plain-English explanation of what the code does, section by section."
     },
     {
+      "type": "quiz",
+      "question": "What's the best way to start a conversation with Claude Code?",
+      "options": [
+        "Write code and paste it in",
+        "Describe what you want in plain English",
+        "Use only technical jargon",
+        "Always start with 'please'"
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code understands plain English. You don't need to write code or use technical jargon — just describe what you want naturally, like talking to a colleague."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To start Claude Code, type `_____` in your terminal inside a project folder.",
+      "answer": "claude",
+      "caseSensitive": true
+    },
+    {
       "type": "narrative",
       "content": "Notice what just happened: you asked a question in plain English, and Claude *read your actual files* to answer it. It didn't make up an answer or guess — it looked at your real code.\n\nThis is the core superpower of Claude Code. It's not a generic chatbot. It's a context-aware assistant that understands *your specific project*.",
       "keyPoints": [

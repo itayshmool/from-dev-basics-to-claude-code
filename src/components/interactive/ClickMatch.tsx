@@ -10,6 +10,7 @@ interface ClickMatchProps {
 }
 
 const PAIR_COLORS = ['purple', 'teal', 'blue', 'orange', 'green'] as const;
+const PAIR_SYMBOLS = ['①', '②', '③', '④', '⑤'];
 
 export function ClickMatch({ section, onComplete }: ClickMatchProps) {
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
@@ -31,14 +32,20 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
   const matchedRightIdxs = new Set(matched.map((m) => m.rightIdx));
   const allMatched = matched.length === section.pairs.length;
 
+  function getMatchIndex(left: string) {
+    return matched.findIndex((m) => m.left === left);
+  }
+
+  function getMatchIndexByRightIdx(rightIdx: number) {
+    return matched.findIndex((m) => m.rightIdx === rightIdx);
+  }
+
   function getMatchColor(left: string) {
-    const idx = matched.findIndex((m) => m.left === left);
-    return PAIR_COLORS[idx % PAIR_COLORS.length];
+    return PAIR_COLORS[getMatchIndex(left) % PAIR_COLORS.length];
   }
 
   function getMatchColorByRightIdx(rightIdx: number) {
-    const idx = matched.findIndex((m) => m.rightIdx === rightIdx);
-    return PAIR_COLORS[idx % PAIR_COLORS.length];
+    return PAIR_COLORS[getMatchIndexByRightIdx(rightIdx) % PAIR_COLORS.length];
   }
 
   function handleLeftClick(left: string) {
@@ -163,6 +170,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
                       ${!isMatched && !isSelected && !isWrong ? 'border-border bg-bg-card text-text-primary' : ''}
                     `}
                   >
+                    {isMatched && <span className="text-[11px] opacity-70 mr-1">{PAIR_SYMBOLS[getMatchIndex(left) % PAIR_SYMBOLS.length]}</span>}
                     {left}
                   </button>
                 );
@@ -193,6 +201,7 @@ export function ClickMatch({ section, onComplete }: ClickMatchProps) {
                       ${!isMatched && !isWrong && !selectedLeft ? 'border-transparent bg-bg-card text-text-muted' : ''}
                     `}
                   >
+                    {isMatched && <span className="text-[11px] opacity-70 mr-1">{PAIR_SYMBOLS[getMatchIndexByRightIdx(idx) % PAIR_SYMBOLS.length]}</span>}
                     {right}
                   </button>
                 );

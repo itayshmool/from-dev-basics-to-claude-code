@@ -47,6 +47,24 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "Why should node_modules NOT be committed to git?",
+      "options": [
+        "It's a secret file",
+        "It's too large and can be regenerated from package.json",
+        "Git can't track it",
+        "It contains passwords"
+      ],
+      "correctIndex": 1,
+      "explanation": "The node_modules folder can contain thousands of files and hundreds of megabytes. Since it can be fully recreated by running `npm install` (which reads package.json), there's no reason to commit it. Keeping it out of git keeps your repository small and clean."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "The file that tells git which files to ignore is called _____.",
+      "answer": ".gitignore",
+      "caseSensitive": true
+    },
+    {
       "type": "checklist",
       "instruction": "Verify your .gitignore is set up correctly. You can run `cat .gitignore` to check its contents.",
       "items": [

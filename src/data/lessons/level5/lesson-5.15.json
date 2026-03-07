@@ -3,12 +3,12 @@
   "level": 5,
   "order": 15,
   "title": "Level 7 Challenge",
-  "subtitle": "Put it all together — build a complete server",
+  "subtitle": "Put it all together \u2014 build a complete server",
   "type": "guide",
   "sections": [
     {
       "type": "narrative",
-      "content": "Time to put everything you've learned together. In this challenge, you'll build a **complete server** from scratch that combines everything from Level 7:\n\n- Serving HTML pages\n- Text routes\n- JSON API endpoints\n- Query parameters\n- Proper project setup with .gitignore\n- Version control with Git and GitHub\n\nThere's no step-by-step hand-holding here. You have all the knowledge you need from the previous lessons. If you get stuck on any step, check the hints — but try on your own first.\n\nThis is what real development feels like: you know the pieces, now assemble them into something complete.",
+      "content": "Time to put everything you've learned together. In this challenge, you'll build a **complete server** from scratch that combines everything from Level 7:\n\n- Serving HTML pages\n- Text routes\n- JSON API endpoints\n- Query parameters\n- Proper project setup with .gitignore\n- Version control with Git and GitHub\n\nThere's no step-by-step hand-holding here. You have all the knowledge you need from the previous lessons. If you get stuck on any step, check the hints \u2014 but try on your own first.\n\nThis is what real development feels like: you know the pieces, now assemble them into something complete.",
       "keyPoints": [
         "This challenge combines everything from Level 7",
         "Try each step on your own before checking the hints",
@@ -26,7 +26,7 @@
         },
         {
           "text": "GET /about serves an about page",
-          "hint": "Use app.get('/about', (req, res) => { res.send('Your about page content here'); }); — you can return plain text or HTML string."
+          "hint": "Use app.get('/about', (req, res) => { res.send('Your about page content here'); }); \u2014 you can return plain text or HTML string."
         },
         {
           "text": "GET /api/time returns JSON with the current time",
@@ -47,17 +47,39 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "Before pushing a Node.js project to GitHub, which file should you create to prevent node_modules from being committed?",
+      "options": [
+        ".env",
+        ".gitignore",
+        "package-lock.json",
+        ".npmrc"
+      ],
+      "correctIndex": 1,
+      "explanation": "The .gitignore file tells git which files and folders to skip. node_modules should always be listed there."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To return JSON data from an Express route handler, you use `res._____(data)` instead of `res.send(data)`.",
+      "answer": "json",
+      "acceptableAnswers": [
+        "json"
+      ],
+      "hint": "This method automatically sets the Content-Type header to application/json.",
+      "successMessage": "Correct \u2014 res.json() converts your JavaScript object to JSON and sets the right headers."
+    },
+    {
       "type": "narrative",
-      "content": "**Congratulations — you just built a real web server and published it to GitHub.**\n\nLet that sink in. A few lessons ago, you installed Node.js for the first time. Now you have:\n\n- A working web server that serves HTML pages\n- API endpoints that return live JSON data\n- Dynamic routes that respond to user input (query parameters)\n- A properly configured project with version control\n- Code published to GitHub for the world to see\n\nThis isn't a toy project or a simulation. This is **real software**, built with the same tools and patterns that professional developers use every day.\n\nThe key insight from Level 7: **building software isn't about memorizing syntax.** It's about understanding the pieces — servers, routes, responses, data formats — and assembling them. You now understand those pieces.\n\nAnd soon, Claude Code will help you assemble them much, much faster.",
+      "content": "**Congratulations \u2014 you just built a real web server and published it to GitHub.**\n\nLet that sink in. A few lessons ago, you installed Node.js for the first time. Now you have:\n\n- A working web server that serves HTML pages\n- API endpoints that return live JSON data\n- Dynamic routes that respond to user input (query parameters)\n- A properly configured project with version control\n- Code published to GitHub for the world to see\n\nThis isn't a toy project or a simulation. This is **real software**, built with the same tools and patterns that professional developers use every day.\n\nThe key insight from Level 7: **building software isn't about memorizing syntax.** It's about understanding the pieces \u2014 servers, routes, responses, data formats \u2014 and assembling them. You now understand those pieces.\n\nAnd soon, Claude Code will help you assemble them much, much faster.",
       "keyPoints": [
         "You built a real, working web server from scratch",
         "You created both HTML pages and JSON API endpoints",
-        "Your code is on GitHub — a real project in your portfolio",
+        "Your code is on GitHub \u2014 a real project in your portfolio",
         "Next up: Claude Code will supercharge your building speed"
       ]
     }
   ],
-  "completionMessage": "Level 7 complete! You've gone from installing Node.js to building and publishing a real web server. You're no longer just learning about tools — you're using them to build real things.",
+  "completionMessage": "Level 7 complete! You've gone from installing Node.js to building and publishing a real web server. You're no longer just learning about tools \u2014 you're using them to build real things.",
   "milestone": {
     "title": "Level 7 Complete: Building With Real Tools",
     "summary": [
@@ -67,7 +89,7 @@
       "Create API endpoints that return JSON",
       "Serve HTML pages"
     ],
-    "nextLevelTeaser": "Next up: Level 8 — Claude Code. You'll learn to build projects by describing what you want in plain English."
+    "nextLevelTeaser": "Next up: Level 8 \u2014 Claude Code. You'll learn to build projects by describing what you want in plain English."
   },
   "nextLesson": "6.1"
 }

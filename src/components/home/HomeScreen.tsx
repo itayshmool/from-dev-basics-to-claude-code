@@ -7,6 +7,8 @@ import { LEVELS } from '../../lib/constants';
 import { ClaudeIcon } from '../icons/ClaudeIcon';
 import { ThemeToggle } from '../shared/ThemeToggle';
 import { WelcomeOverlay, useOnboardingSeen } from './WelcomeOverlay';
+import { LevelAssessment } from './LevelAssessment';
+import { LEVEL_ASSESSMENTS } from '../../data/assessments';
 
 function getInitials(name: string): string {
   return name
@@ -49,9 +51,38 @@ const LEVEL_EMOJI: Record<number, string> = {
   7: '\u{1F680}', // rocket
 };
 
+function hasCompletionToday(completionDates?: Record<string, string>): boolean {
+  if (!completionDates) return false;
+  const today = new Date().toISOString().slice(0, 10);
+  return Object.values(completionDates).some(d => d.slice(0, 10) === today);
+}
+
+function getCurrentStreak(completionDates?: Record<string, string>): number {
+  if (!completionDates) return 0;
+  const dates = new Set(Object.values(completionDates).map(d => d.slice(0, 10)));
+  if (dates.size === 0) return 0;
+  let streak = 0;
+  const now = new Date();
+  // Start from yesterday (today might not be done yet)
+  for (let i = 0; i <= 365; i++) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    const dateStr = d.toISOString().slice(0, 10);
+    if (dates.has(dateStr)) {
+      streak++;
+    } else if (i === 0) {
+      // Today doesn't count yet, skip
+      continue;
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
+
 export function HomeScreen() {
   const navigate = useNavigate();
-  const { isLessonComplete, completedLessons, getLevelCompletedCount, getReviewLessons, currentSectionIndex, currentLessonId } = useProgress();
+  const { isLessonComplete, completedLessons, getLevelCompletedCount, getReviewLessons, currentSectionIndex, currentLessonId, completionDates } = useProgress();
   const { user, logout } = useAuth();
 
   // Smart expand: auto-expand current in-progress level + next level; for new users just level 0
@@ -83,6 +114,7 @@ export function HomeScreen() {
     return expanded;
   });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [testOutLevel, setTestOutLevel] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { seen: onboardingSeen, markSeen: markOnboardingSeen } = useOnboardingSeen();
   const [showWelcome, setShowWelcome] = useState(!onboardingSeen && completedLessons.length === 0);
@@ -268,6 +300,51 @@ export function HomeScreen() {
           </Link>
         )}
 
+        {/* Daily goal & streak alert */}
+        {user && completedLessons.length > 0 && (() => {
+          const doneToday = hasCompletionToday(completionDates);
+          const streak = getCurrentStreak(completionDates);
+
+          return (
+            <div className="mb-6 lg:mb-8 flex flex-col gap-2">
+              {/* Daily goal */}
+              {doneToday ? (
+                <div className="flex items-center gap-3 bg-green-soft border border-green/20 rounded-xl px-4 py-3">
+                  <span className="text-lg">&#x2705;</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[13px] font-mono font-medium text-green">Daily goal reached!</p>
+                    {streak > 0 && (
+                      <p className="text-[11px] font-mono text-text-muted mt-0.5">
+                        &#x1F525; Day {streak + 1} streak
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3 bg-bg-card border border-border rounded-xl px-4 py-3">
+                  <span className="text-lg">&#x1F3AF;</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[13px] font-mono font-medium text-text-primary">Daily goal: Complete 1 lesson</p>
+                    {streak > 0 && (
+                      <p className="text-[11px] font-mono text-yellow mt-0.5">
+                        &#x26A0;&#xFE0F; Complete a lesson to keep your {streak}-day streak!
+                      </p>
+                    )}
+                  </div>
+                  {currentLessonId && (
+                    <Link
+                      to={`/lesson/${currentLessonId}`}
+                      className="text-[12px] font-mono text-purple bg-purple-soft px-2.5 py-1 rounded hover:bg-purple/20 transition-colors flex-shrink-0"
+                    >
+                      Go &rarr;
+                    </Link>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })()}
+
         {/* Spaced review recommendations */}
         {(() => {
           const reviewIds = getReviewLessons();
@@ -354,6 +431,16 @@ export function HomeScreen() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
+
+                {/* Test Out button — only for not-started levels with assessment data */}
+                {isNotStarted && LEVEL_ASSESSMENTS.some(a => a.levelId === levelMeta.id) && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setTestOutLevel(levelMeta.id); }}
+                    className="mb-2 text-[11px] font-mono text-purple hover:underline"
+                  >
+                    Already know this? Test out &rarr;
+                  </button>
+                )}
 
                 {/* Progress bar */}
                 <div className="flex items-center gap-2 mb-1">
@@ -464,6 +551,11 @@ export function HomeScreen() {
           </div>
         )}
       </div>
+
+      {/* Test Out modal */}
+      {testOutLevel !== null && (
+        <LevelAssessment levelId={testOutLevel} onClose={() => setTestOutLevel(null)} />
+      )}
     </div>
   );
 }

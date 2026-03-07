@@ -4,9 +4,9 @@ interface StreakHeatmapProps {
 
 function getIntensity(count: number): string {
   if (count === 0) return 'bg-bg-elevated';
-  if (count === 1) return 'bg-purple/20';
-  if (count <= 3) return 'bg-purple/45';
-  return 'bg-purple/75';
+  if (count === 1) return 'bg-purple/20 border border-purple/15';
+  if (count <= 3) return 'bg-purple/45 border border-purple/30';
+  return 'bg-purple/75 border border-purple/50';
 }
 
 function getDaysInRange(weeks: number): { date: Date; dateStr: string }[] {
@@ -117,9 +117,9 @@ export function StreakHeatmap({ activityMap }: StreakHeatmapProps) {
         <div className="flex items-center gap-1.5 mt-2 ml-[28px]">
           <span className="text-[9px] font-mono text-text-muted">Less</span>
           <div className="w-[11px] h-[11px] rounded-[2px] bg-bg-elevated" />
-          <div className="w-[11px] h-[11px] rounded-[2px] bg-purple/20" />
-          <div className="w-[11px] h-[11px] rounded-[2px] bg-purple/45" />
-          <div className="w-[11px] h-[11px] rounded-[2px] bg-purple/75" />
+          <div className="w-[11px] h-[11px] rounded-[2px] bg-purple/20 border border-purple/15" />
+          <div className="w-[11px] h-[11px] rounded-[2px] bg-purple/45 border border-purple/30" />
+          <div className="w-[11px] h-[11px] rounded-[2px] bg-purple/75 border border-purple/50" />
           <span className="text-[9px] font-mono text-text-muted">More</span>
         </div>
       </div>

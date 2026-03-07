@@ -57,6 +57,12 @@
       ]
     },
     {
+      "type": "fillInBlank",
+      "prompt": "To handle API errors in JavaScript, wrap your fetch call in a _____/catch block.",
+      "answer": "try",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "Why do we wrap the API call in a try/catch block?",
       "options": [

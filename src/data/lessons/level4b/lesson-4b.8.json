@@ -62,6 +62,12 @@
       ]
     },
     {
+      "type": "fillInBlank",
+      "prompt": "API keys should never be committed to _____.",
+      "answer": "git",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "You accidentally committed your API key to a public GitHub repository. What do you do first?",
       "options": [

@@ -52,6 +52,19 @@
       }
     },
     {
+      "type": "quiz",
+      "question": "How do you separate multiple query parameters in a URL?",
+      "options": ["With a comma", "With the & symbol", "With a space", "With a semicolon"],
+      "correctIndex": 1,
+      "explanation": "Multiple query parameters are separated by the & (ampersand) symbol. For example: ?name=Mike&lang=es sends two parameters in a single URL."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "Query parameters start with a _____ symbol after the URL path.",
+      "answer": "?",
+      "caseSensitive": false
+    },
+    {
       "type": "terminalStep",
       "instruction": "Query parameters also work for pagination — limiting how many results you get back.",
       "prompt": "Type `curl https://mock.zero2claude.dev/items?limit=3` to get only 3 items instead of all 10.",

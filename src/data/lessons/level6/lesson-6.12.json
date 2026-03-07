@@ -61,6 +61,24 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "What is the correct order for using Claude with git?",
+      "options": [
+        "Commit, then code, then review",
+        "Code, commit, then review",
+        "Branch, code with Claude, review, commit, push",
+        "Push, then code, then commit"
+      ],
+      "correctIndex": 2,
+      "explanation": "The professional workflow is: create a branch, build with Claude Code, review changes with git diff, commit when satisfied, and push to GitHub. This keeps your work organized and safe."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "Before starting new work with Claude, create a new git _____.",
+      "answer": "branch",
+      "caseSensitive": false
+    },
+    {
       "type": "narrative",
       "content": "This is the professional workflow: **branch, build, review, commit, merge, push**. Claude Code fits right into the \"build\" step without changing anything else.\n\nEvery feature gets its own branch. Every change gets reviewed before committing. Every commit gets pushed to GitHub. This is how real software teams ship code — and now it's how you ship code too."
     }

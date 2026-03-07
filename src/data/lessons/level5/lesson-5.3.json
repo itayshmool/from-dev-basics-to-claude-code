@@ -49,6 +49,24 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "How do you run a file called app.js with Node?",
+      "options": [
+        "javascript app.js",
+        "run app.js",
+        "node app.js",
+        "npm app.js"
+      ],
+      "correctIndex": 2,
+      "explanation": "The command `node app.js` tells Node.js to read and execute the JavaScript code inside app.js. Node is the runtime, and you pass the filename as an argument."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "The development cycle is: write code, _____ it, check the output.",
+      "answer": "run",
+      "caseSensitive": false
+    },
+    {
       "type": "narrative",
       "content": "You just completed the **write-run-test** cycle — the fundamental loop of all software development:\n\n1. **Write** code in a file\n2. **Run** the file\n3. **See** the result\n4. **Repeat**\n\nEvery developer, from a beginner to a senior engineer at Google, does this same loop thousands of times. The code gets more complex, but the cycle never changes.",
       "keyPoints": [

@@ -8,13 +8,13 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "You've probably noticed a pattern by now: every time you change your code, you need to **stop** the server and **start** it again to see your changes.\n\nThis is the fundamental **development cycle** for server-side code:\n\n1. **Edit** your code in a text editor\n2. **Stop** the running server with Ctrl+C\n3. **Start** it again with `node app.js`\n4. **Test** by refreshing your browser\n5. Repeat\n\nThis might feel tedious, but it's important to understand *why* it works this way. When you run `node app.js`, Node reads your file once and loads it into memory. After that, it's running from memory — it doesn't watch the file for changes. So if you edit the file, Node doesn't know about it until you restart.",
-      "analogy": "It's like reading a recipe before cooking. Once you've read it and started cooking, you follow the version in your head. If someone changes the recipe book while you're cooking, you won't know — you'd need to stop, re-read the recipe, and start over.",
+      "content": "You've probably noticed a pattern by now: every time you change your code, you need to **stop** the server and **start** it again to see your changes.\n\nThis is the fundamental **development cycle** for server-side code:\n\n1. **Edit** your code in a text editor\n2. **Stop** the running server with Ctrl+C\n3. **Start** it again with `node app.js`\n4. **Test** by refreshing your browser\n5. Repeat\n\nThis might feel tedious, but it's important to understand *why* it works this way. When you run `node app.js`, Node reads your file once and loads it into memory. After that, it's running from memory \u2014 it doesn't watch the file for changes. So if you edit the file, Node doesn't know about it until you restart.",
+      "analogy": "It's like reading a recipe before cooking. Once you've read it and started cooking, you follow the version in your head. If someone changes the recipe book while you're cooking, you won't know \u2014 you'd need to stop, re-read the recipe, and start over.",
       "keyPoints": [
         "Ctrl+C stops a running server (sends an interrupt signal)",
-        "Node reads your file once at startup — changes require a restart",
+        "Node reads your file once at startup \u2014 changes require a restart",
         "This edit-stop-start-test cycle is normal for development",
-        "Static files (HTML, CSS) in the public/ folder may not need a server restart — the browser fetches them fresh"
+        "Static files (HTML, CSS) in the public/ folder may not need a server restart \u2014 the browser fetches them fresh"
       ]
     },
     {
@@ -27,7 +27,7 @@
         "Close the terminal window"
       ],
       "correctIndex": 1,
-      "explanation": "Ctrl+C sends an interrupt signal to the running process, telling it to shut down gracefully. Closing the browser doesn't affect the server — it keeps running. Closing the terminal window does kill the process, but Ctrl+C is the proper way to stop it."
+      "explanation": "Ctrl+C sends an interrupt signal to the running process, telling it to shut down gracefully. Closing the browser doesn't affect the server \u2014 it keeps running. Closing the terminal window does kill the process, but Ctrl+C is the proper way to stop it."
     },
     {
       "type": "narrative",
@@ -35,12 +35,23 @@
       "tip": "For now, stick with the manual cycle: Ctrl+C, then node app.js. The muscle memory will serve you well, and you'll appreciate nodemon even more when you start using it."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "To stop a running Node.js server in the terminal, you press Ctrl+_____.",
+      "answer": "C",
+      "acceptableAnswers": [
+        "C",
+        "c"
+      ],
+      "hint": "It's not Ctrl+Z (which suspends) \u2014 it's the letter that stands for 'Cancel'.",
+      "successMessage": "Right \u2014 Ctrl+C sends an interrupt signal that stops the running process."
+    },
+    {
       "type": "checklist",
       "instruction": "Verify you understand the development cycle. Check off each item once you're confident.",
       "items": [
         {
           "text": "I can start my server with node app.js",
-          "hint": "Run this from your project directory — the one containing app.js and package.json"
+          "hint": "Run this from your project directory \u2014 the one containing app.js and package.json"
         },
         {
           "text": "I can stop it with Ctrl+C",

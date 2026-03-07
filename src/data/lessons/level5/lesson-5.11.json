@@ -71,6 +71,12 @@
       "explanation": "`/about` is the route \u2014 the URL path a user visits. When someone goes to `http://localhost:3000/about`, Express matches it to this handler and runs the function. Different routes handle different pages."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "In Express, `app.get('/about', ...)` creates a route that responds to the _____ path.",
+      "answer": "/about",
+      "caseSensitive": true
+    },
+    {
       "type": "guideStep",
       "instruction": "Now test your new routes! Open your browser and visit both of these URLs:\n\n1. **http://localhost:3000/about** \u2014 should show your about page text\n2. **http://localhost:3000/contact** \u2014 should show your contact page text\n\nAlso try **http://localhost:3000** to make sure your original route still works too.",
       "codeBlocks": [

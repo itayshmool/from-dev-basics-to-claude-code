@@ -44,6 +44,16 @@
       ],
       "correctIndex": 1,
       "explanation": "Your .env file contains secrets like API keys, database passwords, and tokens. These must never be committed to git. Add .env to your .gitignore file. The other files \u2014 package.json, index.html, and README.md \u2014 are safe and should be committed."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To check for known vulnerabilities in your project's dependencies, you run `npm _____`.",
+      "answer": "audit",
+      "acceptableAnswers": [
+        "audit"
+      ],
+      "hint": "This npm command scans your dependency tree against a database of known security issues.",
+      "successMessage": "Right \u2014 npm audit checks your installed packages for known vulnerabilities and suggests fixes."
     }
   ],
   "completionMessage": "You now know the five non-negotiable security rules. Never commit secrets, never trust user input, use HTTPS, keep dependencies updated, and don't log sensitive data. These aren't advanced techniques \u2014 they're the baseline that separates responsible developers from careless ones.",

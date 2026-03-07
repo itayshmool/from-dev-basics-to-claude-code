@@ -68,6 +68,12 @@
       "confirmationType": "continue"
     },
     {
+      "type": "fillInBlank",
+      "prompt": "The file that tracks your project's dependencies is called _____.",
+      "answer": "package.json",
+      "caseSensitive": false
+    },
+    {
       "type": "narrative",
       "content": "Here's what each field in `package.json` means:\n\n- **name** — your project's name (defaults to the folder name)\n- **version** — your project's version number (starts at 1.0.0)\n- **description** — a short summary of what your project does\n- **main** — the entry point file (which file runs when someone imports your project)\n- **scripts** — custom commands you can run with `npm run <name>`\n- **keywords** — search tags if you publish to npm\n- **license** — how others can use your code\n\nThe most important field you'll use soon is **dependencies** — it will list every package your project needs. Right now it's empty because we haven't installed anything yet.",
       "keyPoints": [

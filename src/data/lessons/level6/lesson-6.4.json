@@ -30,6 +30,24 @@
       "expectedResult": "Claude reads package.json and explains each dependency — what it does, why it's needed, and how your project uses it."
     },
     {
+      "type": "quiz",
+      "question": "What can Claude Code do that Claude.ai cannot?",
+      "options": [
+        "Answer questions faster",
+        "Read and modify files directly in your project",
+        "Write better code",
+        "Access the internet"
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs inside your terminal with access to your project. It can read, create, and edit your actual files — something Claude.ai in the browser cannot do."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To ask Claude to explain a file, say 'Explain what _____ does'.",
+      "answer": "this file",
+      "caseSensitive": false
+    },
+    {
       "type": "narrative",
       "content": "This is how real developers work every day. When you join a company, you get dropped into a codebase with thousands of files that you've never seen before. Your first job is to understand it.\n\nBefore AI tools, this could take weeks. Developers would read documentation (if it existed), trace code paths by hand, and ask teammates for context. Claude Code dramatically accelerates this process.\n\nEven experienced developers use this pattern constantly. Understanding code is just as important as writing it.",
       "tip": "Try this with any open-source project: clone a GitHub repo, cd into it, run claude, and ask for an overview. It's the fastest way to understand someone else's work."

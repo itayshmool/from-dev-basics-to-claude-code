@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 interface AchievementToastProps {
   icon: string;
   title: string;
+  description?: string;
   onDismiss: () => void;
 }
 
-export function AchievementToast({ icon, title, onDismiss }: AchievementToastProps) {
+export function AchievementToast({ icon, title, description, onDismiss }: AchievementToastProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -23,6 +24,8 @@ export function AchievementToast({ icon, title, onDismiss }: AchievementToastPro
 
   return (
     <div
+      role="status"
+      aria-live="polite"
       className={`fixed top-4 right-4 z-50 transition-all duration-300 ${
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
       }`}
@@ -32,6 +35,9 @@ export function AchievementToast({ icon, title, onDismiss }: AchievementToastPro
         <div>
           <p className="text-[10px] font-mono text-purple uppercase tracking-wider">Achievement Unlocked!</p>
           <p className="text-sm font-mono text-text-primary font-medium">{title}</p>
+          {description && (
+            <p className="text-[11px] font-mono text-text-muted mt-0.5 leading-snug">{description}</p>
+          )}
         </div>
       </div>
     </div>

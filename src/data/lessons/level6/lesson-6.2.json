@@ -63,6 +63,12 @@
       "explanation": "The -g flag installs the package globally, making it available as a command from any directory — not just one project."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "To install Claude Code globally, type `npm install _____ @anthropic-ai/claude-code`.",
+      "answer": "-g",
+      "caseSensitive": true
+    },
+    {
       "type": "guideStep",
       "instruction": "Now let's authenticate. Run `claude` to start it for the first time. It will walk you through signing in with your Anthropic account. Follow the prompts on screen — it will open a browser window for you to log in.",
       "codeBlocks": [

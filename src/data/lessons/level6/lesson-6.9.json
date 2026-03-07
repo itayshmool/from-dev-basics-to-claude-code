@@ -27,6 +27,12 @@
       "tip": "Each prompt builds on the last. Claude remembers the full conversation and knows the complete context of your project. You don't need to re-explain what you've already built — just describe what you want to change or add next."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "When iterating with Claude, make _____ focused requests instead of one giant request.",
+      "answer": "small",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "Why is it better to use multiple small prompts instead of one giant prompt?",
       "options": [

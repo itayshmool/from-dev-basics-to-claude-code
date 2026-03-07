@@ -74,6 +74,12 @@
       "explanation": "`app.listen(3000)` tells your server to start running on port 3000 and wait for incoming HTTP requests. Without it, your server code exists but never actually runs or accepts connections."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "In Express, `app.listen(3000)` tells the server to listen on _____ 3000.",
+      "answer": "port",
+      "caseSensitive": false
+    },
+    {
       "type": "guideStep",
       "instruction": "Open your web browser and go to **http://localhost:3000**. You should see your message displayed on the page!\n\nWhen you're done admiring your work, go back to your terminal and press **Ctrl+C** to stop the server.",
       "confirmationType": "success_or_error",

@@ -8,7 +8,7 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "The skill isn't memorizing APIs. It's knowing how to **read any API doc** and translate it into a working request in under 2 minutes.\n\nEvery API has documentation. The format varies, but the structure is consistent:\n- **Method + path** — what request to make\n- **Path parameters** — values embedded in the URL path\n- **Query parameters** — optional filters and options\n- **Request body** — what JSON to send (for POST/PUT)\n- **Response** — what you'll get back",
+      "content": "The skill isn't memorizing APIs. It's knowing how to **read any API doc** and translate it into a working request in under 2 minutes.\n\nEvery API has documentation. The format varies, but the structure is consistent:\n- **Method + path** \u2014 what request to make\n- **Path parameters** \u2014 values embedded in the URL path\n- **Query parameters** \u2014 optional filters and options\n- **Request body** \u2014 what JSON to send (for POST/PUT)\n- **Response** \u2014 what you'll get back",
       "keyPoints": [
         "Path parameters like `{owner}` are replaced directly in the URL path",
         "Query parameters go after `?` and are optional unless marked required",
@@ -23,7 +23,7 @@
         {
           "language": "text",
           "label": "API Doc Entry",
-          "code": "GET /repos/{owner}/{repo}/issues\n\nPath parameters:\n  owner  (string, required) — account owner of the repository\n  repo   (string, required) — name of the repository\n\nQuery parameters:\n  state    (string) — \"open\", \"closed\", or \"all\" — default: \"open\"\n  labels   (string) — comma-separated label names\n  per_page (integer) — results per page, max 100, default 30\n  page     (integer) — page number of results\n\nResponse: Array of issue objects"
+          "code": "GET /repos/{owner}/{repo}/issues\n\nPath parameters:\n  owner  (string, required) \u2014 account owner of the repository\n  repo   (string, required) \u2014 name of the repository\n\nQuery parameters:\n  state    (string) \u2014 \"open\", \"closed\", or \"all\" \u2014 default: \"open\"\n  labels   (string) \u2014 comma-separated label names\n  per_page (integer) \u2014 results per page, max 100, default 30\n  page     (integer) \u2014 page number of results\n\nResponse: Array of issue objects"
         },
         {
           "language": "bash",
@@ -31,7 +31,7 @@
           "code": "# Get all CLOSED issues for facebook/react, 10 per page\ncurl \"https://api.github.com/repos/facebook/react/issues?state=closed&per_page=10\""
         }
       ],
-      "explanation": "Translation process:\n1. Method = GET → no -X flag needed\n2. Base URL = `https://api.github.com`\n3. Path = `/repos/{owner}/{repo}/issues` → replace `{owner}` with `facebook`, `{repo}` with `react`\n4. Query params = `?state=closed&per_page=10`\n5. No auth needed for public repos"
+      "explanation": "Translation process:\n1. Method = GET \u2192 no -X flag needed\n2. Base URL = `https://api.github.com`\n3. Path = `/repos/{owner}/{repo}/issues` \u2192 replace `{owner}` with `facebook`, `{repo}` with `react`\n4. Query params = `?state=closed&per_page=10`\n5. No auth needed for public repos"
     },
     {
       "type": "guideStep",
@@ -69,10 +69,22 @@
         "/users/42/orders&status=pending&limit=10"
       ],
       "correctIndex": 2,
-      "explanation": "Path parameters like `{userId}` are replaced directly: `{userId}` → `42`, giving `/users/42/orders`. Query params go after `?`: `?status=pending&limit=10`. The `{curly braces}` in docs are placeholders — they're never in the actual URL."
+      "explanation": "Path parameters like `{userId}` are replaced directly: `{userId}` \u2192 `42`, giving `/users/42/orders`. Query params go after `?`: `?status=pending&limit=10`. The `{curly braces}` in docs are placeholders \u2014 they're never in the actual URL."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "When an API doc says `GET /repos/{owner}/{repo}/commits`, the curly-brace parts like `{owner}` are called _____ parameters.",
+      "answer": "path",
+      "acceptableAnswers": [
+        "path",
+        "path parameters",
+        "url"
+      ],
+      "hint": "They go directly into the URL path, not after the ? mark.",
+      "successMessage": "Exactly \u2014 path parameters are embedded directly in the URL."
     }
   ],
-  "completionMessage": "You can now read any REST API documentation and produce a working curl command. This skill transfers to every API you'll ever use — GitHub, Stripe, OpenAI, Google, and thousands more.",
+  "completionMessage": "You can now read any REST API documentation and produce a working curl command. This skill transfers to every API you'll ever use \u2014 GitHub, Stripe, OpenAI, Google, and thousands more.",
   "milestone": null,
   "nextLesson": "4b.11"
 }

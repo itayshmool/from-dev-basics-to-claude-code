@@ -59,6 +59,30 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "You've completed this course. What's the MOST important habit to continue as a developer?",
+      "options": [
+        "Memorizing every command and syntax",
+        "Building real projects and learning from the problems you encounter",
+        "Reading documentation from start to finish before coding",
+        "Only using tools you fully understand"
+      ],
+      "correctIndex": 1,
+      "explanation": "The best developers learn by building. Real projects create real problems, and solving those problems is how you grow. You don't need to memorize everything \u2014 you need to know how to find answers."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "The professional developer workflow follows this cycle: Issue \u2192 Branch \u2192 Code \u2192 Test \u2192 Review \u2192 Commit \u2192 Push \u2192 _____ \u2192 Merge \u2192 Deploy",
+      "answer": "PR",
+      "acceptableAnswers": [
+        "PR",
+        "Pull Request",
+        "pull request"
+      ],
+      "hint": "After pushing your branch, you create this on GitHub to propose merging your changes.",
+      "successMessage": "Exactly \u2014 a Pull Request (PR) is how you propose and discuss changes before merging them into the main branch."
+    },
+    {
       "type": "narrative",
       "content": "You're not pretending to be a developer. **You are one.** Junior, but real. Every senior developer you meet was once exactly where you are \u2014 staring at a terminal for the first time, wondering if they'd ever understand any of this.\n\nYou understood it. You built things. You deployed them to the internet.\n\nAnd with Claude Code as your pair programmer, you can build anything you can describe. You don't need to memorize every API or know every framework. You need to understand the fundamentals \u2014 and you do \u2014 and know how to ask for help effectively \u2014 and you do that too.\n\nThe only thing left to do: **go build something.**"
     }

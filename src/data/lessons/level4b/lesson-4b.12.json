@@ -8,11 +8,11 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "Here's the secret: `curl` isn't just a testing tool. It's a **translation guide**.\n\nEvery curl command you write maps 1:1 to a fetch call in JavaScript, a requests call in Python, or any other HTTP client. Once a request works in curl, translating it to code is mechanical — and Claude Code does it in seconds.\n\nThis is the workflow every developer uses:\n1. Understand the API (read docs)\n2. Test the request with curl (confirm it works)\n3. Translate to code (copy into your project)\n4. Handle the response (parse and use the data)",
+      "content": "Here's the secret: `curl` isn't just a testing tool. It's a **translation guide**.\n\nEvery curl command you write maps 1:1 to a fetch call in JavaScript, a requests call in Python, or any other HTTP client. Once a request works in curl, translating it to code is mechanical \u2014 and Claude Code does it in seconds.\n\nThis is the workflow every developer uses:\n1. Understand the API (read docs)\n2. Test the request with curl (confirm it works)\n3. Translate to code (copy into your project)\n4. Handle the response (parse and use the data)",
       "keyPoints": [
-        "curl flags map directly to code: `-H` → headers object, `-d` → body",
+        "curl flags map directly to code: `-H` \u2192 headers object, `-d` \u2192 body",
         "Any working curl command can be pasted to Claude Code: \"translate this to JavaScript fetch\"",
-        "The translation is mechanical — the hard part is getting the curl working, not the code",
+        "The translation is mechanical \u2014 the hard part is getting the curl working, not the code",
         "This workflow works for every language: JS, Python, Go, Ruby, etc."
       ]
     },
@@ -36,11 +36,11 @@
           "code": "import requests\n\nresponse = requests.get(\n    'https://api.github.com/users/torvalds',\n    headers={'Accept': 'application/json'}\n)\ndata = response.json()\nprint(data['name'])  # Linus Torvalds"
         }
       ],
-      "explanation": "Notice the mapping:\n- URL → first argument\n- `-H \"Key: Value\"` → headers object `{ 'Key': 'Value' }`\n- `-X POST` → `method: 'POST'`\n- `-d '{...}'` → `body: JSON.stringify({...})`\n\nThe structure is identical. The syntax is different."
+      "explanation": "Notice the mapping:\n- URL \u2192 first argument\n- `-H \"Key: Value\"` \u2192 headers object `{ 'Key': 'Value' }`\n- `-X POST` \u2192 `method: 'POST'`\n- `-d '{...}'` \u2192 `body: JSON.stringify({...})`\n\nThe structure is identical. The syntax is different."
     },
     {
       "type": "codeExample",
-      "instruction": "A POST request — the same data sent three ways.",
+      "instruction": "A POST request \u2014 the same data sent three ways.",
       "blocks": [
         {
           "language": "bash",
@@ -73,6 +73,29 @@
       "confirmationType": "success_or_error"
     },
     {
+      "type": "quiz",
+      "question": "Which curl flag maps to the 'headers' object when translating to JavaScript fetch?",
+      "options": [
+        "-d (data)",
+        "-X (method)",
+        "-H (header)",
+        "-o (output)"
+      ],
+      "correctIndex": 2,
+      "explanation": "The -H flag in curl sets headers, which maps directly to the headers object in fetch() or axios."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "The curl flag `-d '{\"name\": \"test\"}'` maps to the _____ property in a JavaScript fetch options object.",
+      "answer": "body",
+      "acceptableAnswers": [
+        "body",
+        "data"
+      ],
+      "hint": "-d sends data in the request body.",
+      "successMessage": "Correct \u2014 -d (data) maps to the body property in fetch()."
+    },
+    {
       "type": "promptTemplate",
       "instruction": "Once your curl works, use this prompt with Claude Code to translate it to code.",
       "prompt": "Translate this curl command into a JavaScript async function that returns the parsed JSON:\n\ncurl \"https://api.github.com/users/microsoft/repos?sort=updated&per_page=3\"\n\nThe function should be called `getMicrosoftRepos` and handle errors gracefully.",
@@ -85,7 +108,7 @@
       "expectedResult": "An async JavaScript function that uses fetch, handles errors, and returns the array of repos."
     }
   ],
-  "completionMessage": "Level 6 Complete: Talk to the Internet\n\nYou can now:\n  ✓ Read and construct any URL\n  ✓ Make GET, POST requests with curl\n  ✓ Add headers and authentication\n  ✓ Use query parameters to filter results\n  ✓ Read API documentation and translate it\n  ✓ Diagnose HTTP errors systematically\n  ✓ Translate curl commands to code\n\nThe internet is just requests and responses. You now speak the language.\n\nNext up: Level 7 — Building With Real Tools\nYou'll build the server that answers these requests.",
+  "completionMessage": "Level 6 Complete: Talk to the Internet\n\nYou can now:\n  \u2713 Read and construct any URL\n  \u2713 Make GET, POST requests with curl\n  \u2713 Add headers and authentication\n  \u2713 Use query parameters to filter results\n  \u2713 Read API documentation and translate it\n  \u2713 Diagnose HTTP errors systematically\n  \u2713 Translate curl commands to code\n\nThe internet is just requests and responses. You now speak the language.\n\nNext up: Level 7 \u2014 Building With Real Tools\nYou'll build the server that answers these requests.",
   "milestone": {
     "title": "Level 6 Complete: Talk to the Internet",
     "summary": [
@@ -96,7 +119,7 @@
       "You diagnose HTTP errors by status code and response body",
       "You know how curl maps directly to JavaScript and Python code"
     ],
-    "nextLevelTeaser": "In Level 7, you'll flip to the other side — you'll BUILD the server that answers these requests."
+    "nextLevelTeaser": "In Level 7, you'll flip to the other side \u2014 you'll BUILD the server that answers these requests."
   },
   "nextLesson": "5.1"
 }

@@ -43,6 +43,24 @@
       "expectedResult": "Claude diagnoses the layout or styling issue and modifies the code to fix it. It might adjust CSS, fix HTML structure, or correct a logic error."
     },
     {
+      "type": "quiz",
+      "question": "When reporting a bug to Claude, what should you always include?",
+      "options": [
+        "Your operating system",
+        "The exact error message",
+        "Your code editor name",
+        "The time of day"
+      ],
+      "correctIndex": 1,
+      "explanation": "The exact error message contains critical clues like file names, line numbers, and error codes. Always copy and paste the full error rather than paraphrasing it."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "When describing a bug, use the pattern: 'Expected _____, but got Y'.",
+      "answer": "X",
+      "caseSensitive": false
+    },
+    {
       "type": "narrative",
       "content": "Describing problems clearly is a genuine skill — and one that makes you better at working with both AI and human teammates.",
       "keyPoints": [

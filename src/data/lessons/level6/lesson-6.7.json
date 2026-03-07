@@ -8,12 +8,12 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "Let's build something real. So far you've created single files and made small edits. But Claude Code can handle much more — you can give it a complete project description and watch it build the whole thing.\n\nThe secret to getting great results is **being specific**. The more detail you provide about features, behavior, and design, the closer Claude gets to exactly what you want on the first try.\n\nWe're going to build a **bookmark manager** — a simple web app where you can save, view, and delete bookmarks. No server needed — everything runs in the browser using localStorage.",
+      "content": "Let's build something real. So far you've created single files and made small edits. But Claude Code can handle much more \u2014 you can give it a complete project description and watch it build the whole thing.\n\nThe secret to getting great results is **being specific**. The more detail you provide about features, behavior, and design, the closer Claude gets to exactly what you want on the first try.\n\nWe're going to build a **bookmark manager** \u2014 a simple web app where you can save, view, and delete bookmarks. No server needed \u2014 everything runs in the browser using localStorage.",
       "tip": "Before giving Claude a big prompt, think through what you actually want. List the features, describe the behavior, mention the tech. A minute of planning saves ten minutes of iteration."
     },
     {
       "type": "promptTemplate",
-      "instruction": "Give Claude a detailed project description. Notice how specific this prompt is — it lists every feature, describes the behavior, and specifies the technical approach.",
+      "instruction": "Give Claude a detailed project description. Notice how specific this prompt is \u2014 it lists every feature, describes the behavior, and specifies the technical approach.",
       "prompt": "Build me a simple bookmark manager web app:\n- An HTML page with a form to add bookmarks (URL and title)\n- JavaScript that saves bookmarks to localStorage\n- A list that displays all saved bookmarks\n- Each bookmark has a delete button\n- Clean, modern CSS styling\n- All in a single-page app (no server needed)",
       "expectedResult": "Claude creates multiple files: HTML, CSS, and JavaScript for a complete, working bookmark manager. It builds the form, the list display, localStorage logic, and delete functionality."
     },
@@ -62,10 +62,35 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "What makes a prompt more effective for Claude Code?",
+      "options": [
+        "Using as few words as possible",
+        "Being specific about features, tech stack, and structure",
+        "Writing in code instead of English",
+        "Asking for everything at once"
+      ],
+      "correctIndex": 1,
+      "explanation": "Specific prompts that describe the features you want, the technology to use, and the project structure produce much better results than vague or overly brief instructions."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "When asking Claude Code to build a project, providing a _____ description with specific features produces much better results than a vague request.",
+      "answer": "detailed",
+      "acceptableAnswers": [
+        "detailed",
+        "specific",
+        "clear",
+        "thorough"
+      ],
+      "hint": "The more _____ your prompt, the better Claude's output.",
+      "successMessage": "Exactly \u2014 detailed prompts help Claude understand exactly what you want and produce better code."
+    },
+    {
       "type": "narrative",
-      "content": "You just built a complete, working web application by describing it in English. Think about how long this would take to code by hand — setting up the HTML structure, writing the JavaScript for localStorage, handling form submissions, implementing delete logic, styling everything with CSS.\n\nWith Claude Code, the first version took seconds. And if anything isn't right, you iterate: ask Claude to fix it, add features, or change the design.\n\nThis is the power of AI-assisted development. You bring the ideas and the judgment. Claude brings the speed.",
+      "content": "You just built a complete, working web application by describing it in English. Think about how long this would take to code by hand \u2014 setting up the HTML structure, writing the JavaScript for localStorage, handling form submissions, implementing delete logic, styling everything with CSS.\n\nWith Claude Code, the first version took seconds. And if anything isn't right, you iterate: ask Claude to fix it, add features, or change the design.\n\nThis is the power of AI-assisted development. You bring the ideas and the judgment. Claude brings the speed.",
       "keyPoints": [
-        "Detailed prompts produce better results — list every feature you want",
+        "Detailed prompts produce better results \u2014 list every feature you want",
         "Always test the output yourself before moving on",
         "If something isn't right, describe the problem and ask Claude to fix it",
         "Claude built in seconds what would take manual coding much longer"

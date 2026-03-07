@@ -53,6 +53,19 @@
       }
     },
     {
+      "type": "quiz",
+      "question": "What flag adds a custom header in curl?",
+      "options": ["-d", "-X", "-H", "-o"],
+      "correctIndex": 2,
+      "explanation": "The -H flag (short for --header) adds a custom header to your curl request. For example: curl -H \"Authorization: Bearer token\" https://api.example.com"
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To send an API key in a header, use: `-H 'Authorization: _____ YOUR_KEY'`.",
+      "answer": "Bearer",
+      "caseSensitive": false
+    },
+    {
       "type": "terminalStep",
       "instruction": "Now add the Authorization header. The demo key is `student-demo-key`.",
       "prompt": "Type `curl https://mock.zero2claude.dev/private -H \"Authorization: Bearer student-demo-key\"`",

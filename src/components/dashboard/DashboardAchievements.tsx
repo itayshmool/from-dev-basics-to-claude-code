@@ -62,6 +62,30 @@ export function DashboardAchievements() {
         </div>
       </div>
 
+      {/* Next achievement preview */}
+      {(() => {
+        const closest = data.available
+          .filter(a => a.progress > 0)
+          .sort((a, b) => b.progress - a.progress)[0];
+        if (!closest) return null;
+        const pct = Math.round(closest.progress * 100);
+        return (
+          <div className="mb-6 bg-purple-soft border border-purple/20 rounded-xl p-4 flex items-center gap-3">
+            <span className="text-2xl grayscale">{closest.icon}</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-mono text-purple uppercase tracking-wider">Almost there</p>
+              <p className="text-sm font-mono text-text-primary font-medium">{closest.title}</p>
+              <div className="flex items-center gap-2 mt-1.5">
+                <div className="flex-1 h-1.5 bg-bg-elevated rounded-full overflow-hidden max-w-[160px]">
+                  <div className="h-full bg-purple rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+                </div>
+                <span className="text-[11px] font-mono text-text-muted tabular-nums">{pct}%</span>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
       {/* Earned */}
       {data.earned.length > 0 && (
         <div className="mb-8">

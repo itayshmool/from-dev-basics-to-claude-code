@@ -6,6 +6,7 @@ interface AchievementNotification {
   id: string;
   icon: string;
   title: string;
+  description: string;
 }
 
 interface AchievementContextValue {
@@ -25,10 +26,11 @@ export function AchievementProvider({ children }: { children: ReactNode }) {
       const prevSet = new Set(previousEarnedIds);
       const newOnes: AchievementNotification[] = data.earned
         .filter((a: { id: string }) => !prevSet.has(a.id))
-        .map((a: { id: string; icon: string; title: string }) => ({
+        .map((a: { id: string; icon: string; title: string; description: string }) => ({
           id: a.id,
           icon: a.icon,
           title: a.title,
+          description: a.description,
         }));
 
       if (newOnes.length > 0) {
@@ -51,6 +53,7 @@ export function AchievementProvider({ children }: { children: ReactNode }) {
           key={toasts[0].id}
           icon={toasts[0].icon}
           title={toasts[0].title}
+          description={toasts[0].description}
           onDismiss={dismissToast}
         />
       )}

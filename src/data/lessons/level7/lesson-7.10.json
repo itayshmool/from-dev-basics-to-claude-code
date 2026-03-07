@@ -44,6 +44,12 @@
       ]
     },
     {
+      "type": "fillInBlank",
+      "prompt": "To point a custom domain to your app, you create a _____ record in DNS.",
+      "answer": "CNAME",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "What does DNS do?",
       "options": [

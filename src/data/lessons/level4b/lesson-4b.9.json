@@ -77,6 +77,19 @@
         }
       ],
       "confirmationType": "success_or_error"
+    },
+    {
+      "type": "quiz",
+      "question": "What is the base URL for the GitHub API?",
+      "options": ["github.com/api", "api.github.com", "rest.github.com", "github.api.com"],
+      "correctIndex": 1,
+      "explanation": "The GitHub REST API is available at https://api.github.com. All endpoints are paths appended to this base URL, such as /users/torvalds or /repos/facebook/react."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To list a user's repos from the GitHub API, use the path `/users/USERNAME/_____`.",
+      "answer": "repos",
+      "caseSensitive": false
     }
   ],
   "completionMessage": "You just queried a production API used by millions of developers every day. The pattern — base URL + path + query params — works for every REST API on the internet.",

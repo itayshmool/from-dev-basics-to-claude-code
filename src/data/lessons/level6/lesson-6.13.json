@@ -35,6 +35,12 @@
       "analogy": "Claude is a power tool. A nail gun is faster than a hammer, but you still need to know where the nails go. If you don't understand the blueprint, a faster tool just helps you make mistakes faster. Learn the blueprint (the concepts), then use the power tool (Claude Code) to build efficiently."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "Claude Code is best for editing _____, while Claude.ai is best for general questions.",
+      "answer": "files",
+      "caseSensitive": false
+    },
+    {
       "type": "narrative",
       "content": "The developers who get the most out of AI tools are the ones who stay curious. They don't just accept Claude's output — they ask *why* it made those choices. They read the code. They learn the patterns. Over time, they need Claude less for simple things and use it more for complex, creative work.",
       "tip": "You're the architect, Claude is the builder. You decide what to build and why. Claude helps you build it faster. The more you understand about architecture, the better your buildings will be — no matter how good your builder is."

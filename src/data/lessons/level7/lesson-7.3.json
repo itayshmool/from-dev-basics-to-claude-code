@@ -53,6 +53,12 @@
       "tip": "When you're frustrated with a bug, take a 5-minute break. Seriously. Many developers report solving bugs right after stepping away. Your subconscious keeps working on the problem even when you're not staring at the screen."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "The first step in debugging is to _____ the bug consistently.",
+      "answer": "reproduce",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "What's the FIRST step in debugging?",
       "options": [

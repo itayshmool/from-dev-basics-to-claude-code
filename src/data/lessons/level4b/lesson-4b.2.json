@@ -36,6 +36,19 @@
       }
     },
     {
+      "type": "quiz",
+      "question": "What does curl do?",
+      "options": ["Compiles code", "Makes HTTP requests from the command line", "Creates files", "Manages packages"],
+      "correctIndex": 1,
+      "explanation": "curl is a command-line tool for making HTTP requests. It lets you talk directly to servers from your terminal — sending requests and receiving responses without needing a browser."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To make a GET request with curl, type `curl _____`.",
+      "answer": "URL",
+      "caseSensitive": false
+    },
+    {
       "type": "terminalStep",
       "instruction": "Now let's see the **full** response — including the headers. Add the `-i` flag (i = include headers).",
       "prompt": "Type `curl -i https://mock.zero2claude.dev/hello`",

@@ -35,6 +35,12 @@
       "explanation": "npm (Node Package Manager) is a tool for installing, managing, and sharing reusable JavaScript packages. It came bundled with Node.js when you installed it. It's not a language, editor, or hosting service — it's a package manager."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "npm stands for Node _____ Manager.",
+      "answer": "Package",
+      "caseSensitive": false
+    },
+    {
       "type": "narrative",
       "content": "You'll use npm constantly as a developer. The two commands you'll use most:\n\n- `npm install <package>` — download a package into your project\n- `npm init` — set up a new project\n\nLet's put these to work in the next lesson.",
       "keyPoints": [

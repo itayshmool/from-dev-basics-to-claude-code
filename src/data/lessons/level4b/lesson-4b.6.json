@@ -60,6 +60,12 @@
       }
     },
     {
+      "type": "fillInBlank",
+      "prompt": "To specify the HTTP method in curl, use the _____ flag.",
+      "answer": "-X",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "You want to add a new product to an e-commerce API. The API docs say `POST /api/products`. Which curl command is correct?",
       "options": [

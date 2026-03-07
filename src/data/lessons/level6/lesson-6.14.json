@@ -8,7 +8,7 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "You know the basics of working with Claude Code. Now let's level up with some power patterns that experienced developers use to get even better results.\n\nThese aren't tricks or hacks — they're **habits** that compound over time. Each one is small on its own, but together they transform how you work."
+      "content": "You know the basics of working with Claude Code. Now let's level up with some power patterns that experienced developers use to get even better results.\n\nThese aren't tricks or hacks \u2014 they're **habits** that compound over time. Each one is small on its own, but together they transform how you work."
     },
     {
       "type": "promptTemplate",
@@ -30,9 +30,33 @@
     },
     {
       "type": "promptTemplate",
-      "instruction": "Writing good commit messages is an art. Let Claude handle it — it can read the diff and summarize the changes better than most humans.",
+      "instruction": "Writing good commit messages is an art. Let Claude handle it \u2014 it can read the diff and summarize the changes better than most humans.",
       "prompt": "Write a commit message for the current changes",
       "expectedResult": "Claude reads the current git diff and writes a clear, descriptive commit message that explains what changed and why. Much better than 'fixed stuff' or 'update'."
+    },
+    {
+      "type": "quiz",
+      "question": "What should you ask Claude to do before writing a large feature?",
+      "options": [
+        "Delete old code",
+        "Make a plan first",
+        "Install new packages",
+        "Create a new repo"
+      ],
+      "correctIndex": 1,
+      "explanation": "Asking Claude to describe its plan before writing code catches bad approaches early. It's much easier to change a plan than to rewrite code. This saves time and produces better results."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "Before asking Claude Code to write code, a good practice is to first ask it to create a _____ so you can review the approach.",
+      "answer": "plan",
+      "acceptableAnswers": [
+        "plan",
+        "a plan",
+        "outline"
+      ],
+      "hint": "It's a strategy document that describes what will be built before any code is written.",
+      "successMessage": "Right \u2014 asking Claude to plan first helps you catch issues before any code is written."
     },
     {
       "type": "checklist",
@@ -40,7 +64,7 @@
       "items": [
         {
           "text": "Start with a plan: ask Claude to describe the approach before coding",
-          "hint": "Saves time by catching bad approaches early — changing a plan is free, rewriting code is expensive"
+          "hint": "Saves time by catching bad approaches early \u2014 changing a plan is free, rewriting code is expensive"
         },
         {
           "text": "Be specific about files: 'In app.js, change the port from 3000 to 8080'",

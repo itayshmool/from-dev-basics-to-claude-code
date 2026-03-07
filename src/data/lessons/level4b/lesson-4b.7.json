@@ -92,6 +92,19 @@
       ],
       "expectedOutput": "{\n  \"title\": \"My First Post\",\n  \"body\": \"Hello from curl!\",\n  \"userId\": 1,\n  \"id\": 101\n}",
       "confirmationType": "success_or_error"
+    },
+    {
+      "type": "quiz",
+      "question": "What is JSONPlaceholder?",
+      "options": ["A JavaScript library", "A free fake API for testing and learning", "A database service", "A code editor"],
+      "correctIndex": 1,
+      "explanation": "JSONPlaceholder is a free, public fake API that developers use for testing and learning. It requires no sign-up or API key, and returns realistic JSON responses."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "A public API that requires no authentication is called an _____ API.",
+      "answer": "open",
+      "caseSensitive": false
     }
   ],
   "completionMessage": "You just called a real server on the actual internet — no browser, no framework. You fetched data, filtered with query params, and created a resource. This is backend development at its most fundamental.",

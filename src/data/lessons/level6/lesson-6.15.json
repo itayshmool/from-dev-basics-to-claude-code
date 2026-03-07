@@ -8,7 +8,7 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "This is the real deal. You're going to build a **complete bookmark manager application** from scratch using Claude Code — and push it to GitHub when you're done.\n\nNo step-by-step hand-holding. No simulations. You have all the skills:\n\n- **Terminal** (Level 2) — navigating and running commands\n- **File system** (Level 3) — creating and organizing files\n- **Git** (Level 4) — version control and GitHub\n- **Web fundamentals** (Level 5) — HTML, CSS, JavaScript\n- **Node.js** (Level 7) — building real projects\n- **Claude Code** (Level 8) — AI-powered development\n\nEach checkbox below is a feature to add. Build them one at a time using Claude Code. Review every change with `git diff`. Use feature branches. This is the professional workflow.\n\nTake your time. There's no rush. The goal isn't speed — it's building something real that works."
+      "content": "This is the real deal. You're going to build a **complete bookmark manager application** from scratch using Claude Code \u2014 and push it to GitHub when you're done.\n\nNo step-by-step hand-holding. No simulations. You have all the skills:\n\n- **Terminal** (Level 2) \u2014 navigating and running commands\n- **File system** (Level 3) \u2014 creating and organizing files\n- **Git** (Level 4) \u2014 version control and GitHub\n- **Web fundamentals** (Level 5) \u2014 HTML, CSS, JavaScript\n- **Node.js** (Level 7) \u2014 building real projects\n- **Claude Code** (Level 8) \u2014 AI-powered development\n\nEach checkbox below is a feature to add. Build them one at a time using Claude Code. Review every change with `git diff`. Use feature branches. This is the professional workflow.\n\nTake your time. There's no rush. The goal isn't speed \u2014 it's building something real that works."
     },
     {
       "type": "checklist",
@@ -28,7 +28,7 @@
         },
         {
           "text": "Use Claude to add: display bookmarks grouped by category",
-          "hint": "Describe the grouping behavior clearly — bookmarks should appear under category headings"
+          "hint": "Describe the grouping behavior clearly \u2014 bookmarks should appear under category headings"
         },
         {
           "text": "Use Claude to add: search/filter functionality",
@@ -36,11 +36,11 @@
         },
         {
           "text": "Use Claude to add: delete and edit capabilities",
-          "hint": "One feature at a time — add delete first, then edit. Iterate!"
+          "hint": "One feature at a time \u2014 add delete first, then edit. Iterate!"
         },
         {
           "text": "Review every change with git diff",
-          "hint": "Don't skip this step — it's how you stay in control of your codebase"
+          "hint": "Don't skip this step \u2014 it's how you stay in control of your codebase"
         },
         {
           "text": "Use git branches for each feature",
@@ -53,18 +53,40 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "In the professional Claude Code workflow, what comes after building a feature?",
+      "options": [
+        "Deploy immediately",
+        "Review changes with git diff",
+        "Delete the branch",
+        "Start a new feature"
+      ],
+      "correctIndex": 1,
+      "explanation": "After building a feature with Claude Code, you should always review the changes with git diff before committing. This ensures you understand and approve everything Claude wrote."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "After Claude Code makes changes to your files, you should always review them using `git _____` before committing.",
+      "answer": "diff",
+      "acceptableAnswers": [
+        "diff"
+      ],
+      "hint": "This git command shows you exactly what changed \u2014 green lines added, red lines removed.",
+      "successMessage": "Correct \u2014 git diff shows you every change so you can review before committing."
+    },
+    {
       "type": "narrative",
       "content": "**Congratulations. You just built and shipped a real application using Claude Code.**\n\nLet that sink in. You started this course not knowing what a terminal was. Now you've:\n\n- Navigated the file system from the command line\n- Created and managed files and folders\n- Used git for version control\n- Understood how websites and servers work\n- Built a Node.js project from scratch\n- Used an AI pair programmer to build a complete app\n- Pushed your work to GitHub for the world to see\n\nYou're not just following tutorials anymore. You're **building things**. That's the difference between learning about software and being someone who creates it.\n\nThe bookmark manager on your GitHub profile is proof. You built that. With real tools. Using a professional workflow.\n\nAnd this is just the beginning.",
       "keyPoints": [
         "You built a real, working application from scratch",
         "You used Claude Code as a professional development tool",
         "You followed the branch-build-review-commit workflow",
-        "Your project is live on GitHub — a real portfolio piece",
-        "Next up: Level 9 — the patterns that junior developers use every day"
+        "Your project is live on GitHub \u2014 a real portfolio piece",
+        "Next up: Level 9 \u2014 the patterns that junior developers use every day"
       ]
     }
   ],
-  "completionMessage": "Level 8 complete! You've gone from learning about Claude Code to using it to build and ship a real project. You're not just learning anymore — you're building. That's what developers do.",
+  "completionMessage": "Level 8 complete! You've gone from learning about Claude Code to using it to build and ship a real project. You're not just learning anymore \u2014 you're building. That's what developers do.",
   "milestone": {
     "title": "Level 8 Complete: Claude Code \u2014 Your AI Pair Programmer",
     "summary": [

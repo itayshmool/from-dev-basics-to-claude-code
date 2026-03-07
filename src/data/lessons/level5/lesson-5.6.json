@@ -70,6 +70,12 @@
       "confirmationType": "continue"
     },
     {
+      "type": "fillInBlank",
+      "prompt": "To install Express, you type `npm _____ express`.",
+      "answer": "install",
+      "caseSensitive": false
+    },
+    {
       "type": "narrative",
       "content": "That's a lot of folders! Express depends on other packages, which depend on *other* packages. This is called the **dependency tree**.\n\nHere's the important thing: you never commit `node_modules` to git. It can contain thousands of files and hundreds of megabytes. Instead, your `package.json` records what you need, and anyone who clones your project can run `npm install` to download everything fresh.\n\nThis is why `package.json` matters so much \u2014 it's the recipe. `node_modules` is the groceries.",
       "analogy": "package.json is a shopping list. node_modules is the actual groceries. You share the list, not a truckload of food.",

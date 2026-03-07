@@ -152,9 +152,9 @@ export function Terminal({ onCommandExecuted, disabled }: TerminalProps) {
   }
 
   return (
-    <div className="rounded-xl overflow-hidden border border-[#3D3A36]" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+    <div className="rounded-xl overflow-hidden border border-[#3D3A36]" role="region" aria-label="Virtual terminal" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
       {/* Title bar */}
-      <div className="bg-[#38352F] px-3.5 py-2.5 flex items-center gap-1.5">
+      <div className="bg-[#38352F] px-3.5 py-2.5 flex items-center gap-1.5" aria-hidden="true">
         <div className="flex gap-1.5">
           <div className="w-3 h-3 rounded-full bg-[#E85B4A]" />
           <div className="w-3 h-3 rounded-full bg-[#D4A843]" />
@@ -168,6 +168,9 @@ export function Terminal({ onCommandExecuted, disabled }: TerminalProps) {
         ref={containerRef}
         className="bg-bg-terminal p-4 font-mono text-[14px] min-h-[120px] max-h-[200px] md:min-h-[200px] md:max-h-[450px] overflow-y-auto cursor-text"
         onClick={() => inputRef.current?.focus()}
+        role="log"
+        aria-live="polite"
+        aria-label="Command output"
       >
         {/* History */}
         {history.map((line) => (
@@ -195,6 +198,7 @@ export function Terminal({ onCommandExecuted, disabled }: TerminalProps) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
+              aria-label="Terminal command input"
               className="bg-transparent text-[#F0ECE4] outline-none border-none flex-1 font-mono text-[14px] p-0 m-0 caret-[#D4A843]"
               autoFocus
               spellCheck={false}

@@ -114,6 +114,16 @@
           "solution": "The file might be saved with a .txt extension instead of .html. Make sure it's saved as index.html (not index.html.txt)."
         }
       ]
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To serve static files from a folder called 'public', you add this middleware: `app.use(express._____('public'))`",
+      "answer": "static",
+      "acceptableAnswers": [
+        "static"
+      ],
+      "hint": "The Express middleware function for serving files that don't change.",
+      "successMessage": "That's it \u2014 express.static() serves files directly from a folder without any processing."
     }
   ],
   "completionMessage": "You're now serving a real HTML web page from your server! Any file you put in the public/ folder \u2014 HTML, CSS, images, JavaScript \u2014 becomes accessible through your server. This is how real websites work.",

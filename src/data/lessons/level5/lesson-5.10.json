@@ -30,6 +30,12 @@
       "explanation": "localhost always means \"this computer.\" The :3000 specifies port 3000. So localhost:3000 means: talk to the server running on port 3000 on my own machine."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "localhost is another name for your own _____.",
+      "answer": "computer",
+      "caseSensitive": false
+    },
+    {
       "type": "narrative",
       "content": "Here's something important to understand: **your server is private right now.** Only your browser, running on your computer, can reach it. If you sent the URL `http://localhost:3000` to a friend, it wouldn't work for them — their browser would look for a server on *their* computer at port 3000, and they don't have one running.\n\nThis is actually a good thing. It means you can build, experiment, and break things without anyone else seeing your work. Your development server is your private workshop.\n\nIn **Level 9**, you'll learn how to deploy your server to the internet so anyone in the world can visit it. But for now, localhost is your safe space to build and learn.",
       "tip": "You might see some tutorials use 127.0.0.1:3000 instead of localhost:3000. They mean the same thing. localhost is just the friendly name for 127.0.0.1."

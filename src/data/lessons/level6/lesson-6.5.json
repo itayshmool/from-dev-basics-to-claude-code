@@ -56,6 +56,12 @@
       ]
     },
     {
+      "type": "fillInBlank",
+      "prompt": "After Claude creates files, you should always _____ them before committing.",
+      "answer": "review",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "What's the recommended workflow when using Claude Code to create files?",
       "options": [

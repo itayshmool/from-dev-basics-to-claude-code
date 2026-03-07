@@ -56,6 +56,29 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "What does a deployment platform like Render do when you push code to GitHub?",
+      "options": [
+        "It emails you a zip file of your project",
+        "It automatically pulls your code, builds it, and runs it on their servers",
+        "It creates a new GitHub repository",
+        "It downloads your code to your local machine"
+      ],
+      "correctIndex": 1,
+      "explanation": "Render connects to your GitHub repo and automatically deploys when you push \u2014 pull, build, run, all handled for you."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "When deploying a Node.js app, the platform needs to know the _____ command to start your server (e.g., 'node app.js').",
+      "answer": "start",
+      "acceptableAnswers": [
+        "start",
+        "start command"
+      ],
+      "hint": "It's the command that launches your application \u2014 what you'd type in the terminal to run it.",
+      "successMessage": "Correct \u2014 the start command tells the deployment platform how to launch your application."
+    },
+    {
       "type": "narrative",
       "content": "Take a moment to appreciate what just happened. Someone on the other side of the world can now type your URL into their browser and use something **you built**. You wrote the code, you deployed it, and it's running on a real server right now.\n\nThis is the moment most developers remember forever \u2014 the first time their project went live.",
       "tip": "Bookmark your deployment URL and share it with someone. Showing off what you've built is one of the best motivators to keep learning."

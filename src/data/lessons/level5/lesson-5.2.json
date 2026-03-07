@@ -70,6 +70,12 @@
       "explanation": "`console.log()` is the most basic way to output text in JavaScript. It prints to the terminal when running with Node.js, or to the browser's developer console in a web page."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "To start the Node.js interactive mode, type `_____` in your terminal.",
+      "answer": "node",
+      "caseSensitive": false
+    },
+    {
       "type": "guideStep",
       "instruction": "Now try `console.log()` \u2014 this is how JavaScript prints output. Then exit the REPL by pressing Ctrl+C twice (or type `.exit`).",
       "codeBlocks": [

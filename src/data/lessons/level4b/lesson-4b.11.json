@@ -8,9 +8,9 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "APIs fail. Servers go down. Keys expire. Rate limits hit. URLs get typos.\n\nThe difference between a beginner and a developer isn't whether things break — it's how fast you diagnose and fix them.\n\nHere's the systematic approach:\n1. **Read the status code** — which error family is it?\n2. **Read the response body** — the server usually tells you exactly what's wrong\n3. **Check the headers** — `Retry-After`, `WWW-Authenticate`, and `X-RateLimit-*` are goldmines\n4. **Verify the URL** — one typo breaks everything",
+      "content": "APIs fail. Servers go down. Keys expire. Rate limits hit. URLs get typos.\n\nThe difference between a beginner and a developer isn't whether things break \u2014 it's how fast you diagnose and fix them.\n\nHere's the systematic approach:\n1. **Read the status code** \u2014 which error family is it?\n2. **Read the response body** \u2014 the server usually tells you exactly what's wrong\n3. **Check the headers** \u2014 `Retry-After`, `WWW-Authenticate`, and `X-RateLimit-*` are goldmines\n4. **Verify the URL** \u2014 one typo breaks everything",
       "keyPoints": [
-        "Always use `curl -i` when debugging — you need the headers",
+        "Always use `curl -i` when debugging \u2014 you need the headers",
         "The error body is usually more helpful than the status code",
         "4xx = your problem. 5xx = their problem.",
         "When nothing works, check the API provider's status page"
@@ -22,18 +22,18 @@
       "blocks": [
         {
           "language": "text",
-          "label": "4xx — Client errors (you did something wrong)",
-          "code": "400 Bad Request\n  → Check: Is your JSON valid? Are required fields present?\n  → Fix: Validate your -d body. Check the API docs for required fields.\n\n401 Unauthorized\n  → Check: Did you include the Authorization header? Is the key correct?\n  → Fix: Check your API key. Make sure you're using the right header format.\n\n403 Forbidden\n  → Check: Do you have permission? Is this feature on your plan?\n  → Fix: Check your account permissions or upgrade your plan.\n\n404 Not Found\n  → Check: Does the URL path exist? Did you replace all {placeholders}?\n  → Fix: Double-check the URL against the docs. Check the resource ID.\n\n429 Too Many Requests\n  → Check: Look for Retry-After header — it tells you when to retry.\n  → Fix: Slow down. Implement exponential backoff. Use caching."
+          "label": "4xx \u2014 Client errors (you did something wrong)",
+          "code": "400 Bad Request\n  \u2192 Check: Is your JSON valid? Are required fields present?\n  \u2192 Fix: Validate your -d body. Check the API docs for required fields.\n\n401 Unauthorized\n  \u2192 Check: Did you include the Authorization header? Is the key correct?\n  \u2192 Fix: Check your API key. Make sure you're using the right header format.\n\n403 Forbidden\n  \u2192 Check: Do you have permission? Is this feature on your plan?\n  \u2192 Fix: Check your account permissions or upgrade your plan.\n\n404 Not Found\n  \u2192 Check: Does the URL path exist? Did you replace all {placeholders}?\n  \u2192 Fix: Double-check the URL against the docs. Check the resource ID.\n\n429 Too Many Requests\n  \u2192 Check: Look for Retry-After header \u2014 it tells you when to retry.\n  \u2192 Fix: Slow down. Implement exponential backoff. Use caching."
         },
         {
           "language": "text",
-          "label": "5xx — Server errors (their problem)",
-          "code": "500 Internal Server Error\n  → Their code crashed. Check their status page.\n  → Retry after a brief wait.\n\n503 Service Unavailable\n  → Server is overloaded or in maintenance.\n  → Check their status page. Wait and retry.\n\n504 Gateway Timeout\n  → Your request took too long. The server gave up.\n  → Try again. If persistent, contact the API provider."
+          "label": "5xx \u2014 Server errors (their problem)",
+          "code": "500 Internal Server Error\n  \u2192 Their code crashed. Check their status page.\n  \u2192 Retry after a brief wait.\n\n503 Service Unavailable\n  \u2192 Server is overloaded or in maintenance.\n  \u2192 Check their status page. Wait and retry.\n\n504 Gateway Timeout\n  \u2192 Your request took too long. The server gave up.\n  \u2192 Try again. If persistent, contact the API provider."
         },
         {
           "language": "text",
           "label": "curl errors (before a response even arrives)",
-          "code": "curl: (6) Could not resolve host\n  → DNS failure. Check the hostname for typos.\n  → Verify your internet connection.\n\ncurl: (7) Failed to connect\n  → Server unreachable or port blocked.\n  → Check if the service is down.\n\ncurl: (35) SSL certificate problem\n  → Certificate expired or invalid.\n  → Check if you're using https:// correctly."
+          "code": "curl: (6) Could not resolve host\n  \u2192 DNS failure. Check the hostname for typos.\n  \u2192 Verify your internet connection.\n\ncurl: (7) Failed to connect\n  \u2192 Server unreachable or port blocked.\n  \u2192 Check if the service is down.\n\ncurl: (35) SSL certificate problem\n  \u2192 Certificate expired or invalid.\n  \u2192 Check if you're using https:// correctly."
         }
       ]
     },
@@ -47,7 +47,7 @@
           "copyable": true
         }
       ],
-      "expectedOutput": "HTTP/2 404\n...\n{\"message\": \"Not Found\", \"documentation_url\": \"...\"}\n\nThe API tells you exactly what's wrong — and even gives you a link to the docs.",
+      "expectedOutput": "HTTP/2 404\n...\n{\"message\": \"Not Found\", \"documentation_url\": \"...\"}\n\nThe API tells you exactly what's wrong \u2014 and even gives you a link to the docs.",
       "confirmationType": "success_or_error"
     },
     {
@@ -60,11 +60,36 @@
           "copyable": true
         }
       ],
-      "expectedOutput": "HTTP/2 401\n...\n{\"message\": \"Requires authentication\", ...}\n\nThis endpoint (`/user` — your own profile) requires a personal access token. Without one, you get 401.",
+      "expectedOutput": "HTTP/2 401\n...\n{\"message\": \"Requires authentication\", ...}\n\nThis endpoint (`/user` \u2014 your own profile) requires a personal access token. Without one, you get 401.",
       "confirmationType": "success_or_error"
+    },
+    {
+      "type": "quiz",
+      "question": "You call an API and get a 429 status code. What should you do?",
+      "options": [
+        "Check your API key",
+        "Wait and retry later \u2014 you've hit the rate limit",
+        "Change the URL",
+        "Switch to a POST request"
+      ],
+      "correctIndex": 1,
+      "explanation": "429 means 'Too Many Requests'. The server is asking you to slow down. Check the Retry-After header for how long to wait."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "Status codes starting with 4 mean the error is on the _____ side (your request was wrong).",
+      "answer": "client",
+      "acceptableAnswers": [
+        "client",
+        "your",
+        "user",
+        "requester"
+      ],
+      "hint": "4xx codes mean YOUR request had a problem, while 5xx means the server had a problem.",
+      "successMessage": "Right \u2014 4xx = client error (your problem), 5xx = server error (their problem)."
     }
   ],
-  "completionMessage": "Error diagnosis is a skill you'll use every day. Status code → body → headers → URL. Work the checklist, fix in order, move on.",
+  "completionMessage": "Error diagnosis is a skill you'll use every day. Status code \u2192 body \u2192 headers \u2192 URL. Work the checklist, fix in order, move on.",
   "milestone": null,
   "nextLesson": "4b.12"
 }

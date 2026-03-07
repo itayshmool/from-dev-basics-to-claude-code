@@ -50,6 +50,12 @@
       "expectedResult": "Claude confirms or corrects your understanding, and may point out edge cases or subtleties you missed. Always try to form your own understanding first — it makes the explanation stick better."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "When reading a function, the three things that tell you the most are its name, _____, and return value.",
+      "answer": "parameters",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "When reading an unfamiliar function, what should you look at FIRST?",
       "options": [

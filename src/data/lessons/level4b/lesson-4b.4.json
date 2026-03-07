@@ -66,6 +66,16 @@
       }
     },
     {
+      "type": "match",
+      "instruction": "Match each HTTP status code with its meaning.",
+      "pairs": [
+        {"left": "200", "right": "OK — Success"},
+        {"left": "404", "right": "Not Found"},
+        {"left": "401", "right": "Unauthorized"},
+        {"left": "500", "right": "Server Error"}
+      ]
+    },
+    {
       "type": "quiz",
       "question": "You call an API and get `HTTP/2 429`. What should you do?",
       "options": [

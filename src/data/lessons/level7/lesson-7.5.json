@@ -45,6 +45,12 @@
       "tip": "When you get an error, the fastest path is: read the error message, copy the exact error text, paste it into a search engine. You'll almost always find someone who had the same problem and solved it."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "When searching for help, copy the exact _____ message into your search.",
+      "answer": "error",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "What's the best way to search for a JavaScript error?",
       "options": [

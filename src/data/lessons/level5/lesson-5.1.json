@@ -8,8 +8,8 @@
   "sections": [
     {
       "type": "narrative",
-      "content": "So far, you've been learning inside a simulated terminal. Now it's time to do things **for real** on your own computer.\n\nWe're going to install **Node.js** — a tool that lets you run JavaScript outside of a web browser. JavaScript is the language behind almost every website, and Node.js is what lets developers use it to build servers, tools, and apps.\n\nThink of it this way: your browser already speaks JavaScript. Node.js teaches your *computer* to speak it too.",
-      "analogy": "If JavaScript is a language, the browser is like a translator who only works in one room (web pages). Node.js is a translator who follows you everywhere — your terminal, your server, your scripts.",
+      "content": "So far, you've been learning inside a simulated terminal. Now it's time to do things **for real** on your own computer.\n\nWe're going to install **Node.js** \u2014 a tool that lets you run JavaScript outside of a web browser. JavaScript is the language behind almost every website, and Node.js is what lets developers use it to build servers, tools, and apps.\n\nThink of it this way: your browser already speaks JavaScript. Node.js teaches your *computer* to speak it too.",
+      "analogy": "If JavaScript is a language, the browser is like a translator who only works in one room (web pages). Node.js is a translator who follows you everywhere \u2014 your terminal, your server, your scripts.",
       "keyPoints": [
         "Node.js lets you run JavaScript in your terminal",
         "It comes with npm, a tool for installing JavaScript packages",
@@ -34,6 +34,29 @@
           "solution": "On Mac, try prefixing the command with sudo. On Windows, right-click the installer and choose 'Run as administrator'."
         }
       ]
+    },
+    {
+      "type": "quiz",
+      "question": "What is Node.js?",
+      "options": [
+        "A web browser",
+        "A JavaScript runtime that runs JS outside the browser",
+        "A database",
+        "A text editor"
+      ],
+      "correctIndex": 1,
+      "explanation": "Node.js is a JavaScript runtime that lets you run JavaScript outside of a web browser \u2014 in your terminal, on a server, or in scripts. It's not a browser, database, or text editor."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To check if Node.js is installed correctly, you type `node _____` in the terminal to see the version number.",
+      "answer": "-v",
+      "acceptableAnswers": [
+        "-v",
+        "--version"
+      ],
+      "hint": "It's a flag that stands for 'version' \u2014 a single dash and a letter.",
+      "successMessage": "Correct \u2014 `node -v` prints the installed Node.js version."
     },
     {
       "type": "guideStep",

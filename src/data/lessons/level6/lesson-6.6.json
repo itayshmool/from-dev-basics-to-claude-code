@@ -46,6 +46,18 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "After Claude edits your code, what command shows exactly what changed?",
+      "options": [
+        "git status",
+        "git diff",
+        "git log",
+        "git show"
+      ],
+      "correctIndex": 1,
+      "explanation": "git diff shows you exactly what was added (green lines with +) and removed (red lines with -) in your files. It's the best way to review Claude's changes before committing."
+    },
+    {
       "type": "fillInBlank",
       "prompt": "To see exactly what lines Claude changed before committing, run git ___.",
       "answer": "diff",

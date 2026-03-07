@@ -52,6 +52,12 @@
       "expectedResult": "Claude removes only the debug logs, keeping any intentional logging (like error logs or startup messages). Claude can tell the difference based on context."
     },
     {
+      "type": "fillInBlank",
+      "prompt": "When using console.log for debugging, always add a _____ so you know which log is which.",
+      "answer": "label",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "Why should you label every console.log statement?",
       "options": [

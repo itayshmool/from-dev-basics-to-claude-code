@@ -28,6 +28,12 @@
       ]
     },
     {
+      "type": "fillInBlank",
+      "prompt": "Claude Code runs in the _____, not in a web browser.",
+      "answer": "terminal",
+      "caseSensitive": false
+    },
+    {
       "type": "quiz",
       "question": "What can Claude Code do that Claude.ai cannot?",
       "options": [

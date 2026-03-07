@@ -92,6 +92,24 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "In the professional workflow, what do you create before starting to code?",
+      "options": [
+        "A new repo",
+        "A GitHub issue describing the work",
+        "A database",
+        "A new branch"
+      ],
+      "correctIndex": 1,
+      "explanation": "Every piece of work starts with a clearly described issue — a bug report or feature request. This ensures everyone understands what needs to be done and why before any code is written. The branch comes after the issue is defined."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "After finishing a feature, you create a pull _____ to propose merging your changes.",
+      "answer": "request",
+      "caseSensitive": false
+    },
+    {
       "type": "narrative",
       "content": "Congratulations. You just followed the exact same workflow used at Google, Stripe, Shopify, and every other tech company. The scale is different, but the process is identical: issue, branch, code, test, review, commit, push, PR, merge, deploy.\n\nThis loop repeats hundreds of times a day at large companies. And now you know how to do it too."
     }

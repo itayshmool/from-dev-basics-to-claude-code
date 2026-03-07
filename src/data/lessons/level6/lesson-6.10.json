@@ -34,6 +34,24 @@
       ]
     },
     {
+      "type": "quiz",
+      "question": "In a git diff, what color represents added lines?",
+      "options": [
+        "Red",
+        "Green",
+        "Yellow",
+        "Blue"
+      ],
+      "correctIndex": 1,
+      "explanation": "In a git diff, added lines are shown in green (with a + prefix) and removed lines are shown in red (with a - prefix). This makes it easy to see what changed at a glance."
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "Before committing Claude's changes, always run `git _____` to review them.",
+      "answer": "diff",
+      "caseSensitive": true
+    },
+    {
       "type": "checklist",
       "instruction": "Use this code review checklist every time Claude makes changes. Make it a habit — it only takes a minute and saves hours of debugging.",
       "items": [
