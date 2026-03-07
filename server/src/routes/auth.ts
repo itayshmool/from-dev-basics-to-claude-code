@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db/index.js';
 import { users, palettes } from '../db/schema.js';
@@ -21,10 +21,38 @@ const COOKIE_OPTIONS = {
 };
 
 const registerSchema = z.object({
-  username: z.string().min(3).max(100).regex(/^[a-zA-Z0-9_]+$/),
-  password: z.string().min(8),
-  displayName: z.string().min(1).max(100),
-  email: z.string().email().max(255),
+  username: z.string()
+    .trim()
+    .min(3, 'Username must be 3–100 characters and use only letters, numbers, and underscores.')
+    .max(100, 'Username must be 3–100 characters and use only letters, numbers, and underscores.')
+    .regex(/^[a-zA-Z0-9_]+$/, 'Username must be 3–100 characters and use only letters, numbers, and underscores.')
+    .transform((v) => v.toLowerCase()),
+  password: z.string()
+    .min(8, 'Password must be at least 8 characters and include at least 1 letter and 1 number.')
+    .max(128, 'Password is too long. Maximum is 128 characters.')
+    .regex(/[A-Za-z]/, 'Password must be at least 8 characters and include at least 1 letter and 1 number.')
+    .regex(/[0-9]/, 'Password must be at least 8 characters and include at least 1 letter and 1 number.'),
+  displayName: z.string()
+    .trim()
+    .min(1, 'Display name cannot be empty or whitespace.')
+    .max(100, 'Display name must be 100 characters or fewer.'),
+  email: z.string()
+    .trim()
+    .toLowerCase()
+    .email('Enter a valid email address.')
+    .max(255, 'Enter a valid email address.'),
+}).superRefine((data, ctx) => {
+  const passwordLower = data.password.toLowerCase();
+  if (
+    passwordLower.includes(data.username.toLowerCase()) ||
+    passwordLower.includes(data.email.toLowerCase())
+  ) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['password'],
+      message: 'Password cannot contain your username or email.',
+    });
+  }
 });
 
 const loginSchema = z.object({
@@ -44,11 +72,20 @@ authRouter.post('/register', asyncHandler(async (req, res) => {
   // Check for existing user
   const [existing] = await db.select({ id: users.id })
     .from(users)
-    .where(eq(users.username, username))
+    .where(sql`lower(${users.username}) = ${username}`)
     .limit(1);
 
   if (existing) {
-    throw new AppError(409, 'Username already taken');
+    throw new AppError(409, 'Username is not available.');
+  }
+
+  const [existingEmail] = await db.select({ id: users.id })
+    .from(users)
+    .where(sql`lower(${users.email}) = ${email}`)
+    .limit(1);
+
+  if (existingEmail) {
+    throw new AppError(409, 'An account with this email already exists.');
   }
 
   const passwordHash = await hashPassword(password);

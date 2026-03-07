@@ -17,6 +17,41 @@ export function RegisterScreen() {
     e.preventDefault();
     setError('');
 
+    const normalizedUsername = username.trim();
+    const normalizedDisplayName = displayName.trim();
+    const normalizedEmail = email.trim().toLowerCase();
+    const passwordLower = password.toLowerCase();
+
+    if (normalizedUsername.length < 3 || normalizedUsername.length > 100 || !/^[a-zA-Z0-9_]+$/.test(normalizedUsername)) {
+      setError('Username must be 3–100 characters and use only letters, numbers, and underscores.');
+      return;
+    }
+
+    if (!normalizedDisplayName) {
+      setError('Display name cannot be empty or whitespace.');
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail) || normalizedEmail.length > 255) {
+      setError('Enter a valid email address.');
+      return;
+    }
+
+    if (password.length > 128) {
+      setError('Password is too long. Maximum is 128 characters.');
+      return;
+    }
+
+    if (password.length < 8 || !/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
+      setError('Password must be at least 8 characters and include at least 1 letter and 1 number.');
+      return;
+    }
+
+    if (passwordLower.includes(normalizedUsername.toLowerCase()) || passwordLower.includes(normalizedEmail)) {
+      setError('Password cannot contain your username or email.');
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -24,7 +59,7 @@ export function RegisterScreen() {
 
     setLoading(true);
     try {
-      await register(username, password, displayName, email);
+      await register(normalizedUsername.toLowerCase(), password, normalizedDisplayName, normalizedEmail);
       navigate('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed');
@@ -58,6 +93,9 @@ export function RegisterScreen() {
               className="w-full px-3 py-2.5 rounded-lg bg-bg-elevated border border-border text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple/30"
               placeholder="your_username"
               required
+              minLength={3}
+              maxLength={100}
+              pattern="[A-Za-z0-9_]+"
               autoFocus
             />
           </div>
@@ -71,6 +109,7 @@ export function RegisterScreen() {
               className="w-full px-3 py-2.5 rounded-lg bg-bg-elevated border border-border text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple/30"
               placeholder="Your Name"
               required
+              maxLength={100}
             />
           </div>
 
@@ -83,6 +122,7 @@ export function RegisterScreen() {
               className="w-full px-3 py-2.5 rounded-lg bg-bg-elevated border border-border text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple/30"
               placeholder="you@example.com"
               required
+              maxLength={255}
             />
           </div>
 
@@ -96,6 +136,7 @@ export function RegisterScreen() {
               placeholder="8+ characters"
               required
               minLength={8}
+              maxLength={128}
             />
           </div>
 
