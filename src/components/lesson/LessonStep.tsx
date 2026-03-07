@@ -1,4 +1,6 @@
 import { type ReactNode, useEffect } from 'react';
+import { SECTION_TYPE_LABELS } from './sectionLabels';
+import { useSectionType } from './SectionRenderer';
 
 interface CtaAction {
   label: string;
@@ -13,6 +15,7 @@ interface LessonStepProps {
 }
 
 export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
+  const sectionType = useSectionType();
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       const tag = (e.target as HTMLElement)?.tagName;
@@ -32,13 +35,21 @@ export function LessonStep({ children, cta, secondaryCta }: LessonStepProps) {
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto pt-6 pb-8" style={{ paddingLeft: 'clamp(24px, 4vw, 112px)', paddingRight: 'clamp(24px, 4vw, 112px)' }}>
         <div className="max-w-[700px] mx-auto">
+          {sectionType && SECTION_TYPE_LABELS[sectionType] && (
+            <div className="mb-4">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-bg-elevated text-[11px] font-mono font-medium text-text-muted">
+                <span>{SECTION_TYPE_LABELS[sectionType].icon}</span>
+                {SECTION_TYPE_LABELS[sectionType].label}
+              </span>
+            </div>
+          )}
           {children}
         </div>
       </div>
 
       {/* Bottom-fixed CTA bar */}
       {(cta || secondaryCta) && (
-        <div className="flex-shrink-0 border-t border-border-strong bg-bg-primary/95 backdrop-blur-sm py-5 safe-bottom" style={{ paddingLeft: 'clamp(24px, 4vw, 112px)', paddingRight: 'clamp(24px, 4vw, 112px)', boxShadow: '0 -12px 32px rgba(0, 0, 0, 0.4), 0 -2px 8px rgba(0, 0, 0, 0.2)' }}>
+        <div className="flex-shrink-0 border-t border-border-strong bg-bg-primary/95 backdrop-blur-sm py-5 safe-bottom" style={{ paddingLeft: 'clamp(24px, 4vw, 112px)', paddingRight: 'clamp(24px, 4vw, 112px)', boxShadow: 'var(--shadow-cta-bar)' }}>
           <div className="max-w-[700px] mx-auto flex gap-3">
             {secondaryCta && (
               <button

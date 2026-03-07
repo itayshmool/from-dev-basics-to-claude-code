@@ -1,20 +1,4 @@
-const SECTION_TYPE_LABELS: Record<string, { icon: string; label: string }> = {
-  narrative: { icon: '\u{1F4D6}', label: 'Read' },
-  quiz: { icon: '\u{2753}', label: 'Quiz' },
-  fillInBlank: { icon: '\u{270F}\u{FE0F}', label: 'Fill in' },
-  match: { icon: '\u{1F5B1}\u{FE0F}', label: 'Match' },
-  terminalStep: { icon: '\u{1F4BB}', label: 'Terminal' },
-  terminalPreview: { icon: '\u{1F4BB}', label: 'Terminal' },
-  interactiveTree: { icon: '\u{1F4C2}', label: 'Explore' },
-  pathBuilder: { icon: '\u{1F6E4}\u{FE0F}', label: 'Build' },
-  codeExample: { icon: '\u{1F4DD}', label: 'Code' },
-  dragSort: { icon: '\u{1F500}', label: 'Sort' },
-  programSim: { icon: '\u{25B6}\u{FE0F}', label: 'Simulate' },
-  stepThrough: { icon: '\u{1F463}', label: 'Step through' },
-  guideStep: { icon: '\u{1F6E0}\u{FE0F}', label: 'Setup' },
-  promptTemplate: { icon: '\u{1F4AC}', label: 'Prompt' },
-  checklist: { icon: '\u{2705}', label: 'Checklist' },
-};
+import { SECTION_TYPE_LABELS } from './sectionLabels';
 
 interface LessonProgressBarProps {
   current: number;

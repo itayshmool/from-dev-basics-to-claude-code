@@ -54,7 +54,34 @@ export function HomeScreen() {
   const { isLessonComplete, completedLessons, getLevelCompletedCount, getReviewLessons, currentSectionIndex, currentLessonId } = useProgress();
   const { user, logout } = useAuth();
 
-  const [expandedLevels, setExpandedLevels] = useState<Set<number>>(new Set());
+  // Smart expand: auto-expand current in-progress level + next level; for new users just level 0
+  const [expandedLevels, setExpandedLevels] = useState<Set<number>>(() => {
+    const availableLevels = LEVELS.filter(lm => levels.find(l => l.id === lm.id) != null);
+    if (completedLessons.length === 0) {
+      // New user: expand only the first level
+      return new Set(availableLevels.length > 0 ? [availableLevels[0].id] : []);
+    }
+    // Find the current in-progress level (first level that isn't fully complete)
+    const expanded = new Set<number>();
+    let foundCurrent = false;
+    for (const lm of availableLevels) {
+      const done = getLevelCompletedCount(lm.id);
+      const total = lm.lessonCount;
+      if (!foundCurrent && done < total) {
+        expanded.add(lm.id);
+        foundCurrent = true;
+      } else if (foundCurrent && expanded.size < 2) {
+        // Also expand the next level
+        expanded.add(lm.id);
+        break;
+      }
+    }
+    // If all levels complete, expand the last one
+    if (!foundCurrent && availableLevels.length > 0) {
+      expanded.add(availableLevels[availableLevels.length - 1].id);
+    }
+    return expanded;
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { seen: onboardingSeen, markSeen: markOnboardingSeen } = useOnboardingSeen();
@@ -282,11 +309,19 @@ export function HomeScreen() {
             const totalCount = levelMeta.lessonCount;
             const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
             const allLevelComplete = completedCount >= totalCount;
+            const isCurrentLevel = !allLevelComplete && completedCount > 0;
+            const isNotStarted = completedCount === 0 && !allLevelComplete;
 
             return (
               <div
                 key={levelMeta.id}
-                className="animate-stagger-in bg-bg-card rounded-xl border border-border hover:border-border-strong transition-colors p-4 md:p-5 lg:p-6"
+                className={`animate-stagger-in bg-bg-card rounded-xl border transition-colors p-4 md:p-5 lg:p-6 ${
+                  isCurrentLevel
+                    ? 'border-purple/30 hover:border-purple/50'
+                    : isNotStarted
+                      ? 'border-border/60 opacity-70 hover:opacity-100 hover:border-border-strong'
+                      : 'border-border hover:border-border-strong'
+                }`}
                 style={{ animationDelay: `${levelIdx * 60}ms`, boxShadow: 'var(--shadow-card)' }}
               >
                 {/* Level header — clickable to expand/collapse */}

@@ -1,3 +1,4 @@
+import { createContext, useContext } from 'react';
 import type { LessonSection } from '../../core/lesson/types';
 import { NarrativeBlock } from '../interactive/NarrativeBlock';
 import { Quiz } from '../interactive/Quiz';
@@ -15,6 +16,9 @@ import { GuideStep } from '../interactive/GuideStep';
 import { PromptTemplate } from '../interactive/PromptTemplate';
 import { Checklist } from '../interactive/Checklist';
 
+export const SectionTypeContext = createContext<string | undefined>(undefined);
+export function useSectionType() { return useContext(SectionTypeContext); }
+
 interface SectionRendererProps {
   section: LessonSection;
   onComplete: () => void;
@@ -22,7 +26,7 @@ interface SectionRendererProps {
 }
 
 export function SectionRenderer({ section, onComplete, commands }: SectionRendererProps) {
-  switch (section.type) {
+  const content = (() => { switch (section.type) {
     case 'narrative':
       return <NarrativeBlock section={section} onContinue={onComplete} />;
     case 'quiz':
@@ -59,5 +63,11 @@ export function SectionRenderer({ section, onComplete, commands }: SectionRender
           Unknown section type. <button onClick={onComplete} className="text-accent underline">Skip</button>
         </div>
       );
-  }
+  } })();
+
+  return (
+    <SectionTypeContext.Provider value={section.type}>
+      {content}
+    </SectionTypeContext.Provider>
+  );
 }
