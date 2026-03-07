@@ -119,13 +119,18 @@ export function AdminLessonList() {
                     </button>
                   </td>
                   <td className="px-4 py-3 text-right flex items-center justify-end gap-2">
-                    <button
-                      onClick={() => handleDuplicate(l)}
-                      className="text-xs text-text-muted font-mono hover:text-text-primary transition-colors"
-                      title="Duplicate lesson"
-                    >
-                      Copy
-                    </button>
+                    <div className="relative group">
+                      <button
+                        onClick={() => handleDuplicate(l)}
+                        className="text-xs text-text-muted font-mono hover:text-text-primary transition-colors"
+                        title="Duplicate lesson"
+                      >
+                        Copy
+                      </button>
+                      <span className="pointer-events-none absolute top-full right-0 mt-1.5 px-2 py-1 rounded-md bg-bg-card border border-border text-[10px] font-mono text-text-primary whitespace-nowrap opacity-0 translate-y-0.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+                        Duplicate lesson
+                      </span>
+                    </div>
                     <Link
                       to={`/admin/lessons/${l.id}`}
                       className="text-xs text-purple font-mono hover:underline"

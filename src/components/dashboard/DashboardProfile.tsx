@@ -277,17 +277,20 @@ export function DashboardProfile() {
               onChange={handleImageSelect}
               className="hidden"
             />
-            {profile.profileImage && (
-              <button
-                onClick={handleRemoveImage}
-                className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-bg-elevated border border-border flex items-center justify-center text-text-muted hover:text-red transition-colors"
-                title="Remove image"
-              >
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            )}
+              {profile.profileImage && (
+                <button
+                  onClick={handleRemoveImage}
+                  className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-bg-elevated border border-border flex items-center justify-center text-text-muted hover:text-red transition-colors group"
+                  title="Remove image"
+                >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  <span className="pointer-events-none absolute top-full right-0 mt-1.5 px-2 py-1 rounded-md bg-bg-card border border-border text-[10px] font-mono text-text-primary whitespace-nowrap opacity-0 translate-y-0.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+                    Remove image
+                  </span>
+                </button>
+              )}
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm text-text-muted">@{profile.username}</p>

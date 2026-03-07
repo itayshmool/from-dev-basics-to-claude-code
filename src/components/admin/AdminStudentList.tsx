@@ -96,17 +96,22 @@ export function AdminStudentList() {
                   </td>
                   <td className="px-4 py-3 text-center">
                     {s.role === 'student' && (
-                      <button
-                        onClick={async (e) => {
-                          e.stopPropagation();
-                          await startImpersonation(s.id);
-                          navigate('/');
-                        }}
-                        className="text-[10px] font-mono px-2 py-1 rounded bg-amber-600/20 text-amber-500 hover:bg-amber-600/30 transition-colors"
-                        title={`View as ${s.username}`}
-                      >
-                        Impersonate
-                      </button>
+                      <div className="relative inline-block group">
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            await startImpersonation(s.id);
+                            navigate('/');
+                          }}
+                          className="text-[10px] font-mono px-2 py-1 rounded bg-amber-600/20 text-amber-500 hover:bg-amber-600/30 transition-colors"
+                          title={`View as ${s.username}`}
+                        >
+                          Impersonate
+                        </button>
+                        <span className="pointer-events-none absolute top-full right-0 mt-1.5 px-2 py-1 rounded-md bg-bg-card border border-border text-[10px] font-mono text-text-primary whitespace-nowrap opacity-0 translate-y-0.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+                          {`View as ${s.username}`}
+                        </span>
+                      </div>
                     )}
                   </td>
                 </tr>

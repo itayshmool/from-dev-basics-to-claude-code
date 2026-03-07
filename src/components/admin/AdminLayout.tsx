@@ -42,15 +42,20 @@ export function AdminLayout() {
     <div className="h-full w-full overflow-hidden flex flex-col md:flex-row bg-bg-primary">
       {/* Mobile top bar */}
       <div className="md:hidden flex items-center gap-3 px-4 py-3 bg-bg-card border-b border-border flex-shrink-0">
-        <button
-          onClick={() => setMobileDrawerOpen(true)}
-          className="w-9 h-9 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
-          aria-label="Open menu"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
+        <div className="relative group">
+          <button
+            onClick={() => setMobileDrawerOpen(true)}
+            className="w-9 h-9 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
+            aria-label="Open menu"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <span className="pointer-events-none absolute top-full left-0 mt-1.5 px-2 py-1 rounded-md bg-bg-card border border-border text-[10px] font-mono text-text-primary whitespace-nowrap opacity-0 translate-y-0.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+            Open menu
+          </span>
+        </div>
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-purple-soft flex items-center justify-center">
             <span className="text-purple text-xs font-bold font-mono">&gt;_</span>
@@ -87,15 +92,20 @@ export function AdminLayout() {
                 <p className="text-[10px] text-text-muted">{user?.displayName}</p>
               </div>
             </div>
-            <button
-              onClick={() => setMobileDrawerOpen(false)}
-              className="w-8 h-8 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
-              aria-label="Close menu"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            <div className="relative group">
+              <button
+                onClick={() => setMobileDrawerOpen(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors"
+                aria-label="Close menu"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <span className="pointer-events-none absolute top-full right-0 mt-1.5 px-2 py-1 rounded-md bg-bg-card border border-border text-[10px] font-mono text-text-primary whitespace-nowrap opacity-0 translate-y-0.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+                Close menu
+              </span>
+            </div>
           </div>
 
           <nav className="flex flex-col gap-1 flex-1">
