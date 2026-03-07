@@ -123,7 +123,9 @@ export function AIOnboarding() {
           </h2>
           <p className="text-xs text-text-muted mb-4">
             Describe your background, role, technical experience, and what you hope to learn.
-            The more detail you provide, the better your plan will be.
+            The more detail you provide, the better your plan will be. you can add linkedin
+            profile URL in the prompt as well for example
+            "https://www.linkedin.com/in/itayshmool/" .
           </p>
 
           <textarea
