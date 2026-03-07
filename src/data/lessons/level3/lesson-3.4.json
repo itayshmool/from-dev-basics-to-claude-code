@@ -68,6 +68,12 @@
       "onSuccess": {
         "message": "Your first commit! Git saved a snapshot of your entire project. The message 'Initial commit' describes what this snapshot contains. You can always come back to this exact state."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "The core git workflow is: make changes, `git add` to stage, then `git _____ -m` to save a snapshot.",
+      "answer": "commit",
+      "caseSensitive": false
     }
   ],
   "completionMessage": "You made your first commit! The cycle is: make changes, `git add` to stage, `git commit -m` to save. This is the core git workflow you'll use every day.",

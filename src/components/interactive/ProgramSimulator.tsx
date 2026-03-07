@@ -83,7 +83,7 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
         </p>
 
         {/* Code */}
-        <div className="rounded-xl overflow-hidden border border-[#3D3A36]" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        <div className="rounded-xl overflow-hidden border border-[#3D3A36]" role="region" aria-label="Program code" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
           <div className="bg-[#38352F] px-3.5 py-2.5 flex items-center gap-1.5">
             <div className="flex gap-1.5">
               <div className="w-3 h-3 rounded-full bg-[#E85B4A]" />
@@ -96,6 +96,7 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
             {section.lines.map((line, i) => (
               <div
                 key={i}
+                aria-current={i === currentLine ? 'step' : undefined}
                 className={`
                   px-2.5 py-0.5 rounded-lg transition-all flex items-center gap-2.5
                   ${i === currentLine ? 'bg-[#D4A843]/10 ring-1 ring-[#D4A843]/30' : ''}
@@ -120,7 +121,7 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
             <div className="bg-[#38352F] px-3.5 py-2">
               <span className="text-[#7A756C] text-[11px] font-mono">output</span>
             </div>
-            <div className="bg-bg-terminal p-3.5 font-mono text-[13px]">
+            <div className="bg-bg-terminal p-3.5 font-mono text-[13px]" role="log" aria-live="polite" aria-label="Program output">
               {outputs.map((output, i) => (
                 <div key={i} className="text-[#F0ECE4] leading-relaxed">{output}</div>
               ))}
@@ -132,6 +133,7 @@ export function ProgramSimulator({ section, onComplete }: ProgramSimulatorProps)
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleInputSubmit()}
+                    aria-label={pendingInteraction?.prompt || 'Program input'}
                     className="flex-1 bg-transparent text-[#F0ECE4] outline-none caret-[#D4A843] min-w-0"
                     autoFocus
                   />

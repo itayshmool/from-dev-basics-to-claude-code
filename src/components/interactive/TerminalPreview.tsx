@@ -84,6 +84,9 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
           <div
             ref={containerRef}
             className="bg-bg-terminal p-4 font-mono text-[13px] min-h-[160px] max-h-[260px] overflow-y-auto overflow-x-auto"
+            role="log"
+            aria-live="polite"
+            aria-label="Terminal output"
           >
             {completedLines.map((line, i) => (
               <div key={i} className="leading-relaxed">
@@ -115,7 +118,7 @@ export function TerminalPreview({ section, onComplete }: TerminalPreviewProps) {
         {completedLines.filter((l) => l.annotation).length > 0 && (
           <div className="space-y-2">
             {completedLines.filter((l) => l.annotation).map((line, i) => (
-              <div key={i} className="bg-blue-soft rounded-xl px-4 py-3.5 animate-fade-in-up">
+              <div key={i} role="note" className="bg-blue-soft rounded-xl px-4 py-3.5 animate-fade-in-up">
                 <div className="flex items-start gap-2.5">
                   <span className="text-sm flex-shrink-0 mt-0.5">&#128172;</span>
                   <div className="min-w-0">

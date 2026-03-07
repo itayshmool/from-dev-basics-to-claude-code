@@ -89,10 +89,13 @@ export function CodeExample({ section, onComplete }: CodeExampleProps) {
 
         {/* Tabs (if multiple blocks) */}
         {hasMultipleBlocks && (
-          <div className="flex gap-1 bg-bg-card rounded-lg p-1 border border-border">
+          <div className="flex gap-1 bg-bg-card rounded-lg p-1 border border-border" role="tablist" aria-label="Code examples">
             {section.blocks.map((block, i) => (
               <button
                 key={i}
+                role="tab"
+                aria-selected={activeTab === i}
+                aria-controls={`code-panel-${i}`}
                 onClick={() => { setActiveTab(i); setCopied(false); }}
                 className={`
                   flex-1 px-3 py-2 rounded-md text-[13px] font-medium transition-all
@@ -117,6 +120,7 @@ export function CodeExample({ section, onComplete }: CodeExampleProps) {
             </span>
             <button
               onClick={handleCopy}
+              aria-label={copied ? 'Copied to clipboard' : 'Copy code'}
               className="flex items-center gap-1.5 text-xs text-[#7A756C] hover:text-[#F0ECE4] transition-colors"
             >
               {copied ? (
@@ -138,7 +142,7 @@ export function CodeExample({ section, onComplete }: CodeExampleProps) {
           </div>
 
           {/* Code content */}
-          <div className="bg-[#2D2B28] overflow-x-auto">
+          <div className="bg-[#2D2B28] overflow-x-auto" id={`code-panel-${activeTab}`} role="tabpanel" aria-label={`${currentBlock.label || currentBlock.language} code`}>
             <pre className="px-4 py-4 text-[14px] leading-relaxed font-mono">
               <code
                 className="text-[#F0ECE4]"

@@ -82,6 +82,12 @@
       "onSuccess": {
         "message": "The `.` means 'everything in this folder'. Both `index.html` and `style.css` are now staged and ready to be saved in your next commit."
       }
+    },
+    {
+      "type": "fillInBlank",
+      "prompt": "To stage a specific file, you type `git ___ filename`.",
+      "answer": "add",
+      "caseSensitive": false
     }
   ],
   "completionMessage": "You learned `git add` to stage specific files and `git add .` to stage everything. Staging lets you choose exactly what goes into each save point. Next: actually saving those changes.",

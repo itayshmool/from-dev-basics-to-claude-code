@@ -85,23 +85,25 @@ export function StepThrough({ section, onComplete }: StepThroughProps) {
           </span>
 
           {/* Progress dots */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-0">
             {section.steps.map((_, i) => (
               <button
                 key={i}
                 onClick={() => i <= maxReached && setCurrentStep(i)}
                 disabled={i > maxReached}
                 aria-label={`Go to step ${i + 1}${i === currentStep ? ' (current)' : ''}`}
-                className={`
-                  w-2 h-2 rounded-full transition-all
+                className="min-w-[28px] min-h-[28px] flex items-center justify-center"
+              >
+                <span className={`
+                  block w-2 h-2 rounded-full transition-all
                   ${i === currentStep
                     ? 'bg-purple w-5'
                     : i <= maxReached
                       ? 'bg-purple/40 hover:bg-purple/60 cursor-pointer'
                       : 'bg-border cursor-not-allowed'
                   }
-                `}
-              />
+                `} />
+              </button>
             ))}
           </div>
         </div>

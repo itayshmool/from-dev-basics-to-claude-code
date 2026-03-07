@@ -39,6 +39,16 @@
       ]
     },
     {
+      "type": "match",
+      "instruction": "Match each git command with what it does.",
+      "pairs": [
+        { "left": "git push", "right": "Upload commits to GitHub" },
+        { "left": "git pull", "right": "Download new commits from GitHub" },
+        { "left": "git clone", "right": "Download entire project first time" },
+        { "left": "git init", "right": "Start tracking a new project" }
+      ]
+    },
+    {
       "type": "quiz",
       "question": "You want to download someone else's project from GitHub to your computer. Which command do you use?",
       "options": [

@@ -62,7 +62,7 @@ export function PromptTemplate({ section, onComplete }: PromptTemplateProps) {
         </p>
 
         {/* Prompt block */}
-        <div className="space-y-2">
+        <div className="space-y-2" role="region" aria-label="Prompt template">
           <div className="bg-bg-elevated rounded-lg border border-border/50 overflow-hidden">
             {/* Header with copy button */}
             <div className="flex items-center justify-between px-4 py-2 border-b border-border/50">
@@ -71,9 +71,10 @@ export function PromptTemplate({ section, onComplete }: PromptTemplateProps) {
               </span>
               <button
                 onClick={handleCopy}
+                aria-label={copied ? 'Copied to clipboard' : 'Copy prompt'}
                 className="text-[12px] font-mono text-text-muted hover:text-text-primary transition-colors px-2 py-0.5 rounded hover:bg-white/5"
               >
-                {copied ? 'Copied!' : 'Copy'}
+                <span aria-live="polite">{copied ? 'Copied!' : 'Copy'}</span>
               </button>
             </div>
             {/* Prompt content */}

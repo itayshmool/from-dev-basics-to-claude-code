@@ -56,6 +56,16 @@
       "prompt": "Code runs from top to _____, one instruction at a time.",
       "answer": "bottom",
       "caseSensitive": false
+    },
+    {
+      "type": "match",
+      "instruction": "Match each coding concept with its real-world analogy.",
+      "pairs": [
+        { "left": "Code", "right": "A recipe with step-by-step instructions" },
+        { "left": "Bug", "right": "A typo in cooking directions" },
+        { "left": "Programming language", "right": "English vs Spanish vs Japanese" },
+        { "left": "Running a program", "right": "Following the recipe start to finish" }
+      ]
     }
   ],
   "completionMessage": "You now know what code is — just text instructions for computers, written in a specific language. Next, we'll explore the different programming languages and what each one is used for.",

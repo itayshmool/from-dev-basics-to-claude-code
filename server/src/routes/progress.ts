@@ -47,7 +47,7 @@ progressRouter.get('/stats', async (req, res) => {
 
   const completionPercent = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
 
-  // Streak calculation: consecutive calendar days with completions
+  // Streak calculation: consecutive calendar days with 1-day grace period
   const completionDates = new Set(
     completedRows
       .filter(r => r.completedAt)
@@ -57,6 +57,7 @@ progressRouter.get('/stats', async (req, res) => {
   let currentStreak = 0;
   let longestStreak = 0;
   let streak = 0;
+  let graceUsed = false;
   const today = new Date();
 
   for (let i = 0; i < 365; i++) {
@@ -73,6 +74,11 @@ progressRouter.get('/stats', async (req, res) => {
     } else {
       if (i === 0) continue; // Today might not have a completion yet
       if (currentStreak === 0 && streak === 0) continue;
+      // 1-day grace: allow one missed day before breaking streak
+      if (!graceUsed && streak > 0) {
+        graceUsed = true;
+        continue;
+      }
       streak = 0;
     }
   }
@@ -194,11 +200,12 @@ progressRouter.get('/achievements', async (req, res) => {
     }
   }
 
-  // Streak
+  // Streak (with 1-day grace period)
   const dateSet = new Set(completionDates);
   let currentStreak = 0;
   let longestStreak = 0;
   let streak = 0;
+  let graceUsed = false;
   const today = new Date();
   for (let i = 0; i < 365; i++) {
     const d = new Date(today);
@@ -211,6 +218,10 @@ progressRouter.get('/achievements', async (req, res) => {
     } else {
       if (i === 0) continue;
       if (currentStreak === 0 && streak === 0) continue;
+      if (!graceUsed && streak > 0) {
+        graceUsed = true;
+        continue;
+      }
       streak = 0;
     }
   }

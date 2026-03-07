@@ -28,9 +28,9 @@ export function NarrativeBlock({ section, onContinue }: NarrativeBlockProps) {
         </p>
 
         {section.analogy && (
-          <div className="bg-blue-soft rounded-xl px-4 py-4">
+          <div role="note" className="bg-blue-soft rounded-xl px-4 py-4">
             <div className="flex items-start gap-3">
-              <span className="text-xl leading-none flex-shrink-0">&#128161;</span>
+              <span className="text-xl leading-none flex-shrink-0" aria-hidden="true">&#128161;</span>
               <div>
                 <p className="text-xs font-semibold text-blue mb-1">Think of it this way</p>
                 <p className="text-[15px] text-text-secondary leading-relaxed">
@@ -58,9 +58,9 @@ export function NarrativeBlock({ section, onContinue }: NarrativeBlockProps) {
         )}
 
         {section.tip && (
-          <div className="bg-yellow-soft rounded-xl px-4 py-4">
+          <div role="note" className="bg-yellow-soft rounded-xl px-4 py-4">
             <div className="flex items-start gap-3">
-              <span className="text-lg leading-none flex-shrink-0">&#128173;</span>
+              <span className="text-lg leading-none flex-shrink-0" aria-hidden="true">&#128173;</span>
               <p className="text-[15px] text-text-secondary leading-relaxed">
                 <span className="font-semibold text-text-primary">Tip: </span>
                 {renderInlineMarkdown(section.tip)}

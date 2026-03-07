@@ -234,7 +234,7 @@ export function DragSort({ section, onComplete }: DragSortProps) {
                             onClick={(e) => handleRemoveItem(itemText, e)}
                             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleRemoveItem(itemText, e); }}
                             className={`
-                              group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[14px] font-medium
+                              group inline-flex items-center gap-1.5 px-3.5 py-2.5 min-h-[44px] rounded-lg text-[14px] font-medium
                               cursor-pointer transition-all active:scale-[0.96]
                               ${status === 'correct'
                                 ? 'bg-green-soft border border-green/30 text-green'

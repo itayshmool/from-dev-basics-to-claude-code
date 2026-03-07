@@ -107,6 +107,34 @@
       "onSuccess": {
         "message": "One line per commit \u2014 just the short hash and the message. Much easier to scan when you have many commits. This is the view most developers use day-to-day."
       }
+    },
+    {
+      "type": "dragSort",
+      "instruction": "Sort these git commands into the correct order for the basic workflow.",
+      "categories": [
+        {
+          "name": "Step 1: Setup",
+          "description": "Start tracking a project"
+        },
+        {
+          "name": "Step 2: Prepare",
+          "description": "Choose files to save"
+        },
+        {
+          "name": "Step 3: Save",
+          "description": "Create a permanent snapshot"
+        },
+        {
+          "name": "Step 4: Review",
+          "description": "See what you've done"
+        }
+      ],
+      "items": [
+        { "text": "git init", "correctCategory": "Step 1: Setup" },
+        { "text": "git add .", "correctCategory": "Step 2: Prepare" },
+        { "text": "git commit -m \"message\"", "correctCategory": "Step 3: Save" },
+        { "text": "git log", "correctCategory": "Step 4: Review" }
+      ]
     }
   ],
   "completionMessage": "You can now view your project's entire history with `git log`. Every change, every message, every save point \u2014 all recorded. You've learned the fundamentals of git: init, add, commit, and log.",

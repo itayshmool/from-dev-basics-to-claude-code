@@ -30,12 +30,44 @@
       "explanation": "Version control tracks every change you make to your files. If something goes wrong, you can always go back to a previous version. It doesn't make code faster or fix bugs \u2014 it keeps a history of everything."
     },
     {
+      "type": "dragSort",
+      "instruction": "Which of these scenarios would benefit from version control? Sort them into the correct category.",
+      "categories": [
+        {
+          "name": "Needs Version Control",
+          "description": "Would benefit from tracking changes"
+        },
+        {
+          "name": "Doesn't Need It",
+          "description": "Simple enough without it"
+        }
+      ],
+      "items": [
+        { "text": "A team of 5 editing the same codebase", "correctCategory": "Needs Version Control" },
+        { "text": "Writing a quick grocery list", "correctCategory": "Doesn't Need It" },
+        { "text": "Building a website over 3 months", "correctCategory": "Needs Version Control" },
+        { "text": "Sending a one-time email", "correctCategory": "Doesn't Need It" },
+        { "text": "An app with thousands of lines of code", "correctCategory": "Needs Version Control" },
+        { "text": "Jotting a sticky note reminder", "correctCategory": "Doesn't Need It" }
+      ]
+    },
+    {
       "type": "narrative",
       "content": "The tool developers use for version control is called **git**. Created by Linus Torvalds (who also created Linux). Nearly every software project in the world uses it.",
       "keyPoints": [
         "git tracks changes to files over time",
         "GitHub is a website that hosts git repositories online",
         "A repository (repo) is a project tracked by git"
+      ]
+    },
+    {
+      "type": "match",
+      "instruction": "Match each git concept with its description.",
+      "pairs": [
+        { "left": "git", "right": "Tool that tracks file changes" },
+        { "left": "GitHub", "right": "Website hosting repositories" },
+        { "left": "Repository", "right": "A project tracked by git" },
+        { "left": "Commit", "right": "A saved snapshot of changes" }
       ]
     }
   ],
