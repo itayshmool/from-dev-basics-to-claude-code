@@ -11,6 +11,8 @@ import { LevelAssessment } from './LevelAssessment';
 import { LEVEL_ASSESSMENTS } from '../../data/assessments';
 import { useOnboardingPlan } from '../../hooks/useOnboardingPlan';
 
+const AI_ONBOARDING_MODAL_KEY = 'ai-onboarding-modal-dismissed';
+
 function getInitials(name: string): string {
   return name
     .split(/\s+/)
@@ -120,6 +122,15 @@ export function HomeScreen() {
   const menuRef = useRef<HTMLDivElement>(null);
   const { seen: onboardingSeen, markSeen: markOnboardingSeen } = useOnboardingSeen();
   const [showWelcome, setShowWelcome] = useState(!onboardingSeen && completedLessons.length === 0);
+
+  // Show AI onboarding modal for logged-in users who haven't dismissed it and have no plan
+  const [showAiModal, setShowAiModal] = useState(() => {
+    if (!user) return false;
+    if (localStorage.getItem(AI_ONBOARDING_MODAL_KEY) === 'true') return false;
+    return true;
+  });
+  // Only show once plan loading resolves and conditions are met
+  const aiModalVisible = showAiModal && !showWelcome && !planLoading && planEnabled && !onboardingPlan;
 
   // Close mobile menu on outside click
   useEffect(() => {
@@ -309,10 +320,15 @@ export function HomeScreen() {
             className="block mb-6 lg:mb-8 bg-bg-card border border-purple/15 rounded-xl p-4 md:p-5 hover:border-purple/30 transition-colors group"
           >
             <div className="flex items-center gap-3">
-              <span className="text-lg">&#x1F9ED;</span>
+              <div className="w-9 h-9 rounded-lg bg-purple-soft border border-purple/20 flex items-center justify-center flex-shrink-0">
+                <svg className="w-5 h-5 text-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-mono font-medium text-text-primary group-hover:text-purple transition-colors">
-                  Get a personalized learning plan
+                <p className="text-[13px] font-mono font-medium text-text-primary group-hover:text-purple transition-colors flex items-center gap-1.5">
+                  Generate a Personal Training Plan
+                  <span className="text-[9px] font-bold text-purple bg-purple/10 px-1.5 py-0.5 rounded">AI</span>
                 </p>
                 <p className="text-[11px] text-text-muted mt-0.5">
                   Tell us about your background, and AI will recommend the best path through the curriculum
@@ -590,6 +606,53 @@ export function HomeScreen() {
           </div>
         )}
       </div>
+
+      {/* AI Onboarding modal for first-time login */}
+      {aiModalVisible && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-bg-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Get a personalized learning plan"
+        >
+          <div className="bg-bg-card border border-border rounded-2xl max-w-md w-[90vw] p-6 md:p-8 animate-pop-in text-center">
+            <div className="w-14 h-14 rounded-xl bg-purple-soft border border-purple/20 flex items-center justify-center mx-auto mb-5">
+              <svg className="w-7 h-7 text-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </div>
+            <h2 className="text-lg font-bold font-mono text-text-primary mb-1">
+              Want a Personalized Plan?
+            </h2>
+            <span className="inline-block text-[10px] font-bold font-mono text-purple bg-purple/10 px-2 py-0.5 rounded mb-3">AI-Powered</span>
+            <p className="text-sm text-text-secondary leading-relaxed mb-6">
+              Tell us about your background and goals, and our AI will create a custom learning path — highlighting the lessons that matter most for you.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  localStorage.setItem(AI_ONBOARDING_MODAL_KEY, 'true');
+                  setShowAiModal(false);
+                }}
+                className="flex-1 px-4 py-3 text-sm font-mono text-text-muted hover:text-text-primary transition-colors rounded-xl"
+              >
+                Maybe later
+              </button>
+              <button
+                onClick={() => {
+                  localStorage.setItem(AI_ONBOARDING_MODAL_KEY, 'true');
+                  setShowAiModal(false);
+                  navigate('/onboarding/ai');
+                }}
+                className="flex-1 px-4 py-3 bg-purple text-white rounded-xl text-sm font-semibold font-mono transition-all active:scale-[0.98]"
+                style={{ boxShadow: 'var(--shadow-button)' }}
+              >
+                Let's Go
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Test Out modal */}
       {testOutLevel !== null && (

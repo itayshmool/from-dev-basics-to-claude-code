@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 import { useOnboardingPlan } from '../../hooks/useOnboardingPlan';
 import { LEVELS } from '../../lib/constants';
 
-const PRIORITY_STYLES: Record<string, { label: string; cls: string }> = {
-  high: { label: 'Priority', cls: 'text-purple bg-purple/10 border-purple/20' },
-  medium: { label: 'Useful', cls: 'text-blue bg-blue/10 border-blue/20' },
-  low: { label: 'Optional', cls: 'text-text-muted bg-bg-elevated border-border' },
-  skip: { label: 'Skip', cls: 'text-text-muted/50 bg-bg-elevated/50 border-border line-through' },
+const PRIORITY_STYLES: Record<string, { label: string; cls: string; order: number }> = {
+  high: { label: 'Priority', cls: 'text-purple bg-purple/10 border-purple/20', order: 0 },
+  medium: { label: 'Useful', cls: 'text-blue bg-blue/10 border-blue/20', order: 1 },
+  low: { label: 'Optional', cls: 'text-text-muted bg-bg-elevated border-border', order: 2 },
+  skip: { label: 'Skip', cls: 'text-text-muted/50 bg-bg-elevated/50 border-border line-through', order: 3 },
 };
 
 export function DashboardPlan() {
@@ -73,44 +73,77 @@ export function DashboardPlan() {
         </div>
       </div>
 
-      {/* Level breakdown */}
+      {/* Level breakdown — sorted by priority */}
       <div className="space-y-3">
-        {LEVELS.map((level) => {
-          const levelNote = plan.levelNotes.find((ln) => ln.levelId === level.id);
-          if (!levelNote) return null;
+        {LEVELS
+          .map((level) => {
+            const levelNote = plan.levelNotes.find((ln) => ln.levelId === level.id);
+            if (!levelNote) return null;
+            return { level, levelNote };
+          })
+          .filter(Boolean)
+          .sort((a, b) => {
+            const oa = (PRIORITY_STYLES[a!.levelNote.priority] || PRIORITY_STYLES.low).order;
+            const ob = (PRIORITY_STYLES[b!.levelNote.priority] || PRIORITY_STYLES.low).order;
+            return oa - ob;
+          })
+          .map((item) => {
+            const { level, levelNote } = item!;
+            const style = PRIORITY_STYLES[levelNote.priority] || PRIORITY_STYLES.low;
+            const recommendedLessons = plan.recommendedLessons.filter((id) => {
+              const num = parseFloat(id);
+              if (level.id === 45) return id.startsWith('4b.');
+              return Math.floor(num) === level.id;
+            });
+            const firstLesson = recommendedLessons[0];
 
-          const style = PRIORITY_STYLES[levelNote.priority] || PRIORITY_STYLES.low;
-          const recommendedCount = plan.recommendedLessons.filter((id) => {
-            const num = parseFloat(id);
-            if (level.id === 45) return id.startsWith('4b.');
-            return Math.floor(num) === level.id;
-          }).length;
-
-          return (
-            <div
-              key={level.id}
-              className={`bg-bg-card rounded-xl border border-border p-4 ${levelNote.priority === 'skip' ? 'opacity-50' : ''}`}
-              style={{ boxShadow: 'var(--shadow-card)' }}
-            >
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-sm font-mono font-medium text-text-primary">
-                  Level {level.displayNumber}: {level.title}
-                </span>
-                <span
-                  className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${style.cls}`}
-                >
-                  {style.label}
-                </span>
-                {recommendedCount > 0 && levelNote.priority !== 'skip' && (
-                  <span className="text-[10px] font-mono text-text-muted">
-                    {recommendedCount}/{level.lessonCount} lessons
+            return (
+              <div
+                key={level.id}
+                className={`bg-bg-card rounded-xl border border-border p-4 ${levelNote.priority === 'skip' ? 'opacity-50' : ''}`}
+                style={{ boxShadow: 'var(--shadow-card)' }}
+              >
+                <div className="flex items-center gap-2 flex-wrap">
+                  {firstLesson && levelNote.priority !== 'skip' ? (
+                    <Link
+                      to={`/lesson/${firstLesson}`}
+                      className="text-sm font-mono font-medium text-purple hover:underline"
+                    >
+                      Level {level.displayNumber}: {level.title}
+                    </Link>
+                  ) : (
+                    <span className="text-sm font-mono font-medium text-text-primary">
+                      Level {level.displayNumber}: {level.title}
+                    </span>
+                  )}
+                  <span
+                    className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${style.cls}`}
+                  >
+                    {style.label}
                   </span>
+                  {recommendedLessons.length > 0 && levelNote.priority !== 'skip' && (
+                    <span className="text-[10px] font-mono text-text-muted">
+                      {recommendedLessons.length}/{level.lessonCount} lessons
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-text-muted mt-1">{levelNote.note}</p>
+                {recommendedLessons.length > 0 && levelNote.priority !== 'skip' && (
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {recommendedLessons.map((id) => (
+                      <Link
+                        key={id}
+                        to={`/lesson/${id}`}
+                        className="text-[11px] font-mono text-purple hover:text-purple/80 bg-purple/5 hover:bg-purple/10 px-2 py-0.5 rounded transition-colors"
+                      >
+                        {id}
+                      </Link>
+                    ))}
+                  </div>
                 )}
               </div>
-              <p className="text-xs text-text-muted mt-1">{levelNote.note}</p>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );
