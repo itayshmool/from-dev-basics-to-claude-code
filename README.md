@@ -12,12 +12,14 @@ From Zero to Claude Code takes beginners through a structured curriculum of 102 
 ### For Students
 - **102 interactive lessons** with 9 component types
 - **Virtual terminal** with in-memory filesystem, command parser, and file explorer sidebar
-- **User dashboard** (`/dashboard`) — overview with smart continue, progress stats & streaks, 16 achievements, profile management
+- **AI-powered personalized learning plan** — describe your background, get a custom path through the curriculum with priority levels and recommended lessons
+- **User dashboard** (`/dashboard`) — overview with smart continue, progress stats & streaks, 16 achievements, profile management, personalized plan view
 - **Achievement system** — milestones, level mastery, streak badges, speed achievements with toast notifications
 - **Smart continue** — picks up where you left off with pace tracking and estimated completion
 
 ### For Admins
 - **Admin dashboard** (`/admin`) — student management, level/lesson CRUD, lesson editor with live preview
+- **AI onboarding management** (`/admin/onboarding`) — toggle AI plan generation on/off, monitor usage (generations, tokens, unique users)
 - **Theme editor** — runtime CSS variable overrides persisted via API, applied globally to all users
 - **Content validator** — structural checks across all 102 lessons
 - **Analytics** — completion funnels, drop-off analysis, weekly trends
@@ -88,7 +90,9 @@ The UX follows an immersive lesson model:
 | Student register | https://itayshmool.github.io/from-dev-basics-to-claude-code/register |
 | User dashboard | https://itayshmool.github.io/from-dev-basics-to-claude-code/dashboard |
 | Admin login | https://itayshmool.github.io/from-dev-basics-to-claude-code/admin/login |
+| AI onboarding | https://itayshmool.github.io/from-dev-basics-to-claude-code/onboarding/ai |
 | Admin dashboard | https://itayshmool.github.io/from-dev-basics-to-claude-code/admin |
+| Admin AI onboarding | https://itayshmool.github.io/from-dev-basics-to-claude-code/admin/onboarding |
 | API health | https://terminal-trainer-api.onrender.com/api/health |
 
 ## Project Structure
@@ -118,6 +122,9 @@ src/
       DashboardAchievements.tsx    # Trophy case (16 achievements)
       DashboardProfile.tsx         # View/edit profile
       DashboardSettings.tsx        # Change password
+      DashboardPlan.tsx            # AI learning plan view (sorted by priority)
+    onboarding/
+      AIOnboarding.tsx             # AI-powered plan generation page
     admin/
       AdminLoginScreen.tsx         # Admin login (separate)
       AdminGuard.tsx               # Role-based route protection
@@ -130,6 +137,7 @@ src/
       AdminThemeEditor.tsx         # Live theme editor with API persistence
       AdminContentValidator.tsx    # Lesson structure validator
       AdminAnalytics.tsx           # Engagement analytics
+      AdminOnboardingStats.tsx     # AI onboarding toggle + usage stats
     ui/
       AchievementToast.tsx         # Floating achievement notification
     lesson/
@@ -153,6 +161,9 @@ server/
     middleware/                    # Auth + error handling
     lib/
       achievements.ts              # Achievement registry (16 achievements)
+      onboardingGenerator.ts       # AI plan generation via Anthropic API
+    routes/
+      onboarding.ts                # AI onboarding API routes
   drizzle/                         # Migration SQL files
 
 specs/
@@ -185,6 +196,6 @@ npm run db:seed      # Seed levels, lessons, admin user
 ## Deployment
 
 - **Frontend:** Push to `main` → GitHub Actions builds and deploys to GitHub Pages
-- **Backend:** Push to `main` → Render auto-builds, runs migrations + seed, restarts
+- **Backend:** Push to `main` → Render auto-builds, runs migrations, restarts
 
 See `specs/DEPLOYMENT_SPEC.md` for full deployment architecture.

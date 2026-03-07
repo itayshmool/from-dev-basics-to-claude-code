@@ -17,8 +17,9 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 - **Terminal infrastructure**: Virtual filesystem (VFS), command parser, Terminal UI, FileExplorer sidebar, CommandReferenceBar
 - **Backend**: Express API, PostgreSQL, JWT auth, progress tracking, admin CRUD
 - **Auth**: Student login/register, dedicated admin login at `/admin/login`
-- **Admin dashboard**: Stats, student list, level/lesson management, lesson editor, theme editor, palette manager, content validator, analytics
-- **User dashboard** (`/dashboard`): Overview with smart continue, progress stats & streaks, 16 achievements with toast notifications, profile management (image upload, email, display name), password change
+- **Admin dashboard**: Stats, student list, level/lesson management, lesson editor, theme editor, palette manager, content validator, analytics, AI onboarding toggle + usage stats
+- **User dashboard** (`/dashboard`): Overview with smart continue, progress stats & streaks, 16 achievements with toast notifications, profile management (image upload, email, display name), password change, personalized learning plan view
+- **AI onboarding** (`/onboarding/ai`): AI-powered personalized learning plan — user describes background, Claude Sonnet generates a plan highlighting priority levels and recommended lessons. Plan saved to DB, shown in dashboard, and surfaces "Recommended" badges on home screen. First-login modal prompts users to try it. Admin can toggle on/off at `/admin/onboarding` with usage tracking (generations, tokens, unique users)
 - **Collapsible dashboard sidebar**: Desktop arrow-toggle between full and icon-only mode (persisted to localStorage); mobile hamburger menu with slide-out drawer
 - **Collapsible home screen modules**: Level cards collapsed by default showing only header + progress; click to expand lessons; auto-expands current lesson's level
 - **Profile image upload**: Client-side resize to 200x200, stored as base64 in PostgreSQL; camera overlay on avatar hover, remove button
@@ -33,10 +34,10 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 
 ### Not Yet Implemented
 - Real terminal/sandbox (xterm.js, WebContainers) — Level 1 uses in-memory VFS
-- Analytics, i18n
+- i18n
 
 ## Architecture
-- `App.tsx` — React Router: `/` home, `/lesson/:id`, `/login`, `/register`, `/dashboard/*`, `/admin/login`, `/admin/*` (includes `/admin/palettes`)
+- `App.tsx` — React Router: `/` home, `/lesson/:id`, `/login`, `/register`, `/dashboard/*` (includes `/dashboard/plan`), `/onboarding/ai`, `/admin/login`, `/admin/*` (includes `/admin/palettes`, `/admin/onboarding`)
 - `DashboardGuard.tsx` — redirects to `/login` if not authenticated (any role)
 - `AdminGuard.tsx` — redirects to `/admin/login` if not authenticated as admin
 - `AuthContext.tsx` — manages user state, token refresh, login/register/logout
@@ -59,12 +60,18 @@ An interactive web app teaching non-technical people how to use the terminal. 10
 - `src/components/dashboard/DashboardSidebar.tsx` — extracted desktop sidebar with collapse toggle and nav icons
 - `src/components/dashboard/DashboardProfile.tsx` — profile page with image upload, email, display name editing
 - `server/src/index.ts` — Express entry point
-- `server/src/db/schema.ts` — Drizzle table definitions (levels, lessons, users with email/profileImage/paletteId, progress, site_settings, palettes)
+- `server/src/db/schema.ts` — Drizzle table definitions (levels, lessons, users with email/profileImage/paletteId, progress, site_settings, palettes, ai_onboarding_plans, ai_onboarding_log)
 - `server/src/routes/auth.ts` — auth endpoints including profile image upload (base64), email update, palette selection
-- `server/src/routes/admin.ts` — admin CRUD for levels, lessons, settings, palettes (including AI generation)
+- `server/src/routes/admin.ts` — admin CRUD for levels, lessons, settings, palettes (including AI generation), onboarding stats
 - `server/src/lib/paletteGenerator.ts` — AI palette generation via Anthropic API with rate limiting
 - `src/components/admin/AdminPaletteManager.tsx` — admin palette list + editor + AI generate UI
-- `src/components/home/HomeScreen.tsx` — home page with collapsible levels, mobile hamburger menu
+- `src/components/home/HomeScreen.tsx` — home page with collapsible levels, mobile hamburger menu, AI onboarding CTA + first-login modal
+- `src/hooks/useOnboardingPlan.ts` — shared hook for fetching user's AI onboarding plan + enabled state
+- `src/components/onboarding/AIOnboarding.tsx` — full-page AI onboarding UI (standalone, not inside DashboardLayout)
+- `src/components/dashboard/DashboardPlan.tsx` — dashboard plan view sorted by priority with lesson links
+- `src/components/admin/AdminOnboardingStats.tsx` — admin AI onboarding toggle + usage stats
+- `server/src/lib/onboardingGenerator.ts` — AI plan generation via Anthropic API with rate limiting (3/hour per user)
+- `server/src/routes/onboarding.ts` — API routes: generate plan, get plan, check enabled
 - `server/src/db/seed.ts` — seeds DB from lesson JSONs
 - `server/src/lib/achievements.ts` — achievement registry (16 achievements)
 - `server/src/routes/progress.ts` — progress, stats, achievements, smart continue endpoints
@@ -105,4 +112,6 @@ npm run db:seed     # Seed database
 - Profile images are stored as base64 data URIs in the `profile_image` text column (users table). Client resizes to 200x200 before upload. Express body limit is 5mb.
 - Dashboard sidebar state (collapsed/expanded) is persisted to `localStorage` key `dashboard-sidebar-collapsed`.
 - AI palette generation uses `@anthropic-ai/sdk` with Claude Sonnet. Rate limited to 10 generations/hour per admin (in-memory). Requires `ANTHROPIC_API_KEY` env var.
-- Backend async route handlers must use `asyncHandler` wrapper (Express 4 doesn't catch async throws). All auth and palette routes are wrapped.
+- AI onboarding plan generation uses `@anthropic-ai/sdk` with Claude Sonnet (`claude-sonnet-4-20250514`). Rate limited to 3 generations/hour per user (in-memory). System prompt embeds the full curriculum (all 102 lessons). Plan stored in `ai_onboarding_plans` (one per user, upserted), generation log in `ai_onboarding_log`. Admin toggle via `site_settings` key `ai_onboarding_enabled`.
+- First-login AI onboarding modal uses `localStorage` key `ai-onboarding-modal-dismissed` to show once per user.
+- Backend async route handlers must use `asyncHandler` wrapper (Express 4 doesn't catch async throws). All auth, palette, and onboarding routes are wrapped.
