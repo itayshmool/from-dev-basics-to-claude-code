@@ -68,7 +68,7 @@ export const users = pgTable('users', {
 
 export const progress = pgTable('progress', {
   id: serial('id').primaryKey(),
-  userId: uuid('user_id').notNull().references(() => users.id),
+  userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
   lessonId: varchar('lesson_id', { length: 10 }).notNull().references(() => lessons.id),
   sectionIndex: integer('section_index').notNull().default(0),
   completed: boolean('completed').notNull().default(false),

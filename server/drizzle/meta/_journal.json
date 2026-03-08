@@ -50,6 +50,13 @@
       "when": 1772952615129,
       "tag": "0006_easy_vivisector",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1772955382474,
+      "tag": "0007_thick_revanche",
+      "breakpoints": true
     }
   ]
 }

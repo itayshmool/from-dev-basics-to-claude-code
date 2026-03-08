@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { eq, sql, desc, asc, and, gte } from 'drizzle-orm';
+import { eq, sql, desc, asc, and, gte, inArray, ne } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db/index.js';
 import { levels, lessons, users, progress, siteSettings, palettes, emailLog, aiOnboardingPlans, aiOnboardingLog, adminNotificationQueue } from '../db/schema.js';
@@ -104,6 +104,42 @@ adminRouter.get('/users/:id/progress', async (req, res) => {
 
   res.json(rows);
 });
+
+// DELETE /api/admin/users/:id — delete a single student
+adminRouter.delete('/users/:id', asyncHandler(async (req, res) => {
+  const [user] = await db.select({ id: users.id, role: users.role })
+    .from(users).where(eq(users.id, req.params.id)).limit(1);
+  if (!user) throw new AppError(404, 'User not found');
+  if (user.role === 'admin') throw new AppError(403, 'Cannot delete admin users');
+
+  await db.delete(users).where(eq(users.id, req.params.id));
+  res.json({ success: true });
+}));
+
+// DELETE /api/admin/users/bulk — delete multiple students
+const bulkDeleteSchema = z.object({
+  ids: z.array(z.string().uuid()).min(1).max(100),
+});
+
+adminRouter.post('/users/bulk-delete', asyncHandler(async (req, res) => {
+  const parsed = bulkDeleteSchema.safeParse(req.body);
+  if (!parsed.success) throw new AppError(400, 'Invalid request body');
+
+  // Filter out admins
+  const admins = await db.select({ id: users.id })
+    .from(users)
+    .where(and(inArray(users.id, parsed.data.ids), eq(users.role, 'admin')));
+  const adminIds = new Set(admins.map(a => a.id));
+  const toDelete = parsed.data.ids.filter(id => !adminIds.has(id));
+
+  if (toDelete.length === 0) {
+    res.json({ deleted: 0 });
+    return;
+  }
+
+  await db.delete(users).where(inArray(users.id, toDelete));
+  res.json({ deleted: toDelete.length });
+}));
 
 // GET /api/admin/levels — all levels including unpublished
 adminRouter.get('/levels', async (_req, res) => {
