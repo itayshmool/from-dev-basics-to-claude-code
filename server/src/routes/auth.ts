@@ -8,6 +8,7 @@ import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../lib/jw
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { requireAuth, blockIfImpersonating } from '../middleware/auth.js';
 import { sendWelcomeEmail, sendVerificationEmail } from '../lib/email.js';
+import { recordAdminEvent } from '../lib/adminNotifications.js';
 
 export const authRouter = Router();
 
@@ -109,6 +110,9 @@ authRouter.post('/register', asyncHandler(async (req, res) => {
     sendWelcomeEmail(user.id, email, displayName).catch(() => {});
     sendVerificationEmail(user.id, email, displayName).catch(() => {});
   }
+
+  // Fire-and-forget admin notification
+  recordAdminEvent('student_joined', { displayName, email: email ?? null }).catch(() => {});
 
   const payload = { userId: user.id, role: user.role };
   const accessToken = signAccessToken(payload);

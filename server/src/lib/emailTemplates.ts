@@ -87,3 +87,47 @@ ${paragraph("We'll look into it. You don't need to do anything else — just kee
 ${mutedText("This is an automated confirmation. No reply is needed.")}
   `);
 }
+
+// ---------------------------------------------------------------------------
+// Admin notification templates
+// ---------------------------------------------------------------------------
+
+export function adminStudentJoinedTemplate(displayName: string, email: string | null): string {
+  const emailLine = email ? ` (<strong>${email}</strong>)` : '';
+  return layout(`
+${heading('New student joined')}
+${paragraph(`<strong>${displayName}</strong>${emailLine} just created an account.`)}
+${mutedText(`Sent at ${new Date().toUTCString()}`)}
+  `);
+}
+
+export function adminBugReportTemplate(title: string, issueUrl: string, reportedBy: string): string {
+  return layout(`
+${heading('New bug report')}
+${paragraph(`<strong>${reportedBy}</strong> submitted a bug report:`)}
+${paragraph(`<em>${title}</em>`)}
+${ctaButton('View on GitHub', issueUrl)}
+${mutedText(`Sent at ${new Date().toUTCString()}`)}
+  `);
+}
+
+export interface DigestEvent {
+  type: string;
+  count: number;
+  summaries: string[];
+}
+
+export function adminDigestTemplate(events: DigestEvent[]): string {
+  const totalEvents = events.reduce((sum, e) => sum + e.count, 0);
+  const eventSections = events.map(e => {
+    const label = e.type === 'student_joined' ? 'New Students' : e.type === 'bug_report' ? 'Bug Reports' : e.type;
+    const items = e.summaries.map(s => `• ${s}`).join('<br>');
+    return `<p style="margin:0 0 8px;font-size:14px;font-weight:600;color:${STYLES.accent};font-family:${STYLES.fontStack};">${label} (${e.count})</p>
+<p style="margin:0 0 16px;font-size:13px;line-height:1.6;color:${STYLES.text};font-family:${STYLES.fontStack};">${items}</p>`;
+  }).join('');
+  return layout(`
+${heading(`Daily digest — ${totalEvents} event${totalEvents === 1 ? '' : 's'}`)}
+${eventSections}
+${mutedText(`Digest generated at ${new Date().toUTCString()}`)}
+  `);
+}

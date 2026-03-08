@@ -114,6 +114,14 @@ export const emailLog = pgTable('email_log', {
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
+export const adminNotificationQueue = pgTable('admin_notification_queue', {
+  id: serial('id').primaryKey(),
+  eventType: text('event_type').notNull(),
+  payload: jsonb('payload').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  processedAt: timestamp('processed_at', { withTimezone: true }),
+});
+
 export const aiOnboardingPlans = pgTable('ai_onboarding_plans', {
   id: uuid('id').defaultRandom().primaryKey(),
   userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }).unique(),

@@ -2,11 +2,12 @@ import { Router } from 'express';
 import { eq, sql, desc, asc, and, gte } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db/index.js';
-import { levels, lessons, users, progress, siteSettings, palettes, emailLog, aiOnboardingPlans, aiOnboardingLog } from '../db/schema.js';
+import { levels, lessons, users, progress, siteSettings, palettes, emailLog, aiOnboardingPlans, aiOnboardingLog, adminNotificationQueue } from '../db/schema.js';
 import { requireAuth, requireAdmin } from '../middleware/auth.js';
 import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { signAccessToken } from '../lib/jwt.js';
 import { generatePalette } from '../lib/paletteGenerator.js';
+import { getAdminNotificationConfig, saveAdminNotificationConfig, getRecentQueueEntries, processDigest } from '../lib/adminNotifications.js';
 import type { AIProvider } from '../lib/aiClient.js';
 import { generateJsonWithProvider } from '../lib/aiClient.js';
 
@@ -616,4 +617,42 @@ adminRouter.get('/onboarding/stats', asyncHandler(async (_req, res) => {
     usageByProvider,
     recentLogs,
   });
+}));
+
+// ─── Admin Notifications ───
+
+const notificationConfigSchema = z.object({
+  recipients: z.array(z.string().email()).min(0),
+  events: z.record(z.object({
+    enabled: z.boolean(),
+    mode: z.enum(['immediate', 'digest']),
+  })),
+});
+
+// GET /api/admin/notifications/config
+adminRouter.get('/notifications/config', asyncHandler(async (_req, res) => {
+  const config = await getAdminNotificationConfig();
+  res.json(config);
+}));
+
+// PUT /api/admin/notifications/config
+adminRouter.put('/notifications/config', asyncHandler(async (req, res) => {
+  const parsed = notificationConfigSchema.safeParse(req.body);
+  if (!parsed.success) {
+    throw new AppError(400, 'Invalid notification config');
+  }
+  await saveAdminNotificationConfig(parsed.data);
+  res.json({ success: true });
+}));
+
+// GET /api/admin/notifications/queue — recent queue entries
+adminRouter.get('/notifications/queue', asyncHandler(async (_req, res) => {
+  const entries = await getRecentQueueEntries(50);
+  res.json({ entries });
+}));
+
+// POST /api/admin/notifications/digest — manually trigger digest
+adminRouter.post('/notifications/digest', asyncHandler(async (_req, res) => {
+  const processed = await processDigest();
+  res.json({ processed });
 }));

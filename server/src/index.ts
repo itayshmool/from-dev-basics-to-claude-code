@@ -10,6 +10,7 @@ import { bugReportsRouter } from './routes/bugReports.js';
 import { emailRouter } from './routes/email.js';
 import { palettesRouter } from './routes/palettes.js';
 import { onboardingRouter } from './routes/onboarding.js';
+import { cronRouter } from './routes/cron.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { eq } from 'drizzle-orm';
 import { db } from './db/index.js';
@@ -49,6 +50,7 @@ app.use('/api/bug-reports', bugReportsRouter);
 app.use('/api/email', emailRouter);
 app.use('/api/palettes', palettesRouter);
 app.use('/api/onboarding', onboardingRouter);
+app.use('/api/cron', cronRouter);
 
 // Error handler (must be last)
 app.use(errorHandler);

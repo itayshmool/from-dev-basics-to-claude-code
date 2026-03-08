@@ -6,6 +6,7 @@ import { AppError, asyncHandler } from '../middleware/errorHandler.js';
 import { db } from '../db/index.js';
 import { users } from '../db/schema.js';
 import { sendBugSubmittedEmail } from '../lib/email.js';
+import { recordAdminEvent } from '../lib/adminNotifications.js';
 
 export const bugReportsRouter = Router();
 
@@ -194,6 +195,14 @@ bugReportsRouter.post('/', requireAuth, blockIfImpersonating, asyncHandler(async
   if (user.email) {
     sendBugSubmittedEmail(user.id, user.email, user.displayName, issue.number).catch(() => {});
   }
+
+  // Fire-and-forget admin notification
+  recordAdminEvent('bug_report', {
+    title,
+    description: parsed.data.description,
+    issueUrl: issue.html_url,
+    reportedBy: user.displayName || user.username,
+  }).catch(() => {});
 
   res.status(201).json({
     issueNumber: issue.number,

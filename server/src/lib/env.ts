@@ -13,6 +13,7 @@ const envSchema = z.object({
   RESEND_API_KEY: z.string().optional(),
   EMAIL_FROM: z.string().default('From Zero to Claude Code <noreply@zero2claude.dev>'),
   FRONTEND_URL: z.string().default('http://localhost:5173'),
+  CRON_SECRET: z.string().optional(),
 });
 
 export const env = envSchema.parse(process.env);

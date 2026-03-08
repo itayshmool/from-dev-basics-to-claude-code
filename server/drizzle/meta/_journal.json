@@ -43,6 +43,13 @@
       "when": 1772905929060,
       "tag": "0005_chilly_scourge",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1772952615129,
+      "tag": "0006_easy_vivisector",
+      "breakpoints": true
     }
   ]
 }
